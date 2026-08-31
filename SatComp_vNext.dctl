@@ -1,0 +1,288 @@
+// SatComp vNext — high-saturation compressor prebuild
+// Processing model: declared input -> XYZ D65 -> Oklab -> S=C/L compression -> declared output.
+// No gamut mapping and no 0..1 clipping are performed.
+// Mathematical host verification is still required in DaVinci Resolve.
+
+// --- Artistic controls -------------------------------------------------------
+DEFINE_UI_PARAMS(p_threshold, Threshold, DCTLUI_SLIDER_FLOAT, 0.25, 0.0, 2.0, 0.001)
+DEFINE_UI_PARAMS(p_ratio, Ratio, DCTLUI_SLIDER_FLOAT, 3.0, 1.0, 20.0, 0.01)
+DEFINE_UI_PARAMS(p_knee, Knee, DCTLUI_SLIDER_FLOAT, 0.10, 0.0, 1.0, 0.001)
+DEFINE_UI_PARAMS(p_bypass, Bypass Compression, DCTLUI_CHECK_BOX, 0)
+
+// Gamut: 0 Rec709, 1 Rec2020, 2 DWG, 3 ACEScg/AP1.
+DEFINE_UI_PARAMS(p_input_gamut, Input Gamut, DCTLUI_COMBO_BOX, 2, {0, 1, 2, 3}, {Rec.709, Rec.2020, DaVinci Wide Gamut, ACEScg AP1})
+// Transfer: 0 Linear, 1 sRGB, 2 Rec709 OETF, 3 Gamma 2.4, 4 DI, 5 ACEScct.
+DEFINE_UI_PARAMS(p_input_transfer, Input Transfer, DCTLUI_COMBO_BOX, 4, {0, 1, 2, 3, 4, 5}, {Linear, sRGB, Rec.709 OETF, Gamma 2.4, DaVinci Intermediate, ACEScct})
+// 0 means Same as Input; other values map to the input enums + 1.
+DEFINE_UI_PARAMS(p_output_gamut, Output Gamut, DCTLUI_COMBO_BOX, 0, {0, 1, 2, 3, 4}, {Same as Input, Rec.709, Rec.2020, DaVinci Wide Gamut, ACEScg AP1})
+DEFINE_UI_PARAMS(p_output_transfer, Output Transfer, DCTLUI_COMBO_BOX, 0, {0, 1, 2, 3, 4, 5, 6}, {Same as Input, Linear, sRGB, Rec.709 OETF, Gamma 2.4, DaVinci Intermediate, ACEScct})
+
+DEFINE_UI_TOOLTIP(Threshold, "Oklab saturation S=C/L where high-saturation compression begins.")
+DEFINE_UI_TOOLTIP(Ratio, "Compression ratio above the knee. 1:1 is exact identity when output encoding is unchanged.")
+DEFINE_UI_TOOLTIP(Knee, "Width of the smooth transition around Threshold.")
+DEFINE_UI_TOOLTIP(Bypass Compression, "Bypass only the saturation compressor. Explicit input-to-output color conversion still runs when output encoding differs.")
+DEFINE_UI_TOOLTIP(Input Gamut, "Explicit input RGB primaries. Do not infer this from the project name.")
+DEFINE_UI_TOOLTIP(Input Transfer, "Explicit input transfer/encoding. Primaries and transfer are independent contracts.")
+DEFINE_UI_TOOLTIP(Output Gamut, "Same as Input preserves the input gamut. Explicit conversion is colorimetric only; it is not gamut mapping.")
+DEFINE_UI_TOOLTIP(Output Transfer, "Same as Input preserves the input transfer. No display rendering transform is implied.")
+
+__DEVICE__ float satcomp_sign_pow(float x, float p) {
+    return _copysignf(_powf(_fabs(x), p), x);
+}
+
+__DEVICE__ float satcomp_cbrt(float x) {
+    return satcomp_sign_pow(x, 0.3333333333333333f);
+}
+
+__DEVICE__ float satcomp_decode_channel(float x, int tf) {
+    if (tf == 0) return x;
+
+    if (tf == 1) { // sRGB, sign-preserving extended-range convention
+        float a = _fabs(x);
+        if (a <= 0.04045f) return x / 12.92f;
+        return _copysignf(_powf((a + 0.055f) / 1.055f, 2.4f), x);
+    }
+
+    if (tf == 2) { // Rec.709 OETF inverse
+        float a = _fabs(x);
+        if (a < 0.081f) return x / 4.5f;
+        return _copysignf(_powf((a + 0.099f) / 1.099f, 2.2222222222222222f), x);
+    }
+
+    if (tf == 3) { // Gamma 2.4
+        return satcomp_sign_pow(x, 2.4f);
+    }
+
+    if (tf == 4) { // DaVinci Intermediate inverse OETF
+        const float DI_A = 0.0075f;
+        const float DI_B = 7.0f;
+        const float DI_C = 0.07329248f;
+        const float DI_M = 10.44426855f;
+        const float DI_LOG_CUT = 0.02740668f;
+        if (x <= DI_LOG_CUT) return x / DI_M;
+        return _exp2f(x / DI_C - DI_B) - DI_A;
+    }
+
+    // ACEScct -> ACEScg/AP1 linear. The transfer is defined independently
+    // from the selected gamut so invalid pairings remain explicit user choices.
+    {
+        const float BREAK_CODE = 0.155251141552511f;
+        const float MAX_LINEAR = 65504.0f;
+        const float MAX_CODE = 1.4679964f;
+        if (x <= BREAK_CODE) return (x - 0.0729055341958355f) / 10.5402377416545f;
+        if (x < MAX_CODE) return _exp2f(x * 17.52f - 9.72f);
+        return MAX_LINEAR;
+    }
+}
+
+__DEVICE__ float satcomp_encode_channel(float x, int tf) {
+    if (tf == 0) return x;
+
+    if (tf == 1) { // sRGB
+        float a = _fabs(x);
+        if (a <= 0.0031308f) return 12.92f * x;
+        return _copysignf(1.055f * _powf(a, 0.4166666666666667f) - 0.055f, x);
+    }
+
+    if (tf == 2) { // Rec.709 OETF
+        float a = _fabs(x);
+        if (a < 0.018f) return 4.5f * x;
+        return _copysignf(1.099f * _powf(a, 0.45f) - 0.099f, x);
+    }
+
+    if (tf == 3) { // Gamma 2.4
+        return satcomp_sign_pow(x, 0.4166666666666667f);
+    }
+
+    if (tf == 4) { // DaVinci Intermediate OETF
+        const float DI_A = 0.0075f;
+        const float DI_B = 7.0f;
+        const float DI_C = 0.07329248f;
+        const float DI_M = 10.44426855f;
+        const float DI_LIN_CUT = 0.00262409f;
+        if (x <= DI_LIN_CUT) return x * DI_M;
+        return (_log2f(x + DI_A) + DI_B) * DI_C;
+    }
+
+    // ACEScg/AP1 linear -> ACEScct
+    if (x <= 0.0078125f) return 10.5402377416545f * x + 0.0729055341958355f;
+    return (_log2f(x) + 9.72f) / 17.52f;
+}
+
+__DEVICE__ float3 satcomp_decode_rgb(float3 rgb, int tf) {
+    return make_float3(
+        satcomp_decode_channel(rgb.x, tf),
+        satcomp_decode_channel(rgb.y, tf),
+        satcomp_decode_channel(rgb.z, tf)
+    );
+}
+
+__DEVICE__ float3 satcomp_encode_rgb(float3 rgb, int tf) {
+    return make_float3(
+        satcomp_encode_channel(rgb.x, tf),
+        satcomp_encode_channel(rgb.y, tf),
+        satcomp_encode_channel(rgb.z, tf)
+    );
+}
+
+__DEVICE__ float3 satcomp_rgb_to_xyz_d65(float3 c, int gamut) {
+    if (gamut == 0) { // Rec.709 / sRGB primaries
+        return make_float3(
+            0.412390799266f*c.x + 0.357584339384f*c.y + 0.180480788402f*c.z,
+            0.212639005872f*c.x + 0.715168678768f*c.y + 0.072192315361f*c.z,
+            0.019330818716f*c.x + 0.119194779795f*c.y + 0.950532152250f*c.z
+        );
+    }
+    if (gamut == 1) { // Rec.2020
+        return make_float3(
+            0.636958048301f*c.x + 0.144616903586f*c.y + 0.168880975164f*c.z,
+            0.262700212011f*c.x + 0.677998071519f*c.y + 0.059301716470f*c.z,
+            0.000000000000f*c.x + 0.028072693049f*c.y + 1.060985057711f*c.z
+        );
+    }
+    if (gamut == 2) { // DaVinci Wide Gamut, official D65 matrix
+        return make_float3(
+            0.700622392094f*c.x + 0.148774815123f*c.y + 0.101058719835f*c.z,
+            0.274118510907f*c.x + 0.873631895940f*c.y - 0.147750406847f*c.z,
+           -0.098962912883f*c.x - 0.137895325076f*c.y + 1.325915988719f*c.z
+        );
+    }
+    // ACEScg/AP1 with Bradford adaptation from ACES white to D65 folded in.
+    return make_float3(
+        0.652237541886f*c.x + 0.128236136000f*c.y + 0.169982249166f*c.z,
+        0.267672180125f*c.x + 0.674339988802f*c.y + 0.057987831073f*c.z,
+       -0.005381815766f*c.x + 0.001369060209f*c.y + 1.093070506317f*c.z
+    );
+}
+
+__DEVICE__ float3 satcomp_xyz_d65_to_rgb(float3 c, int gamut) {
+    if (gamut == 0) {
+        return make_float3(
+             3.240969941905f*c.x - 1.537383177570f*c.y - 0.498610760293f*c.z,
+            -0.969243636281f*c.x + 1.875967501508f*c.y + 0.041555057407f*c.z,
+             0.055630079697f*c.x - 0.203976958889f*c.y + 1.056971514243f*c.z
+        );
+    }
+    if (gamut == 1) {
+        return make_float3(
+             1.716651187971f*c.x - 0.355670783776f*c.y - 0.253366281374f*c.z,
+            -0.666684351832f*c.x + 1.616481236635f*c.y + 0.015768545814f*c.z,
+             0.017639857445f*c.x - 0.042770613258f*c.y + 0.942103121235f*c.z
+        );
+    }
+    if (gamut == 2) {
+        return make_float3(
+             1.516672042024f*c.x - 0.281478047879f*c.y - 0.146963633237f*c.z,
+            -0.464917101233f*c.x + 1.251423775682f*c.y + 0.174884608865f*c.z,
+             0.064849047067f*c.x + 0.109139343711f*c.y + 0.761414621550f*c.z
+        );
+    }
+    return make_float3(
+         1.660585326491f*c.x - 0.315295560826f*c.y - 0.241509327608f*c.z,
+        -0.659926063224f*c.x + 1.608391469566f*c.y + 0.017298594705f*c.z,
+         0.009002569138f*c.x - 0.003566876390f*c.y + 0.913643312763f*c.z
+    );
+}
+
+// W3C CSS Color 4 64-bit Oklab coefficients, rounded for float DCTL execution.
+__DEVICE__ float3 satcomp_xyz_to_oklab(float3 xyz) {
+    float l = 0.819022437997f*xyz.x + 0.361906260053f*xyz.y - 0.128873781521f*xyz.z;
+    float m = 0.032983653932f*xyz.x + 0.929286861586f*xyz.y + 0.036144666351f*xyz.z;
+    float s = 0.048177189360f*xyz.x + 0.264239531753f*xyz.y + 0.633547828469f*xyz.z;
+    float lp = satcomp_cbrt(l);
+    float mp = satcomp_cbrt(m);
+    float sp = satcomp_cbrt(s);
+    return make_float3(
+         0.210454268309f*lp + 0.793617774702f*mp - 0.004072043012f*sp,
+         1.977998532431f*lp - 2.428592242049f*mp + 0.450593709617f*sp,
+         0.025904042466f*lp + 0.782771712458f*mp - 0.808675754923f*sp
+    );
+}
+
+__DEVICE__ float3 satcomp_oklab_to_xyz(float3 lab) {
+    float lp = lab.x + 0.396337777376f*lab.y + 0.215803757310f*lab.z;
+    float mp = lab.x - 0.105561345816f*lab.y - 0.063854172826f*lab.z;
+    float sp = lab.x - 0.089484177530f*lab.y - 1.291485548019f*lab.z;
+    float l = lp*lp*lp;
+    float m = mp*mp*mp;
+    float s = sp*sp*sp;
+    return make_float3(
+         1.226879875846f*l - 0.557814994460f*m + 0.281391045666f*s,
+        -0.040575745215f*l + 1.112286803280f*m - 0.071711058066f*s,
+        -0.076372936675f*l - 0.421493332402f*m + 1.586924019837f*s
+    );
+}
+
+__DEVICE__ float satcomp_transfer(float sat, float threshold, float ratio, float knee) {
+    ratio = _fmaxf(ratio, 1.0f);
+    knee = _fmaxf(knee, 0.0f);
+    threshold = _fmaxf(threshold, 0.0f);
+
+    if (ratio <= 1.0000001f) return sat;
+
+    if (knee <= 0.0000001f) {
+        if (sat <= threshold) return sat;
+        return threshold + (sat - threshold) / ratio;
+    }
+
+    float half_knee = 0.5f * knee;
+    float lower = threshold - half_knee;
+    float upper = threshold + half_knee;
+
+    if (sat <= lower) return sat;
+    if (sat >= upper) return threshold + (sat - threshold) / ratio;
+
+    float d = sat - threshold + half_knee;
+    return sat + (1.0f / ratio - 1.0f) * (d*d) / (2.0f*knee);
+}
+
+__DEVICE__ int satcomp_finite3(float3 v) {
+    return !(isnan(v.x) || isnan(v.y) || isnan(v.z) || isinf(v.x) || isinf(v.y) || isinf(v.z));
+}
+
+__DEVICE__ float3 transform(
+    int p_Width, int p_Height, int p_X, int p_Y,
+    float p_R, float p_G, float p_B
+) {
+    float3 original = make_float3(p_R, p_G, p_B);
+    int out_gamut = (p_output_gamut == 0) ? p_input_gamut : (p_output_gamut - 1);
+    int out_tf = (p_output_transfer == 0) ? p_input_transfer : (p_output_transfer - 1);
+    int same_encoding = (out_gamut == p_input_gamut) && (out_tf == p_input_transfer);
+
+    if (p_bypass && same_encoding) return original;
+    if (same_encoding && p_ratio <= 1.0000001f) return original;
+
+    float3 linear_rgb = satcomp_decode_rgb(original, p_input_transfer);
+    float3 xyz = satcomp_rgb_to_xyz_d65(linear_rgb, p_input_gamut);
+    float3 lab = satcomp_xyz_to_oklab(xyz);
+
+    const float BLACK_FLOOR = 0.0000001f;
+    const float NEUTRAL_FLOOR = 0.000000000001f;
+    float chroma = _sqrtf(lab.y*lab.y + lab.z*lab.z);
+    float sat_in = 0.0f;
+    float sat_out = 0.0f;
+    int changed = 0;
+
+    if (!p_bypass && lab.x > BLACK_FLOOR && chroma > NEUTRAL_FLOOR) {
+        sat_in = chroma / lab.x;
+        sat_out = satcomp_transfer(sat_in, p_threshold, p_ratio, p_knee);
+        changed = _fabs(sat_out - sat_in) > 0.00000001f;
+        if (changed && sat_in > 0.0f) {
+            float scale = sat_out / sat_in;
+            lab.y *= scale;
+            lab.z *= scale;
+        }
+    }
+
+    // Preserve exact source samples when SatComp did nothing and no output
+    // conversion was requested. This avoids round-trip drift below threshold.
+    if (!changed && same_encoding) return original;
+
+    float3 out_xyz = satcomp_oklab_to_xyz(lab);
+    float3 out_linear = satcomp_xyz_d65_to_rgb(out_xyz, out_gamut);
+    float3 out_rgb = satcomp_encode_rgb(out_linear, out_tf);
+
+    // Fail closed on numerical-domain errors; never replace them with a 0..1 clamp.
+    if (!satcomp_finite3(out_rgb)) return original;
+    return out_rgb;
+}
