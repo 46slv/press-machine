@@ -1,0 +1,9 @@
+__pycache__/
+*.py[cod]
+*.so
+*.dll
+*.dylib
+*.o
+*.obj
+.pytest_cache/
+.DS_Store
