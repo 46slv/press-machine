@@ -1,0 +1,44 @@
+Press Machine Legacy A2 Prototype — development evidence
+
+Design basis: 7e1870cc5a2690d72f37653b39c899c5e6a284b0
+Requested model: gpt-6.1-sol; runtime ID: UNVERIFIED
+
+Exact focused command from repository/package root:
+python -B -m unittest discover -s "Press Machine/legacy/a2-prototype/tests" -v
+
+Initial development run: 12 tests passed, 0.043 seconds, unittest status OK.
+The retained-contract method additionally runs all 5 existing v1.2.1 LogC4
+and graph contracts against the candidate. No separate full audit ran.
+
+Coverage:
+- Actual helper versus source-derived approved A2 equation in each branch
+- Neutral, near-neutral and the previous 1e-6 reconstruction/Density jump
+- Analytic origin limits, k=T crossing, Threshold value/one-sided slopes
+- Ratio=1, Pre-Saturation=0, Makeup=0 and intentional Dynamic Density
+- Nonproblematic lower/upper regions and Luma Mix 2 extrapolation
+- Density Compensation and post-Density saturation boost stage order
+- Finite/nonnegative binary32 helper edge probes, including subnormals
+- Full unrelated source payload, shared graph curve, LogC4/identity contracts
+
+Linear scalar reference, standard reproduction preset:
+Threshold=.25, Ratio=4, Knee=.1, Pre=1, Makeup=1, Sat Density=1,
+Dynamic Density=0, Luma Mix=0, Compensation=0, post-Density boost=0.
+
+s              v1.2.2 chroma  v1.2.2 Y       A2 chroma       A2 Y
+0              0             .180000000000  0               .180000000000
+.999999e-6     0             .180000000000  .000001498059   .179999460700
+1e-6           0             .180000000000  .000001498061   .179999460700
+1.000001e-6    .005997077028  .177866640117  .000001498062   .179999460699
+.005           .009469006386  .176654514547  .006696295776   .177621191925
+.03            .024930349917  .171451317331  .024930349917   .171451317331
+
+SHA256 of normalized UTF-8 source used for this run:
+DCTL: 63f557a5c3fd77fa08055b4260c1e77c256b0aad1698ea97196207baf313bf70
+tests: 717ac0f2eb1d143ed483ca2d4a3336018ad647c111f1c31a354a347247f7027b
+
+The package manifest separately fingerprints the actual archived bytes.
+All old versions and the proposal were unchanged before commit.
+
+Limits: Python double arithmetic and selected binary32 scalar rounding only.
+No DCTL compiler, GPU fused-operation/intrinsic/flush emulation, Resolve,
+visual assessment, installation or Host certification was performed.
