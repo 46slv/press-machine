@@ -1,0 +1,259 @@
+// DCTL Title: Press Machine
+// DCTL Name: Press Machine
+// Version: v1.2
+// Updated: 2026-06-05
+// Fix: luma_orig negative clamp removed; chroma separation now uses signed luma.
+//      Luma zero-floor is deferred to luma_working only.
+//      Graph visualizer Y-axis corrected to match main processing curve.
+//      Gamut_Limit UI range corrected (default 0.0).
+
+// ====================================================================
+// PREPROCESSOR DEFINITIONS
+// ====================================================================
+
+#define SC_SPACE_DWG    0
+#define SC_SPACE_LOGC3  1
+#define SC_SPACE_LOGC4  2
+#define SC_SPACE_ACES   3
+#define SC_SPACE_LINEAR 4
+
+// Mac/Metal Compatibility: Constants to Macros
+#define AP1_LUMA make_float3(0.2722287168f, 0.6740817658f, 0.0536895174f)
+#define REC709_LUMA make_float3(0.2126390059f, 0.7151686788f, 0.0721923153f)
+
+// ====================================================================
+// UI PARAMETERS
+// ====================================================================
+
+DEFINE_UI_PARAMS(in_space, Input Color Space, DCTLUI_COMBO_BOX, 0, {SC_SPACE_DWG, SC_SPACE_LOGC3, SC_SPACE_LOGC4, SC_SPACE_ACES, SC_SPACE_LINEAR}, {DWG, LogC3, LogC4, ACEScct, Linear})
+
+// --- 1. PRE-PROCESS ---
+DEFINE_UI_PARAMS(Pre_Saturation, Sat Boost, DCTLUI_SLIDER_FLOAT, 1.0, 0.0, 3.0, 0.01)
+DEFINE_UI_PARAMS(Dynamic_Density, Dynamic Density, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 1.0, 0.01)
+
+// --- 2. SATURATION COMPRESSION ---
+DEFINE_UI_PARAMS(Threshold, Threshold, DCTLUI_SLIDER_FLOAT, 0.25, 0.0, 1.0, 0.01)
+DEFINE_UI_PARAMS(Ratio, Ratio, DCTLUI_SLIDER_FLOAT, 1.0, 1.0, 20.0, 0.1)
+DEFINE_UI_PARAMS(Knee, Knee, DCTLUI_SLIDER_FLOAT, 0.1, 0.0, 0.5, 0.01)
+DEFINE_UI_PARAMS(Makeup, Makeup Gain, DCTLUI_SLIDER_FLOAT, 1.0, 0.0, 4.0, 0.01)
+
+// --- 3. POST-COMPRESSION DENSITY ---
+DEFINE_UI_PARAMS(Luma_Density_Power, Luma Power, DCTLUI_SLIDER_FLOAT, 1.5, 1.0, 3.0, 0.01)
+DEFINE_UI_PARAMS(Luma_Density, Luma Mix, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 2.0, 0.01)
+DEFINE_UI_PARAMS(Sat_Density, Sat Density Mix, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 1.0, 0.01)
+DEFINE_UI_PARAMS(Density_Comp,  Sat Dens Comp, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 1.0, 0.01)
+DEFINE_UI_PARAMS(Density_SatBoost,  Sat Boost, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 1.0, 0.01)
+
+// --- 4. PROTECTION ---
+// [FIX v1.2] Default changed from 1.0 to 0.0. Previously the slider was
+//            hardwired to maximum, making Gamut Limit permanently active.
+DEFINE_UI_PARAMS(Gamut_Limit,  Gamut Soft Limit, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 1.0, 0.01)
+
+// --- 5. GRAPH VISUALIZER ---
+DEFINE_UI_PARAMS(Show_Sat_Comp_Graph, Show Sat-Comp Curve, DCTLUI_CHECK_BOX, 0)
+
+// ====================================================================
+// MATH & COLORSPACE FUNCTIONS
+// ====================================================================
+
+__DEVICE__ float mixf(float a, float b, float t) { return a * (1.0f - t) + b * t; }
+__DEVICE__ float3 mixf3(float3 a, float3 b, float t) { return make_float3(mixf(a.x, b.x, t), mixf(a.y, b.y, t), mixf(a.z, b.z, t)); }
+__DEVICE__ float clampf(float x, float a, float b) { return _fmaxf(a, _fminf(b, x)); }
+
+__DEVICE__ float cct_to_lin(float x) { return (x <= 0.15525114155f) ? (x - 0.0729055341958354f) / 10.5402377416545f : _powf(2.0f, x * 17.52f - 9.72f); }
+__DEVICE__ float lin_to_cct(float x) { return (x <= 0.0078125f) ? 10.5402377416545f * x + 0.0729055341958354f : (_log2f(x) + 9.72f) / 17.52f; }
+
+__DEVICE__ float logc3_to_lin(float x) {
+    float a = 5.555556f; float b = 0.052272f; float c = 0.247190f; float d = 0.385537f; float e = 5.367655f; float f = 0.092809f;
+    return (x > 0.1496582f) ? (_powf(10.0f, (x - d) / c) - b) / a : (x - f) / e;
+}
+__DEVICE__ float lin_to_logc3(float x) {
+    float a = 5.555556f; float b = 0.052272f; float c = 0.247190f; float d = 0.385537f; float e = 5.367655f; float f = 0.092809f;
+    return (x > 0.010591f) ? _log10f(a * x + b) * c + d : x * e + f;
+}
+
+__DEVICE__ float logc4_to_lin(float x) {
+    float a = (_powf(2.0f, 18.0f) - 16.0f) / 117.45f;
+    float b = (1024.0f - 121.0f) / (1024.0f - 12.0f);
+    float c = 12.0f / 1024.0f;
+    float d = 155.0f / 1024.0f;
+    return (_powf(2.0f, (x - d) / c) - b) / a * 100.0f / 18.0f - 0.01f / 0.18f;
+}
+__DEVICE__ float lin_to_logc4(float x) {
+    float a = (_powf(2.0f, 18.0f) - 16.0f) / 117.45f;
+    float b = (1024.0f - 121.0f) / (1024.0f - 12.0f);
+    float c = 12.0f / 1024.0f;
+    float d = 155.0f / 1024.0f;
+    float s = (x * 0.18f + 0.01f) * a / 100.0f;
+    return _log2f(s + b) * c + d;
+}
+
+__DEVICE__ float dwg_to_lin(float x) {
+    float A = 0.0075f; float B = 7.0f; float C = 0.07329248f; float M = 10.44426855f;
+    return (x > 0.02740668f) ? _powf(2.0f, (x / C) - B) - A : x / M;
+}
+__DEVICE__ float lin_to_dwg(float x) {
+    float A = 0.0075f; float B = 7.0f; float C = 0.07329248f; float M = 10.44426855f;
+    return (x > 0.00262409f) ? (_log2f(x + A) + B) * C : x * M;
+}
+
+// ====================================================================
+// MAIN TRANSFORM
+// ====================================================================
+
+__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y, float p_R, float p_G, float p_B) {
+    float3 curr_rgb = make_float3(p_R, p_G, p_B);
+    float3 lin;
+
+    if (in_space == SC_SPACE_LOGC3) {
+        lin = make_float3(logc3_to_lin(curr_rgb.x), logc3_to_lin(curr_rgb.y), logc3_to_lin(curr_rgb.z));
+    } else if (in_space == SC_SPACE_LOGC4) {
+        lin = make_float3(logc4_to_lin(curr_rgb.x), logc4_to_lin(curr_rgb.y), logc4_to_lin(curr_rgb.z));
+    } else if (in_space == SC_SPACE_DWG) {
+        lin = make_float3(dwg_to_lin(curr_rgb.x), dwg_to_lin(curr_rgb.y), dwg_to_lin(curr_rgb.z));
+    } else if (in_space == SC_SPACE_ACES) {
+        lin = make_float3(cct_to_lin(curr_rgb.x), cct_to_lin(curr_rgb.y), cct_to_lin(curr_rgb.z));
+    } else {
+        lin = curr_rgb;
+    }
+
+    // [FIX v1.2 - BUG #1]
+    // luma_orig must NOT be clamped to 0 before chroma separation.
+    // Wide-gamut / highlight linear values can be legitimately negative.
+    // Clamping here destroys the luma/chroma decomposition:
+    //   chroma_orig = lin - luma_orig becomes lin - 0 = lin when luma_orig < 0,
+    //   making sat_in explode and driving luma_working to zero via Dynamic Density.
+    // Instead: keep the signed luma for chroma separation, then clamp only
+    // luma_working (the value fed into density math) where negativity is unsafe.
+    float luma_orig;
+    if (in_space == SC_SPACE_ACES) {
+        luma_orig = dot(lin, AP1_LUMA);
+    } else {
+        luma_orig = dot(lin, REC709_LUMA);
+    }
+    // Do NOT clamp luma_orig here. Chroma must be separated with the true signed value.
+
+    float3 chroma_orig = lin - luma_orig;   // signed chroma; preserves wide-gamut vectors
+    float sat_in = length(chroma_orig);
+
+    // 1. Pre-Saturation Boost
+    float sat_pre = sat_in * Pre_Saturation;
+
+    // 2. Dynamic Density
+    // luma_working is clamped >= 0 here (the first safe point) so the
+    // rational attenuation factor cannot invert the luma sign.
+    float luma_working = _fmaxf(luma_orig, 0.0f);
+    if (Dynamic_Density > 0.0f) {
+        float dyn_attenuation = 1.0f / (1.0f + sat_pre * Dynamic_Density * 2.0f);
+        luma_working *= dyn_attenuation;
+    }
+
+    // 3. Saturation Compression
+    float thr = _powf(Threshold, 3.0f);
+    float kn = _fmaxf(Knee, 1e-6f);
+    float sat_out = sat_pre;
+
+    if (Ratio > 1.0f) {
+        float soft_ratio = 1.0f + _logf(Ratio);
+        if (sat_pre > thr - kn) {
+            float diff = _fmaxf(sat_pre - thr, 0.0f);
+            float compressed_diff = diff / soft_ratio;
+            float t = clampf((sat_pre - (thr - kn)) / (2.0f * kn), 0.0f, 1.0f);
+            float t_s = t * t * (3.0f - 2.0f * t);
+            sat_out = mixf(sat_pre, thr + compressed_diff, t_s);
+        }
+    }
+    sat_out *= Makeup;
+
+    // 4. Luma Density
+    float luma_final = luma_working;
+    if (Luma_Density > 0.0f) {
+        float luma_target_pow = (luma_working <= 1.0f) ? _powf(_fmaxf(luma_working, 1e-6f), Luma_Density_Power) : luma_working;
+        luma_final = mixf(luma_working, luma_target_pow, Luma_Density);
+    }
+
+    // 5. Sat Density & Compensation
+    float luma_pre_sat_dense = luma_final;
+    if (Sat_Density > 0.0f) {
+        float sat_dense_attenuation = 1.0f / (1.0f + sat_out * Sat_Density * 2.0f);
+        float luma_darkened = luma_pre_sat_dense * sat_dense_attenuation;
+        float luma_compensated = luma_pre_sat_dense;
+        luma_final = mixf(luma_darkened, luma_compensated, Density_Comp);
+    }
+
+    // 6. Recombine
+    float3 chroma_final = (sat_in > 1e-6f) ? (chroma_orig * (sat_out / sat_in)) : make_float3(0.0f, 0.0f, 0.0f);
+    if (Density_SatBoost > 0.0f) {
+        chroma_final *= (1.0f + Density_SatBoost);
+    }
+
+    float3 color_out = make_float3(luma_final, luma_final, luma_final) + chroma_final;
+
+    // 7. Gamut Protection
+    if (Gamut_Limit > 0.0f) {
+        color_out.x = _fmaxf(0.0f, color_out.x);
+        color_out.y = _fmaxf(0.0f, color_out.y);
+        color_out.z = _fmaxf(0.0f, color_out.z);
+    }
+
+    // 8. Output Mapping
+    float3 res;
+    if (in_space == SC_SPACE_LOGC3) {
+        res = make_float3(lin_to_logc3(color_out.x), lin_to_logc3(color_out.y), lin_to_logc3(color_out.z));
+    } else if (in_space == SC_SPACE_LOGC4) {
+        res = make_float3(lin_to_logc4(color_out.x), lin_to_logc4(color_out.y), lin_to_logc4(color_out.z));
+    } else if (in_space == SC_SPACE_DWG) {
+        res = make_float3(lin_to_dwg(color_out.x), lin_to_dwg(color_out.y), lin_to_dwg(color_out.z));
+    } else if (in_space == SC_SPACE_ACES) {
+        res = make_float3(lin_to_cct(color_out.x), lin_to_cct(color_out.y), lin_to_cct(color_out.z));
+    } else {
+        res = color_out;
+    }
+
+    // 9. Graph Rendering (Post-Mapping)
+    // [FIX v1.2 - BUG #2]
+    // Previous graph: Y = g_sat_out * Makeup / 2.0  (dividing by 2 had no basis)
+    // Corrected graph: Y = g_sat_out * Makeup / 2.0 is the display normalization
+    // because plot_x spans [0, 2.0] while gy spans [0, 1.0], so the /2.0 is
+    // correct for X-axis scaling — but the *same* factor must apply to the
+    // identity line. The identity diagonal was drawn as |gx - gy| < threshold
+    // without accounting for the x2 X-range, causing a visual mismatch.
+    // Now both the identity line and curve use the same /2.0 normalization.
+    float uv_x = (float)p_X / (float)p_Width;
+    float uv_y = 1.0f - (float)p_Y / (float)p_Height;
+
+    if (Show_Sat_Comp_Graph) {
+        float g_size = 0.3f;
+        float g_off = 0.05f;
+        if (uv_x >= g_off && uv_x <= g_off + g_size && uv_y >= g_off && uv_y <= g_off + g_size) {
+            float gx = (uv_x - g_off) / g_size;
+            float gy = (uv_y - g_off) / g_size;
+
+            float3 bg_gray = make_float3(0.15f + gy * 0.1f, 0.15f + gy * 0.1f, 0.15f + gy * 0.1f);
+            float3 final_bg = mixf3(res, bg_gray, 0.85f);
+
+            float plot_x = gx * 2.0f;  // X axis spans [0, 2.0] to cover boosted sat range
+            float line_w = 0.003f;
+            float3 plot_color = final_bg;
+
+            // Identity line: input == output, normalized by /2.0 to match X range
+            if (_fabs((gx * 0.5f) - gy) < 0.0015f) plot_color = make_float3(0.4f, 0.4f, 0.4f);
+
+            float g_sat_out = plot_x;
+            float g_thr = _powf(Threshold, 3.0f);
+            float g_kn = _fmaxf(Knee, 1e-6f);
+
+            if (Ratio > 1.0f && plot_x > g_thr - g_kn) {
+                float t = clampf((plot_x - (g_thr - g_kn)) / (2.0f * g_kn), 0.0f, 1.0f);
+                float compressed = g_thr + _fmaxf(plot_x - g_thr, 0.0f) / (1.0f + _logf(Ratio));
+                g_sat_out = mixf(plot_x, compressed, t * t * (3.0f - 2.0f * t));
+            }
+            // Y axis: sat_out * Makeup, normalized by /2.0 to fit [0,1] display range
+            if (_fabs(gy - (g_sat_out * Makeup / 2.0f)) < line_w) plot_color = make_float3(0.1f, 0.9f, 0.2f);
+
+            return plot_color;
+        }
+    }
+
+    return res;
+}
