@@ -121,6 +121,20 @@ class ColorTests(unittest.TestCase):
             self.assertEqual(out.rgb,rgb)
 
 class SourceTests(unittest.TestCase):
+    def test_canonical_sdk_entry_layout(self):
+        # Installed Resolve 21.1 SDK README line 77 and Gain.dctl first line.
+        # Exact provenance/hashes: docs/NATIVE_ENTRY_PROVENANCE.md. This literal
+        # check stays portable when the Resolve SDK is not installed.
+        entry='__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y, float p_R, float p_G, float p_B)'
+        src=(Path(__file__).resolve().parents[1]/'dctl/PressMachine_R2.dctl').read_text()
+        lines=src.splitlines()
+        self.assertEqual(lines.count(entry),1)
+        self.assertEqual(lines[lines.index(entry)+1],'{')
+        sdk=Path('C:/ProgramData/Blackmagic Design/DaVinci Resolve/Support/Developer/DaVinciCTL')
+        if sdk.is_dir():
+            self.assertIn(entry,(sdk/'README.txt').read_text().splitlines()[76])
+            self.assertEqual((sdk/'Gain.dctl').read_text().splitlines()[:2],[entry,'{'])
+
     def test_four_controls_and_rgb_entry(self):
         src=(Path(__file__).resolve().parents[1]/'dctl/PressMachine_R2.dctl').read_text()
         self.assertEqual(len(re.findall(r'^DEFINE_UI_PARAMS\(',src,re.M)),4)

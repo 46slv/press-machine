@@ -1,0 +1,106 @@
+{
+  "samples": 256256,
+  "groups": 32032,
+  "nonfinite": 0,
+  "boosts": 0,
+  "negatives": 0,
+  "compression_zero_cases": 256,
+  "compression_zero_identity_failures": 0,
+  "ordered_sample_comparisons": 224224,
+  "local_decreases": 0,
+  "maximum_drop": 0.0,
+  "max_absolute_error": 2.9571753062493203e+31,
+  "max_normalized_error": 2.0360922633961318e-07,
+  "worst_absolute": {
+    "s_t_c_p": [
+      3.4028234663852886e+38,
+      0.0,
+      33.79999923706055,
+      0.0
+    ],
+    "input_words": [
+      2139095039,
+      0,
+      1107768115,
+      0
+    ],
+    "actual": 2.2526688649910133e+38,
+    "oracle": 2.252669160708544e+38
+  },
+  "worst_normalized": {
+    "s_t_c_p": [
+      10000000.0,
+      134.5,
+      15.100000381469727,
+      0.0
+    ],
+    "input_words": [
+      1259902592,
+      1124499456,
+      1097963930,
+      0
+    ],
+    "actual": 8490022.0,
+    "oracle": 8490020.271353541
+  },
+  "worst_drop": null,
+  "decrease_examples": [],
+  "ordered_cases_sha256_le_group_s_t_c_p_u32": "4dbbf7a3689b2941eb1e8e887388f6a93afcd7bb19f1843ed824cde2962b959f",
+  "measurement_status": "MEASURED; no expanded parity envelope adopted",
+  "normalization": "abs(native-oracle)/max(1,abs(oracle))",
+  "strict_adjacent_float_monotonicity": "NOT_ESTABLISHED",
+  "corpus": {
+    "t": [
+      0,
+      0.1,
+      0.8,
+      1,
+      25,
+      134.5,
+      199.9,
+      200
+    ],
+    "c": "All 1001 tenths, 0..100",
+    "p": [
+      0,
+      20,
+      59.5,
+      100
+    ],
+    "s": [
+      500,
+      1000,
+      10000.0,
+      10000000.0,
+      10000000000.0,
+      1e+20,
+      1e+30,
+      3.4028234663852886e+38
+    ],
+    "rounding": "Each input rounded to float32; no state/sample deduplication"
+  },
+  "recorded_utc": "2026-11-05T20:43:28.742682+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "compiler": {
+    "command": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "build\\compile.cmd"
+    ],
+    "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+    "compiler_output": "native_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n'FileSystem' \u30d7\u30ed\u30d0\u30a4\u30c0\u30fc\u3067 InitializeDefaultDrives \u64cd\u4f5c\u3092\u5b9f\u884c\u3057\u3088\u3046\u3068\u3057\u3066\u5931\u6557\u3057\u307e\u3057\u305f\u3002\n",
+    "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+    "executable": "build\\native.exe",
+    "compile_script": "@call \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat\" amd64 >nul\n@if errorlevel 1 exit /b %errorlevel%\n@cl /nologo /std:c++17 /O2 /fp:strict /EHsc /W4 /Fe:build/native.exe /Fo:build/native.obj tests/native_harness.cpp\n"
+  },
+  "base_commit": "d3964ac9dba7a1e8e8787ec67b55a8d2b876f43f",
+  "source_revision": "Uncommitted working source at measurement; identified by SHA256; final commit in delivery",
+  "dctl_sha256": "1a679a3a8fd4a3cca5d93a1fd61f995ed44d6befa3b2aa4fc1e188aaa9eea438",
+  "oracle_sha256": "3b8e5e1eab31c96556d76d67b862866767f11acdd3c793bbb39f731a49e30f4e",
+  "harness_sha256": "45f0d6911e9846dd3fa98c1c6a52bc3fcb75fe8c37d142639e5bcec990834f11",
+  "build_script_sha256": "d74aa58a448ebeb2c312b2eaceeadc7669c7947f41e04cf9ca566d5797ace257",
+  "generator_sha256": "472a9a70fd25d1aff7460eb4f675c8c0b19a72932b22184dbabef4ac2796944b",
+  "executable_sha256": "fd8cdbea80eaebab94c61e700fb62a96293567dc7000259c503c04197bba87f6"
+}

@@ -1,0 +1,23 @@
+{
+  "s_t_c_p": [
+    500.0,
+    0.800000011920929,
+    99.69999694824219,
+    59.5
+  ],
+  "input_words": [
+    1140457472,
+    1061997773,
+    1120364134,
+    1114505216
+  ],
+  "actual": 2.2976152896881104,
+  "oracle": 2.29761524626017,
+  "absolute_error": 4.342794035494535e-08,
+  "case_absolute_bound": 5.477947476871242e-07,
+  "gamma4": 2.384186359449949e-07,
+  "double_reference_allowance": 4.547473508864641e-13,
+  "bound_scope": "This positive near-limiter tail point only; no global budget change",
+  "historical_native": 2.2976105213165283,
+  "historical_absolute_error": 4.724943641676305e-06
+}

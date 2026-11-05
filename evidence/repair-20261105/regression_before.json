@@ -1,0 +1,14 @@
+{
+  "case_s_t_c_p": [
+    500.0,
+    0.800000011920929,
+    99.69999694824219,
+    59.5
+  ],
+  "actual": 2.2976105213165283,
+  "oracle": 2.29761524626017,
+  "absolute_error": 4.724943641676305e-06,
+  "source_sha256": "35442c75a7b31c6da0bfe94dfa8cbb6b3ab13737752bb81a36afa28ed2b671b8",
+  "native_executable_sha256": "7710ed78960582d02bb6504b09b227c99c6d7d75d4b2ae6c4bf7fbf93c72cf73",
+  "note": "Existing d3964ac native executable, one regression point before source edits; historical compiler recorded in evidence/prebuild.json"
+}

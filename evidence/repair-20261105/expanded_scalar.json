@@ -1,0 +1,302 @@
+{
+  "samples": 421486,
+  "groups": 12080,
+  "nonfinite": 0,
+  "boosts": 0,
+  "negatives": 0,
+  "compression_zero_cases": 826,
+  "compression_zero_identity_failures": 0,
+  "ordered_sample_comparisons": 409406,
+  "local_decreases": 943,
+  "maximum_drop": 3.0517578125e-05,
+  "max_absolute_error": 6.362829208228504e-05,
+  "max_normalized_error": 1.780754835689492e-07,
+  "worst_absolute": {
+    "s_t_c_p": [
+      500.0,
+      149.8000030517578,
+      3.700000047683716,
+      86.19999694824219
+    ],
+    "input_words": [
+      1140457472,
+      1125502157,
+      1080872141,
+      1118594662
+    ],
+    "actual": 487.04266357421875,
+    "oracle": 487.04259994592667
+  },
+  "worst_normalized": {
+    "s_t_c_p": [
+      246.67294311523438,
+      134.5,
+      91.0999984741211,
+      83.4000015258789
+    ],
+    "input_words": [
+      1131850822,
+      1124499456,
+      1119236915,
+      1118227661
+    ],
+    "actual": 144.48336791992188,
+    "oracle": 144.48339364887207
+  },
+  "worst_drop": {
+    "previous": {
+      "s_t_c_p": [
+        253.9203338623047,
+        171.8000030517578,
+        100.0,
+        47.79999923706055
+      ],
+      "input_words": [
+        1132325787,
+        1126943949,
+        1120403456,
+        1111438131
+      ],
+      "actual": 171.80001831054688,
+      "oracle": 171.80000305174315
+    },
+    "current": {
+      "s_t_c_p": [
+        253.92034912109375,
+        171.8000030517578,
+        100.0,
+        47.79999923706055
+      ],
+      "input_words": [
+        1132325788,
+        1126943949,
+        1120403456,
+        1111438131
+      ],
+      "actual": 171.79998779296875,
+      "oracle": 171.8000030517489
+    },
+    "drop": 3.0517578125e-05,
+    "input_ulp_distance": 1
+  },
+  "decrease_examples": [
+    {
+      "previous": {
+        "s_t_c_p": [
+          116.66757202148438,
+          79.80000305175781,
+          84.5999984741211,
+          46.20000076293945
+        ],
+        "input_words": [
+          1122588108,
+          1117755802,
+          1118384947,
+          1111018701
+        ],
+        "actual": 85.47761535644531,
+        "oracle": 85.4776092356439
+      },
+      "current": {
+        "s_t_c_p": [
+          116.6675796508789,
+          79.80000305175781,
+          84.5999984741211,
+          46.20000076293945
+        ],
+        "input_words": [
+          1122588109,
+          1117755802,
+          1118384947,
+          1111018701
+        ],
+        "actual": 85.47760772705078,
+        "oracle": 85.47761041057333
+      },
+      "drop": 7.62939453125e-06,
+      "input_ulp_distance": 1
+    },
+    {
+      "previous": {
+        "s_t_c_p": [
+          348.5198059082031,
+          193.3000030517578,
+          64.5,
+          80.30000305175781
+        ],
+        "input_words": [
+          1135493769,
+          1128352973,
+          1115750400,
+          1117821338
+        ],
+        "actual": 248.40304565429688,
+        "oracle": 248.40303306578434
+      },
+      "current": {
+        "s_t_c_p": [
+          348.51983642578125,
+          193.3000030517578,
+          64.5,
+          80.30000305175781
+        ],
+        "input_words": [
+          1135493770,
+          1128352973,
+          1115750400,
+          1117821338
+        ],
+        "actual": 248.4030303955078,
+        "oracle": 248.4030438995303
+      },
+      "drop": 1.52587890625e-05,
+      "input_ulp_distance": 1
+    },
+    {
+      "previous": {
+        "s_t_c_p": [
+          228.99862670898438,
+          146.6999969482422,
+          77.0,
+          56.099998474121094
+        ],
+        "input_words": [
+          1130692518,
+          1125298995,
+          1117388800,
+          1113613926
+        ],
+        "actual": 165.62869262695312,
+        "oracle": 165.62868179320262
+      },
+      "current": {
+        "s_t_c_p": [
+          228.99864196777344,
+          146.6999969482422,
+          77.0,
+          56.099998474121094
+        ],
+        "input_words": [
+          1130692519,
+          1125298995,
+          1117388800,
+          1113613926
+        ],
+        "actual": 165.62867736816406,
+        "oracle": 165.6286853027283
+      },
+      "drop": 1.52587890625e-05,
+      "input_ulp_distance": 1
+    },
+    {
+      "previous": {
+        "s_t_c_p": [
+          255.51893615722656,
+          133.5,
+          72.5999984741211,
+          91.4000015258789
+        ],
+        "input_words": [
+          1132430553,
+          1124433920,
+          1116812083,
+          1119276237
+        ],
+        "actual": 166.93319702148438,
+        "oracle": 166.93319036893485
+      },
+      "current": {
+        "s_t_c_p": [
+          255.51895141601562,
+          133.5,
+          72.5999984741211,
+          91.4000015258789
+        ],
+        "input_words": [
+          1132430554,
+          1124433920,
+          1116812083,
+          1119276237
+        ],
+        "actual": 166.9331817626953,
+        "oracle": 166.93319454984592
+      },
+      "drop": 1.52587890625e-05,
+      "input_ulp_distance": 1
+    },
+    {
+      "previous": {
+        "s_t_c_p": [
+          100.5359878540039,
+          56.79999923706055,
+          85.0,
+          77.0
+        ],
+        "input_words": [
+          1120473709,
+          1113797427,
+          1118437376,
+          1117388800
+        ],
+        "actual": 63.36040115356445,
+        "oracle": 63.36039752960149
+      },
+      "current": {
+        "s_t_c_p": [
+          100.53599548339844,
+          56.79999923706055,
+          85.0,
+          77.0
+        ],
+        "input_words": [
+          1120473710,
+          1113797427,
+          1118437376,
+          1117388800
+        ],
+        "actual": 63.36039733886719,
+        "oracle": 63.360398674011186
+      },
+      "drop": 3.814697265625e-06,
+      "input_ulp_distance": 1
+    }
+  ],
+  "ordered_cases_sha256_le_group_s_t_c_p_u32": "46fcdfaedb4f59684eeb9ec41ad04ecdda533c3cebc60b2d20c5a6db09405d2f",
+  "measurement_status": "MEASURED; no expanded parity envelope adopted",
+  "normalization": "abs(native-oracle)/max(1,abs(oracle))",
+  "strict_adjacent_float_monotonicity": "NOT_ESTABLISHED",
+  "corpus": {
+    "seed": 120220261106,
+    "random_states": 12000,
+    "edge_states": 80,
+    "controls_file": "expanded_controls.jsonl",
+    "state_word_sha256": "0c88aed8e96704c5bb1622ca523b48145c7c1aa39afb46c48237a542bff07d85",
+    "random_grid": "randrange(0,2001)/10 for T; randrange(0,1001)/10 for C/P; round each to float32",
+    "edge_grid": "T=(0,.1,.2,199.9,200), C/P=(0,.1,99.9,100)",
+    "sampling": "Native float32 lo/hi order; 0,500 and +/-5 bit neighbors of lo,T,hi; clip negative bit indices at zero, deduplicate/sort per state"
+  },
+  "recorded_utc": "2026-11-05T20:43:28.742682+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "compiler": {
+    "command": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "build\\compile.cmd"
+    ],
+    "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+    "compiler_output": "native_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n'FileSystem' \u30d7\u30ed\u30d0\u30a4\u30c0\u30fc\u3067 InitializeDefaultDrives \u64cd\u4f5c\u3092\u5b9f\u884c\u3057\u3088\u3046\u3068\u3057\u3066\u5931\u6557\u3057\u307e\u3057\u305f\u3002\n",
+    "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+    "executable": "build\\native.exe",
+    "compile_script": "@call \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat\" amd64 >nul\n@if errorlevel 1 exit /b %errorlevel%\n@cl /nologo /std:c++17 /O2 /fp:strict /EHsc /W4 /Fe:build/native.exe /Fo:build/native.obj tests/native_harness.cpp\n"
+  },
+  "base_commit": "d3964ac9dba7a1e8e8787ec67b55a8d2b876f43f",
+  "source_revision": "Uncommitted working source at measurement; identified by SHA256; final commit in delivery",
+  "dctl_sha256": "1a679a3a8fd4a3cca5d93a1fd61f995ed44d6befa3b2aa4fc1e188aaa9eea438",
+  "oracle_sha256": "3b8e5e1eab31c96556d76d67b862866767f11acdd3c793bbb39f731a49e30f4e",
+  "harness_sha256": "45f0d6911e9846dd3fa98c1c6a52bc3fcb75fe8c37d142639e5bcec990834f11",
+  "build_script_sha256": "d74aa58a448ebeb2c312b2eaceeadc7669c7947f41e04cf9ca566d5797ace257",
+  "generator_sha256": "472a9a70fd25d1aff7460eb4f675c8c0b19a72932b22184dbabef4ac2796944b",
+  "executable_sha256": "fd8cdbea80eaebab94c61e700fb62a96293567dc7000259c503c04197bba87f6"
+}

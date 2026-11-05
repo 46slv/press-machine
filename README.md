@@ -5,6 +5,12 @@ Color Page. Input and output must be **DaVinci Wide Gamut / DaVinci Intermediate
 Resolve host qualification and user visual acceptance are pending. This candidate
 has not been installed, published or merged.
 
+The current source includes a conditioned high-tail evaluation and the official
+SDK entry layout. See [source correction results](docs/REPAIR_REPORT.md) and
+[current host handoff](docs/REPAIR_HOST_HANDOFF.md). Native source validation of
+this corrected candidate is pending. The first prebuild/R6 results describe
+the earlier d3964ac candidate and are preserved as historical evidence.
+
 `dctl/PressMachine_R2.dctl` has four controls:
 
 | Control | Range | Default |
@@ -48,11 +54,13 @@ Studio C++ toolchain. On other systems set CXX or provide clang++/g++ on PATH.
 
 ```powershell
 python -m unittest discover -s tests -v
-python tools/qualify.py --check
-python tools/host_fixture.py
+python tools/scalar_measure.py --output-dir build/scalar-review-unique
 ```
 
-`qualify.py` compiles the actual DCTL through a native float32 shim and compares
-it with the independent double oracle. See [prebuild evidence](PREBUILD_REPORT.md),
-[reference contract](docs/CONTRACT.md) and [next host gate](docs/HOST_HANDOFF.md).
+Use a fresh output-directory name for each measurement. `scalar_measure.py`
+compiles the actual DCTL through a native float32 shim, checks the original
+corpus against its unchanged frozen budget and measures two separate expanded
+scalar corpora. It does not adopt a larger tolerance or overwrite the first
+report. See [correction evidence](docs/REPAIR_REPORT.md),
+[historical first prebuild](PREBUILD_REPORT.md), and [reference contract](docs/CONTRACT.md).
 Do not treat these checks as Resolve/GPU/alpha or image-quality certification.

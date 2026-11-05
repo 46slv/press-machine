@@ -62,13 +62,14 @@ __DEVICE__ float3 pm_lms_xyz(float3 v) {
 __DEVICE__ float pm_transfer(float s, float t, float compression, float softness) {
     if (compression == 0.0f) return s;
     float a = compression / 100.0f;
+    float q = (100.0f - compression) / 100.0f;
     float p = softness / 100.0f;
     float k = 2.0f * t * p;
     float lo = t * (1.0f - p);
     float hi = t * (1.0f + p);
-    if (k == 0.0f) return s <= t ? s : t + (1.0f-a)*(s-t);
+    if (k == 0.0f) return s <= t ? s : t + q*(s-t);
     if (s <= lo) return s;
-    if (s >= hi) return t + (1.0f-a)*(s-t);
+    if (s >= hi) return t + q*(s-t);
     float d = s - lo;
     return s - a * d * (d / (2.0f*k));
 }
@@ -76,8 +77,8 @@ __DEVICE__ int pm_domain(float3 lab, float c, float s) {
     return pm_finite3(lab) && pm_finite(c) && pm_finite(s) &&
         lab.x > 1.0e-6f && c > 1.0e-7f && s > 1.0e-7f;
 }
-__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y,
-                          float p_R, float p_G, float p_B) {
+__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y, float p_R, float p_G, float p_B)
+{
     float3 original = make_float3(p_R, p_G, p_B);
     if (pm_bypass || pm_compression == 0.0f) return original;
     if (!pm_finite3(original)) return original;

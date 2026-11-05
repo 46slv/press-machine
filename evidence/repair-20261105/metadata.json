@@ -1,0 +1,26 @@
+{
+  "recorded_utc": "2026-11-05T20:43:28.742682+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "compiler": {
+    "command": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "build\\compile.cmd"
+    ],
+    "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+    "compiler_output": "native_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(80): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n'FileSystem' \u30d7\u30ed\u30d0\u30a4\u30c0\u30fc\u3067 InitializeDefaultDrives \u64cd\u4f5c\u3092\u5b9f\u884c\u3057\u3088\u3046\u3068\u3057\u3066\u5931\u6557\u3057\u307e\u3057\u305f\u3002\n",
+    "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+    "executable": "build\\native.exe",
+    "compile_script": "@call \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat\" amd64 >nul\n@if errorlevel 1 exit /b %errorlevel%\n@cl /nologo /std:c++17 /O2 /fp:strict /EHsc /W4 /Fe:build/native.exe /Fo:build/native.obj tests/native_harness.cpp\n"
+  },
+  "base_commit": "d3964ac9dba7a1e8e8787ec67b55a8d2b876f43f",
+  "source_revision": "Uncommitted working source at measurement; identified by SHA256; final commit in delivery",
+  "dctl_sha256": "1a679a3a8fd4a3cca5d93a1fd61f995ed44d6befa3b2aa4fc1e188aaa9eea438",
+  "oracle_sha256": "3b8e5e1eab31c96556d76d67b862866767f11acdd3c793bbb39f731a49e30f4e",
+  "harness_sha256": "45f0d6911e9846dd3fa98c1c6a52bc3fcb75fe8c37d142639e5bcec990834f11",
+  "build_script_sha256": "d74aa58a448ebeb2c312b2eaceeadc7669c7947f41e04cf9ca566d5797ace257",
+  "generator_sha256": "472a9a70fd25d1aff7460eb4f675c8c0b19a72932b22184dbabef4ac2796944b",
+  "executable_sha256": "fd8cdbea80eaebab94c61e700fb62a96293567dc7000259c503c04197bba87f6"
+}
