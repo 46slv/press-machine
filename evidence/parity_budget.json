@@ -1,0 +1,15 @@
+{
+  "derivation": "For each measured normalized maximum E > 0, limit = 2**ceil(log2(E)). This rounds the observed maximum up to the next binary boundary; it is an empirical fixture envelope, not a universal analytic GPU error bound. Exact identity paths have zero tolerance.",
+  "normalization": "abs(actual-reference)/max(1,max(abs(reference RGB))) for RGB; abs(actual-reference)/max(1,abs(reference)) for scalars/conversions.",
+  "measurement_sha256": "0b84453825a1832a8831c9967b10c1d977df0c0fed2a30ab937168c689d2e55a",
+  "limits": {
+    "scalar_max_normalized_error": 1.1920928955078125e-07,
+    "rgb_max_normalized_error": 0.0001220703125,
+    "conversion_max_normalized_error": 4.76837158203125e-07
+  },
+  "host": "Proposed R6 SatComp-node envelope on these fixtures, frozen before host access. Characterize CST/export errors separately; do not silently widen on failure.",
+  "guard_boundary_ids": [
+    "C_guard_9.99e-08/strong",
+    "C_guard_9.99e-08/hard_zero"
+  ]
+}

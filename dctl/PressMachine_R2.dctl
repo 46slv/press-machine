@@ -1,0 +1,111 @@
+// DEV-12 Revision 2: encoded DaVinci Wide Gamut / Intermediate in AND out.
+// Reference provenance and numerical guards: docs/CONTRACT.md.
+DEFINE_UI_PARAMS(pm_threshold, Threshold S, DCTLUI_SLIDER_FLOAT, 25.0, 0.0, 200.0, 0.1)
+DEFINE_UI_PARAMS(pm_compression, Compression %, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 100.0, 0.1)
+DEFINE_UI_PARAMS(pm_softness, Softness %, DCTLUI_SLIDER_FLOAT, 20.0, 0.0, 100.0, 0.1)
+DEFINE_UI_PARAMS(pm_bypass, Bypass, DCTLUI_CHECK_BOX, 0)
+
+__DEVICE__ int pm_finite(float x) {
+    return x == x && _fabs(x) <= 3.402823466e38f;
+}
+__DEVICE__ int pm_finite3(float3 v) {
+    return pm_finite(v.x) && pm_finite(v.y) && pm_finite(v.z);
+}
+__DEVICE__ float pm_decode(float v) {
+    return v <= 0.02740668f ? v / 10.44426855f :
+        _powf(2.0f, v / 0.07329248f - 7.0f) - 0.0075f;
+}
+__DEVICE__ float pm_encode(float v) {
+    return v <= 0.00262409f ? v * 10.44426855f :
+        (_log2f(v + 0.0075f) + 7.0f) * 0.07329248f;
+}
+__DEVICE__ float pm_cbrt(float x) {
+    // A general power on negative LMS is invalid. Preserve the real root sign.
+    return x < 0.0f ? -_powf(-x, 1.0f / 3.0f) : _powf(x, 1.0f / 3.0f);
+}
+__DEVICE__ float3 pm_dwg_xyz(float3 v) {
+    return make_float3(
+        0.70062239f*v.x + 0.14877482f*v.y + 0.10105872f*v.z,
+        0.27411851f*v.x + 0.87363190f*v.y - 0.14775041f*v.z,
+       -0.09896291f*v.x - 0.13789533f*v.y + 1.32591599f*v.z);
+}
+__DEVICE__ float3 pm_xyz_dwg(float3 v) {
+    return make_float3(
+        1.51667204f*v.x - 0.28147805f*v.y - 0.14696363f*v.z,
+       -0.46491710f*v.x + 1.25142378f*v.y + 0.17488461f*v.z,
+        0.06484905f*v.x + 0.10913934f*v.y + 0.76141462f*v.z);
+}
+__DEVICE__ float3 pm_xyz_lms(float3 v) {
+    return make_float3(
+        0.8190224379967030f*v.x + 0.3619062600528904f*v.y - 0.1288737815209879f*v.z,
+        0.0329836539323885f*v.x + 0.9292868615863434f*v.y + 0.0361446663506424f*v.z,
+        0.0481771893596242f*v.x + 0.2642395317527308f*v.y + 0.6335478284694309f*v.z);
+}
+__DEVICE__ float3 pm_root_lab(float3 v) {
+    return make_float3(
+        0.2104542683093140f*v.x + 0.7936177747023054f*v.y - 0.0040720430116193f*v.z,
+        1.9779985324311684f*v.x - 2.4285922420485799f*v.y + 0.4505937096174110f*v.z,
+        0.0259040424655478f*v.x + 0.7827717124575296f*v.y - 0.8086757549230774f*v.z);
+}
+__DEVICE__ float3 pm_lab_root(float3 v) {
+    return make_float3(
+        v.x + 0.3963377773761749f*v.y + 0.2158037573099136f*v.z,
+        v.x - 0.1055613458156586f*v.y - 0.0638541728258133f*v.z,
+        v.x - 0.0894841775298119f*v.y - 1.2914855480194092f*v.z);
+}
+__DEVICE__ float3 pm_lms_xyz(float3 v) {
+    return make_float3(
+        1.2268798758459243f*v.x - 0.5578149944602171f*v.y + 0.2813910456659647f*v.z,
+       -0.0405757452148008f*v.x + 1.1122868032803170f*v.y - 0.0717110580655164f*v.z,
+       -0.0763729366746601f*v.x - 0.4214933324022432f*v.y + 1.5869240198367816f*v.z);
+}
+__DEVICE__ float pm_transfer(float s, float t, float compression, float softness) {
+    if (compression == 0.0f) return s;
+    float a = compression / 100.0f;
+    float p = softness / 100.0f;
+    float k = 2.0f * t * p;
+    float lo = t * (1.0f - p);
+    float hi = t * (1.0f + p);
+    if (k == 0.0f) return s <= t ? s : t + (1.0f-a)*(s-t);
+    if (s <= lo) return s;
+    if (s >= hi) return t + (1.0f-a)*(s-t);
+    float d = s - lo;
+    return s - a * d * (d / (2.0f*k));
+}
+__DEVICE__ int pm_domain(float3 lab, float c, float s) {
+    return pm_finite3(lab) && pm_finite(c) && pm_finite(s) &&
+        lab.x > 1.0e-6f && c > 1.0e-7f && s > 1.0e-7f;
+}
+__DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y,
+                          float p_R, float p_G, float p_B) {
+    float3 original = make_float3(p_R, p_G, p_B);
+    if (pm_bypass || pm_compression == 0.0f) return original;
+    if (!pm_finite3(original)) return original;
+    // Exact equal-channel neutral: avoid residual chroma from printed matrices.
+    if (p_R == p_G && p_G == p_B) return original;
+    float3 linear = make_float3(pm_decode(p_R), pm_decode(p_G), pm_decode(p_B));
+    if (!pm_finite3(linear)) return original;
+    float3 xyz = pm_dwg_xyz(linear);
+    if (!pm_finite3(xyz)) return original;
+    float3 lms = pm_xyz_lms(xyz);
+    if (!pm_finite3(lms)) return original;
+    float3 lab = pm_root_lab(make_float3(pm_cbrt(lms.x), pm_cbrt(lms.y), pm_cbrt(lms.z)));
+    float c = _sqrtf(lab.y*lab.y + lab.z*lab.z);
+    if (!pm_finite3(lab) || !pm_finite(c) || lab.x <= 1.0e-6f || c <= 1.0e-7f) return original;
+    float s = 100.0f * (c / lab.x);
+    if (!pm_domain(lab, c, s)) return original;
+    float out_s = pm_transfer(s, pm_threshold, pm_compression, pm_softness);
+    if (!pm_finite(out_s)) return original;
+    if (out_s == s) return original;
+    float scale = out_s / s;
+    float3 root = pm_lab_root(make_float3(lab.x, lab.y*scale, lab.z*scale));
+    if (!pm_finite3(root)) return original;
+    lms = make_float3(root.x*root.x*root.x, root.y*root.y*root.y, root.z*root.z*root.z);
+    if (!pm_finite3(lms)) return original;
+    xyz = pm_lms_xyz(lms);
+    if (!pm_finite3(xyz)) return original;
+    linear = pm_xyz_dwg(xyz);
+    if (!pm_finite3(linear)) return original;
+    float3 out_rgb = make_float3(pm_encode(linear.x), pm_encode(linear.y), pm_encode(linear.z));
+    return pm_finite3(out_rgb) ? out_rgb : original;
+}

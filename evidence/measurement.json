@@ -1,0 +1,79 @@
+{
+  "stage": "NATIVE_MEASURED",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "dctl_sha256": "35442c75a7b31c6da0bfe94dfa8cbb6b3ab13737752bb81a36afa28ed2b671b8",
+  "vectors_sha256": "314f870ae99aaa4236cf525b9ce86d1faa7196a288dcdc877ef83c3d094e384b",
+  "counts": {
+    "scalar": 180280,
+    "scalar_exact_identity": 43324,
+    "pixels": 336,
+    "pixel_compressed": 115,
+    "pixel_exact_identity": 219,
+    "finite_stress": 253,
+    "direct_domain": 24,
+    "conversion_anchors": 8,
+    "bypass_nonfinite": 2
+  },
+  "scalar_worst": {
+    "error": 8.544921882958079e-06,
+    "case": [
+      140.375,
+      100.0,
+      25.0,
+      100.0
+    ],
+    "expected": 128.059287109375,
+    "actual": 128.05929565429688
+  },
+  "scalar_max_normalized_error": 8.264210465400577e-08,
+  "rgb_worst": {
+    "error": 6.187159905127193e-05,
+    "id": "S250.0_h4.0/hard_zero",
+    "path": "compressed",
+    "expected": [
+      0.19883946876635858,
+      0.36711007997409123,
+      0.46798792247974585
+    ],
+    "actual": [
+      0.19890134036540985,
+      0.36711710691452026,
+      0.4679955542087555
+    ]
+  },
+  "rgb_max_normalized_error": 6.187159905127193e-05,
+  "conversion_max_normalized_error": 3.234607863435095e-07,
+  "identity_failures": 0,
+  "guard_boundary_crossings": [
+    {
+      "id": "C_guard_9.99e-08/strong",
+      "oracle_c": 9.990367548387894e-08,
+      "native_c": 1.00000761449337e-07,
+      "rgb_error": 7.105427357601002e-15
+    },
+    {
+      "id": "C_guard_9.99e-08/hard_zero",
+      "oracle_c": 9.990367548387894e-08,
+      "native_c": 1.00000761449337e-07,
+      "rgb_error": 1.98596694644948e-12
+    }
+  ],
+  "native_scalar_boosts": 0,
+  "native_scalar_decreases": 0,
+  "new_nonfinite_outputs": 0,
+  "host": "NOT_RUN",
+  "visual": "NOT_RUN",
+  "alpha_host": "NOT_RUN",
+  "performance_4k": "NOT_RUN",
+  "compiler": {
+    "command": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "build\\compile.cmd"
+    ],
+    "compiler_output": "native_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(79): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(79): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(79): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-r2\\tests\\../dctl/PressMachine_R2.dctl(79): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n'FileSystem' \u30d7\u30ed\u30d0\u30a4\u30c0\u30fc\u3067 InitializeDefaultDrives \u64cd\u4f5c\u3092\u5b9f\u884c\u3057\u3088\u3046\u3068\u3057\u3066\u5931\u6557\u3057\u307e\u3057\u305f\u3002\n",
+    "executable": "build\\native.exe"
+  }
+}

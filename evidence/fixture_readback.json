@@ -1,0 +1,11 @@
+{
+  "stage": "EXR_INDEPENDENT_READBACK_PASS",
+  "files": 8,
+  "float_words_exact": 114688,
+  "dimensions": [
+    64,
+    56
+  ],
+  "decoder": "ffmpeg version N-111059-gd78bffbf3d-20230610 Copyright (c) 2000-2023 the FFmpeg developers",
+  "scope": "File serialization only; Resolve buffer/alpha/compile/visual are NOT_RUN"
+}

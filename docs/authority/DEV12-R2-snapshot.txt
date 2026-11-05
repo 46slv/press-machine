@@ -1,0 +1,364 @@
+Here is the result of "fetch" for the Page with URL https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7 as of 2026-09-23T02:56:43.450Z:
+<page url="https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7">
+<ancestor-path>
+<parent-data-source url="collection://ced76798-1c46-4a49-b02a-911eb8fc83ef" name="Development Cases — Brief Cockpits"/>
+<ancestor-2-database url="https://app.notion.com/p/ae539d4432b54af8925fee8b5184d4ef" title="Development Cases — Brief Cockpits"/>
+<ancestor-3-page url="https://app.notion.com/p/3e3fd279a6f381968755db9797d299dd" title="Development Design & Brief Hub"/>
+<ancestor-4-page url="https://app.notion.com/p/399fd279a6f38118bc6bd2e286a3aca4" title="Project Management Hub"/>
+<ancestor-5-page url="https://app.notion.com/p/399fd279a6f381bf9a98e608edc9d96a" title="AI Operations Hub"/>
+</ancestor-path>
+<properties>
+{"Brief Gate":"Approved","Case":"SatComp — 飽和度コンプレッサー再設計","Case ID":"DEV-12","Completion Summary":"","Created":"2026-09-23T00:37:12.695Z","Current Phase":"Approved / Ready — implementation not started","Done":"すべてのin-scope Confirmed Must（SAT-001〜SAT-018およびSAT-020）がVerifiedまたは明示例外となり、CPU/DCTL numerical qualification、target Resolve host qualification、代表画像のユーザー受入、canonical main統合、target Resolveへのmerged artifact配置・smoke、CST usage docsまで完了した時にCase Done。SAT-019はShouldとして性能/操作性gateで評価する。public installer/marketplace packagingは対象外。","Needs Decision":"__NO__","Next Action":"R4 Implementation reset / vertical slice。current Notion Revision 2 + live press-machine main + SAT-001〜SAT-020をbaselineとして、旧Draft PR #1はreferenceのみで開始する。","Outcome":"DWG/DaVinci IntermediateのCST sandwich内で、高彩度だけを canonical f(S\\_in)=S\\_out に従って滑らかに圧縮し、低〜中彩度はidentity、Oklab lightness/hueは意図的に保持するDaVinci Resolve DCTLを完成させる。","Profile":"ChatGPT-led","Project":["https://app.notion.com/p/3e4fd279a6f381e18d7ce5bcee6966f3"],"Questions & Decisions":["https://app.notion.com/p/3e4fd279a6f3813f9aa1ec59f9ac6c69","https://app.notion.com/p/3e4fd279a6f381eaa8fbfb0af77500ec","https://app.notion.com/p/3e4fd279a6f381588dbaeffe55f14006","https://app.notion.com/p/3e4fd279a6f381668e03cd89d6c20b3b","https://app.notion.com/p/3e4fd279a6f3812ea881c3a50e5d529f","https://app.notion.com/p/3e4fd279a6f381c582fae722c2798c1f","https://app.notion.com/p/3e4fd279a6f3818f8d84fd9d43747d78","https://app.notion.com/p/3e4fd279a6f381c39d3cf446563dd170"],"Repo / GitHub":"https://github.com/46slv/press-machine","Requirements":["https://app.notion.com/p/3e4fd279a6f3812c8540dcfc43e02a67","https://app.notion.com/p/3e4fd279a6f381a0a233fb9609b0120d","https://app.notion.com/p/3e4fd279a6f381f68b7ec7eb31193ffc","https://app.notion.com/p/3e4fd279a6f381d68266d9485797a1a1","https://app.notion.com/p/3e4fd279a6f38109bc82e3673cc44b53","https://app.notion.com/p/3e4fd279a6f38144b227f79c45a28cd5","https://app.notion.com/p/3e4fd279a6f3814bab2bf7892f7c3d05","https://app.notion.com/p/3e4fd279a6f381cc9fe6f39f65706761","https://app.notion.com/p/3e4fd279a6f3817488f2e5ee3c17d6c7","https://app.notion.com/p/3e4fd279a6f381c4a509d1e8fa4c7d51","https://app.notion.com/p/3e4fd279a6f3813e8e16e3c6d3a402e1","https://app.notion.com/p/3e4fd279a6f381b6989de9eec4d0046b","https://app.notion.com/p/3e4fd279a6f3810e87d2f7a21e0184af","https://app.notion.com/p/3e4fd279a6f381179ecfe6ea0666b84e","https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd","https://app.notion.com/p/3e4fd279a6f381f3a5c7d71fa3546b77","https://app.notion.com/p/3e4fd279a6f381cf9ef1f8b7cfcbd370","https://app.notion.com/p/3e4fd279a6f381e08fe0da61a7898b88","https://app.notion.com/p/3e4fd279a6f381049c1af186562d2433","https://app.notion.com/p/3e4fd279a6f38148b12cfdc2ebaec850"],"Revision":2,"Route Steps":["https://app.notion.com/p/3e4fd279a6f38124847bfb8ac2d773d1","https://app.notion.com/p/3e4fd279a6f3811c93a3eb1acec11a7c","https://app.notion.com/p/3e4fd279a6f38184a885fb47b3681564","https://app.notion.com/p/3e4fd279a6f38139a0f1da3cc05b8f4f","https://app.notion.com/p/3e4fd279a6f3819d8017d8280fb72149","https://app.notion.com/p/3e4fd279a6f38128b139e3ffd417bf21","https://app.notion.com/p/3e4fd279a6f38112a8a6d8d404481b37","https://app.notion.com/p/3e4fd279a6f3819a853ce9f3f700c95b","https://app.notion.com/p/3e4fd279a6f38160b6b6dc8779fc19ee"],"Status":"Ready","Updated":"2026-09-23T02:56:43.450Z","date:Approved At:is_datetime":0,"date:Approved At:start":"2026-09-23","date:Closed Date:is_datetime":0,"date:Last Review:is_datetime":0,"date:Last Review:start":"2026-09-23","url":"https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"}
+</properties>
+<iconMetadata>null</iconMetadata>
+<content>
+## Outcome
+
+DaVinci ResolveのColor Pageで、<b>高彩度だけを数値的に圧縮するDCTL</b>を完成させる。標準構成は <code>Source → CST In → SatComp → CST Out</code>。SatCompはDWG/DaVinci Intermediateだけを外部processing contractとし、一定以下の彩度は完全保持、高彩度では <code>S_out = f(S_in)</code> に従って滑らかに圧縮する。色相とOklab lightnessは意図的に変更しない。
+
+## Definition of Done
+
+- 公開S、transfer function、UI、DWG/DI contract、例外挙動が実装可能な精度で固定されている。
+- Confirmed Must Requirementsが実装され、Acceptance evidenceによりVerified、または権限ある明示例外がある。
+- CPU oracle / DCTL native parity / target Resolve host gateが完了している。
+- target ResolveでCST sandwichを用いてload/compile・numeric parity・extended-range・alpha・visual QAが成立している。
+- skin / neon・LED / saturated red・blue / dark saturated / gamut-edge / HDR highlightでユーザー受入済み。
+- accepted artifactが <code>46slv/press-machine</code> のcanonical mainへ統合され、target Resolveへ配置したmerged artifactでsmokeを再確認している。
+- READMEに正しいCST手順とunsupported input contractが残っている。
+- public distribution / installer / marketplace packagingは今回のDoneに含めない。
+
+## Problem / Desired Flow
+
+通常のSaturationノブでは、高彩度だけを選択的かつ再現可能な数値関係で抑えることが難しい。SatCompではユーザーがCSTで入力をDWG/DIへ揃え、SatCompの少数controlだけを調整し、後段CSTで目的のoutputへ戻す。素材のcamera gamut / log / output standardへの対応はCSTへ委譲し、SatComp自身は一つの明確なcolor contractだけを処理する。
+
+## Product Contract
+
+- low / mid saturationはidentity。
+- compression regionでも <code>S_out <= S_in</code>。saturation boostはしない。
+- <code>f(S)</code> はmonotonic。soft transitionに不連続を作らない。
+- Oklab <code>L</code> とhueを保持し、chromaだけを縮小する。
+- hidden ceiling、hidden gamut clip、hidden luminance weightingを入れない。
+- DWG/DI以外をSatCompへ直接入力することはunsupported。
+- output gamut/tone mappingはSatCompの責務外。
+
+## Saturation Metric
+
+Public unit:
+
+<code>S = 100 * C / L</code>
+
+ここでOklab/OkLChの <code>C = sqrt(a²+b²)</code>。100倍はUI可読性のためのSatComp固有scaleであり、百分率でも上限でもない。100超を許容する。
+
+Processing path:
+
+<code>DWG/DI → DI inverse OETF → linear DWG → CIE XYZ D65 → Oklab → S</code>
+
+DWG↔XYZとDI encode/decodeはBlackmagic公式v1.1、XYZ D65↔Oklabはcurrent W3C CSS Color 4をreference mathとする。Oklab forward nonlinear stepはLMS各成分へ<b>符号付きreal cube root</b>を適用し、negative値へ一般的な <code>pow(x, 1/3)</code> を直接使わない。DWGはD65なのでwhite-point adaptationを追加しない。正の一様scene exposure scaleではOklabのL/Cが同じcube-root factorでscaleするため、<code>C/L</code> は不変となる。数値guardとして <code>L <= 1e-6</code>、<code>C <= 1e-7</code>、<code>S_in <= 1e-7</code>、または非有限intermediateではcompressionを適用せず原RGBを返す。これはdivision/neutral保護であり、near-blackを芸術的に弱めるhidden luminance weightingではない。
+
+Compression後:
+
+<code>C_out = C_in * (S_out / S_in)</code>
+
+としてa/bを一様scaleし、Lとhを保持してOklab→XYZ→linear DWG→DIへ戻す。
+
+## Scalar Transfer / UI
+
+Primary UIは4つだけ。
+
+- <b>Threshold S</b>: soft-knee中心。<code>0..200</code>を最低限操作可能、default <code>25.0</code>, step <code>0.1</code>。R5/R7で有効S分布を確認し、必要なら上限だけ200以上へ拡張してよい。
+- <b>Compression %</b>: <code>0..100</code>, default <code>0.0</code>, step <code>0.1</code>。0%=1:1、50%=2:1相当、75%=4:1相当、90%=10:1相当、100%=limiter相当。
+- <b>Softness %</b>: <code>0..100</code>, default <code>20.0</code>, step <code>0.1</code>。Thresholdに対する相対knee幅。Threshold=25 / Softness=20%ならfull knee widthは10 S。
+- <b>Bypass</b>: exact before/after用checkbox。
+
+<code>A = Compression/100</code>, <code>m = 1-A</code>, <code>T = Threshold</code>, <code>P = Softness/100</code>, <code>K = 2*T*P</code>。したがって <code>lo=T*(1-P)</code>, <code>hi=T*(1+P)</code> で、hidden clampなしに <code>lo>=0</code> を保証する。
+
+Hard knee <code>K=0</code>:
+
+- <code>S <= T: f(S)=S</code>
+- <code>S > T: f(S)=T + m(S-T)</code>
+
+Soft knee <code>K>0</code>:
+
+- <code>S <= lo: f(S)=S</code>
+- <code>lo < S < hi: f(S)=S - A*(S-lo)^2/(2*K)</code>
+- <code>S >= hi: f(S)=T + m(S-T)</code>
+
+この式は <code>0<=A<=1</code> で <code>0<=f(S)<=S</code>、value/first derivative連続、monotonic、no-boost。Compression=0は全域identity、Compression=100%ではknee上端以降が <code>S_out=T</code>。
+
+v1ではRatio / Ceiling / input-output curve point editor / color-space selectorをprimary UIへ置かない。
+
+## Color Management Contract
+
+Canonical middle spaceは <b>DaVinci Wide Gamut + DaVinci Intermediate</b> 固定。共通条件は「SatComp直前のactual RGBがDWG/DI」であること。
+
+Supported topology A — explicit CST sandwich:
+
+<code>Source/native working space → CST In (source → DWG/DaVinci Intermediate) → SatComp → CST Out (DWG/DaVinci Intermediate → destination)</code>
+
+Input CSTは Output Color Space=DaVinci Wide Gamut / Output Gamma=DaVinci Intermediate とし、SatComp前のtone mapping / gamut mappingは使用しない。
+
+Supported topology B — already managed DWG/DI:
+
+RCM / timeline / group等でSatComp node入力が既にDWG/DIなら、前後へ重複CSTを追加せずproject/output color managementへ委譲する。source spaceを再度CST Inへ指定して二重変換する構成はunsupported例としてREADMEへ記載する。
+
+SatCompは入力spaceを自動判定せず、内部color-space selectorも持たない。Output側でdeliveryに必要なrendering / gamut mappingを行えるが、その結果は <code>f(S)</code> の数値contract外。
+
+## Protected Behavior
+
+- Thresholdのuntouched regionは原DWG/DI RGBをexact fast-pathで返す。
+- Compression=0 / Bypassも原RGBを返す。
+- finite negative RGB / RGB > 1を0..1へclampしない。
+- alphaを意図的に変更しない。
+- finite inputからSatComp自身が新しいNaN/Infを作らない。
+- old PR #1の仕様は、このBriefで再採用された部分以外はauthorityを持たない。
+
+## Non-functional applicability
+
+- <b>Security / privacy:</b> N/A — DCTLはpixel-local演算で、network・credential・外部送信・永続データを持たない。
+- <b>Data preservation / recovery:</b> source media / timeline stateを変更しない。DCTL導入はファイル配置のみで、削除により除去可能。host検証で作る一時stateはowned/scratchを使う。
+- <b>Compatibility:</b> target Resolve 21.xのDCTL compile/runtimeをR6で実証し、buildをevidenceへ固定する。
+- <b>Performance / usability:</b> SAT-019 + R6/R7で確認する。
+- <b>Distribution / migration:</b> public installer/marketplace migrationはv1 Case外。旧Draft PR #1は未merge referenceでありmigration sourceではない。
+
+## Non-goals — v1
+
+- generic saturation boost
+- hue-range selective / qualifier-like compression
+- spatial / temporal / neighborhood処理
+- automatic source/output color-space detection
+- SatComp内部のcamera gamut / transfer変換UI
+- gamut mapping / tone mapping
+- public installer / marketplace packaging
+- custom graph editor
+
+## Architecture / Placement
+
+1. <b>UI/Scalar layer</b> — Threshold / Compression / Softnessから純粋な <code>f(S)</code> を生成。
+2. <b>Color model layer</b> — DI decode、DWG↔XYZ D65、XYZ D65↔Oklab、S measurement/reconstruction。
+3. <b>Pixel operator</b> — eligible pixelだけcolor modelへ入り、identity条件はround-trip前にfast return。
+4. <b>Independent CPU oracle</b> — DCTL implementationとは別コードで同じcontractを実装。
+5. <b>Test vectors / harness</b> — scalar境界・official DI mappings・Oklab roundtrip・exposure invariance・extended-range・host comparison。
+6. <b>Resolve host gate</b> — target Resolve上の実buffer/compile/load/alpha/visual truth。
+
+旧Draft PR #1に存在するDWG matrix、DI encode/decode、Oklab math、independent oracle、native DCTL harnessは、current primary sourcesと新contractに照合して正しければ再利用できる。旧Input/Output gamut selector、旧Ratio UI、旧contract全体はそのまま移植しない。
+
+## Validation / Evidence Contract
+
+### Scalar
+
+- Compression=0 exact identity
+- below-knee exact identity
+- requested high-region slope <code>1-A</code>
+- soft-knee C1 continuity
+- monotonic
+- no boost
+- 100% compressionのhigh regionがThresholdへ収束
+
+### Color model
+
+- Blackmagic公式DWG matrix / DI mapping valuesと一致
+- XYZ D65↔Oklab roundtrip
+- positive exposure-scale invariance of S
+- neutral identity
+- Oklab L/hue preservation under compression
+- negative / >1 preservation
+- finite-input finite-output
+- invalid S-domain identity guard
+
+### CPU ↔ DCTL
+
+独立oracleとnative harnessを同一vectorsで比較する。host acceptance toleranceは、prebuildで得たworst-case parity errorを記録したうえで決定し、根拠なしの閾値を先に固定しない。
+
+### Resolve Host
+
+exact commit / Resolve build / CST settings / fixtureを記録。
+
+- DCTL compile/load
+- identity
+- numeric <code>S_in→S_out</code>
+- negative / >1
+- alpha
+- finite output
+- representative 4K interactivity
+
+### Visual / Human Gate
+
+skin、neon/LED、saturated red/blue、dark saturated color、gamut-edge、HDR highlightを確認。数式がPASSしても、materialなhue/lightness artifact、threshold banding、near-black artifact、操作性問題があればv1 acceptanceはFAILとしてBrief Revisionへ戻す。
+
+## Acceptance Recipes — NOT EXECUTED
+
+### AR-1 Scalar contract — SAT-001/002/004/009/010
+
+- <b>Environment:</b> independent CPU reference first; DCTL/native parity in R5.
+- <b>Fixtures:</b> T=\{0,25,100\}, Compression=\{0,25,50,75,100\}%, Softness=\{0,20,100\}%; sample S immediately below/at/above lo, T, hi plus high values.
+- <b>Procedure:</b> compute expected piecewise f(S) analytically; sample dense ordered S grid.
+- <b>Expected:</b> exact identity in untouched region and at Compression=0; C1 at lo/hi; monotonic; 0≤f(S)≤S; high slope=1-A; 100% high region=f(S)=T.
+- <b>Tolerance:</b> CPU reference uses numerical precision sufficient to distinguish formula errors; DCTL float tolerance is measured and frozen in R5 before R6 rather than guessed here.
+- <b>Judge/evidence:</b> automated tests + exact commit + measured worst-case error in Git/R5 evidence.
+- <b>Failure:</b> formula/implementation defect returns to R4; control-meaning defect returns to Brief Revision.
+
+### AR-2 Color model — SAT-003/006/007/008/011/012/013/020
+
+- <b>Environment:</b> CPU double/reference implementation, then native DCTL harness.
+- <b>Fixtures:</b> official DI mapping values; D65 neutral at multiple exposures; warm/red/blue/cyan saturated samples; positive exposure-scaled equivalents; finite negative and >1 DWG RGB; negative-LMS finite samples that require sign-matched cube root; values around L=1e-6 and C=1e-7 guards.
+- <b>Procedure:</b> DI decode → DWG/XYZ D65 → Oklab → S → f(S) → inverse path.
+- <b>Expected:</b> official DWG matrix/DI mappings; positive exposure invariance of S; neutral/invalid-domain identity; L/h invariant for compressed eligible colors; no hidden clamp; finite outputs.
+- <b>Tolerance:</b> reference-math tolerance and DCTL parity tolerance are reported separately. Exact identity paths are tested bit-preserving at the native float boundary.
+- <b>Judge/evidence:</b> deterministic vectors and test output tied to exact commit.
+- <b>Failure:</b> math/parity failure returns R4; material weakness of the S metric on valid extreme colors is the named Oklab risk and returns to Brief Revision.
+
+### AR-3 Resolve host — SAT-005/006/011/012/013/014/015/016/019
+
+- <b>Environment:</b> live target Resolve 21.x build recorded at R6; exact candidate commit; CST In → SatComp → CST Out fixture.
+- <b>Preparation:</b> Input CST outputs DWG/DaVinci Intermediate with tone/gamut mapping disabled; synthetic patch fixture plus representative 4K timeline.
+- <b>Procedure:</b> load/compile DCTL; execute identity, scalar mapping, extended-range and alpha fixtures; compare exported/read-back numeric result to oracle; compare interactivity against same-timeline baseline.
+- <b>Expected:</b> host accepts exact DCTL; SatComp node input/output（または同一CST chainのBypass対Compression=0/untouched比較）でidentityが成立し、surrounding CST自体のidentityは要求しない。compressed S matches oracle within the R5-derived host tolerance; finite negative/>1 are not unexpectedly clipped by SatComp; alpha unchanged; interaction remains usable.
+- <b>Judge/evidence:</b> automated/numeric evidence where possible + Resolve build/CST settings/exact commit. Host evidence is not substituted by native harness evidence.
+- <b>Failure:</b> classify compiler/runtime/buffer-contract/algorithm/performance before repair; product-contract conflict returns to Revision.
+
+### AR-4 Visual/user acceptance — SAT-003/007/008/009/010/016/019
+
+- <b>Environment:</b> accepted R6 build and same output/display path for bypass and processed comparison.
+- <b>Fixtures:</b> skin, neon/LED, saturated red/blue, dark saturated colors, gamut-edge colors, HDR highlight material.
+- <b>Procedure:</b> compare Bypass/Compression=0, moderate and strong compression at useful thresholds; inspect transition and downstream output under the same CST/view pipeline.
+- <b>Expected:</b> high saturation is controllably reduced without material unwanted hue/lightness shift, near-black instability or visible threshold banding; controls are understandable in normal grading use.
+- <b>Judge/evidence:</b> user is final visual acceptance authority; selected stills/settings may be retained as evidence pointers.
+- <b>Failure:</b> metric/control-semantic failure returns to Brief Revision; ordinary implementation artifact returns R4.
+
+### AR-5 Integration/delivery — SAT-017/018 and Case Done
+
+- <b>Environment:</b> reviewed/accepted commit on canonical repository plus target Resolve installation.
+- <b>Procedure:</b> merge accepted change; install merged DCTL; repeat load + identity smoke; read README from main.
+- <b>Expected:</b> main contains the exact accepted implementation and CST instructions, unsupported wrong-space input is explicit, old selector/Ratio contract is absent, target Resolve uses the merged artifact.
+- <b>Judge/evidence:</b> main commit SHA + target installation/smoke pointer + Completion Summary.
+- <b>Failure:</b> integration/docs mismatch returns R8; no Case closure until corrected.
+
+## Authority / Stop / Consult
+
+Autonomous:
+
+- standing contract内のimplementation detail、test fixture、code organization、performance optimization、旧PR資産の選択的再利用。
+- evidenceに基づく通常repair。
+
+Consult / Revision:
+
+- Goal / Done変更
+- Sの意味変更
+- DWG/DI以外を正式対応
+- hue/lightness invariant変更
+- saturation boost / gamut mapping等のscope追加
+- UIの意味を変えるmaterial redesign
+- Must requirementのDeferred/N/A化
+
+User-only final gate:
+
+- representative image visual acceptance。
+
+不可逆削除、公開、課金、credential変更はこのBriefのauthorityに含めない。
+
+## First Implementation Handoff
+
+Objective: 新contractの最小vertical sliceを <code>main</code> baselineから実装する。
+
+Read first:
+
+- Development Case <code>DEV-12</code>
+- related SAT-001〜SAT-020
+- current <code>46slv/press-machine</code> main
+- Draft PR #1はreferenceのみ
+- Blackmagic DWG/DI primary note
+- Oklab / W3C conversion references
+
+First bounded deliverable:
+
+- new scalar transfer + independent tests
+- DWG/DI-only color model + CPU oracle
+- 4-control DCTL UI
+- identity fast path
+- deterministic vectors
+- native DCTL parity harness
+
+Must not:
+
+- old PRを要件正本としてmerge
+- color-space selectorを復活
+- hidden clamp / gamut mapping
+- Resolve host evidenceをprebuild PASSで代用
+
+Done/evidence: focused prebuild suite PASS、exact branch/commit、worst-case numeric error、次のResolve host gateへ渡せるfixture。
+
+## Completion Route
+
+1. Working Brief Draft completion — Done
+2. ChatGPT internal design review — Done
+3. ChatGPT internal architecture & feasibility review — Done
+4. Implementation reset / vertical slice
+5. Prebuild numerical qualification
+6. Resolve host qualification
+7. Visual QA / user acceptance
+8. Canonical main integration + local delivery
+9. Completion Gate / Case closure
+
+詳細なPrerequisites / Requirements / Exit CriteriaはDevelopment Route relationsを正本とする。
+
+## Runtime-resolvable Items
+
+次はproduct ambiguityではなく、定義済み手順で後段Gateが確定する値。
+
+- CPU↔DCTL / Resolve numeric tolerance: R5のmeasured worst-case errorから明示的に導出し、R6前に固定する。
+- exact target Resolve build: R6開始時のlive hostを記録する。
+- performance comparison threshold: target workstationのsame-timeline baseline測定から決める。
+- Threshold / Softnessのneutral-default数値とThreshold上限はvisual QA / S分布実測で調整可能。S定義・control semantics・Compression=0 neutral behaviorを変えず、Thresholdが少なくとも0..200を覆う限り、単なる上限拡張はmaterial Revisionにしない。
+
+## Current Handoff / Resume Pointer
+
+- Current phase: <b>Approved / Ready</b>
+- Execution surface: implementation未開始
+- Resume from: R4 Implementation reset / vertical slice
+- Blocker: none at Brief level; later runtime/visual gates remain part of normal completion route
+- Start baseline: current Notion Revision 2 + live <code>46slv/press-machine</code> main + SAT-001〜SAT-020
+
+## Prior internal author review history — superseded by completed R2/R3
+
+2026-09-23、current GPT-5.6 SolでCase本文・SAT-001〜019・Q&D・R1〜R9・current GitHub main/PR #1・Blackmagic DWG/DI一次資料・W3C/Oklab資料をfresh reviewした。required <code>gpt-5.6-sol xhigh</code> 独立R2の代替ではない。
+
+Found → fixed:
+
+1. <b>Softness contract</b> — absolute S幅ではlow Threshold時にhidden effective clampが必要だった。<code>Softness %</code>へ変更し <code>K=2*T*P</code>, <code>lo=T*(1-P)</code>, <code>hi=T*(1+P)</code> として全UI範囲でlo≥0を構造的に保証。
+2. <b>Numerical domain</b> — <code>S=C/L</code> のdivision/neutral境界が曖昧だった。<code>L<=1e-6</code>, <code>C<=1e-7</code>, <code>S_in<=1e-7</code> またはnon-finite intermediateをexact identity guardへ固定。
+3. <b>Color-model residual risk</b> — Oklabのwide-gamut/HDR/extreme scene値への知覚品質を設計上の保証と誤読できた。named Riskを追加し、R5/R7 failure時はhidden weightingではなくBrief Revisionへ戻す。
+4. <b>Verification completeness</b> — one-line Acceptanceだけでは第三者再現性が不足したためAR-1〜AR-5を追加し、environment/fixture/procedure/expected/judge/evidence/failure pathを明示。主要Requirement dependency relationとnon-functional applicabilityも補完。
+
+Re-audit B1〜B10: <b>PASS\_FOR\_DRAFT</b>。
+
+- B1/B2: Outcome/Done/user flow/scope/non-goal/runtime-resolvable境界あり。
+- B3: SAT-001〜019にWhy/Where/Acceptance、主要dependency、NFR applicabilityあり。
+- B4: live main=README only、PR #1=historical referenceを分離。DWG/DI/Oklab sourceを一次資料照合。
+- B5: R1→R9 dependency chainが最終closureまで連結。
+- B6: AR-1〜AR-5でCPU/DCTL/host/visual/integration evidenceを分離。未実行はNOT EXECUTED。
+- B7: user visual acceptance、merge、local delivery、smoke、docsまでDoneに含む。
+- B8: first handoff/resume pointer/repair return先あり。
+- B9: autonomous範囲、Revision条件、user-only gate、required review chainを分離。
+- B10: fresh implementerが元Chatなしで数式・space・UI・検証・終了条件を再構成可能。
+
+Residual risksは後段qualificationへ明示配置済み: Oklab C/Lのextreme scene behavior、host numeric tolerance、exact Resolve build、performance threshold、ergonomic default/range tuning。
+
+## Current Review State
+
+- Draft authoring + prior author audits: COMPLETE, 2026-09-23
+- R2 ChatGPT internal design review: <b>PASS after repair</b>, 2026-09-23。scalar lawはThreshold/Compression/Softness全境界を含むdense samplingでnegative output / boost / non-monotonic failureなし。SAT-020 reference-math contract、RCM topology、Threshold range contract、traceabilityを修正済み。
+- R3 ChatGPT internal architecture & feasibility review: <b>PASS</b>, 2026-09-23。DCTL feasibility、color pipeline、dependency、oracle/host separation、recovery/change paths、over/under-specificationを再監査しmaterial blockerなし。
+- External Codex/Astra review attempts: current user instructionによりこのCaseではsuperseded。PASS evidenceには使用しない。
+- Implementation: NOT STARTED under this new Brief
+- Old Draft PR #1: historical candidate/reference only
+
+## Sources
+
+- Blackmagic Design, <i>DaVinci Wide Gamut Intermediate</i>, v1.1 (2021): official DWG chromaticities/matrices and DI OETF.
+- Blackmagic current workflow material checked 2026-09-23: DWG/DI remains a Resolve working-space path.
+- Björn Ottosson, <i>A perceptual color space for image processing</i> / Oklab.
+- W3C CSS Color 4 current 2026 Candidate Recommendation Draft: D65 XYZ↔Oklab sample conversion and Oklab properties.
+- GitHub <code>46slv/press-machine</code>, current <code>main</code> checked 2026-09-23: README only.
+- Draft PR #1 / commit <code>41b2f57f650d8bfe48881d5cc3c59c77c071170e</code>: historical prebuild reference, not current product authority.
+</content>
+</page>

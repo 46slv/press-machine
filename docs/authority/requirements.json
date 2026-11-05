@@ -1,0 +1,516 @@
+{
+  "fetched": "2026-11-05",
+  "source": "live Notion SAT-001 through SAT-020; DEV12 R2 scalar law resolves residual SAT-001 K_eff wording",
+  "requirements": [
+    {
+      "title": "低〜中彩度はidentityで保持する",
+      "Acceptance": "effective soft-knee下端 <code>lo = T - K_eff/2</code> 以下では <code>f(S)=S</code>。Compression=0 / Bypassを含めDCTLはround-trip前に原DWG/DI RGBを返す。native harnessでfloat boundaryのbit-preserving identity、Resolve hostで差分なしを確認する。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:07:21.498Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "低〜中彩度はidentityで保持する",
+      "Requirement Key": "SAT-001",
+      "Source": "User decision 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:00:21.541Z",
+      "Where": "SatComp transfer function / saturation compression core",
+      "Why": "一定以上の彩度だけを下げる製品であり、圧縮対象外まで変化させないため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f3812c8540dcfc43e02a67"
+    },
+    {
+      "title": "圧縮域で彩度を増加させず滑らかに圧縮する",
+      "Acceptance": "SAT-009のpiecewise transferを全域samplingし <code>0≤f(S)≤S</code>、monotonic、soft-knee両端のvalue/first derivative連続を確認する。high region slopeは <code>1-Compression/100</code>。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:07:21.498Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "圧縮域で彩度を増加させず滑らかに圧縮する",
+      "Requirement Key": "SAT-002",
+      "Source": "User decision 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:00:23.232Z",
+      "Where": "SatComp transfer function f(S)",
+      "Why": "高彩度を抑える専用ツールとして予測可能なcompression-only挙動を保証するため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381a0a233fb9609b0120d"
+    },
+    {
+      "title": "色相と明るさを意図的に変えない",
+      "Acceptance": "圧縮対象pixelでOklab <code>L_out=L_in</code>、<code>h_out=h_in</code>、<code>C_out=C_in*(S_out/S_in)</code> をoracle tolerance内で満たす。neutralはidentity。代表画像でもmaterialなhue/lightness artifactがないことをユーザー受入する。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:07:21.498Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "色相と明るさを意図的に変えない",
+      "Requirement Key": "SAT-003",
+      "Source": "User decision 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:00:24.843Z",
+      "Where": "S metric / internal color model / chroma reconstruction",
+      "Why": "SatCompの役割をsaturation compressionに限定し、見た目の副作用を抑えるため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381f68b7ec7eb31193ffc"
+    },
+    {
+      "title": "入力S→出力Sをcanonical transfer functionとして数値定義する",
+      "Acceptance": "同じinput space / S metric / parameter setに対して f(S\\_in)=S\\_out が決定的に定まり、reference vectorsで期待mappingと一致すること。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:07:21.498Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "入力S→出力Sをcanonical transfer functionとして数値定義する",
+      "Requirement Key": "SAT-004",
+      "Source": "User decision 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T01:07:21.498Z",
+      "Where": "Product contract + transfer function + deterministic test vectors",
+      "Why": "感覚的なSaturationノブではなく、入力と出力の関係を再現可能な数値契約にするため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381d68266d9485797a1a1"
+    },
+    {
+      "title": "CST In→SatComp→CST Outの手動color-space workflowを正式対応する",
+      "Acceptance": "標準workflowを <code>Source → CST In(output=DWG/DaVinci Intermediate) → SatComp → CST Out</code> とする。SatCompは入力spaceを推測せず内部selectorを持たない。RCM等でnode入力が既にDWG/DIなら重複CST不要。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:07:21.498Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "CST In→SatComp→CST Outの手動color-space workflowを正式対応する",
+      "Requirement Key": "SAT-005",
+      "Source": "User decision 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:00:26.357Z",
+      "Where": "Integration contract / documentation / validation",
+      "Why": "自動color-space推測を避け、ユーザーが明示したprocessing spaceで予測可能に処理するため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f38109bc82e3673cc44b53"
+    },
+    {
+      "title": "DWG/DaVinci Intermediateを唯一の外部processing contractにする",
+      "Acceptance": "DCTLはDWG/DI入力・DWG/DI出力のみを契約し、Source→CST In(DWG/DI)→SatComp→CST Outの手順で再現可能。Input CSTではtone mapping/gamut mappingを無効化し、SatComp前に別のrendering処理を混ぜない。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f3813e8e16e3c6d3a402e1",
+        "https://app.notion.com/p/3e4fd279a6f381f3a5c7d71fa3546b77",
+        "https://app.notion.com/p/3e4fd279a6f381cf9ef1f8b7cfcbd370"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "DWG/DaVinci Intermediateを唯一の外部processing contractにする",
+      "Requirement Key": "SAT-006",
+      "Source": "User decision 2026-09-23 + Blackmagic DWG/DI primary documentation checked 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T01:54:56.536Z",
+      "Where": "DCTL input/output contract + usage documentation",
+      "Why": "CST sandwich前提で入力契約を一意にし、SatComp内部に色空間selectorや推測を持ち込まないため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f38144b227f79c45a28cd5"
+    },
+    {
+      "title": "公開S単位を Oklab S = 100*C/L と定義する",
+      "Acceptance": "有限入力かつ有効domainで C=sqrt(a²+b²), S=100\\*C/L。Oklab値はSAT-020のreference mathで算出する。正の一様XYZ scaleでSが数値許容差内で不変。S=100は上限や百分率を意味せず、100超を許容する。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f381cc9fe6f39f65706761",
+        "https://app.notion.com/p/3e4fd279a6f3817488f2e5ee3c17d6c7",
+        "https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f38148b12cfdc2ebaec850"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "公開S単位を Oklab S = 100\\*C/L と定義する",
+      "Requirement Key": "SAT-007",
+      "Source": "Oklab/Oklch primary author + W3C CSS Color 4 reviewed 2026-09-23; scale factor 100 is SatComp product convention",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:50:12.114Z",
+      "Where": "DI decode → linear DWG → XYZ D65 → Oklab/OkLCh measurement",
+      "Why": "scene-referred exposure変化に対して同一chromaticityのSを安定させ、入力S→出力Sを人が扱いやすい数値スケールで定義するため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f3814bab2bf7892f7c3d05"
+    },
+    {
+      "title": "Oklab Lとhを保持しCだけをS_out/S_inで縮小する",
+      "Acceptance": "圧縮対象pixelで L\\_out=L\\_in、C\\_out=C\\_in\\*(S\\_out/S\\_in) とし、a,bは同一の非負scale factorで一様scaleする。C\\_out>neutral epsilonではh\\_out=h\\_in、neutralではh N/A。SAT-020のreference mathで数値toleranceを満たし、逆変換後も代表画像でmaterialなhue/lightness shiftがない。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f3814bab2bf7892f7c3d05",
+        "https://app.notion.com/p/3e4fd279a6f3817488f2e5ee3c17d6c7",
+        "https://app.notion.com/p/3e4fd279a6f38148b12cfdc2ebaec850"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "Oklab Lとhを保持しCだけをS\\_out/S\\_inで縮小する",
+      "Requirement Key": "SAT-008",
+      "Source": "User decision 2026-09-23 + technical design baseline 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:50:13.659Z",
+      "Where": "Oklab chroma reconstruction",
+      "Why": "saturation compression以外の意図的なlightness/hue変更を避け、f(S)の結果を直接再構成するため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381cc9fe6f39f65706761"
+    },
+    {
+      "title": "Threshold・Compression %・Softness %でcanonical f(S)を生成する",
+      "Acceptance": "T=Threshold、A=Compression/100、m=1-A、P=Softness/100、K=2<i>T</i>P、lo=T-K/2=T<i>(1-P)、hi=T+K/2=T</i>(1+P)。K=0は S≤Tでf=S、S>Tでf=T+m(S-T)。K>0はS≤loでf=S、lo\\<S\\<hiでf=S-A\\*(S-lo)\\^2/(2K)、S≥hiでf=T+m(S-T)。0≤A,P≤1で lo≥0、0≤f(S)≤S、C1、monotonic。A=0 exact identity、A=1はhi以上でf=T。Softnessはhidden clampを使わず、100%でkneeが0..2Tになる。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f381cc9fe6f39f65706761",
+        "https://app.notion.com/p/3e4fd279a6f381c4a509d1e8fa4c7d51",
+        "https://app.notion.com/p/3e4fd279a6f3813e8e16e3c6d3a402e1",
+        "https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f3814bab2bf7892f7c3d05"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "Threshold・Compression %・Softness %でcanonical f(S)を生成する",
+      "Requirement Key": "SAT-009",
+      "Source": "ChatGPT-led design synthesis 2026-09-23, compatible with confirmed numeric mapping contract",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:20:55.344Z",
+      "Where": "Scalar transfer + DCTL UI",
+      "Why": "direct curve点編集より少ない操作で、数学的には完全に定義されたS\\_in→S\\_outを得るため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f3817488f2e5ee3c17d6c7"
+    },
+    {
+      "title": "UIは4操作に限定しneutral defaultを持つ",
+      "Acceptance": "Primary controlsは <code>Threshold S</code> / <code>Compression %</code> / <code>Softness %</code> / <code>Bypass</code> のみ。Compression 0..100 step 0.1 default 0.0、Softness 0..100 step 0.1 default 20.0、Bypass off。Thresholdは0を含み少なくとも0..200を操作可能、step 0.1、default 25.0。final upper boundはR5/R7で有効S分布を確認して200以上へ拡張してよいが、Sの意味・transfer semanticsは変えない。Softness 20%はThreshold 25でfull knee width 10 Sに相当。Compression=0でexact identity。color-space selector、Ratio、Ceiling、curve point editorを置かない。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f3817488f2e5ee3c17d6c7"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "UIは4操作に限定しneutral defaultを持つ",
+      "Requirement Key": "SAT-010",
+      "Source": "ChatGPT-led UX decision under user authorization to continue brief to completion, 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:50:22.598Z",
+      "Where": "DCTL DEFINE\\_UI\\_PARAMS",
+      "Why": "日常のColor Page操作を単純化し、追加直後に画を変えない安全な初期状態にするため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381c4a509d1e8fa4c7d51"
+    },
+    {
+      "title": "identity領域では色変換round-tripを通さず原RGBを返す",
+      "Acceptance": "Bypass、Compression=0、またはSがsoft-knee下端以下のpixelは入力DWG/DI RGBをそのまま返す。native harnessではfloat boundaryでbit-preserving identityを確認し、Resolve hostでも差分が発生しないことを確認する。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f3817488f2e5ee3c17d6c7",
+        "https://app.notion.com/p/3e4fd279a6f38144b227f79c45a28cd5"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "identity領域では色変換round-tripを通さず原RGBを返す",
+      "Requirement Key": "SAT-011",
+      "Source": "Confirmed product invariant + useful historical candidate from Draft PR #1, re-adopted explicitly 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:20:58.639Z",
+      "Where": "DCTL fast path",
+      "Why": "未圧縮pixelにOklab/DI round-trip誤差を入れず、低〜中彩度identityを強く保証するため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f3813e8e16e3c6d3a402e1"
+    },
+    {
+      "title": "内部でRGBを0..1へclampせずgamut mappingを行わない",
+      "Acceptance": "有限のnegative/>1 inputを暗黙clampしない。SatComp outputもDWG/DIのextended-rangeを保持する。Output CST以降のgamut/tone mappingは別contract。コード監査でhidden clampがなく、numeric vectorsでextended-rangeを検証する。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "内部でRGBを0..1へclampせずgamut mappingを行わない",
+      "Requirement Key": "SAT-012",
+      "Source": "Color-management owner + product scope decision 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T01:54:56.536Z",
+      "Where": "DCTL color pipeline",
+      "Why": "scene-referredの負値・1超値を保持し、SatCompをgamut mapperと混同しないため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381b6989de9eec4d0046b"
+    },
+    {
+      "title": "finite inputから新しいNaN/Infを生成しない",
+      "Acceptance": "finite RGB test corpusで全outputがfinite。Oklab <code>L <= 1e-6</code> または <code>C <= 1e-7</code>、SAT-020の変換途中で非有限値が生じた場合、または <code>S_in <= 1e-7</code> はcompressionを適用せず原DWG/DI RGBを返す。このepsilonはdivision/neutral判定専用で、near-blackを芸術的に保護するluminance weightingではない。閾値直上/直下およびnegative LMSを含むfinite samplesをdeterministic testする。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f38148b12cfdc2ebaec850"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "finite inputから新しいNaN/Infを生成しない",
+      "Requirement Key": "SAT-013",
+      "Source": "Engineering safety requirement derived 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:50:16.368Z",
+      "Where": "DI/Oklab conversion + S denominator guards",
+      "Why": "GPU per-pixel operatorとして病的pixelがframe障害へ伝播するのを防ぐため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f3810e87d2f7a21e0184af"
+    },
+    {
+      "title": "alphaを変更しない",
+      "Acceptance": "利用するDCTL host pathでalphaが入力と同一であることを実機確認する。hostがRGB-only DCTLとしてalphaをpass-throughする場合はそのruntime evidenceをAcceptanceとする。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f381f3a5c7d71fa3546b77"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "alphaを変更しない",
+      "Requirement Key": "SAT-014",
+      "Source": "Color pipeline engineering requirement, host behavior to verify in Resolve",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T01:54:56.536Z",
+      "Where": "DCTL host integration",
+      "Why": "SatCompはRGB saturation operatorでありalpha contractを侵食しないため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381179ecfe6ea0666b84e"
+    },
+    {
+      "title": "CPU oracleとDCTL実装で同じ数式・test vectorsを照合する",
+      "Acceptance": "CPU referenceはDCTL sourceを直接呼ばず独立実装。Threshold/Compression/Softness境界、SAT-020のofficial matrix/OETF/cbrt contract、Oklab roundtrip、exposure invariance、neutral、negative/>1、negative-LMS finite samplesを含むdeterministic vectorsで比較する。toleranceはnative parity baselineから明示的に決める。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f381f3a5c7d71fa3546b77"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f3814bab2bf7892f7c3d05",
+        "https://app.notion.com/p/3e4fd279a6f381cc9fe6f39f65706761",
+        "https://app.notion.com/p/3e4fd279a6f3817488f2e5ee3c17d6c7",
+        "https://app.notion.com/p/3e4fd279a6f3810e87d2f7a21e0184af",
+        "https://app.notion.com/p/3e4fd279a6f38148b12cfdc2ebaec850"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__NO__",
+      "Requirement": "CPU oracleとDCTL実装で同じ数式・test vectorsを照合する",
+      "Requirement Key": "SAT-015",
+      "Source": "Re-adopted validation architecture from historical Draft PR #1, narrowed to new contract",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:50:17.915Z",
+      "Where": "Repo test/oracle layer",
+      "Why": "DCTLコードの見た目だけで正しさを判断せず、scalar/color mathを独立に検証するため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd"
+    },
+    {
+      "title": "Resolve実機でcompile/load・numeric parity・visual QAを完了する",
+      "Acceptance": "exact commitのDCTLがtarget Resolveでload/compile。synthetic patchesでf(S)とoracleに一致し、identity/extended-range/alphaを確認。skin、neon/LED、飽和red/blue、dark saturated、gamut-edge、HDR highlightを含む代表素材でユーザー受入を行う。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd",
+        "https://app.notion.com/p/3e4fd279a6f38144b227f79c45a28cd5",
+        "https://app.notion.com/p/3e4fd279a6f381179ecfe6ea0666b84e"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__NO__",
+      "Requirement": "Resolve実機でcompile/load・numeric parity・visual QAを完了する",
+      "Requirement Key": "SAT-016",
+      "Source": "Brief completion boundary + historical host-gate lesson, 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:21:01.811Z",
+      "Where": "Resolve 21.x host acceptance gate",
+      "Why": "native/CPU harnessだけではResolve DCTL compiler、host buffer、実画像品質を証明できないため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381f3a5c7d71fa3546b77"
+    },
+    {
+      "title": "CST sandwichの正しい使用法を成果物と一緒に残す",
+      "Acceptance": "READMEは2つのsupported topologyを明示する。(A) node入力がsource/native spaceのDaVinci YRGB等: <code>CST In(source→DWG/DaVinci Intermediate, tone/gamut mapping none) → SatComp → CST Out(DWG/DI→destination)</code>。(B) RCM/timeline/group等でSatComp node入力が既にDWG/DI: SatCompの前後に重複CSTを置かず、project/output managementへ委譲する。SatComp直前のactual RGBがDWG/DIであることが共通前提。source spaceを二重変換する設定例を禁止例として示し、wrong-space direct inputはunsupportedと明示する。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Depends On Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f38144b227f79c45a28cd5"
+      ],
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__NO__",
+      "Requirement": "CST sandwichの正しい使用法を成果物と一緒に残す",
+      "Requirement Key": "SAT-017",
+      "Source": "User workflow decision 2026-09-23 + Blackmagic color-management documentation",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:50:20.957Z",
+      "Where": "README / usage docs",
+      "Why": "手動color-space契約は設定ミスで意味が崩れるため、DCTL単体ではなく利用手順まで完成物に含める必要がある。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381cf9ef1f8b7cfcbd370"
+    },
+    {
+      "title": "v1は高彩度compression専用にscopeを固定する",
+      "Acceptance": "v1にsaturation boost、hue-range selective compression、spatial/temporal processing、自動color-space detection、internal output conversion、hidden ceiling/gamut mapを追加しない。必要になれば別Change/New Goalとして扱う。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "v1は高彩度compression専用にscopeを固定する",
+      "Requirement Key": "SAT-018",
+      "Source": "User intent + reset boundary 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T01:54:56.536Z",
+      "Where": "Product scope / tests / UI",
+      "Why": "generic saturation toolやgamut mapperへscopeが拡散するのを防ぐため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381e08fe0da61a7898b88"
+    },
+    {
+      "title": "Color Pageで通常の対話的操作が可能な計算量に保つ",
+      "Acceptance": "target workstationの代表4K timelineで単独SatComp nodeを操作し、slider操作・viewer更新が実用上interactiveであることを確認する。厳密fps閾値は既存Resolve baselineを同条件で測定してから比較し、設計段階で架空値を固定しない。",
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T01:54:56.536Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Should",
+      "Protected": "__NO__",
+      "Requirement": "Color Pageで通常の対話的操作が可能な計算量に保つ",
+      "Requirement Key": "SAT-019",
+      "Source": "Non-functional applicability review 2026-09-23",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T01:54:56.536Z",
+      "Where": "DCTL per-pixel implementation / performance verification",
+      "Why": "DCTLは実際のグレーディング中に調整するため、著しい操作遅延は実用性を損なう。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f381049c1af186562d2433"
+    },
+    {
+      "title": "DWG/DI↔Oklabのreference mathを一次資料どおり固定する",
+      "Acceptance": "DWG↔XYZはBlackmagic DaVinci Wide Gamut Intermediate v1.1のmatrix、DI encode/decodeは同資料のpiecewise OETF/inverse、XYZ D65↔Oklabはcurrent W3C CSS Color 4のD65 matrixをreferenceとする。Oklab forward nonlinear stepは各LMS成分へ符号付きreal cube root <code>cbrt</code> を適用し、negative値へ一般pow(x,1/3)を使わない。inverseはOklab→LMS'後に各成分をcubeしてXYZへ戻す。reference vectorsにnegative LMSを生むfinite samplesを含め、CPU/DCTL双方がfiniteかつ同一contractへ一致すること。",
+      "Blocks Requirements": [
+        "https://app.notion.com/p/3e4fd279a6f3814bab2bf7892f7c3d05",
+        "https://app.notion.com/p/3e4fd279a6f381cc9fe6f39f65706761",
+        "https://app.notion.com/p/3e4fd279a6f3810e87d2f7a21e0184af",
+        "https://app.notion.com/p/3e4fd279a6f381d09183f8089f9b4acd"
+      ],
+      "Case": [
+        "https://app.notion.com/p/3e4fd279a6f381cf85f1e121b69f86f7"
+      ],
+      "Created": "2026-09-23T02:49:43.664Z",
+      "Delivery Status": "Not Started",
+      "Dependency Notes": "",
+      "Evidence Pointer": "",
+      "Level": "Must",
+      "Protected": "__YES__",
+      "Requirement": "DWG/DI↔Oklabのreference mathを一次資料どおり固定する",
+      "Requirement Key": "SAT-020",
+      "Source": "Blackmagic Design DaVinci Wide Gamut Intermediate v1.1; W3C CSS Color 4 CRD 2026-09-13 (XYZ D65↔Oklab sample code explicitly requires sign-matched cbrt); reviewed 2026-09-23.",
+      "Status": "Confirmed",
+      "Updated": "2026-09-23T02:49:43.664Z",
+      "Where": "Color model reference constants + CPU oracle + DCTL implementation",
+      "Why": "negative/>1を含むwide-gamut値で実装言語ごとのpow/cube-root差や古いmatrix差によりNaN・hue差・oracle不一致が起きるのを防ぐため。",
+      "date:Last Reviewed:is_datetime": 0,
+      "url": "https://app.notion.com/p/3e4fd279a6f38148b12cfdc2ebaec850"
+    }
+  ]
+}
