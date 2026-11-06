@@ -1,6 +1,10 @@
 # Press Machine / SatComp — DEV-12 R2
 
-## Isolated stability work, not a deployed version
+## Current R2 numerical repair, not a deployed version
+
+This branch also repairs precision loss at nearly cancelling LMS values without changing the R2 color model or guards. See [current repair and remaining model boundary](docs/BOUNDARY_REPAIR_REPORT.md) and [exact-candidate host handoff](docs/BOUNDARY_HOST_HANDOFF.md). The 30-test native suite passes. Resolve/GPU, alpha, real-material performance and user acceptance remain pending. The L-guard jump and exact-model signed-root cusp are not fixed by this arithmetic repair.
+
+## Earlier isolated stability work
 
 This branch adds a same-contract scalar precision repair and a separate, unapproved continuous-domain proposal. See [diagnosis and comparisons](docs/STABILITY_REPORT.md) and [next Resolve checks](docs/STABILITY_HOST_HANDOFF.md). The reported blue L-guard jump is a product-domain conflict; the scalar repair alone does not remove it. Neither new artifact has Resolve/GPU or user visual acceptance.
 
@@ -12,8 +16,8 @@ has not been installed, published or merged.
 
 The current source includes a conditioned high-tail evaluation and the official
 SDK entry layout. See [source correction results](docs/REPAIR_REPORT.md) and
-[current host handoff](docs/REPAIR_HOST_HANDOFF.md). Native source validation of
-this corrected candidate is pending. The first prebuild/R6 results describe
+[current host handoff](docs/REPAIR_HOST_HANDOFF.md). Resolve validation of
+this exact numerical-repair candidate is pending. The first prebuild/R6 results describe
 the earlier d3964ac candidate and are preserved as historical evidence.
 
 `dctl/PressMachine_R2.dctl` has four controls:

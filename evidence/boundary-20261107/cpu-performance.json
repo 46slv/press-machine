@@ -1,0 +1,51 @@
+{
+  "scope": "CPU only; one million samples, fixed 256-point DWG blue ramp, T25/C75/P20; five alternating-order runs. No Resolve/GPU/4K/playback claim.",
+  "source_hashes": {
+    "baseline": "b703789d8346a44ed6139cc66835d6a38e0affd96287e2ea043532b14abe1e55",
+    "repaired": "ade36d9359644fa0a47a291cd9ca16c3025f2253aeeaa6135905d8d5c6d2b331"
+  },
+  "compiler": {
+    "command": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "build\\compile-domain.cmd"
+    ],
+    "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+    "compiler_output": "benchmark_boundary.cpp\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/build/boundary_baseline.dctl(110): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/build/boundary_baseline.dctl(110): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/build/boundary_baseline.dctl(110): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/build/boundary_baseline.dctl(110): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/dctl/PressMachine_R2.dctl(170): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/dctl/PressMachine_R2.dctl(170): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/dctl/PressMachine_R2.dctl(170): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-boundary-20261107/dctl/PressMachine_R2.dctl(170): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n",
+    "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+    "executable": "build/benchmark_boundary.exe"
+  },
+  "milliseconds": [
+    [
+      0.0,
+      307.0755,
+      365.1709
+    ],
+    [
+      1.0,
+      281.7645,
+      326.9185
+    ],
+    [
+      2.0,
+      276.9145,
+      326.981
+    ],
+    [
+      3.0,
+      262.6442,
+      331.7505
+    ],
+    [
+      4.0,
+      259.7608,
+      335.9384
+    ]
+  ],
+  "median_milliseconds": {
+    "baseline": 276.9145,
+    "repaired": 331.7505
+  },
+  "repaired_to_baseline_ratio": 1.198025022163881
+}

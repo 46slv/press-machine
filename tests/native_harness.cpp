@@ -17,6 +17,8 @@ static float3 make_float3(float x, float y, float z) { return {x, y, z}; }
 #define _sqrtf std::sqrt
 #define _log2f std::log2
 #define _fmaf std::fma
+#define _floorf std::floor
+#define _fmaxf std::fmax
 #include "../dctl/PressMachine_R2.dctl"
 static float word(uint32_t v) { float x; std::memcpy(&x, &v, 4); return x; }
 static uint32_t word(float v) { uint32_t x; std::memcpy(&x, &v, 4); return x; }
@@ -41,7 +43,7 @@ int main() {
             out=make_float3(static_cast<float>(pm_domain({word(r),word(g),word(b)},.2f,word(t))),0,0);
         } else if (op == 'M') {
             float3 linear={pm_decode(word(r)),pm_decode(word(g)),pm_decode(word(b))};
-            float3 lms=pm_xyz_lms(pm_dwg_xyz(linear));
+            float3 lms=pm_condition_lms({word(r),word(g),word(b)},pm_xyz_lms(pm_dwg_xyz(linear)));
             out=pm_root_lab(make_float3(pm_cbrt(lms.x),pm_cbrt(lms.y),pm_cbrt(lms.z)));
         } else if (op == 'E') out=make_float3(pm_encode(word(r)),pm_decode(word(g)),pm_cbrt(word(b)));
         else return 2;

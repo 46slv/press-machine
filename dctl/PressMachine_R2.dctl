@@ -11,6 +11,28 @@ __DEVICE__ int pm_finite(float x) {
 __DEVICE__ int pm_finite3(float3 v) {
     return pm_finite(v.x) && pm_finite(v.y) && pm_finite(v.z);
 }
+// Compensated binary32 pairs retain rounding residuals without changing
+// the scalar curve or reference color model.
+__DEVICE__ float2 pm_pair(float x) { return make_float2(x, 0.0f); }
+__DEVICE__ float2 pm_pair_add(float2 a, float2 b) {
+    float s = a.x + b.x;
+    float v = s - a.x;
+    float e = ((a.x - (s - v)) + (b.x - v)) + a.y + b.y;
+    float h = s + e;
+    return make_float2(h, e - (h - s));
+}
+__DEVICE__ float2 pm_pair_neg(float2 a) { return make_float2(-a.x,-a.y); }
+__DEVICE__ float2 pm_pair_mul(float2 a, float2 b) {
+    float p = a.x*b.x;
+    float e = _fmaf(a.x,b.x,-p) + a.x*b.y + a.y*b.x + a.y*b.y;
+    float h = p + e;
+    return make_float2(h,e-(h-p));
+}
+__DEVICE__ float2 pm_pair_div(float2 a, float2 b) {
+    float q = a.x/b.x;
+    float2 r = pm_pair_add(a,pm_pair_neg(pm_pair_mul(b,pm_pair(q))));
+    return pm_pair_add(pm_pair(q),pm_pair((r.x+r.y)/b.x));
+}
 __DEVICE__ float pm_decode(float v) {
     return v <= 0.02740668f ? v / 10.44426855f :
         _powf(2.0f, v / 0.07329248f - 7.0f) - 0.0075f;
@@ -59,28 +81,6 @@ __DEVICE__ float3 pm_lms_xyz(float3 v) {
        -0.0405757452148008f*v.x + 1.1122868032803170f*v.y - 0.0717110580655164f*v.z,
        -0.0763729366746601f*v.x - 0.4214933324022432f*v.y + 1.5869240198367816f*v.z);
 }
-// Compensated binary32 pairs are used only in the scalar law. The low word
-// retains rounding residuals; this does not change the published curve.
-__DEVICE__ float2 pm_pair(float x) { return make_float2(x, 0.0f); }
-__DEVICE__ float2 pm_pair_add(float2 a, float2 b) {
-    float s = a.x + b.x;
-    float v = s - a.x;
-    float e = ((a.x - (s - v)) + (b.x - v)) + a.y + b.y;
-    float h = s + e;
-    return make_float2(h, e - (h - s));
-}
-__DEVICE__ float2 pm_pair_neg(float2 a) { return make_float2(-a.x,-a.y); }
-__DEVICE__ float2 pm_pair_mul(float2 a, float2 b) {
-    float p = a.x*b.x;
-    float e = _fmaf(a.x,b.x,-p) + a.x*b.y + a.y*b.x + a.y*b.y;
-    float h = p + e;
-    return make_float2(h,e-(h-p));
-}
-__DEVICE__ float2 pm_pair_div(float2 a, float2 b) {
-    float q = a.x/b.x;
-    float2 r = pm_pair_add(a,pm_pair_neg(pm_pair_mul(b,pm_pair(q))));
-    return pm_pair_add(pm_pair(q),pm_pair((r.x+r.y)/b.x));
-}
 __DEVICE__ float pm_transfer(float s, float t, float compression, float softness) {
     if (compression == 0.0f) return s;
     float2 hundred = pm_pair(100.0f);
@@ -103,6 +103,66 @@ __DEVICE__ float pm_transfer(float s, float t, float compression, float softness
     }
     return out.x + out.y;
 }
+// Precision fallback only: the ordinary binary32 path loses the sign/magnitude
+// of nearly cancelling LMS sums. Re-evaluate the SAME DI and published matrices
+// in float pairs when an LMS component loses at least eight relative bits.
+// No epsilon guard, chroma curve, lightness, hue or output weighting is changed.
+__DEVICE__ float2 pm_precise_dot3(float2 x,float2 y,float2 z,
+                                  float2 a,float2 b,float2 c) {
+    return pm_pair_add(pm_pair_add(pm_pair_mul(a,x),pm_pair_mul(b,y)),pm_pair_mul(c,z));
+}
+__DEVICE__ float2 pm_precise_decode(float v) {
+    if (v <= 0.02740668f) return pm_pair_div(pm_pair(v),make_float2(10.444268226623535f, 3.2337646871383185e-07f));
+    float2 exponent = pm_pair_add(pm_pair_div(pm_pair(v),make_float2(0.07329247891902924f, 1.0809707573500305e-09f)),pm_pair(-7.0f));
+    // Finite decoded values in the log branch have integer exponent >= -7.
+    // Existing fast-path range handling owns unrepresentable large values.
+    if (exponent.x > 127.0f) return pm_pair(pm_decode(v));
+    float n = _floorf(exponent.x);
+    if (exponent.x == n && exponent.y < 0.0f) n -= 1.0f;
+    float2 r = pm_pair_add(exponent,pm_pair(-n));
+    // Degree-16 Taylor polynomial for 2^r, 0 <= r <= 1. Its analytic
+    // truncation bound is 2*ln(2)^17/17! < 1.4e-17 before pair rounding.
+    float2 y = make_float2(1.3570247350023161e-16f, 5.9873197698431394e-24f);
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(3.132436682680125e-15f, 2.440830304062437e-23f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(6.77872607221866e-14f, 2.826038934825586e-21f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(1.3691489348516273e-12f, -4.9461213028820005e-20f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(2.567843680745252e-11f, -8.139643343159617e-19f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(4.4455383818586824e-10f, -1.0998787340184869e-17f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(7.054911765891347e-09f, -1.4509021906398983e-16f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(1.0178086284895471e-07f, -2.75655776552303e-15f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(1.3215486660556053e-06f, 1.2958825669712268e-14f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(1.5252733646775596e-05f, 1.5728424693304405e-13f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(0.0001540352968731895f, 7.060626389110425e-12f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(0.0013333557872101665f, 2.7432677657257543e-11f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(0.009618128649890423f, 4.5773804191462375e-10f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(0.05550410971045494f, -1.0456333576769339e-09f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(0.24022650718688965f, -2.277889404878053e-10f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(0.6931471824645996f, -1.9046542121259336e-09f));
+    y = pm_pair_add(pm_pair_mul(y,r),make_float2(1.0f, 0.0f));
+    return pm_pair_add(pm_pair_mul(y,pm_pair(_powf(2.0f,n))),pm_pair_neg(make_float2(0.007499999832361937f, 1.6763807009212428e-10f)));
+}
+__DEVICE__ float3 pm_precise_lms(float3 encoded) {
+    float2 x=pm_precise_decode(encoded.x);
+    float2 y=pm_precise_decode(encoded.y);
+    float2 z=pm_precise_decode(encoded.z);
+    float2 a = pm_precise_dot3(x,y,z,make_float2(0.7006223797798157f, 1.022018469853947e-08f),make_float2(0.14877481758594513f, 2.41405495593483e-09f),make_float2(0.1010587215423584f, -1.5423583521467776e-09f));
+    float2 b = pm_precise_dot3(x,y,z,make_float2(0.2741185128688812f, -2.8688811326560426e-09f),make_float2(0.8736318945884705f, 5.411529446774921e-09f),make_float2(-0.14775040745735168f, -2.5426483141188783e-09f));
+    float2 c = pm_precise_dot3(x,y,z,make_float2(-0.09896291047334671f, 4.733466951734044e-10f),make_float2(-0.13789533078670502f, 7.867050344501081e-10f),make_float2(1.3259159326553345f, 5.734466412832262e-08f));
+    x=a; y=b; z=c;
+    a = pm_precise_dot3(x,y,z,make_float2(0.8190224170684814f, 2.0928220934024466e-08f),make_float2(0.3619062602519989f, -1.991085074593002e-10f),make_float2(-0.1288737803697586f, -1.1512293340842916e-09f));
+    b = pm_precise_dot3(x,y,z,make_float2(0.032983653247356415f, 6.850320866114146e-10f),make_float2(0.9292868375778198f, 2.4008523169527507e-08f),make_float2(0.036144666373729706f, -2.3087306372238103e-11f));
+    c = pm_precise_dot3(x,y,z,make_float2(0.048177190124988556f, -7.653643829819146e-10f),make_float2(0.26423951983451843f, 1.1918212194927946e-08f),make_float2(0.633547842502594f, -1.4033163076021538e-08f));
+    return make_float3(a.x+a.y,b.x+b.y,c.x+c.y);
+}
+__DEVICE__ float3 pm_condition_lms(float3 encoded,float3 lms) {
+    float largest = _fmaxf(_fabs(lms.x),_fmaxf(_fabs(lms.y),_fabs(lms.z)));
+    float error_region = largest*0.00390625f; // 2^-8, precision routing only.
+    if (_fabs(lms.x)<=error_region || _fabs(lms.y)<=error_region || _fabs(lms.z)<=error_region) {
+        float3 precise=pm_precise_lms(encoded);
+        if (pm_finite3(precise)) return precise;
+    }
+    return lms;
+}
 __DEVICE__ int pm_domain(float3 lab, float c, float s) {
     return pm_finite3(lab) && pm_finite(c) && pm_finite(s) &&
         lab.x > 1.0e-6f && c > 1.0e-7f && s > 1.0e-7f;
@@ -120,6 +180,7 @@ __DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y, float p
     if (!pm_finite3(xyz)) return original;
     float3 lms = pm_xyz_lms(xyz);
     if (!pm_finite3(lms)) return original;
+    lms=pm_condition_lms(original,lms);
     float3 lab = pm_root_lab(make_float3(pm_cbrt(lms.x), pm_cbrt(lms.y), pm_cbrt(lms.z)));
     float c = _sqrtf(lab.y*lab.y + lab.z*lab.z);
     if (!pm_finite3(lab) || !pm_finite(c) || lab.x <= 1.0e-6f || c <= 1.0e-7f) return original;

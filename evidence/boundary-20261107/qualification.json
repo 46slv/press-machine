@@ -1,0 +1,426 @@
+{
+  "status": "R2_NUMERIC_REPAIR_PASS_NOT_HOST_OR_VISUAL_ACCEPTANCE",
+  "baseline_commit": "7e48d7b1ac55eac23739d0a1f620b35779aa7a40",
+  "baseline_dctl_sha256": "b703789d8346a44ed6139cc66835d6a38e0affd96287e2ea043532b14abe1e55",
+  "current_dctl_sha256": "ade36d9359644fa0a47a291cd9ca16c3025f2253aeeaa6135905d8d5c6d2b331",
+  "unchanged_frozen_budget_sha256": "7ac7f499e702bd39428aca3a61cbd871c9196f75f1e94469bdbef6ea27ce35a9",
+  "compiler": {
+    "baseline": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "build\\compile-domain.cmd"
+      ],
+      "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+      "compiler_output": "boundary_baseline.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\build\\../build/boundary_baseline.dctl(110): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\build\\../build/boundary_baseline.dctl(110): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\build\\../build/boundary_baseline.dctl(110): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\build\\../build/boundary_baseline.dctl(110): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n",
+      "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+      "executable": "build/boundary_baseline.exe"
+    },
+    "current": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "build\\compile.cmd"
+      ],
+      "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+      "compiler_output": "native_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\tests\\../dctl/PressMachine_R2.dctl(170): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\tests\\../dctl/PressMachine_R2.dctl(170): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\tests\\../dctl/PressMachine_R2.dctl(170): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-boundary-20261107\\tests\\../dctl/PressMachine_R2.dctl(170): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n",
+      "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+      "executable": "build/native.exe"
+    }
+  },
+  "before": {
+    "samples": 8196,
+    "reference": "same binary32 encoded input, independent double arithmetic",
+    "existing_empirical_RGB_envelope": 0.0001220703125,
+    "outside_existing_empirical_envelope": 4,
+    "worst": {
+      "normalized_error": 0.004362649107841343,
+      "peak": 4.0,
+      "offset": 572.6133595944606,
+      "input_encoded": [
+        0.3940376341342926,
+        0.3940376341342926,
+        0.6125847101211548
+      ],
+      "input_LMS": [
+        -2.8040346673058325e-08,
+        0.12433781320444413,
+        2.121270480355098
+      ],
+      "native_encoded": [
+        0.1261616051197052,
+        0.30329689383506775,
+        0.4123913049697876
+      ],
+      "oracle_encoded": [
+        0.12179895601186386,
+        0.30272060197855805,
+        0.41146691485887865
+      ],
+      "oracle_path": "compressed"
+    }
+  },
+  "after": {
+    "samples": 8196,
+    "reference": "same binary32 encoded input, independent double arithmetic",
+    "existing_empirical_RGB_envelope": 0.0001220703125,
+    "outside_existing_empirical_envelope": 0,
+    "worst": {
+      "normalized_error": 3.1733440518377787e-07,
+      "peak": 4.0,
+      "offset": 573.6133595944606,
+      "input_encoded": [
+        0.3938080370426178,
+        0.3938080370426178,
+        0.6127168536186218
+      ],
+      "input_LMS": [
+        -0.0012573302724089115,
+        0.123297614902151,
+        2.1237170879930787
+      ],
+      "native_encoded": [
+        0.05081617459654808,
+        0.2925737202167511,
+        0.3975849449634552
+      ],
+      "oracle_encoded": [
+        0.0508158572621429,
+        0.2925737073099966,
+        0.3975849173301555
+      ],
+      "oracle_path": "compressed"
+    }
+  },
+  "all_LMS_planes": {
+    "samples": 1514,
+    "plane_counts": [
+      506,
+      492,
+      516
+    ],
+    "outside_existing_empirical_envelope_or_nonfinite": 0,
+    "worst": {
+      "normalized_error": 4.671944438660211e-05,
+      "component": 2,
+      "input_encoded": [
+        1.0182695388793945,
+        1.1546915769577026,
+        -910.28369140625
+      ],
+      "native_encoded": [
+        1.0880202054977417,
+        1.1441234350204468,
+        -0.7970336079597473
+      ],
+      "oracle_encoded": [
+        1.088020178818513,
+        1.1441233548847267,
+        -0.7970870607671973
+      ],
+      "oracle_path": "compressed"
+    }
+  },
+  "routing_seams": {
+    "samples": 130,
+    "max_encoded_native_oracle_error": 3.765739317040939e-07,
+    "outside_existing_empirical_envelope": 0
+  },
+  "recorded_cusp_pair": {
+    "offsets": [
+      572,
+      573
+    ],
+    "controls": [
+      25.0,
+      75.0,
+      20.0,
+      false
+    ],
+    "linear_inputs": [
+      [
+        0.07935483870967742,
+        0.07935483870967742,
+        0.6384946236559139
+      ],
+      [
+        0.07917888563049855,
+        0.07917888563049855,
+        0.6392961876832844
+      ]
+    ],
+    "encoded_float_inputs": [
+      [
+        0.254673033952713,
+        0.254673033952713,
+        0.4668433368206024
+      ],
+      [
+        0.25445863604545593,
+        0.25445863604545593,
+        0.4669744670391083
+      ]
+    ],
+    "LMS_from_encoded_input": [
+      [
+        0.00019280338816461445,
+        0.03124396277239118,
+        0.5299422987529688
+      ],
+      [
+        -0.00012152622613616389,
+        0.030983920086339538,
+        0.5305541333475361
+      ]
+    ],
+    "Lab_from_encoded_input": [
+      [
+        0.258820598575949,
+        -0.28600222827606475,
+        -0.40637279454500663
+      ],
+      [
+        0.23554160008921252,
+        -0.4959787275685137,
+        -0.41009001332100364
+      ]
+    ],
+    "native_linear": [
+      [
+        0.008541950847765153,
+        0.03493598228510693,
+        0.10621994192661671
+      ],
+      [
+        0.0019566491433158375,
+        0.03015961526233605,
+        0.0851687629761147
+      ]
+    ],
+    "oracle_linear": [
+      [
+        0.00854195578427943,
+        0.03493598629095221,
+        0.10621994715410818
+      ],
+      [
+        0.0019566496646743724,
+        0.030159620017863008,
+        0.08516874241111799
+      ]
+    ],
+    "proposal_linear": [
+      [
+        0.008541855898557906,
+        0.03493592846275771,
+        0.1062197175640534
+      ],
+      [
+        0.00195665467189827,
+        0.03015960464802113,
+        0.0851687629761147
+      ]
+    ],
+    "max_encoded_native_oracle_error": 3.253846830864049e-08,
+    "native_blue_delta": -0.021051178950502014,
+    "oracle_blue_delta": -0.021051204742990187
+  },
+  "reference_cusp_convergence": {
+    "LMS_component": 0,
+    "crossing_u": 0.559739354442288,
+    "crossing_offset": 572.6133595944606,
+    "crossing_LMS": [
+      -8.456776945386935e-18,
+      0.031084458086825684,
+      0.5303175891498775
+    ],
+    "crossing_L": 0.24623529634167965,
+    "expected_cuberoot_ratio_for_four_times_smaller_width": 0.6299605249474366,
+    "rows": [
+      {
+        "half_width_u": 0.0009765625,
+        "width_in_original_pixels": 1.998046875,
+        "left_L": 0.2612352328090478,
+        "right_L": 0.2312323445083519,
+        "max_channel_delta": 0.026568976024317223,
+        "blue_delta": -0.026568976024317223
+      },
+      {
+        "half_width_u": 0.000244140625,
+        "width_in_original_pixels": 0.49951171875,
+        "left_L": 0.2554212830387818,
+        "right_L": 0.23704992513686055,
+        "max_channel_delta": 0.016553099665479618,
+        "blue_delta": -0.016553099665479618,
+        "ratio_to_previous_delta": 0.623023621622806
+      },
+      {
+        "half_width_u": 6.103515625e-05,
+        "width_in_original_pixels": 0.1248779296875,
+        "left_L": 0.2519561743079869,
+        "right_L": 0.24051526079044466,
+        "max_channel_delta": 0.010381213355128982,
+        "blue_delta": -0.010381213355128982,
+        "ratio_to_previous_delta": 0.6271461880205016
+      },
+      {
+        "half_width_u": 1.52587890625e-05,
+        "width_in_original_pixels": 0.031219482421875,
+        "left_L": 0.24982284700968407,
+        "right_L": 0.2426486022714051,
+        "max_channel_delta": 0.006528049869078678,
+        "blue_delta": -0.006528049869078678,
+        "ratio_to_previous_delta": 0.6288330319165827
+      },
+      {
+        "half_width_u": 3.814697265625e-06,
+        "width_in_original_pixels": 0.00780487060546875,
+        "left_L": 0.248491335681389,
+        "right_L": 0.24398011448609647,
+        "max_channel_delta": 0.004109481441773935,
+        "blue_delta": -0.004109481441773935,
+        "ratio_to_previous_delta": 0.6295113432327253
+      },
+      {
+        "half_width_u": 9.5367431640625e-07,
+        "width_in_original_pixels": 0.0019512176513671875,
+        "left_L": 0.24765563702435053,
+        "right_L": 0.2448158131985764,
+        "max_channel_delta": 0.0025880773988988387,
+        "blue_delta": -0.0025880773988988387,
+        "ratio_to_previous_delta": 0.6297819896667173
+      },
+      {
+        "half_width_u": 2.384185791015625e-07,
+        "width_in_original_pixels": 0.0004878044128417969,
+        "left_L": 0.2471299551364094,
+        "right_L": 0.24534149508990483,
+        "max_channel_delta": 0.001630203113316478,
+        "blue_delta": -0.001630203113316478,
+        "ratio_to_previous_delta": 0.6298896292707815
+      },
+      {
+        "half_width_u": 5.960464477539063e-08,
+        "width_in_original_pixels": 0.00012195110321044922,
+        "left_L": 0.24679899012044246,
+        "right_L": 0.24567246010614724,
+        "max_channel_delta": 0.0010269177319590372,
+        "blue_delta": -0.0010269177319590372,
+        "ratio_to_previous_delta": 0.6299323830083237
+      },
+      {
+        "half_width_u": 1.4901161193847656e-08,
+        "width_in_original_pixels": 3.0487775802612305e-05,
+        "left_L": 0.2465905436809479,
+        "right_L": 0.24588090654535782,
+        "max_channel_delta": 0.0006469061638750273,
+        "blue_delta": -0.0006469061638750273,
+        "ratio_to_previous_delta": 0.6299493559634354
+      },
+      {
+        "half_width_u": 3.725290298461914e-09,
+        "width_in_original_pixels": 7.621943950653076e-06,
+        "left_L": 0.24645924276602632,
+        "right_L": 0.24601220746093336,
+        "max_channel_delta": 0.00040752247778133577,
+        "blue_delta": -0.00040752247778133577,
+        "ratio_to_previous_delta": 0.6299560902932795
+      },
+      {
+        "half_width_u": 9.313225746154785e-10,
+        "width_in_original_pixels": 1.905485987663269e-06,
+        "left_L": 0.24637653140506552,
+        "right_L": 0.24609491882424872,
+        "max_channel_delta": 0.00025672236110416136,
+        "blue_delta": -0.00025672236110416136,
+        "ratio_to_previous_delta": 0.629958775530195
+      },
+      {
+        "half_width_u": 2.3283064365386963e-10,
+        "width_in_original_pixels": 4.7637149691581726e-07,
+        "left_L": 0.24632442726351184,
+        "right_L": 0.2461470229618849,
+        "max_channel_delta": 0.00016172477152541498,
+        "blue_delta": -0.00016172477152541498,
+        "ratio_to_previous_delta": 0.6299598166277285
+      }
+    ]
+  },
+  "original_corpus_unchanged_budgets": {
+    "stage": "NATIVE_MEASURED",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "dctl_sha256": "ade36d9359644fa0a47a291cd9ca16c3025f2253aeeaa6135905d8d5c6d2b331",
+    "vectors_sha256": "314f870ae99aaa4236cf525b9ce86d1faa7196a288dcdc877ef83c3d094e384b",
+    "counts": {
+      "scalar": 180280,
+      "scalar_exact_identity": 43324,
+      "pixels": 336,
+      "pixel_compressed": 115,
+      "pixel_exact_identity": 219,
+      "finite_stress": 253,
+      "direct_domain": 24,
+      "conversion_anchors": 8,
+      "bypass_nonfinite": 2
+    },
+    "scalar_worst": {
+      "error": 7.629394815467094e-06,
+      "case": [
+        199.99998474121094,
+        100.0,
+        50.0,
+        100.0
+      ],
+      "expected": 149.99999237060518,
+      "actual": 150.0
+    },
+    "scalar_max_normalized_error": 5.6691193597439615e-08,
+    "rgb_worst": {
+      "error": 4.264864985614736e-06,
+      "id": "S250.0_h2.0/untouched",
+      "path": "compressed",
+      "expected": [
+        0.26078255926523525,
+        0.23337428727793516,
+        -4.774643871340816
+      ],
+      "actual": [
+        0.2607825994491577,
+        0.23337432742118835,
+        -4.77463960647583
+      ]
+    },
+    "rgb_max_normalized_error": 8.932320609740211e-07,
+    "conversion_max_normalized_error": 3.234607863435095e-07,
+    "identity_failures": 0,
+    "guard_boundary_crossings": [
+      {
+        "id": "C_guard_9.99e-08/strong",
+        "oracle_c": 9.990367548387894e-08,
+        "native_c": 1.00000761449337e-07,
+        "rgb_error": 7.105427357601002e-15
+      },
+      {
+        "id": "C_guard_9.99e-08/hard_zero",
+        "oracle_c": 9.990367548387894e-08,
+        "native_c": 1.00000761449337e-07,
+        "rgb_error": 1.98596694644948e-12
+      }
+    ],
+    "native_scalar_boosts": 0,
+    "native_scalar_decreases": 0,
+    "new_nonfinite_outputs": 0,
+    "host": "NOT_RUN",
+    "visual": "NOT_RUN",
+    "alpha_host": "NOT_RUN",
+    "performance_4k": "NOT_RUN"
+  },
+  "Resolve_GPU": "NOT_RUN",
+  "alpha_host": "NOT_RUN",
+  "performance_4k": "NOT_RUN",
+  "visual_user_acceptance": "NOT_RUN",
+  "continuous_domain_proposal": "UNCHANGED_UNAPPROVED",
+  "remaining_L_guard_jump": "UNCHANGED_BY_R2_CONTRACT"
+}

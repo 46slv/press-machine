@@ -86,3 +86,15 @@ remain NOT RUN; no Resolve/GUI/installation operation authorized in this turn.
 - Current Notion R2, reference/oracle.py, frozen parity budget, old source checkout and installed DCTLs remain unchanged. Preparing one local candidate commit only; no push/PR/merge/release. Source writer will be released after clean final readback.
 
 Final source/evidence commit dfd4ec7 completed. Follow-up metadata normalization makes evidence hashes match canonical LF repository bytes; no DCTL/source logic changed after the 21-test pass. The original R2 checkout remains clean at 37e0c2e. Source writer is RELEASED; a later owner must freshly bind the branch/host and respect the pending product-domain decision. No push, PR, merge, install or Resolve operation occurred.
+
+2026-11-07 remaining-boundary diagnosis:
+
+- Fresh source candidate 7e48d7b1 was clean and recorded source writer RELEASED. This task claims only the new independent worktree press-machine-dev12-boundary-20261107 and branch dev/dev12-boundary-diagnosis-20261107, based on that exact commit.
+- Scope: independently separate the remaining LMS-zero steep slope from GPU/native precision, and identify the exact contract boundary. Product DCTL, oracle, current Notion R2, installed artifacts and all host state remain unchanged. No push/publication is in scope.
+- Existing host CHECKPOINT records the earlier 21.1.0.14 comparison and host release. No new Resolve operation is performed.
+
+- Found an additional contract-compatible arithmetic defect: 8196 binary32 encoded inputs around the LMS zero had maximum native/oracle normalized error .00436265, four beyond the unchanged empirical RGB envelope. A compensated DI/matrix fallback reduces this to 3.17334e-7 with zero exceedances. The independent oracle, scalar law, original L/C/S guards and unapproved continuous proposal are unchanged.
+- The remaining .0210512 adjacent blue drop is also present in the independent double model. Shrinking-interval convergence matches the signed-cube-root continuous cusp; it is not a second finite jump. The original L-guard discontinuity is still an unresolved product-domain decision.
+- Final MSVC strict-FP suite: 30 tests PASS, no skips. Original frozen corpus and expanded scalar suites pass unchanged budgets; all-three-plane 1514-case and 130-point precision-routing seam checks pass. Exponent-127 fallback is explicitly tested. Exact source, qualification and handoff are in docs/BOUNDARY_REPAIR_REPORT.md, docs/BOUNDARY_HOST_HANDOFF.md and evidence/boundary-20261107/.
+- Existing R2 and stability worktrees are clean at 37e0c2e and 7e48d7b1. Reference/oracle, frozen budget and continuous proposal are byte-preserved. CPU blue-ramp median ratio is 1.1980; no GPU/4K result is inferred. New-source GCC and all new Resolve/alpha/visual gates are NOT RUN. No push, PR, merge, installation, host operation or Notion-contract change.
+- Preparing one normal local checkpoint commit after diff review. Source writer is RELEASED on the clean final readback; later owners must freshly claim this branch/host and respect the pending product decision.

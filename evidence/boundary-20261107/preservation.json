@@ -1,0 +1,25 @@
+{
+  "baseline": "7e48d7b1ac55eac23739d0a1f620b35779aa7a40",
+  "current_source_sha256": "ade36d9359644fa0a47a291cd9ca16c3025f2253aeeaa6135905d8d5c6d2b331",
+  "unchanged_reference_and_proposal": {
+    "reference/oracle.py": "3b8e5e1eab31c96556d76d67b862866767f11acdd3c793bbb39f731a49e30f4e",
+    "reference/continuous_oracle.py": "201032cd3ce6597965e45f157a62bf1431125c32f961cebdf06cd9cdd8f90d9f",
+    "prototypes/PressMachine_ContinuousDomain.dctl": "f019e39ed6e5b928c2f05acb5c2586ff82527dcad66bc9112e0c41465da1d401",
+    "evidence/parity_budget.json": "7ac7f499e702bd39428aca3a61cbd871c9196f75f1e94469bdbef6ea27ce35a9"
+  },
+  "other_worktrees": {
+    "press-machine-dev12-r2": {
+      "head": "37e0c2ed447e1218dae94ccd6ac7c4aef28eab72",
+      "status": "CLEAN"
+    },
+    "press-machine-dev12-stability-20261107": {
+      "head": "7e48d7b1ac55eac23739d0a1f620b35779aa7a40",
+      "status": "CLEAN"
+    }
+  },
+  "Resolve_operations": "NONE",
+  "installation_operations": "NONE",
+  "publications": "NONE",
+  "Notion_contract_changes": "NONE",
+  "tests": "30 PASS, no skips; PowerShell may wrap unittest stderr as NativeCommandError even when unittest reports OK."
+}
