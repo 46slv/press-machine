@@ -1,5 +1,7 @@
 # Press Machine / SatComp — DEV-12 R2
 
+Start or resume from [the preserved-version and next-step guide](docs/RESUME.md).
+
 ## Current R2 numerical repair, not a deployed version
 
 This branch also repairs precision loss at nearly cancelling LMS values without changing the R2 color model or guards. See [current repair and remaining model boundary](docs/BOUNDARY_REPAIR_REPORT.md) and [exact-candidate host handoff](docs/BOUNDARY_HOST_HANDOFF.md). The 30-test native suite passes. Resolve/GPU, alpha, real-material performance and user acceptance remain pending. The L-guard jump and exact-model signed-root cusp are not fixed by this arithmetic repair.
