@@ -5,8 +5,8 @@ nes) ... ok
 +                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : NotSpecified: (test_all_LMS_ca..._planes) ... ok:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
- 
-test_compensated_DI_decode_pairs (test_boundary_precision.BoundaryPrecisionTests.test_compensated_DI_decode_pairs) ... 
+
+test_compensated_DI_decode_pairs (test_boundary_precision.BoundaryPrecisionTests.test_compensated_DI_decode_pairs) ...
 ok
 test_double_reference_cusp_is_continuous_not_jump (test_boundary_precision.BoundaryPrecisionTests.test_double_reference
 _cusp_is_continuous_not_jump) ... ok
