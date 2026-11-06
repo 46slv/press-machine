@@ -74,3 +74,13 @@ remain NOT RUN; no Resolve/GUI/installation operation authorized in this turn.
 - New native parser validation/Color Page GPU/alpha/4K/visual gates remain
   NOT RUN. Canonical layout fixes only a plausible parser cause until native
   evidence exists. Reviewing diff and preservation before one normal local commit.
+
+2026-11-07 isolated scalar/domain investigation:
+
+- Fresh original branch 37e0c2e was clean. Parent confirmed prior host/source writer release; this task claimed only the new worktree press-machine-dev12-stability-20261107 and branch dev/dev12-r2-stability-20261107. No Resolve/GUI/installation operation was performed.
+- Reproduced the exact previous synthetic blue boundary in both independent CPU oracle and actual DCTL native execution. The mandated L guard is the cause; an epsilon-only repair cannot remove the zero-L discontinuity.
+- R2-compatible compensated scalar arithmetic resolves all 943 sampled local decreases and keeps the unchanged frozen budgets. GCC/MSVC agree; 21 final focused tests pass.
+- Separate prototypes/ continuous signed-L proposal reduces the recorded blue jump .72150 to .00084226. It deliberately changes the L-domain exception policy and is not the approved product or a deployed artifact. Existing positive-L LMS-zero sensitivity remains.
+- Full offline source-model comparison on the existing skin/highlight EXRs finds L-guard pixels .08847%/.05057%, with maximum changed encoded values .10493/.09358. Positive-L model outputs agree. Colour interpretation remains documented assumption. No new visual acceptance.
+- Windows CPU microbenchmark is slower (R2 scalar 1.57x, domain proposal 2.04x baseline); actual GPU cost and usability remain untested. Reports, exact hashes, source assumptions and bounded host handoff are saved.
+- Current Notion R2, reference/oracle.py, frozen parity budget, old source checkout and installed DCTLs remain unchanged. Preparing one local candidate commit only; no push/PR/merge/release. Source writer will be released after clean final readback.

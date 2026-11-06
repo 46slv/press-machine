@@ -1,0 +1,7 @@
+native_harness.cpp
+C:\Users\shiro\Documents\Codex\2026-10-20\task-4\press-machine-dev12-stability-20261107\tests\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Y': 引数は関数の本体部で 1 度も参照されません。
+C:\Users\shiro\Documents\Codex\2026-10-20\task-4\press-machine-dev12-stability-20261107\tests\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_X': 引数は関数の本体部で 1 度も参照されません。
+C:\Users\shiro\Documents\Codex\2026-10-20\task-4\press-machine-dev12-stability-20261107\tests\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Height': 引数は関数の本体部で 1 度も参照されません。
+C:\Users\shiro\Documents\Codex\2026-10-20\task-4\press-machine-dev12-stability-20261107\tests\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Width': 引数は関数の本体部で 1 度も参照されません。
+{"samples": 421486, "max_normalized_error": 5.9422339233358536e-08, "local_decreases": 0, "maximum_drop": 0.0, "boosts": 0, "negatives": 0, "nonfinite": 0}
+{"samples": 256256, "max_normalized_error": 5.958137293238485e-08, "local_decreases": 0, "boosts": 0, "negatives": 0, "nonfinite": 0, "compression_zero_identity_failures": 0}

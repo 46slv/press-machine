@@ -6,6 +6,8 @@
 #include <iostream>
 #include <limits>
 #include <string>
+struct float2 { float x, y; };
+static float2 make_float2(float x,float y) { return {x,y}; }
 struct float3 { float x, y, z; };
 static float3 make_float3(float x, float y, float z) { return {x, y, z}; }
 #define __DEVICE__ static
@@ -14,6 +16,7 @@ static float3 make_float3(float x, float y, float z) { return {x, y, z}; }
 #define _powf std::pow
 #define _sqrtf std::sqrt
 #define _log2f std::log2
+#define _fmaf std::fma
 #include "../dctl/PressMachine_R2.dctl"
 static float word(uint32_t v) { float x; std::memcpy(&x, &v, 4); return x; }
 static uint32_t word(float v) { uint32_t x; std::memcpy(&x, &v, 4); return x; }

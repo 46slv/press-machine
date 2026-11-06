@@ -1,0 +1,558 @@
+{
+  "status": "ISOLATED_PROPOSAL_NOT_PRODUCT_ACCEPTANCE",
+  "base_commit": "37e0c2ed447e1218dae94ccd6ac7c4aef28eab72",
+  "source_hashes": {
+    "dctl\\PressMachine_R2.dctl": "b703789d8346a44ed6139cc66835d6a38e0affd96287e2ea043532b14abe1e55",
+    "prototypes\\PressMachine_ContinuousDomain.dctl": "f019e39ed6e5b928c2f05acb5c2586ff82527dcad66bc9112e0c41465da1d401",
+    "reference\\continuous_oracle.py": "201032cd3ce6597965e45f157a62bf1431125c32f961cebdf06cd9cdd8f90d9f"
+  },
+  "original_r2_frozen_budget": "PASS",
+  "proposal_pixel_vectors": 336,
+  "positive_L_vectors": 276,
+  "positive_L_max_encoded_difference_from_r2": 2.86102294921875e-06,
+  "guarded_vectors_intentionally_changed": 15,
+  "proposal_max_normalized_oracle_error": 6.187159905127193e-05,
+  "proposal_exact_identity_vectors": 198,
+  "finite_stress_cases": 253,
+  "finite_stress_failures": 0,
+  "direct_chroma_scale": {
+    "cases": 12540,
+    "scale_max_absolute_error": 2.9793654876542064e-08,
+    "nonfinite_negative_or_boost": 0
+  },
+  "blue_ramps": [
+    {
+      "peak": 0.01,
+      "compression": 50.0,
+      "r2": {
+        "max_channel_delta": 0.006411835733768104,
+        "left_offset": 689,
+        "left_rgb": [
+          7.466990374792833e-05,
+          7.347104848157099e-05,
+          0.0009189564242302976
+        ],
+        "right_rgb": [
+          0.0005859237584898173,
+          0.0005859237584898173,
+          0.007330792157998402
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.00023440529650864362,
+        "left_offset": 572,
+        "left_rgb": [
+          0.00018412176923656668,
+          0.00047291980108094927,
+          0.002198105165839645
+        ],
+        "right_rgb": [
+          0.00012617379871397277,
+          0.0004313389313378084,
+          0.0019636998693310015
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 7.516129650261827e-08,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.0001887726661730561,
+        -0.0017718347755443396
+      ],
+      "proposal_pair_blue_delta": -2.204522244971495e-05
+    },
+    {
+      "peak": 0.01,
+      "compression": 75.0,
+      "r2": {
+        "max_channel_delta": 0.007215016809157523,
+        "left_offset": 689,
+        "left_rgb": [
+          9.635444889205813e-06,
+          9.187403998875974e-06,
+          0.00011577534884087822
+        ],
+        "right_rgb": [
+          0.0005859237584898173,
+          0.0005859237584898173,
+          0.007330792157998402
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.00021052565473954094,
+        "left_offset": 572,
+        "left_rgb": [
+          8.542270677447565e-05,
+          0.00034936164605235416,
+          0.0010622077911516456
+        ],
+        "right_rgb": [
+          1.9565282613068035e-05,
+          0.00030159460466460715,
+          0.0008516821364121047
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 7.202719008204961e-08,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.0001887726661730561,
+        -0.0017718347755443396
+      ],
+      "proposal_pair_blue_delta": -8.422081970484892e-06
+    },
+    {
+      "peak": 0.01,
+      "compression": 100.0,
+      "r2": {
+        "max_channel_delta": 0.007330792143096162,
+        "left_offset": 689,
+        "left_rgb": [
+          3.958649131926146e-12,
+          9.255105065457567e-12,
+          1.4902240185069654e-11
+        ],
+        "right_rgb": [
+          0.0005859237584898173,
+          0.0005859237584898173,
+          0.007330792157998402
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.000138478974185164,
+        "left_offset": 572,
+        "left_rgb": [
+          0.00010749861508595825,
+          0.0002380233747353258,
+          0.00039764721496986184
+        ],
+        "right_rgb": [
+          6.726323065332783e-05,
+          0.0001809099749406619,
+          0.00025916824078469784
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 5.3912080690346476e-08,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.0001887726661730561,
+        -0.0017718347755443396
+      ],
+      "proposal_pair_blue_delta": -1.5730365062377604e-09
+    },
+    {
+      "peak": 0.1,
+      "compression": 50.0,
+      "r2": {
+        "max_channel_delta": 0.06411834866951822,
+        "left_offset": 689,
+        "left_rgb": [
+          0.0007466997062594163,
+          0.0007347101281329723,
+          0.009189566936544196
+        ],
+        "right_rgb": [
+          0.005859237508166812,
+          0.005859237508166812,
+          0.07330791560606242
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.002344008996640754,
+        "left_offset": 572,
+        "left_rgb": [
+          0.0018412162656347164,
+          0.004729200232630595,
+          0.02198105834034623
+        ],
+        "right_rgb": [
+          0.001261743872404898,
+          0.00431340413807047,
+          0.019637049343705477
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 1.086515552308387e-06,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.00040669838053318443,
+        -0.0038173023054375674
+      ],
+      "proposal_pair_blue_delta": -0.00022044745767781093
+    },
+    {
+      "peak": 0.1,
+      "compression": 75.0,
+      "r2": {
+        "max_channel_delta": 0.07215016258579973,
+        "left_offset": 689,
+        "left_rgb": [
+          9.63543304622429e-05,
+          9.187397729062227e-05,
+          0.0011577530202626892
+        ],
+        "right_rgb": [
+          0.005859237508166812,
+          0.005859237508166812,
+          0.07330791560606242
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.0021052108163195776,
+        "left_offset": 572,
+        "left_rgb": [
+          0.0008542255518431218,
+          0.0034936155919177616,
+          0.010622080715646257
+        ],
+        "right_rgb": [
+          0.0001956641117954242,
+          0.0030159592625450624,
+          0.008516869899326679
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 5.621000748134118e-07,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.00040669838053318443,
+        -0.0038173023054375674
+      ],
+      "proposal_pair_blue_delta": -8.421787707226392e-05
+    },
+    {
+      "peak": 0.1,
+      "compression": 100.0,
+      "r2": {
+        "max_channel_delta": 0.07330791545706247,
+        "left_offset": 689,
+        "left_rgb": [
+          3.9580548499458116e-11,
+          9.253709084130478e-11,
+          1.4899995134574462e-10
+        ],
+        "right_rgb": [
+          0.005859237508166812,
+          0.005859237508166812,
+          0.07330791560606242
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.0013847592598973616,
+        "left_offset": 572,
+        "left_rgb": [
+          0.0010749847910066453,
+          0.002380233970279969,
+          0.0039764713169969015
+        ],
+        "right_rgb": [
+          0.0006726403318948738,
+          0.0018091144625695442,
+          0.00259171205709954
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 5.24487068859214e-07,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.00040669838053318443,
+        -0.0038173023054375674
+      ],
+      "proposal_pair_blue_delta": -1.57288272027884e-08
+    },
+    {
+      "peak": 1.0,
+      "compression": 50.0,
+      "r2": {
+        "max_channel_delta": 0.6411834140268922,
+        "left_offset": 689,
+        "left_rgb": [
+          0.007467047171466576,
+          0.007347098048608801,
+          0.09189573436831575
+        ],
+        "right_rgb": [
+          0.0585923716030731,
+          0.0585923716030731,
+          0.7330791483952079
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.023438739120572233,
+        "left_offset": 572,
+        "left_rgb": [
+          0.018411755362949353,
+          0.047291803483740374,
+          0.21980937189948388
+        ],
+        "right_rgb": [
+          0.012617468308460517,
+          0.04313405448314728,
+          0.19637063277891165
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 3.94908032200908e-06,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.0008762050994004437,
+        -0.00822412850917316
+      ],
+      "proposal_pair_blue_delta": -0.0022046102595373873
+    },
+    {
+      "peak": 1.0,
+      "compression": 75.0,
+      "r2": {
+        "max_channel_delta": 0.721501561233929,
+        "left_offset": 689,
+        "left_rgb": [
+          0.0009635637915871689,
+          0.0009187403636620069,
+          0.011577587161278956
+        ],
+        "right_rgb": [
+          0.0585923716030731,
+          0.0585923716030731,
+          0.7330791483952079
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.02105095458793871,
+        "left_offset": 572,
+        "left_rgb": [
+          0.008541855898557906,
+          0.03493592846275771,
+          0.1062197175640534
+        ],
+        "right_rgb": [
+          0.00195665467189827,
+          0.03015960464802113,
+          0.0851687629761147
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 2.076966488673976e-06,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.0008762050994004437,
+        -0.00822412850917316
+      ],
+      "proposal_pair_blue_delta": -0.0008422601580246047
+    },
+    {
+      "peak": 1.0,
+      "compression": 100.0,
+      "r2": {
+        "max_channel_delta": 0.733079146903061,
+        "left_offset": 689,
+        "left_rgb": [
+          3.9637582561611984e-10,
+          9.267052252613353e-10,
+          1.4921469595319607e-09
+        ],
+        "right_rgb": [
+          0.0585923716030731,
+          0.0585923716030731,
+          0.7330791483952079
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.013846770726289565,
+        "left_offset": 572,
+        "left_rgb": [
+          0.010749592413150193,
+          0.02380203933768165,
+          0.03976391014540623
+        ],
+        "right_rgb": [
+          0.006726411215440306,
+          0.018091154788822852,
+          0.025917139419116664
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 8.503796822267873e-07,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.0008762050994004437,
+        -0.00822412850917316
+      ],
+      "proposal_pair_blue_delta": -1.5730456193144154e-07
+    },
+    {
+      "peak": 4.0,
+      "compression": 50.0,
+      "r2": {
+        "max_channel_delta": 2.5647338538237467,
+        "left_offset": 689,
+        "left_rgb": [
+          0.029867880889038738,
+          0.02938840318388191,
+          0.36758216771797614
+        ],
+        "right_rgb": [
+          0.2343695316152289,
+          0.2343695316152289,
+          2.9323160215417228
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.09376376052449276,
+        "left_offset": 572,
+        "left_rgb": [
+          0.07364904932616706,
+          0.1891681498887091,
+          0.8792433398915582
+        ],
+        "right_rgb": [
+          0.0504694498058208,
+          0.1725354344061991,
+          0.7854795793670655
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 2.546540623563076e-05,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.001390888896528132,
+        -0.013054990246983141
+      ],
+      "proposal_pair_blue_delta": -0.008817490556497554
+    },
+    {
+      "peak": 4.0,
+      "compression": 75.0,
+      "r2": {
+        "max_channel_delta": 2.8860060072237785,
+        "left_offset": 689,
+        "left_rgb": [
+          0.0038541376832554267,
+          0.003674961640770526,
+          0.046310014317944334
+        ],
+        "right_rgb": [
+          0.2343695316152289,
+          0.2343695316152289,
+          2.9323160215417228
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.08421200879361534,
+        "left_offset": 572,
+        "left_rgb": [
+          0.034169425099143946,
+          0.13974485264736647,
+          0.42488415018445613
+        ],
+        "right_rgb": [
+          0.007825964588095983,
+          0.12063765486561284,
+          0.3406721413908408
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 1.3173938007121633e-05,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.001390888896528132,
+        -0.013054990246983141
+      ],
+      "proposal_pair_blue_delta": -0.0033686380972265534
+    },
+    {
+      "peak": 4.0,
+      "compression": 100.0,
+      "r2": {
+        "max_channel_delta": 2.9323160155850685,
+        "left_offset": 689,
+        "left_rgb": [
+          1.5823325087991882e-09,
+          3.6994057713870588e-09,
+          5.956654374268406e-09
+        ],
+        "right_rgb": [
+          0.2343695316152289,
+          0.2343695316152289,
+          2.9323160215417228
+        ]
+      },
+      "proposal": {
+        "max_channel_delta": 0.055392563026355646,
+        "left_offset": 572,
+        "left_rgb": [
+          0.042999649140561064,
+          0.09520958105946523,
+          0.15905947206182453
+        ],
+        "right_rgb": [
+          0.026905190426887687,
+          0.0723637995197729,
+          0.10366690903546888
+        ]
+      },
+      "proposal_max_encoded_oracle_error": 3.4823096921599017e-06,
+      "recorded_host_pair_offsets": [
+        689,
+        690
+      ],
+      "recorded_host_pair_L": [
+        0.001390888896528132,
+        -0.013054990246983141
+      ],
+      "proposal_pair_blue_delta": -6.291729187956316e-07
+    }
+  ],
+  "resolve_gpu": "NOT_RUN",
+  "performance_4k": "NOT_RUN",
+  "user_visual_acceptance": "NOT_RUN",
+  "compiler": {
+    "r2": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "build\\compile.cmd"
+      ],
+      "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+      "compiler_output": "native_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n",
+      "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+      "executable": "build/native.exe"
+    },
+    "continuous": {
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "build\\compile-domain.cmd"
+      ],
+      "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+      "compiler_output": "domain_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n",
+      "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+      "executable": "build/domain_native.exe"
+    }
+  }
+}

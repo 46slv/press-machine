@@ -1,0 +1,37 @@
+{
+  "scope": "Offline double source-model, T25/C75/P20. Assumed scene-linear Rec.709 per existing source documentation; no new embedded metadata confirmation or Resolve execution.",
+  "sources": [
+    {
+      "source": "D:\\Documents\\Codex\\PressMachine-AR3-20261107\\reference-footage\\tears-of-steel\\05_3a_01105.exr",
+      "source_sha256": "9c2c39f668655e45ab87813b6065dad71d5676f0bd43c6c8ea2a8b49ab18450e",
+      "pixels": 8847360,
+      "source_rgb_min": -0.01395416259765625,
+      "source_rgb_max": 2.373046875,
+      "negative_rgb_pixels": 27757,
+      "L_guard_nonblack": 7827,
+      "negative_lms_nonblack": 11699,
+      "min_L_nonblack": -0.23303913073877058,
+      "positive_domain_max_model_difference": 0.0,
+      "new_domain_max_encoded_difference_from_r2": 0.10492916216537537,
+      "changed_pixels_above_1e_4_encoded": 6475,
+      "new_nonfinite": 0,
+      "L_guard_percentage": 0.0884670681423611
+    },
+    {
+      "source": "D:\\Documents\\Codex\\PressMachine-AR3-20261107\\reference-footage\\tears-of-steel\\06_1b_00245.exr",
+      "source_sha256": "52731714b7798d383b4c6632211c6ec118e5efed3217a706f33e1eec3387ada4",
+      "pixels": 8847360,
+      "source_rgb_min": -1.4833984375,
+      "source_rgb_max": 16.546875,
+      "negative_rgb_pixels": 47385,
+      "L_guard_nonblack": 4474,
+      "negative_lms_nonblack": 6785,
+      "min_L_nonblack": -0.2094213474556644,
+      "positive_domain_max_model_difference": 0.0,
+      "new_domain_max_encoded_difference_from_r2": 0.09357638220240626,
+      "changed_pixels_above_1e_4_encoded": 3554,
+      "new_nonfinite": 0,
+      "L_guard_percentage": 0.050568757233796294
+    }
+  ]
+}

@@ -59,19 +59,49 @@ __DEVICE__ float3 pm_lms_xyz(float3 v) {
        -0.0405757452148008f*v.x + 1.1122868032803170f*v.y - 0.0717110580655164f*v.z,
        -0.0763729366746601f*v.x - 0.4214933324022432f*v.y + 1.5869240198367816f*v.z);
 }
+// Compensated binary32 pairs are used only in the scalar law. The low word
+// retains rounding residuals; this does not change the published curve.
+__DEVICE__ float2 pm_pair(float x) { return make_float2(x, 0.0f); }
+__DEVICE__ float2 pm_pair_add(float2 a, float2 b) {
+    float s = a.x + b.x;
+    float v = s - a.x;
+    float e = ((a.x - (s - v)) + (b.x - v)) + a.y + b.y;
+    float h = s + e;
+    return make_float2(h, e - (h - s));
+}
+__DEVICE__ float2 pm_pair_neg(float2 a) { return make_float2(-a.x,-a.y); }
+__DEVICE__ float2 pm_pair_mul(float2 a, float2 b) {
+    float p = a.x*b.x;
+    float e = _fmaf(a.x,b.x,-p) + a.x*b.y + a.y*b.x + a.y*b.y;
+    float h = p + e;
+    return make_float2(h,e-(h-p));
+}
+__DEVICE__ float2 pm_pair_div(float2 a, float2 b) {
+    float q = a.x/b.x;
+    float2 r = pm_pair_add(a,pm_pair_neg(pm_pair_mul(b,pm_pair(q))));
+    return pm_pair_add(pm_pair(q),pm_pair((r.x+r.y)/b.x));
+}
 __DEVICE__ float pm_transfer(float s, float t, float compression, float softness) {
     if (compression == 0.0f) return s;
-    float a = compression / 100.0f;
-    float q = (100.0f - compression) / 100.0f;
-    float p = softness / 100.0f;
-    float k = 2.0f * t * p;
-    float lo = t * (1.0f - p);
-    float hi = t * (1.0f + p);
-    if (k == 0.0f) return s <= t ? s : t + q*(s-t);
-    if (s <= lo) return s;
-    if (s >= hi) return t + q*(s-t);
-    float d = s - lo;
-    return s - a * d * (d / (2.0f*k));
+    float2 hundred = pm_pair(100.0f);
+    float2 a = pm_pair_div(pm_pair(compression),hundred);
+    float2 q = pm_pair_div(pm_pair_add(hundred,pm_pair(-compression)),hundred);
+    float2 half = pm_pair_mul(pm_pair(t),pm_pair_div(pm_pair(softness),hundred));
+    float2 lo = pm_pair_add(pm_pair(t),pm_pair_neg(half));
+    float2 hi = pm_pair_add(pm_pair(t),half);
+    float2 x = pm_pair_add(pm_pair(s),pm_pair_neg(lo));
+    if (x.x < 0.0f || (x.x == 0.0f && x.y <= 0.0f)) return s;
+    float2 out;
+    float2 upper = pm_pair_add(pm_pair(s),pm_pair_neg(hi));
+    if (half.x == 0.0f || upper.x > 0.0f || (upper.x == 0.0f && upper.y >= 0.0f)) {
+        float2 d = pm_pair_add(pm_pair(s),pm_pair(-t));
+        out = pm_pair_add(pm_pair(t),pm_pair_mul(q,d));
+    } else {
+        float2 numerator = pm_pair_mul(a,pm_pair_mul(x,x));
+        float2 reduction = pm_pair_div(numerator,pm_pair_mul(pm_pair(4.0f),half));
+        out = pm_pair_add(pm_pair(s),pm_pair_neg(reduction));
+    }
+    return out.x + out.y;
 }
 __DEVICE__ int pm_domain(float3 lab, float c, float s) {
     return pm_finite3(lab) && pm_finite(c) && pm_finite(s) &&

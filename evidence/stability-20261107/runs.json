@@ -1,0 +1,14 @@
+[
+  {
+    "name": "tests",
+    "returncode": 0
+  },
+  {
+    "name": "scalar",
+    "returncode": 0
+  },
+  {
+    "name": "domain",
+    "returncode": 0
+  }
+]

@@ -1,0 +1,86 @@
+{
+  "samples": 421486,
+  "groups": 12080,
+  "nonfinite": 0,
+  "boosts": 0,
+  "negatives": 0,
+  "compression_zero_cases": 826,
+  "compression_zero_identity_failures": 0,
+  "ordered_sample_comparisons": 409406,
+  "local_decreases": 0,
+  "maximum_drop": 0.0,
+  "max_absolute_error": 1.525878963093419e-05,
+  "max_normalized_error": 5.9422339233358536e-08,
+  "worst_absolute": {
+    "s_t_c_p": [
+      288.36474609375,
+      195.89999389648438,
+      10.0,
+      47.20000076293945
+    ],
+    "input_words": [
+      1133522608,
+      1128523366,
+      1092616192,
+      1111280845
+    ],
+    "actual": 279.1182861328125,
+    "oracle": 279.11827087402287
+  },
+  "worst_normalized": {
+    "s_t_c_p": [
+      147.7283172607422,
+      120.30000305175781,
+      71.30000305175781,
+      22.799999237060547
+    ],
+    "input_words": [
+      1125366387,
+      1123064218,
+      1116641690,
+      1102472806
+    ],
+    "actual": 128.1719207763672,
+    "oracle": 128.171928392643
+  },
+  "worst_drop": null,
+  "decrease_examples": [],
+  "ordered_cases_sha256_le_group_s_t_c_p_u32": "46fcdfaedb4f59684eeb9ec41ad04ecdda533c3cebc60b2d20c5a6db09405d2f",
+  "measurement_status": "MEASURED; no expanded parity envelope adopted",
+  "normalization": "abs(native-oracle)/max(1,abs(oracle))",
+  "strict_adjacent_float_monotonicity": "NOT_ESTABLISHED",
+  "corpus": {
+    "seed": 120220261106,
+    "random_states": 12000,
+    "edge_states": 80,
+    "controls_file": "expanded_controls.jsonl",
+    "state_word_sha256": "0c88aed8e96704c5bb1622ca523b48145c7c1aa39afb46c48237a542bff07d85",
+    "random_grid": "randrange(0,2001)/10 for T; randrange(0,1001)/10 for C/P; round each to float32",
+    "edge_grid": "T=(0,.1,.2,199.9,200), C/P=(0,.1,99.9,100)",
+    "sampling": "Native float32 lo/hi order; 0,500 and +/-5 bit neighbors of lo,T,hi; clip negative bit indices at zero, deduplicate/sort per state"
+  },
+  "recorded_utc": "2026-11-06T21:29:19.777426+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "compiler": {
+    "command": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "build\\compile.cmd"
+    ],
+    "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+    "compiler_output": "native_harness.cpp\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:\\Users\\shiro\\Documents\\Codex\\2026-10-20\\task-4\\press-machine-dev12-stability-20261107\\tests\\../dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\n",
+    "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+    "executable": "build/native.exe",
+    "compile_script": "@call \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvarsall.bat\" amd64 >nul\n@if errorlevel 1 exit /b %errorlevel%\n@cl /nologo /std:c++17 /O2 /fp:strict /EHsc /W4 /Fe:build/native.exe /Fo:build/native.obj tests/native_harness.cpp\n"
+  },
+  "base_commit": "37e0c2ed447e1218dae94ccd6ac7c4aef28eab72",
+  "source_revision": "Uncommitted working source at measurement; identified by SHA256; final commit in delivery",
+  "dctl_sha256": "b703789d8346a44ed6139cc66835d6a38e0affd96287e2ea043532b14abe1e55",
+  "oracle_sha256": "3b8e5e1eab31c96556d76d67b862866767f11acdd3c793bbb39f731a49e30f4e",
+  "harness_sha256": "086edfe8d1007da65a8944852f25bc1086ac1deb367d2e176943464582d87b3b",
+  "build_script_sha256": "5765284fab34c0b8c8b326b5bf03c1f16536256ac36679fc99a86d71a9b7eb98",
+  "generator_sha256": "472a9a70fd25d1aff7460eb4f675c8c0b19a72932b22184dbabef4ac2796944b",
+  "executable_sha256": "0e1d934630d20b7f37b5e5dab4d38626199e0b5e3620de8f2b70cd427b3d7aca"
+}

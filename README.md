@@ -1,5 +1,10 @@
 # Press Machine / SatComp — DEV-12 R2
 
+## Isolated stability work, not a deployed version
+
+This branch adds a same-contract scalar precision repair and a separate, unapproved continuous-domain proposal. See [diagnosis and comparisons](docs/STABILITY_REPORT.md) and [next Resolve checks](docs/STABILITY_HOST_HANDOFF.md). The reported blue L-guard jump is a product-domain conflict; the scalar repair alone does not remove it. Neither new artifact has Resolve/GPU or user visual acceptance.
+
+
 Local development candidate for high-saturation compression in DaVinci Resolve
 Color Page. Input and output must be **DaVinci Wide Gamut / DaVinci Intermediate**.
 Resolve host qualification and user visual acceptance are pending. This candidate

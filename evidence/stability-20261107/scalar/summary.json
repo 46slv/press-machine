@@ -1,0 +1,10 @@
+{
+  "original_corpus": "ORIGINAL_CORPUS_FROZEN_BUDGET_PASS",
+  "regression": "PASS_CASE_ROUNDING_BOUND",
+  "expanded": "MEASURED_NOT_UNIVERSAL_BUDGET",
+  "high_tail": "MEASURED_NOT_UNIVERSAL_BUDGET",
+  "original_budget_unchanged": true,
+  "host": "NOT_RUN",
+  "gpu": "NOT_RUN",
+  "visual": "NOT_RUN"
+}

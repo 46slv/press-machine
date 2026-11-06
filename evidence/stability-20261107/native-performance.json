@@ -1,0 +1,57 @@
+{
+  "scope": "CPU microbenchmark only; 1,000,000 samples per run, 256 fixed DWG blue-biased inputs, T25/C75/P20. Five runs alternate order. Revision processes negative-L samples that baseline bypasses. No Resolve/GPU/4K/playback claim.",
+  "compiler": {
+    "command": [
+      "cmd.exe",
+      "/d",
+      "/c",
+      "build\\compile-domain.cmd"
+    ],
+    "compiler": "Microsoft(R) C/C++ Optimizing Compiler Version 19.29.30137 for x64",
+    "compiler_output": "benchmark.cpp\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/build/benchmark_baseline.dctl(80): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/build/benchmark_baseline.dctl(80): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/build/benchmark_baseline.dctl(80): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/build/benchmark_baseline.dctl(80): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/dctl/PressMachine_R2.dctl(110): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/dctl/PressMachine_R2.dctl(110): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_Y': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_X': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_Height': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/prototypes/PressMachine_ContinuousDomain.dctl(141): warning C4100: 'p_Width': \u5f15\u6570\u306f\u95a2\u6570\u306e\u672c\u4f53\u90e8\u3067 1 \u5ea6\u3082\u53c2\u7167\u3055\u308c\u307e\u305b\u3093\u3002\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/prototypes/PressMachine_ContinuousDomain.dctl(85): warning C4505: 'proposed::pm_transfer': \u5185\u90e8\u30ea\u30f3\u30b1\u30fc\u30b8\u542b\u3080\u53c2\u7167\u3055\u308c\u3066\u3044\u306a\u3044\u95a2\u6570\u304c\u524a\u9664\u3055\u308c\u307e\u3057\u305f\nC:/Users/shiro/Documents/Codex/2026-10-20/task-4/press-machine-dev12-stability-20261107/prototypes/PressMachine_ContinuousDomain.dctl(107): warning C4505: 'proposed::pm_domain': \u5185\u90e8\u30ea\u30f3\u30b1\u30fc\u30b8\u542b\u3080\u53c2\u7167\u3055\u308c\u3066\u3044\u306a\u3044\u95a2\u6570\u304c\u524a\u9664\u3055\u308c\u307e\u3057\u305f\n",
+    "flags": "C++17 O2 strict IEEE floating point; no fast math, no contraction",
+    "executable": "build/benchmark_native.exe"
+  },
+  "milliseconds": [
+    [
+      0.0,
+      198.2612,
+      290.5879,
+      404.723
+    ],
+    [
+      1.0,
+      188.3277,
+      285.6321,
+      401.0575
+    ],
+    [
+      2.0,
+      188.8049,
+      319.9406,
+      407.7467
+    ],
+    [
+      3.0,
+      222.1225,
+      311.7235,
+      401.6376
+    ],
+    [
+      4.0,
+      233.4862,
+      354.4873,
+      475.351
+    ]
+  ],
+  "median_milliseconds": {
+    "baseline": 198.2612,
+    "r2_stable": 311.7235,
+    "continuous": 404.723
+  },
+  "median_ratio_to_baseline": {
+    "baseline": 1.0,
+    "r2_stable": 1.572286962855062,
+    "continuous": 2.041362606500919
+  }
+}
