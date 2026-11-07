@@ -9,8 +9,10 @@ import math
 import struct
 import argparse
 import subprocess
+import sys
 
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
 def pair(value):
     value=Decimal(value)
     high=struct.unpack('<f',struct.pack('<f',float(value)))[0]
@@ -29,9 +31,8 @@ def generate_source():
         BASE_COMMIT+':dctl/PressMachine_R2.dctl']).decode('utf-8')
     begin=base.index('// Compensated binary32 pairs')
     end=base.index('__DEVICE__ float pm_transfer',begin)
-    pairs=base[begin:end].replace(
-        '// Compensated binary32 pairs are used only in the scalar law. The low word\n// retains rounding residuals; this does not change the published curve.',
-        '// Compensated binary32 pairs retain rounding residuals without changing\n// the scalar curve or reference color model.')
+    from tools.rounded_pair_source import RN_PAIR_SOURCE
+    pairs=RN_PAIR_SOURCE.lstrip("\n")
     base=base[:begin]+base[end:]
     at=base.index('__DEVICE__ float pm_decode')
     base=base[:at]+pairs+base[at:]
@@ -96,7 +97,24 @@ __DEVICE__ float2 pm_precise_decode(float v) {
     needle='    if (!pm_finite3(lms)) return original;\n    float3 lab'
     assert base.count(needle)==1
     base=base.replace(needle,'    if (!pm_finite3(lms)) return original;\n    lms=pm_condition_lms(original,lms);\n    float3 lab')
-    return base
+    base=base.replace('return out.x + out.y;','return pm_rn_add(out.x,out.y);')
+    base=base.replace('make_float3(a.x+a.y,b.x+b.y,c.x+c.y)','make_float3(pm_rn_add(a.x,a.y),pm_rn_add(b.x,b.y),pm_rn_add(c.x,c.y))')
+    endpoint = '''    if (compression == 0.0f) return s;
+#ifdef DEVICE_IS_CUDA
+    // This exact published endpoint is zero for every finite positive S.
+    // Integer classification avoids fast-math comparisons treating a positive
+    // subnormal S as zero and incorrectly returning it unchanged.
+    int s_word=__float_as_int(s);
+    if ((__float_as_int(t) & 0x7fffffff)==0 && compression==100.0f && s_word>0 && s_word<0x7f800000) return 0.0f;
+#endif'''
+    old_endpoint='    if (compression == 0.0f) return s;'
+    assert base.count(old_endpoint)==1
+    base=base.replace(old_endpoint,endpoint)
+    root = '    return x < 0.0f ? -_powf(-x, 1.0f / 3.0f) : _powf(x, 1.0f / 3.0f);'
+    assert base.count(root)==1
+    base=base.replace(root,'#ifdef DEVICE_IS_CUDA\n    return cbrtf(x);\n#else\n'+root+'\n#endif')
+    from tools.precision_inverse_source import augment
+    return augment(base,pair)
 
 
 if __name__=='__main__':

@@ -1,0 +1,48 @@
+{
+  "status": "PRECOMMIT_PRESERVATION_PASS",
+  "UTC": "2026-11-07T01:40:30.690107+00:00",
+  "source_branch": "dev/dev12-cuda-rounding-20261107",
+  "base_commit": "a567e1a41d5913be0beeb30bc2651d804ce647e9",
+  "source_sha256": "97f008ae91789b2391e9742839b0afc24a7587993e22f108d42dfa7ebd894f1e",
+  "unchanged_invariants": {
+    "reference/oracle.py": "3b8e5e1eab31c96556d76d67b862866767f11acdd3c793bbb39f731a49e30f4e",
+    "evidence/parity_budget.json": "7ac7f499e702bd39428aca3a61cbd871c9196f75f1e94469bdbef6ea27ce35a9",
+    "prototypes/PressMachine_ContinuousDomain.dctl": "f019e39ed6e5b928c2f05acb5c2586ff82527dcad66bc9112e0c41465da1d401"
+  },
+  "older_worktrees": {
+    "press-machine": {
+      "HEAD": "f0b524115f8257de08df1d010e7f3678613cb999",
+      "clean": true
+    },
+    "press-machine-dev12-r2": {
+      "HEAD": "37e0c2ed447e1218dae94ccd6ac7c4aef28eab72",
+      "clean": true
+    },
+    "press-machine-dev12-stability-20261107": {
+      "HEAD": "7e48d7b1ac55eac23739d0a1f620b35779aa7a40",
+      "clean": true
+    },
+    "press-machine-dev12-boundary-20261107": {
+      "HEAD": "a567e1a41d5913be0beeb30bc2651d804ce647e9",
+      "clean": true
+    }
+  },
+  "secret_pattern_scan_files": 105,
+  "secret_pattern_hits": [],
+  "final_source_reports_match": true,
+  "native_tests": 34,
+  "host_state": "Resolve/projects/installed DCTL/GPU settings unchanged by this task",
+  "still_pending": [
+    "exact-source Resolve compile/numeric/identity/alpha",
+    "real-material/4K",
+    "user visual acceptance",
+    "GCC/new-source non-CUDA GPU"
+  ],
+  "not_performed": [
+    "main merge",
+    "release",
+    "visibility/permission change",
+    "force push",
+    "history rewrite"
+  ]
+}

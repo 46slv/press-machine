@@ -2,9 +2,9 @@
 
 Start or resume from [the preserved-version and next-step guide](docs/RESUME.md).
 
-## Current R2 numerical repair, not a deployed version
+## Current CUDA numerical repair, not deployed
 
-This branch also repairs precision loss at nearly cancelling LMS values without changing the R2 color model or guards. See [current repair and remaining model boundary](docs/BOUNDARY_REPAIR_REPORT.md) and [exact-candidate host handoff](docs/BOUNDARY_HOST_HANDOFF.md). The 30-test native suite passes. Resolve/GPU, alpha, real-material performance and user acceptance remain pending. The L-guard jump and exact-model signed-root cusp are not fixed by this arithmetic repair.
+The previous CPU-only candidate failed the actual Resolve CUDA gate. This branch fixes compiler rounding and HDR cancellation while retaining the approved model. See [cause and final measurements](docs/CUDA_ROUNDING_REPORT.md) and [next exact-artifact Resolve gate](docs/CUDA_HOST_HANDOFF.md). Native 34 tests and four standalone same-GPU optimizer modes pass. Exact-source Resolve/alpha, real-material, 4K and visual acceptance are still pending. The contract L-guard jump and exact signed-root cusp remain.
 
 ## Earlier isolated stability work
 
@@ -14,7 +14,7 @@ This branch adds a same-contract scalar precision repair and a separate, unappro
 Local development candidate for high-saturation compression in DaVinci Resolve
 Color Page. Input and output must be **DaVinci Wide Gamut / DaVinci Intermediate**.
 Resolve host qualification and user visual acceptance are pending. This candidate
-has not been installed, published or merged.
+has not been installed or merged. Development branches are backed up to GitHub.
 
 The current source includes a conditioned high-tail evaluation and the official
 SDK entry layout. See [source correction results](docs/REPAIR_REPORT.md) and

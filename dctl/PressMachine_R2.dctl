@@ -11,27 +11,63 @@ __DEVICE__ int pm_finite(float x) {
 __DEVICE__ int pm_finite3(float3 v) {
     return pm_finite(v.x) && pm_finite(v.y) && pm_finite(v.z);
 }
-// Compensated binary32 pairs retain rounding residuals without changing
-// the scalar curve or reference color model.
+// Pair arithmetic depends on each binary32 rounding boundary. CUDA may
+// contract ordinary expressions (and fast math may approximate division).
+// Explicit round-to-nearest intrinsics preserve the error-free transforms.
+__DEVICE__ float pm_rn_add(float a,float b) {
+#ifdef DEVICE_IS_CUDA
+    return __fadd_rn(a,b);
+#else
+    volatile float result=a+b; return result;
+#endif
+}
+__DEVICE__ float pm_rn_sub(float a,float b) {
+#ifdef DEVICE_IS_CUDA
+    return __fsub_rn(a,b);
+#else
+    volatile float result=a-b; return result;
+#endif
+}
+__DEVICE__ float pm_rn_mul(float a,float b) {
+#ifdef DEVICE_IS_CUDA
+    return __fmul_rn(a,b);
+#else
+    volatile float result=a*b; return result;
+#endif
+}
+__DEVICE__ float pm_rn_div(float a,float b) {
+#ifdef DEVICE_IS_CUDA
+    return __fdiv_rn(a,b);
+#else
+    volatile float result=a/b; return result;
+#endif
+}
+__DEVICE__ float pm_rn_fma(float a,float b,float c) {
+#ifdef DEVICE_IS_CUDA
+    return __fmaf_rn(a,b,c);
+#else
+    return _fmaf(a,b,c);
+#endif
+}
 __DEVICE__ float2 pm_pair(float x) { return make_float2(x, 0.0f); }
 __DEVICE__ float2 pm_pair_add(float2 a, float2 b) {
-    float s = a.x + b.x;
-    float v = s - a.x;
-    float e = ((a.x - (s - v)) + (b.x - v)) + a.y + b.y;
-    float h = s + e;
-    return make_float2(h, e - (h - s));
+    float s = pm_rn_add(a.x,b.x);
+    float v = pm_rn_sub(s,a.x);
+    float e = pm_rn_add(pm_rn_add(pm_rn_add(pm_rn_sub(a.x,pm_rn_sub(s,v)),pm_rn_sub(b.x,v)),a.y),b.y);
+    float h = pm_rn_add(s,e);
+    return make_float2(h,pm_rn_sub(e,pm_rn_sub(h,s)));
 }
 __DEVICE__ float2 pm_pair_neg(float2 a) { return make_float2(-a.x,-a.y); }
 __DEVICE__ float2 pm_pair_mul(float2 a, float2 b) {
-    float p = a.x*b.x;
-    float e = _fmaf(a.x,b.x,-p) + a.x*b.y + a.y*b.x + a.y*b.y;
-    float h = p + e;
-    return make_float2(h,e-(h-p));
+    float p = pm_rn_mul(a.x,b.x);
+    float e = pm_rn_add(pm_rn_add(pm_rn_add(pm_rn_fma(a.x,b.x,-p),pm_rn_mul(a.x,b.y)),pm_rn_mul(a.y,b.x)),pm_rn_mul(a.y,b.y));
+    float h = pm_rn_add(p,e);
+    return make_float2(h,pm_rn_sub(e,pm_rn_sub(h,p)));
 }
 __DEVICE__ float2 pm_pair_div(float2 a, float2 b) {
-    float q = a.x/b.x;
+    float q = pm_rn_div(a.x,b.x);
     float2 r = pm_pair_add(a,pm_pair_neg(pm_pair_mul(b,pm_pair(q))));
-    return pm_pair_add(pm_pair(q),pm_pair((r.x+r.y)/b.x));
+    return pm_pair_add(pm_pair(q),pm_pair(pm_rn_div(pm_rn_add(r.x,r.y),b.x)));
 }
 __DEVICE__ float pm_decode(float v) {
     return v <= 0.02740668f ? v / 10.44426855f :
@@ -43,7 +79,11 @@ __DEVICE__ float pm_encode(float v) {
 }
 __DEVICE__ float pm_cbrt(float x) {
     // A general power on negative LMS is invalid. Preserve the real root sign.
+#ifdef DEVICE_IS_CUDA
+    return cbrtf(x);
+#else
     return x < 0.0f ? -_powf(-x, 1.0f / 3.0f) : _powf(x, 1.0f / 3.0f);
+#endif
 }
 __DEVICE__ float3 pm_dwg_xyz(float3 v) {
     return make_float3(
@@ -83,6 +123,13 @@ __DEVICE__ float3 pm_lms_xyz(float3 v) {
 }
 __DEVICE__ float pm_transfer(float s, float t, float compression, float softness) {
     if (compression == 0.0f) return s;
+#ifdef DEVICE_IS_CUDA
+    // This exact published endpoint is zero for every finite positive S.
+    // Integer classification avoids fast-math comparisons treating a positive
+    // subnormal S as zero and incorrectly returning it unchanged.
+    int s_word=__float_as_int(s);
+    if ((__float_as_int(t) & 0x7fffffff)==0 && compression==100.0f && s_word>0 && s_word<0x7f800000) return 0.0f;
+#endif
     float2 hundred = pm_pair(100.0f);
     float2 a = pm_pair_div(pm_pair(compression),hundred);
     float2 q = pm_pair_div(pm_pair_add(hundred,pm_pair(-compression)),hundred);
@@ -101,7 +148,7 @@ __DEVICE__ float pm_transfer(float s, float t, float compression, float softness
         float2 reduction = pm_pair_div(numerator,pm_pair_mul(pm_pair(4.0f),half));
         out = pm_pair_add(pm_pair(s),pm_pair_neg(reduction));
     }
-    return out.x + out.y;
+    return pm_rn_add(out.x,out.y);
 }
 // Precision fallback only: the ordinary binary32 path loses the sign/magnitude
 // of nearly cancelling LMS sums. Re-evaluate the SAME DI and published matrices
@@ -152,7 +199,7 @@ __DEVICE__ float3 pm_precise_lms(float3 encoded) {
     a = pm_precise_dot3(x,y,z,make_float2(0.8190224170684814f, 2.0928220934024466e-08f),make_float2(0.3619062602519989f, -1.991085074593002e-10f),make_float2(-0.1288737803697586f, -1.1512293340842916e-09f));
     b = pm_precise_dot3(x,y,z,make_float2(0.032983653247356415f, 6.850320866114146e-10f),make_float2(0.9292868375778198f, 2.4008523169527507e-08f),make_float2(0.036144666373729706f, -2.3087306372238103e-11f));
     c = pm_precise_dot3(x,y,z,make_float2(0.048177190124988556f, -7.653643829819146e-10f),make_float2(0.26423951983451843f, 1.1918212194927946e-08f),make_float2(0.633547842502594f, -1.4033163076021538e-08f));
-    return make_float3(a.x+a.y,b.x+b.y,c.x+c.y);
+    return make_float3(pm_rn_add(a.x,a.y),pm_rn_add(b.x,b.y),pm_rn_add(c.x,c.y));
 }
 __DEVICE__ float3 pm_condition_lms(float3 encoded,float3 lms) {
     float largest = _fmaxf(_fabs(lms.x),_fmaxf(_fabs(lms.y),_fabs(lms.z)));
@@ -162,6 +209,102 @@ __DEVICE__ float3 pm_condition_lms(float3 encoded,float3 lms) {
         if (pm_finite3(precise)) return precise;
     }
     return lms;
+}
+
+// Keep residuals through the entire ill-conditioned path: prematurely rounding
+// Lab, S or the inverse basis can amplify one ulp during HDR cancellation.
+__DEVICE__ float2 pm_pair_cbrt(float2 v) {
+    // Exact power-of-two range reduction keeps root^3 residuals finite
+    // even when a rounded cube-root seed lies just above cbrt(FLT_MAX).
+    float factor=1.0f;
+    if (_fabs(v.x)>4.0e37f) { v=pm_pair_mul(v,pm_pair(0.125f)); factor=2.0f; }
+    float h=pm_cbrt(v.x);
+    if (h==0.0f) return pm_pair(h);
+    float2 root=pm_pair(h);
+    for (int i=0;i<2;i++) {
+        float2 square=pm_pair_mul(root,root);
+        float2 residual=pm_pair_add(v,pm_pair_neg(pm_pair_mul(square,root)));
+        root=pm_pair_add(root,pm_pair_div(residual,pm_pair_mul(pm_pair(3.0f),square)));
+    }
+    return pm_pair_mul(root,pm_pair(factor));
+}
+__DEVICE__ float2 pm_pair_sqrt(float2 v) {
+    float h=_sqrtf(v.x);
+    if (h==0.0f) return pm_pair(h);
+    float2 root=pm_pair(h);
+    float2 residual=pm_pair_add(v,pm_pair_neg(pm_pair_mul(root,root)));
+    return pm_pair_add(root,pm_pair_div(residual,pm_pair_mul(pm_pair(2.0f),root)));
+}
+__DEVICE__ float2 pm_precise_transfer(float2 s,float t,float compression,float softness) {
+    float2 hundred=pm_pair(100.0f);
+    float2 a=pm_pair_div(pm_pair(compression),hundred);
+    float2 q=pm_pair_div(pm_pair_add(hundred,pm_pair(-compression)),hundred);
+    float2 half=pm_pair_mul(pm_pair(t),pm_pair_div(pm_pair(softness),hundred));
+    float2 lo=pm_pair_add(pm_pair(t),pm_pair_neg(half));
+    float2 hi=pm_pair_add(pm_pair(t),half);
+    float2 x=pm_pair_add(s,pm_pair_neg(lo));
+    if (x.x<0.0f || (x.x==0.0f && x.y<=0.0f)) return s;
+    float2 upper=pm_pair_add(s,pm_pair_neg(hi));
+    if (half.x==0.0f || upper.x>0.0f || (upper.x==0.0f && upper.y>=0.0f)) {
+        return pm_pair_add(pm_pair(t),pm_pair_mul(q,pm_pair_add(s,pm_pair(-t))));
+    }
+    float2 numerator=pm_pair_mul(a,pm_pair_mul(x,x));
+    float2 denominator=pm_pair_mul(pm_pair(4.0f),half);
+    return pm_pair_add(s,pm_pair_neg(pm_pair_div(numerator,denominator)));
+}
+__DEVICE__ int pm_precision_route(float3 lms) {
+    float largest=_fmaxf(_fabs(lms.x),_fmaxf(_fabs(lms.y),_fabs(lms.z)));
+    float region=largest*0.00390625f;
+    return _fabs(lms.x)<=region || _fabs(lms.y)<=region || _fabs(lms.z)<=region;
+}
+
+__DEVICE__ float3 pm_precise_transform(float3 original) {
+    float2 x=pm_precise_decode(original.x);
+    float2 y=pm_precise_decode(original.y);
+    float2 z=pm_precise_decode(original.z);
+    float2 a=pm_precise_dot3(x,y,z,make_float2(0.7006223797798157f, 1.022018469853947e-08f),make_float2(0.14877481758594513f, 2.41405495593483e-09f),make_float2(0.1010587215423584f, -1.5423583521467776e-09f));
+    float2 b=pm_precise_dot3(x,y,z,make_float2(0.2741185128688812f, -2.8688811326560426e-09f),make_float2(0.8736318945884705f, 5.411529446774921e-09f),make_float2(-0.14775040745735168f, -2.5426483141188783e-09f));
+    float2 c=pm_precise_dot3(x,y,z,make_float2(-0.09896291047334671f, 4.733466951734044e-10f),make_float2(-0.13789533078670502f, 7.867050344501081e-10f),make_float2(1.3259159326553345f, 5.734466412832262e-08f));
+    x=a; y=b; z=c;
+    a=pm_precise_dot3(x,y,z,make_float2(0.8190224170684814f, 2.0928220934024466e-08f),make_float2(0.3619062602519989f, -1.991085074593002e-10f),make_float2(-0.1288737803697586f, -1.1512293340842916e-09f));
+    b=pm_precise_dot3(x,y,z,make_float2(0.032983653247356415f, 6.850320866114146e-10f),make_float2(0.9292868375778198f, 2.4008523169527507e-08f),make_float2(0.036144666373729706f, -2.3087306372238103e-11f));
+    c=pm_precise_dot3(x,y,z,make_float2(0.048177190124988556f, -7.653643829819146e-10f),make_float2(0.26423951983451843f, 1.1918212194927946e-08f),make_float2(0.633547842502594f, -1.4033163076021538e-08f));
+    a=pm_pair_cbrt(a); b=pm_pair_cbrt(b); c=pm_pair_cbrt(c);
+    x=a; y=b; z=c;
+    a=pm_precise_dot3(x,y,z,make_float2(0.21045427024364471f, -1.934330695618769e-09f),make_float2(0.7936177849769592f, -1.0274654016484419e-08f),make_float2(-0.004072043113410473f, 1.0179117271302829e-10f));
+    b=pm_precise_dot3(x,y,z,make_float2(1.9779984951019287f, 3.732924014343553e-08f),make_float2(-2.4285922050476074f, -3.700097295222804e-08f),make_float2(0.4505937099456787f, -3.282677185634242e-10f));
+    c=pm_precise_dot3(x,y,z,make_float2(0.025904042646288872f, -1.8074107488441626e-10f),make_float2(0.7827717065811157f, 5.876414022054632e-09f),make_float2(-0.8086757659912109f, 1.1068133964897697e-08f));
+
+    float3 lab=make_float3(a.x,b.x,c.x);
+    float2 chroma=pm_pair_sqrt(pm_pair_add(pm_pair_mul(b,b),pm_pair_mul(c,c)));
+    if (!pm_finite3(lab) || !pm_finite(chroma.x) || lab.x<=1.0e-6f || chroma.x<=1.0e-7f) return original;
+    float2 sat=pm_pair_mul(pm_pair(100.0f),pm_pair_div(chroma,a));
+    if (!pm_finite(sat.x) || sat.x<=1.0e-7f) return original;
+    float2 out_sat=pm_precise_transfer(sat,pm_threshold,pm_compression,pm_softness);
+    if (!pm_finite(out_sat.x)) return original;
+    if (out_sat.x==sat.x && out_sat.y==sat.y) return original;
+    float2 scale=pm_pair_div(out_sat,sat);
+    b=pm_pair_mul(b,scale); c=pm_pair_mul(c,scale);
+    x=a; y=b; z=c;
+    a=pm_precise_dot3(x,y,z,make_float2(1.0f, 0.0f),make_float2(0.3963377773761749f, -2.6757812162793975e-17f),make_float2(0.21580375730991364f, -3.5253905002695555e-17f));
+    b=pm_precise_dot3(x,y,z,make_float2(1.0f, 0.0f),make_float2(-0.10556134581565857f, -3.0664061763373566e-17f),make_float2(-0.0638541728258133f, -6.542968866792397e-18f));
+    c=pm_precise_dot3(x,y,z,make_float2(1.0f, 0.0f),make_float2(-0.08948417752981186f, -4.086914118167298e-17f),make_float2(-1.2914855480194092f, -2.031250023911959e-17f));
+    a=pm_pair_mul(a,pm_pair_mul(a,a));
+    b=pm_pair_mul(b,pm_pair_mul(b,b));
+    c=pm_pair_mul(c,pm_pair_mul(c,c));
+    x=a; y=b; z=c;
+    a=pm_precise_dot3(x,y,z,make_float2(1.2268798351287842f, 4.0717139881962794e-08f),make_float2(-0.5578150153160095f, 2.085579176025476e-08f),make_float2(0.28139105439186096f, -8.725896449846005e-09f));
+    b=pm_precise_dot3(x,y,z,make_float2(-0.040575746446847916f, 1.2320471309834602e-09f),make_float2(1.1122868061065674f, -2.826250344867276e-09f),make_float2(-0.07171105593442917f, -2.131087306622703e-09f));
+    c=pm_precise_dot3(x,y,z,make_float2(-0.07637293636798859f, -3.0667152151053756e-10f),make_float2(-0.4214933216571808f, -1.0745062617445456e-08f),make_float2(1.5869240760803223f, -5.624353960342887e-08f));
+    x=a; y=b; z=c;
+    a=pm_precise_dot3(x,y,z,make_float2(1.5166720151901245f, 2.4809875043274587e-08f),make_float2(-0.28147804737091064f, -2.6290893906377732e-09f),make_float2(-0.14696362614631653f, -3.853683594456925e-09f));
+    b=pm_precise_dot3(x,y,z,make_float2(-0.4649170935153961f, -6.48460396490691e-09f),make_float2(1.2514238357543945f, -5.575439487870426e-08f),make_float2(0.1748846173286438f, -7.3286439139508275e-09f));
+    c=pm_precise_dot3(x,y,z,make_float2(0.06484904885292053f, 1.1470794314405452e-09f),make_float2(0.1091393381357193f, 1.864280729790835e-09f),make_float2(0.761414647102356f, -2.710235591507626e-08f));
+
+    float3 linear=make_float3(pm_rn_add(a.x,a.y),pm_rn_add(b.x,b.y),pm_rn_add(c.x,c.y));
+    if (!pm_finite3(linear)) return original;
+    float3 encoded=make_float3(pm_encode(linear.x),pm_encode(linear.y),pm_encode(linear.z));
+    return pm_finite3(encoded) ? encoded : original;
 }
 __DEVICE__ int pm_domain(float3 lab, float c, float s) {
     return pm_finite3(lab) && pm_finite(c) && pm_finite(s) &&
@@ -180,7 +323,7 @@ __DEVICE__ float3 transform(int p_Width, int p_Height, int p_X, int p_Y, float p
     if (!pm_finite3(xyz)) return original;
     float3 lms = pm_xyz_lms(xyz);
     if (!pm_finite3(lms)) return original;
-    lms=pm_condition_lms(original,lms);
+    if (pm_precision_route(lms)) return pm_precise_transform(original);
     float3 lab = pm_root_lab(make_float3(pm_cbrt(lms.x), pm_cbrt(lms.y), pm_cbrt(lms.z)));
     float c = _sqrtf(lab.y*lab.y + lab.z*lab.z);
     if (!pm_finite3(lab) || !pm_finite(c) || lab.x <= 1.0e-6f || c <= 1.0e-7f) return original;

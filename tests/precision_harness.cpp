@@ -34,6 +34,8 @@ int main() {
         pm_bypass=static_cast<float>(bypass);
         float3 out;
         if (op == 'Q') { float2 q=pm_precise_decode(word(r)); out=make_float3(q.x,q.y,0.f); }
+        else if (op == 'R') { float2 q=pm_pair_cbrt(make_float2(word(r),word(g))); out=make_float3(q.x,q.y,0.f); }
+        else if (op == 'H') { float2 q=pm_pair_sqrt(make_float2(word(r),word(g))); out=make_float3(q.x,q.y,0.f); }
         else if (op == 'P') out=transform(1,1,0,0,word(r),word(g),word(b));
         else if (op == 'S') out=make_float3(pm_transfer(word(r),word(t),word(a),word(p)),0,0);
         else if (op == 'D') {

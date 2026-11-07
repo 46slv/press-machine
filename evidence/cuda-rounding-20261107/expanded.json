@@ -1,0 +1,192 @@
+{
+  "scope": "Standalone same-GPU actual-source stress, NOT Resolve qualification",
+  "source_sha256": "97f008ae91789b2391e9742839b0afc24a7587993e22f108d42dfa7ebd894f1e",
+  "device": {
+    "device_index": 0,
+    "name": "NVIDIA GeForce RTX 3070 Ti",
+    "compute_capability": [
+      8,
+      6
+    ],
+    "driver_API_version": 13030,
+    "nvrtc_version": [
+      12,
+      8
+    ],
+    "nvrtc_path": "C:\\Program Files\\Blackmagic Design\\DaVinci Resolve\\nvrtc64_120_0.dll",
+    "nvrtc_sha256": "6a4cccb338895034e41b1d9ca79104f787d475d1e794b2b0ef432ba342c7e5ae"
+  },
+  "extra_seed": 120220261110,
+  "extra_inputs_sha256_le_f32": "904a3564f487c68773d6b7ab5da91a74284a161010f224c68258ce1e32dd1546",
+  "scalar_inputs_sha256_le_f32": "302bf4a2d47c05e95bf6dfc2997e9c5726a64a9f0681660f1e4e417445af15cf",
+  "modes": {
+    "fmad_true": {
+      "options": [
+        "--gpu-architecture=compute_86",
+        "--std=c++17",
+        "--fmad=true"
+      ],
+      "pixels": {
+        "count": 14826,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 2.3564424411759433e-07,
+        "worst_index": 11871,
+        "worst_actual": [
+          0.781633734703064,
+          0.827901303768158,
+          -0.8330608010292053
+        ],
+        "worst_expected": [
+          0.7816337140505991,
+          0.8279013708786165,
+          -0.8330610366734494
+        ]
+      },
+      "scalar": {
+        "decrease_examples": [],
+        "count": 677742,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 5.958137293238485e-08,
+        "boost": 0,
+        "negative": 0,
+        "local_decreases": 0,
+        "C0_identity_failures": 0
+      },
+      "subnormal_T_identity": {
+        "count": 16,
+        "identity_word_failures": 0
+      }
+    },
+    "fmad_false": {
+      "options": [
+        "--gpu-architecture=compute_86",
+        "--std=c++17",
+        "--fmad=false"
+      ],
+      "pixels": {
+        "count": 14826,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 2.3564424411759433e-07,
+        "worst_index": 11871,
+        "worst_actual": [
+          0.781633734703064,
+          0.827901303768158,
+          -0.8330608010292053
+        ],
+        "worst_expected": [
+          0.7816337140505991,
+          0.8279013708786165,
+          -0.8330610366734494
+        ]
+      },
+      "scalar": {
+        "decrease_examples": [],
+        "count": 677742,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 5.958137293238485e-08,
+        "boost": 0,
+        "negative": 0,
+        "local_decreases": 0,
+        "C0_identity_failures": 0
+      },
+      "subnormal_T_identity": {
+        "count": 16,
+        "identity_word_failures": 0
+      }
+    },
+    "fast_math": {
+      "options": [
+        "--gpu-architecture=compute_86",
+        "--std=c++17",
+        "--use_fast_math"
+      ],
+      "pixels": {
+        "count": 14826,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 2.3564424411759433e-07,
+        "worst_index": 11871,
+        "worst_actual": [
+          0.7816336750984192,
+          0.827901303768158,
+          -0.8330608010292053
+        ],
+        "worst_expected": [
+          0.7816337140505991,
+          0.8279013708786165,
+          -0.8330610366734494
+        ]
+      },
+      "scalar": {
+        "decrease_examples": [],
+        "count": 677742,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 5.958137293238485e-08,
+        "boost": 0,
+        "negative": 0,
+        "local_decreases": 0,
+        "C0_identity_failures": 0
+      },
+      "subnormal_T_identity": {
+        "count": 16,
+        "identity_word_failures": 0
+      }
+    },
+    "fast_no_fmad": {
+      "options": [
+        "--gpu-architecture=compute_86",
+        "--std=c++17",
+        "--use_fast_math",
+        "--fmad=false"
+      ],
+      "pixels": {
+        "count": 14826,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 2.3564424411759433e-07,
+        "worst_index": 11871,
+        "worst_actual": [
+          0.7816336750984192,
+          0.827901303768158,
+          -0.8330608010292053
+        ],
+        "worst_expected": [
+          0.7816337140505991,
+          0.8279013708786165,
+          -0.8330610366734494
+        ]
+      },
+      "scalar": {
+        "decrease_examples": [],
+        "count": 677742,
+        "nonfinite": 0,
+        "outside": 0,
+        "max_normalized_error": 5.958137293238485e-08,
+        "boost": 0,
+        "negative": 0,
+        "local_decreases": 0,
+        "C0_identity_failures": 0
+      },
+      "subnormal_T_identity": {
+        "count": 16,
+        "identity_word_failures": 0
+      }
+    }
+  },
+  "identity": {
+    "C0": {
+      "count": 24722,
+      "word_failures": 0
+    },
+    "bypass": {
+      "count": 24722,
+      "word_failures": 0
+    }
+  },
+  "owned_context_destroyed": true
+}
