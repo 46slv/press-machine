@@ -1,0 +1,12 @@
+{
+  "baseline_sha256": "19382145bacab207480f2384069416f0608deeaac36935fd6a9cd296c78854c8",
+  "baseline_file": "adapters/dctl/PressMachine_Full_Color_19382145_TEST.dctl",
+  "core_sha256": "5eb367921f8706ebfa178ca87682291659922f87f3f21ed73713fddf0756d117",
+  "controls": 25,
+  "new_controls": 0,
+  "math": "unchanged core; per-render parameter struct instead of DCTL globals",
+  "scope": "v2.0 existing functionality; v2.1 parameter additions and mask extensions deferred",
+  "status": "development; not Host accepted",
+  "generated_dctl_sha256": "6e37ab2a54eec588bdfcd8459160b085e005195b6be2cbc51b55094da60f0f56",
+  "adapter_revision": "alpha-component-division-finite-guards/null-stream-completion/context-unique-ID-cache"
+}

@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "device": "NVIDIA GeForce RTX 3070 Ti",
+  "source": "actual CudaRunner adapter / embedded compute75 PTX",
+  "gpu_pixel_cases": 3000,
+  "rendered_words": 32000,
+  "preserved_alpha_words": 3000,
+  "outside_roi_sentinel_words": 16000,
+  "profiles": 5,
+  "states": 10,
+  "premult_modes": 2,
+  "max_error": 8.940696716308594e-08,
+  "tolerance": 0.0001220703125,
+  "first_adapter_call_seconds": 0.03156269999453798,
+  "stream_modes": [
+    "default-completed",
+    "nonnull-Host-stream"
+  ],
+  "seconds": 0.2922143999603577,
+  "scope": "independent NVIDIA context; actual CUDA adapter with context-ID cache/default completion/non-null stream/pitch/ROI/subnormal alpha/parameters; not Resolve Host acceptance"
+}

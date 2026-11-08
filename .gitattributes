@@ -1,0 +1,7 @@
+*.dctl text eol=lf
+*.dctlh text eol=lf
+*.hpp text eol=lf
+*.cpp text eol=lf
+*.cu text eol=lf
+*.py text eol=lf
+*.json text eol=lf

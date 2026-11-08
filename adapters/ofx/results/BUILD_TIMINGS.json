@@ -1,0 +1,32 @@
+[
+    {
+        "step":  "shared-source-generation",
+        "seconds":  0.23761439999999998,
+        "exit_code":  0
+    },
+    {
+        "step":  "shader-NVRTC-compile",
+        "seconds":  5.4102613999999996,
+        "exit_code":  0
+    },
+    {
+        "step":  "CMake-configure",
+        "seconds":  0.2545485,
+        "exit_code":  0
+    },
+    {
+        "step":  "clean-generated-build",
+        "seconds":  0.7085672,
+        "exit_code":  0
+    },
+    {
+        "step":  "CXX-compile-link",
+        "seconds":  23.500638499999997,
+        "exit_code":  0
+    },
+    {
+        "step":  "CPU-parity",
+        "seconds":  0.4642807,
+        "exit_code":  0
+    }
+]

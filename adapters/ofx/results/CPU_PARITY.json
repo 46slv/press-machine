@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "baseline": "19382145",
+  "bit_exact_cases": 2850,
+  "max_error": 0.0,
+  "threads": 4,
+  "profiles": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      0,
+      4
+    ]
+  ],
+  "alpha_cases": 55,
+  "identity_cases": 4,
+  "seconds": 0.20498219999717548,
+  "scope": "CPU compiled baseline vs parameterized shared core; not Resolve Host acceptance"
+}

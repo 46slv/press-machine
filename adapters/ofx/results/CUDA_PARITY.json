@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "device": "NVIDIA GeForce RTX 3070 Ti",
+  "source": "shared PixelCore / compute75 PTX",
+  "gpu_pixel_cases": 3000,
+  "rendered_words": 32000,
+  "preserved_alpha_words": 3000,
+  "outside_roi_sentinel_words": 16000,
+  "profiles": 5,
+  "states": 10,
+  "premult_modes": 2,
+  "max_error": 8.940696716308594e-08,
+  "tolerance": 0.0001220703125,
+  "jit_seconds": 11.29692230001092,
+  "seconds": 11.77690169995185,
+  "scope": "independent NVIDIA context; CUDA kernel pitch/ROI/alpha/parameter parity, not Resolve Host acceptance"
+}

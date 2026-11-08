@@ -1,0 +1,3 @@
+#pragma once
+#include "PixelCore.hpp"
+inline pm::Parameters fromValues(const double* v){pm::Parameters p{};p.pmi_ig=(int)v[0];p.pmi_it=(int)v[1];p.pmi_og=(int)v[2];p.pmi_ot=(int)v[3];p.pm_pre=(float)v[4];p.pm_hue_angle=(float)v[5];p.pm_hue_points_index=(int)v[6];p.pm_hue_compression=(float)v[7];p.pm_threshold=(float)v[8];p.pm_compression=(float)v[9];p.pm_softness=(float)v[10];p.pm_sat_skin=(float)v[11];p.pm_density=(float)v[12];p.pm_chroma=(float)v[13];p.pm_response=(float)v[14];p.pm_shadow=(float)v[15];p.pm_sr=(float)v[16];p.pm_highlight=(float)v[17];p.pm_hr=(float)v[18];p.pm_density_skin=(float)v[19];p.pm_db=(int)v[20];p.pm_sd_t=(float)v[21];p.pm_sd_k=(float)v[22];p.pm_hd_t=(float)v[23];p.pm_hd_k=(float)v[24];return p;}
