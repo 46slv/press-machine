@@ -65,9 +65,9 @@ public:
 };
 mDeclarePluginFactory(PressMachineFactory,{}, {});
 void PressMachineFactory::describe(OFX::ImageEffectDescriptor&d){
- d.setLabels("Press Machine v2 SkinAxis TEST","Press Machine v2 SkinAxis TEST","Press Machine v2 SkinAxis TEST");
+ d.setLabels("Press Machine v2.0","Press Machine v2.0","Press Machine v2.0");
  d.setPluginGrouping("Press Machine");
- d.setPluginDescription("v2.0 development. Skin-reference angle zero; legacy angle values need phase conversion. DCTL baseline preserved. No automatic legacy-state migration. Input color settings must match the node's actual input.");
+ d.setPluginDescription("Press Machine v2.0. Skin-reference angle zero. Legacy red-zero angles require conversion; no automatic state migration. Input color settings must match the node's actual input.");
  d.addSupportedContext(OFX::eContextFilter);d.addSupportedContext(OFX::eContextGeneral);
  d.addSupportedBitDepth(OFX::eBitDepthFloat);d.setSingleInstance(false);d.setHostFrameThreading(false);
  d.setRenderThreadSafety(OFX::eRenderFullySafe);d.setSupportsTiles(true);d.setSupportsMultiResolution(true);

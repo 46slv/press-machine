@@ -5,13 +5,16 @@
   "controls": 25,
   "new_controls": 0,
   "math": "Only active CF2 pmcf_phase constant changes from red-zero to the existing skin chart direction; all other math/pipeline tokens match19382145",
-  "scope": "v2 SkinAxis trial: requested Hue Angle zero change; no new controls or expanded skin masks",
-  "status": "development; limited Host acceptance is bound to artifact50a9372f, not future builds",
+  "scope": "OFX v2.0.0 SkinAxis release; existing25 controls, no HUD or new masks",
+  "status": "v2.0.0 released scope; artifact-specific limited Host gate PASS",
   "generated_dctl_sha256": "6bf6df9aef31359e6759a0f0066d5e574a0ced361addfe11e9659757b5c16176",
   "adapter_revision": "skin-axis-zero/logging-revision2/retained1938-equations-except-approved-phase",
   "identifier": "com.46slv.PressMachine.v2.skinaxis",
   "skin_phase_radians": 0.7282199160893196,
   "legacy_mapping": "new = wrap360(old -26.120959577861925 degrees), not an automatic or bit-identical migration",
-  "host_acceptance_artifact_sha256": "50a9372f751d7290b088ff3c16b60f9fadb58d8cf1087736a4f36c0aa03a4dd3",
-  "host_acceptance_scope": "one scene/one state; see results/HOST_LIMITED_ACCEPTANCE_SKINAXIS.json"
+  "host_acceptance_scope": "metadata-only update, one retained skin scene/state and completed frame; see results/RELEASE_HOST_ACCEPTANCE.json",
+  "release": "2.0.0",
+  "label": "Press Machine v2.0",
+  "qualified_predecessor_sha256": "50a9372f751d7290b088ff3c16b60f9fadb58d8cf1087736a4f36c0aa03a4dd3",
+  "host_acceptance_artifact_sha256": "14249fb953dc23aac39b82a65fa0926c1ef99d828a94a5f22303700da6cda3eb"
 }

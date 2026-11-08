@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "release": "2.0.0",
+  "scope": "metadata-only release update; one retained skin scene/state and one completed frame",
+  "binary_sha256": "14249fb953dc23aac39b82a65fa0926c1ef99d828a94a5f22303700da6cda3eb",
+  "predecessor_sha256": "50a9372f751d7290b088ff3c16b60f9fadb58d8cf1087736a4f36c0aa03a4dd3",
+  "source_code_commit": "fe134e98ab7ccc52323b714ce1056a3b8698566d",
+  "core_sha256": "47af5048800756be4460852bd2b58f6bb4e255f8da1cd042b9942725373a7b2e",
+  "host": {
+    "product": "DaVinci Resolve",
+    "version": "21.1.0 build14",
+    "os": "Windows x64",
+    "gpu": "NVIDIA RTX3070 Ti"
+  },
+  "registration": {
+    "label": "Press Machine v2.0",
+    "identifier": "com.46slv.PressMachine.v2.skinaxis",
+    "ofx_version": [
+      2,
+      0
+    ],
+    "loaded_module_hash_verified": true
+  },
+  "retention": {
+    "displayed_parameters": 25,
+    "all_displayed_values_preserved": true,
+    "image_preserved": true,
+    "five_node_state_preserved": true,
+    "powergrade_labels_preserved": 3
+  },
+  "backend": {
+    "backend": "CUDA",
+    "stream": "Host",
+    "event": "enqueue-success",
+    "release_marker": "2.0.0",
+    "completed_frame_is_separate_evidence": true
+  },
+  "completed_frame": {
+    "width": 4096,
+    "height": 2160,
+    "rgba_words": 35389440,
+    "word_differences": 0,
+    "rgb_max_absolute_error": 0,
+    "rgb_max_normalized_error": 0,
+    "finite": true,
+    "alpha_one": true,
+    "release_and_predecessor_file_sha256": "c1005f1be94cf9987caa008d7b29c25070997732ae8ea1bc33dd19c58b972b73",
+    "independent_raw_decode_review": true
+  },
+  "evidence_hashes": {
+    "host_receipt_sha256": "1f03fb7fafb061f6c0202aed7e5e35d866ca0722b738d6b529122d43ba3166b2",
+    "independent_raw_report_sha256": "ae68d32469dff7973a8bffcab6a43c8e15f3cff0412131bb010d3f101467bfed"
+  },
+  "preserved": [
+    "previous50a binary and notice",
+    "other OFX plugins",
+    "existing DCTL artifacts"
+  ],
+  "not_established": [
+    "broader footage or additional profiles",
+    "sustained SkinAxis performance",
+    "automatic red-zero state migration",
+    "out-of-gamut clipping repair",
+    "cross-platform or cross-edition compatibility",
+    "graph HUD"
+  ]
+}
