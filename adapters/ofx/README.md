@@ -1,6 +1,6 @@
 # Press Machine v2.0
 
-Windows OFX v2.0 release source. Hue Angle zero follows the existing skin chart reference; old red-zero variants remain separate. The release changes metadata only from the qualified SkinAxis trial; its binary requires a separate Host receipt. See ../../docs/PressMachine-v2.0-Release.md for distribution, installation and known limits. The current DCTL test baseline stays available for use, investigation and implementation. No existing timeline or legacy OFX state is converted automatically.
+Windows OFX v2.0 release source. Hue Angle zero follows the existing skin chart reference; old red-zero variants remain separate. The release changes metadata only from the qualified SkinAxis trial; its binary has a separate limited Host receipt. See ../../docs/PressMachine-v2.0-Release.md for distribution, installation and known limits. The current DCTL test baseline stays available for use, investigation and implementation. No existing timeline or legacy OFX state is converted automatically.
 
 All25 existing controls stay. Hue Angle zero has the intentional SkinAxis interpretation; other control meanings stay. OFX groups put color-space setup first, followed by Pre Saturation, Hue, Comp/Saturation Protection, Density and final desaturation. Hue Points offers1,2,3,4,6(default2). Density Bypass is a checkbox affecting Density only. Existing Skin Protect remains. Additional controls and expanded/new skin masks are deferred to v2.1.
 
@@ -47,3 +47,7 @@ regenerate.py emits generated/PressMachine_Full_SkinAxis_TEST.dctl. A frozen can
 The exact 50a9372f artifact passed Resolve21.1 build14 Windows load, 25-control UI, a skin-footage Angle0/Points1/Hue50 check, and variant-specific CUDA/Host-stream enqueue logging. Completed-frame OFX versus new native DCTL, and new native versus the legacy physical-angle reference, each had maximum error1.1920928955e-7 with no samples over the gate.
 
 A normal restart preserved all25 displayed values, the image, five-node state and new PowerGrade; a fresh process emitted the SkinAxis trace. See results/HOST_LIMITED_ACCEPTANCE_SKINAXIS.json. This is one scene and one state, not broad visual qualification, automatic migration, clipping repair or a general performance result. The receipt applies only to its recorded artifact/core hashes.
+
+## Release artifact14249fb9
+
+The regular label is Press Machine v2.0; plugin identity and25 values remain stable. The exact release module passed its own normal-load/label, retained25-value/PowerGrade and release-specific CUDA Host-stream gate. Its one completed4096x2160 skin-scene frame is word-identical to predecessor50a: all35,389,440RGBA words match, RGB maximum absolute/normalized error0, finite with alpha1. See results/RELEASE_HOST_ACCEPTANCE.json. This metadata-only one-state/one-frame check does not expand the historical acceptance scope or establish sustained performance.

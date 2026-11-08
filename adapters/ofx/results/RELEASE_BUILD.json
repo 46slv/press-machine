@@ -41,7 +41,7 @@
   "phase_axes_25_and_legacy_translation_5250": "PASS",
   "trace_unit_checks_15": "PASS",
   "GPU_independent_retest": "not run for release binary; embedded PTX and CUDA adapter unchanged",
-  "Host_acceptance": "pending",
+  "Host_acceptance": "PASS for exact binary; see RELEASE_HOST_ACCEPTANCE.json for limited scope",
   "build_seconds_sum": 31.142794,
   "tests_bound_to_binary": "14249fb953dc23aac39b82a65fa0926c1ef99d828a94a5f22303700da6cda3eb"
 }
