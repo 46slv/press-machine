@@ -19,10 +19,10 @@ public:
   const auto s=src->getBounds(),d=_dstImg->getBounds(),r=_renderWindow;
   runCuda(_pCudaStream,src->getPixelData(),_dstImg->getPixelData(),src->getRowBytes(),_dstImg->getRowBytes(),
    s.x1,s.y1,s.x2,s.y2,d.x1,d.y1,r.x1,r.y1,r.x2,r.y2,premult,p);
-  traceBackend(true,_pCudaStream,src->getRowBytes(),_dstImg->getRowBytes());
+  traceBackend(_effect,true,_pCudaStream,src->getRowBytes(),_dstImg->getRowBytes());
  }
  void multiThreadProcessImages(OfxRectI r) override{
-  traceBackend(false,nullptr,src->getRowBytes(),_dstImg->getRowBytes());
+  traceBackend(_effect,false,nullptr,src->getRowBytes(),_dstImg->getRowBytes());
   for(int y=r.y1;y<r.y2;++y){
    if(_effect.abort())return;
    for(int x=r.x1;x<r.x2;++x){

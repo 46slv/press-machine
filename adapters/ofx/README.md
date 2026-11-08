@@ -20,7 +20,11 @@ CPU and CUDA share the same pixel math. CUDA respects Host stream, image bounds,
 
 Alpha is copied. Premultiplied RGB uses correctly rounded component division, finite guards, and remultiplication. Unchanged colors retain the original premultiplied words. Zero-alpha hidden RGB is retained. Unrepresentable alpha conversion falls back to original RGBA rather than creating Inf/NaN. Opaque RGB is the DCTL equivalence contract.
 
-A development log records the first actual CPU/CUDA render entry per process at the local app-data PressMachine/OFXv2-test.log. Exclude first-render logging and GPU module warm-up from steady-state timings. CUDA enqueue trace is not itself a pixel-correctness result.
+Diagnostic revision 2 records CPU dispatch or successful CUDA enqueue through the non-popup OFX V1 MessageLog callback and local app-data PressMachine/OFXv2-test.log. KnownFolder resolves LocalAppData, with the environment value as fallback. Host messages include file stage, Win32 error code, KnownFolder HRESULT and path provider. Host log messages use a literal format string.
+
+CPU and CUDA have separate success/retry state. A shared nonblocking sink gate defers contention without consuming retry budget or doing I/O. Each backend stops after successful delivery or three real failed attempts; completed/exhausted calls perform no formatting, path work or I/O. Exceptions in diagnostics do not escape into rendering. No controls, pixel math, kernel or PTX are changed by this diagnostic revision.
+
+The build runs standalone diagnostic tests for retry/exception/concurrency behavior, blocked Host callback recovery, printf forwarding, file failure reporting and concurrent append/flush/close. Their files stay under an owned results fixture, not the user's live plugin log directory. Exclude startup logging and GPU module warm-up from steady-state timings. A CUDA enqueue trace is not itself proof of completed pixels or pixel equality.
 
 Resolve Host load/UI, same-input operation, candidate-specific numeric output, persistence, real-footage/4K performance and broader visual acceptance must be reported separately. Do not transfer old DCTL/OFX results to a new binary. OpenCL/Metal, other OSes and Free/Studio cross-edition compatibility are not verified by this Windows candidate. There is no public installer or automatic legacy migration.
 

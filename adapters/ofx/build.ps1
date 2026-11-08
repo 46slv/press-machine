@@ -16,6 +16,7 @@ Measure-Step 'shader-NVRTC-compile' {python "$root\compile_cuda.py"}
 Measure-Step 'CMake-configure' {cmake -S $root -B "$root\build" -G 'Visual Studio 16 2019' -A x64}
 if($Clean){Measure-Step 'clean-generated-build' {cmake --build "$root\build" --config Release --target clean}}
 Measure-Step 'CXX-compile-link' {cmake --build "$root\build" --config Release --parallel 4}
+Measure-Step 'trace-logging-unit-tests' {& "$root\build\Release\PressMachineTraceTests.exe" "$root\results\trace-unit-fixture"}
 Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package.py"}
 Measure-Step 'CPU-parity' {python "$root\tests\verify_cpu.py"}
 Measure-Step 'CPU-alpha-extremes' {python "$root\tests\verify_alpha.py"}

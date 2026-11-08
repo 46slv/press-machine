@@ -7,3 +7,5 @@ generated/Kernel.ptx
 generated/KernelPtx.hpp
 generated/PressMachine_Full_FromSharedCore_TEST.dctl
 results/*.log
+
+/results/trace-unit-fixture/
