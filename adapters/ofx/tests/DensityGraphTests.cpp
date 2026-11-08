@@ -110,12 +110,13 @@ int main(int argc,char**argv){
   }
  }
  std::sort(timings.begin(),timings.end());
+ const std::set<std::string> uniqueChecks(checks.begin(),checks.end());
  if(argc>1){std::ofstream out(argv[1]);out<<"{\"status\":\"PASS\",\"assertions\":"<<checks.size()
  <<",\"probes\":[\"Skin sRGB194/150/130\",\"Red sRGB0.80/0.15/0.10\",\"Blue sRGB0.12/0.25/0.85\"],\"samples_per_probe\":33,\"stage_evaluations_per_rebuild\":99"
  <<",\"worst_setting_median_ms\":"<<timings[12]<<",\"worst_setting_p96_ms\":"<<timings[23]
  <<",\"checksum\":"<<checksum<<",\"skin_EV_difference\":"<<skinDelta<<",\"blue_EV_difference\":"<<blueDelta
  <<",\"host_acceptance\":false,\"checks\":[";
- for(size_t i=0;i<checks.size();++i)if(i<40){if(i)out<<",";out<<"\""<<checks[i]<<"\"";}out<<"]}\n";}
+ bool first=true;for(const auto&name:uniqueChecks){if(!first)out<<",";first=false;out<<"\""<<name<<"\"";}out<<"]}\n";}
  std::cout<<"Density graph focused tests PASS: "<<checks.size()<<" assertions; worst-branch median "<<timings[12]<<" ms p96 "<<timings[23]<<" ms\n";
  return 0;
  }catch(const std::exception&e){std::cerr<<"Density graph FAIL: "<<e.what()<<"\n";return 1;}
