@@ -1,1 +1,27 @@
-﻿{"status":"PASS","scope":"Independent read-only source review of HUD delta","blocking_defects":0,"checked":["SDK V1 registration and lifetime","GL state and matrix restoration","viewport-local four-corner projection","shared core graph laws","Graph separation from processing"],"not_qualified":["Resolve incoming GL callback state","actual viewer redraw/playback","Graph on/off export equality"],"source_review_only":true}
+{
+  "status": "PASS",
+  "scope": "Independent read-only review of Density-response HUD delta and follow-up fixes",
+  "blocking_core_defects": 0,
+  "checked": [
+    "fixed reference color conversion and exposure calibration",
+    "shared original-input mask and actual upstream stages",
+    "Comp-to-Density EV and relative Oklab C/L metrics",
+    "all Density control interactions",
+    "explicit scope/delta labels and aligned ticks",
+    "bounded range-label width",
+    "validity-aware invariants"
+  ],
+  "resolved": [
+    "delta and Comp-Density scope labels",
+    "reference calibration label",
+    "tick alignment",
+    "expanded axis-label width",
+    "all-invalid flat or invariant false positives"
+  ],
+  "not_qualified": [
+    "actual new candidate viewer/readability",
+    "Graph on-off raw equality for this new binary",
+    "animated parameter or long playback FPS"
+  ],
+  "source_review_only": true
+}

@@ -1,67 +1,72 @@
 [
     {
         "step":  "shared-source-generation",
-        "seconds":  0.1528946,
+        "seconds":  0.1460573,
         "exit_code":  0
     },
     {
         "step":  "UI-descriptor-generation",
-        "seconds":  0.097255899999999992,
+        "seconds":  0.0913156,
         "exit_code":  0
     },
     {
         "step":  "shader-NVRTC-compile",
-        "seconds":  5.8588512999999995,
+        "seconds":  4.9489301999999995,
         "exit_code":  0
     },
     {
         "step":  "CMake-configure",
-        "seconds":  0.3730178,
+        "seconds":  0.3647334,
         "exit_code":  0
     },
     {
         "step":  "clean-generated-build",
-        "seconds":  0.7415413,
+        "seconds":  0.83478599999999992,
         "exit_code":  0
     },
     {
         "step":  "CXX-compile-link",
-        "seconds":  22.78626,
+        "seconds":  23.9101638,
         "exit_code":  0
     },
     {
         "step":  "trace-logging-unit-tests",
-        "seconds":  0.18407969999999999,
+        "seconds":  0.1593417,
         "exit_code":  0
     },
     {
         "step":  "HUD-model-unit-tests",
-        "seconds":  0.5041799,
+        "seconds":  7.1847882,
+        "exit_code":  0
+    },
+    {
+        "step":  "Density-interaction-focused-tests",
+        "seconds":  0.48631959999999996,
         "exit_code":  0
     },
     {
         "step":  "HUD-source-separation",
-        "seconds":  0.6794523,
+        "seconds":  0.7638927,
         "exit_code":  0
     },
     {
         "step":  "package-layout-and-exports",
-        "seconds":  0.2009611,
+        "seconds":  0.2214623,
         "exit_code":  0
     },
     {
         "step":  "CPU-parity",
-        "seconds":  0.32433799999999996,
+        "seconds":  0.3537113,
         "exit_code":  0
     },
     {
         "step":  "skin-axis-phase-and-legacy",
-        "seconds":  0.3112175,
+        "seconds":  0.3792116,
         "exit_code":  0
     },
     {
         "step":  "CPU-alpha-extremes",
-        "seconds":  0.0946549,
+        "seconds":  0.1013347,
         "exit_code":  0
     }
 ]

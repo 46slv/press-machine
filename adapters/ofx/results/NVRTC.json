@@ -1,6 +1,6 @@
 {
   "status": 0,
-  "seconds": 5.706016800017096,
+  "seconds": 4.8007778999744914,
   "compiler": "C:\\Program Files\\Blackmagic Design\\DaVinci Resolve\\nvrtc64_120_0.dll",
   "options": [
     "--gpu-architecture=compute_75",

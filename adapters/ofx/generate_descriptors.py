@@ -29,6 +29,6 @@ for i,p in enumerate(params):
  if p['id']=='pm_hue_points_index':decl.append(v+'->setHint("1, 2, 3, 4, 6 equally spaced directions. Existing DCTL states are not converted automatically.");\n')
  if p['id']=='pm_db':decl.append(v+'->setHint("Bypass Density only, preserving its settings. Other stages remain active.");\n')
  decl.append(v+'->setParent(*'+p['groupid']+');page->addChild(*'+v+');\n')
-decl.append(' auto*graph=d.defineBooleanParam("pm_graph");graph->setLabels("Graph","Graph","Graph");graph->setScriptName("pm_graph");graph->setDefault(false);graph->setAnimates(false);graph->setEvaluateOnChange(false);graph->setHint("Read-only viewer HUD. Requires host OpenFX overlays. Never rendered into image pixels.");page->addChild(*graph);\n')
+decl.append(' auto*graph=d.defineBooleanParam("pm_graph");graph->setLabels("Graph","Graph","Graph");graph->setScriptName("pm_graph");graph->setDefault(false);graph->setAnimates(false);graph->setEvaluateOnChange(false);graph->setHint("Read-only viewer HUD. Density: fixed Skin/Red/Blue reference probes, input EV -6 to +6, Comp to Density. Upper: brightness change EV. Lower: relative Oklab C/L change percent; neutral denominators are omitted. Not footage measurement. Requires OpenFX overlays; never rendered into pixels.");page->addChild(*graph);\n')
 decl.append('}\n');(r/'generated/Descriptors.hpp').write_text(''.join(decl))
 print('Generated25 core parameter descriptors + OFX-only Graph flag.')

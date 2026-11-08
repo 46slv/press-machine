@@ -4,6 +4,7 @@
 #include <cmath>
 #include <vector>
 #include "../generated/PixelCore.hpp"
+#include "DensityGraph.hpp"
 
 // Display model only. No image handles, render flags, GPU work or parameter writes.
 namespace pmhud {
@@ -14,6 +15,7 @@ struct Model {
  int points=0;
  std::array<Swatch,6> swatches{};
  std::vector<Sample> compression,finalKeep;
+ DensityGraph density;
 };
 inline float compressionOut(const pm::Parameters&p,float s){
  if(s<=0.0f)return 0.0f;
@@ -48,7 +50,7 @@ inline Swatch directionSwatch(const pm::Parameters&p,int point,int count){
  return {srgb((float)((rgb[0]-lo)/(hi-lo))),srgb((float)((rgb[1]-lo)/(hi-lo))),srgb((float)((rgb[2]-lo)/(hi-lo)))};
 }
 inline Model makeModel(const pm::Parameters&p){
- Model m;m.parameters=p;m.points=pm::pmif_points_from_ui(p.pm_hue_points_index);
+ Model m;m.parameters=p;m.density=makeDensityGraph(p);m.points=pm::pmif_points_from_ui(p.pm_hue_points_index);
  for(int i=0;i<m.points;++i)m.swatches[i]=directionSwatch(p,i,m.points);
  for(int i=0;i<=128;++i){
   const float x=(float)i/128.0f;

@@ -1,10 +1,10 @@
 {
   "status": "PASS",
-  "bundle_name": "PressMachineV2SkinAxisHUD.ofx.bundle",
-  "binary_relative_path": "Contents/Win64/PressMachineV2SkinAxisHUD.ofx",
-  "binary_sha256": "ca6ffc690d8b9194756bcace6ce342accbe4408edc083767587c924ce38a8f34",
+  "bundle_name": "PressMachineV2SkinAxisHUDDensity.ofx.bundle",
+  "binary_relative_path": "Contents/Win64/PressMachineV2SkinAxisHUDDensity.ofx",
+  "binary_sha256": "33ea96bcd25914e38e900f2a793b4ad39a1235160a720c26b423409dc4bdae1e",
   "plugin_count": 1,
-  "identifier": "com.46slv.PressMachine.v2.skinaxis.hud",
+  "identifier": "com.46slv.PressMachine.v2.skinaxis.hud.density",
   "api": "OfxImageEffectPluginAPI",
   "api_version": 1,
   "plugin_version": [

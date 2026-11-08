@@ -90,7 +90,7 @@ int main(int argc,char** argv){
   require(a.ok,"Real file write/flush/close failed");
   const auto b=pmtrace::writeFile(good.wstring(),two.data(),(DWORD)two.size());
   require(b.ok,"Append failed");
-  std::ifstream in(good/L"OFXv2-hud-test.log",std::ios::binary);
+  std::ifstream in(good/L"OFXv2-hud-density-test.log",std::ios::binary);
   const std::string content((std::istreambuf_iterator<char>(in)),{});
   require(content==one+two,"Append bytes differed");++checks;
   {
@@ -102,7 +102,7 @@ int main(int argc,char** argv){
    });
    for(auto& thread:threads)thread.join();
    require(succeeded==16,"Concurrent append failed");
-   std::ifstream appended(concurrent/L"OFXv2-hud-test.log",std::ios::binary);
+   std::ifstream appended(concurrent/L"OFXv2-hud-density-test.log",std::ios::binary);
    const std::string rows((std::istreambuf_iterator<char>(appended)),{});
    for(int i=0;i<16;++i){
     const auto row="row-"+std::to_string(i)+"\r\n";
@@ -114,7 +114,7 @@ int main(int argc,char** argv){
   const auto bad=pmtrace::writeFile((root/L"missing-parent"/L"child").wstring(),one.data(),(DWORD)one.size());
   require(!bad.ok&&bad.stage==pmtrace::FileStage::directory&&bad.error!=0,"Missing parent failure was hidden");++checks;
   const auto blocked=root/L"blocked";
-  std::filesystem::create_directories(blocked/L"OFXv2-hud-test.log");
+  std::filesystem::create_directories(blocked/L"OFXv2-hud-density-test.log");
   const auto denied=pmtrace::writeFile(blocked.wstring(),one.data(),(DWORD)one.size());
   require(!denied.ok&&denied.stage==pmtrace::FileStage::open&&denied.error!=0,"File-open failure was hidden");++checks;
   std::cout<<"{\"status\":\"PASS\",\"checks\":"<<checks<<",\"owned_fixture_only\":true,\"Host_or_GPU_used\":false}"<<std::endl;

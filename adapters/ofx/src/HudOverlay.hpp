@@ -26,11 +26,12 @@ inline const unsigned char* glyph(char c){
  {17,17,17,17,17,10,4},{17,17,17,21,21,27,17},{17,17,10,4,10,17,17},
  {17,17,10,4,4,4,4},{31,1,2,4,8,16,31},
  {0,0,0,31,0,0,0},{0,0,0,0,0,12,12},{0,0,4,0,4,0,0},
- {0,1,2,4,8,16,0},{17,2,4,8,17,0,0},{0,4,4,31,4,4,0},{0,0,0,0,0,0,0}};
+ {0,1,2,4,8,16,0},{17,2,4,8,17,0,0},{0,4,4,31,4,4,0},{0,0,0,0,0,0,0},
+ {4,4,10,10,17,17,31},{4,4,31,4,4,0,31},{0,0,31,0,31,0,0}};
  if(c>='0'&&c<='9')return data[c-'0'];
  if(c>='A'&&c<='Z')return data[10+c-'A'];
  switch(c){case '-':return data[36];case '.':return data[37];case ':':return data[38];
- case '/':return data[39];case '%':return data[40];case '+':return data[41];default:return data[42];}
+ case '/':return data[39];case '%':return data[40];case '+':return data[41];case '~':return data[43];case '@':return data[44];case '=':return data[45];default:return data[42];}
 }
 inline void quad(float x,float y,float w,float h){
  glVertex2f(x,y);glVertex2f(x+w,y);glVertex2f(x+w,y+h);glVertex2f(x,y+h);
@@ -75,11 +76,11 @@ struct GLState{
   glPopAttrib();glMatrixMode(mode);
  }
 };
-inline void panel(float x,float y,const char*title){
- glColor4f(.025f,.035f,.04f,.70f);glBegin(GL_QUADS);quad(x,y,176,90);glEnd();
+inline void panel(float x,float y,const char*title,float height=90){
+ glColor4f(.025f,.035f,.04f,.70f);glBegin(GL_QUADS);quad(x,y,176,height);glEnd();
  glColor4f(.23f,.65f,.61f,.58f);glBegin(GL_LINE_LOOP);
- glVertex2f(x,y);glVertex2f(x+176,y);glVertex2f(x+176,y+90);glVertex2f(x,y+90);glEnd();
- label(x+8,y+76,title);
+ glVertex2f(x,y);glVertex2f(x+176,y);glVertex2f(x+176,y+height);glVertex2f(x,y+height);glEnd();
+ label(x+8,y+height-14,title);
 }
 inline void curve(float x,float y,const std::vector<Sample>&samples,bool diagonal){
  glColor4f(.42f,.49f,.49f,.42f);glBegin(GL_LINES);
@@ -88,6 +89,44 @@ inline void curve(float x,float y,const std::vector<Sample>&samples,bool diagona
  if(diagonal){glColor4f(.7f,.7f,.7f,.35f);glBegin(GL_LINES);glVertex2f(x,y);glVertex2f(x+148,y+28);glEnd();}
  glColor4f(.40f,.94f,.79f,1);glBegin(GL_LINE_STRIP);
  for(auto s:samples)glVertex2f(x+148*std::clamp(s.x,0.0f,1.0f),y+28*std::clamp(s.y,0.0f,1.0f));glEnd();
+}
+inline void densityLine(float x,float y,float w,float h,const std::vector<DensitySample>&samples,
+ bool saturation,float range){
+ bool open=false;
+ for(auto sample:samples){
+  const bool valid=saturation?sample.validSat:sample.validEV;
+  if(!valid){if(open){glEnd();open=false;}continue;}
+  const float value=saturation?sample.deltaSatPercent:sample.deltaEV;
+  // Model range includes all finite samples; never silently clip a measurement.
+  if(!std::isfinite(value)||std::abs(value)>range*1.00001f){if(open){glEnd();open=false;}continue;}
+  if(!open){glBegin(GL_LINE_STRIP);open=true;}
+  glVertex2f(x+w*(sample.inputEV+6)/12,y+h*(.5f+.5f*value/range));
+ }
+ if(open)glEnd();
+}
+inline void densityPlot(float x,float y,const DensityGraph&g,bool saturation){
+ const float w=132,h=18,range=saturation?g.satRange:g.evRange;
+ glColor4f(.42f,.49f,.49f,.42f);glBegin(GL_LINES);
+ for(int i=0;i<=2;++i){glVertex2f(x+w*i/2,y);glVertex2f(x+w*i/2,y+h);}
+ glVertex2f(x,y+h/2);glVertex2f(x+w,y+h/2);glEnd();
+ const float colors[3][3]={{1,.70f,.43f},{1,.30f,.30f},{.32f,.68f,1}};
+ for(int i=0;i<3;++i){glColor4f(colors[i][0],colors[i][1],colors[i][2],1);
+  densityLine(x,y,w,h,g.curves[i],saturation,range);}
+}
+inline void densityPanel(float x,float y,const Model&m){
+ const auto&p=m.parameters;const auto&g=m.density;
+ panel(x,y,p.pm_db?"DENSITY OFF":"DENSITY",104);
+ label(x+78,y+90,"REF");
+ glColor4f(1,.70f,.43f,1);text(x+108,y+90,"SK");
+ glColor4f(1,.30f,.30f,1);text(x+132,y+90,"R");
+ glColor4f(.32f,.68f,1,1);text(x+150,y+90,"B");
+ formatted(x+8,y+78,"D%.0f C%.0f R%.1f",p.pm_density,p.pm_chroma,p.pm_response);
+ label(x+8,y+66,"COMP-DEN S=C/L 0=.18Y");
+ densityPlot(x+36,y+41,g,false);densityPlot(x+36,y+18,g,true);
+ label(x+5,y+52,"~EV");label(x+2,y+42,densityRangeLabel(g.evRange).c_str());
+ label(x+5,y+29,"~S%");label(x+2,y+19,densityRangeLabel(g.satRange).c_str());
+ if(g.validSatCount==0)label(x+66,y+23,"SAT N/A");
+ label(x+6,y+6,"EV");label(x+30,y+6,"-6");label(x+99,y+6,"0");label(x+162,y+6,"+6");
 }
 inline void drawPanels(const Model&m,float l,float b,float r,float t,float scale){
  const auto&p=m.parameters;
@@ -106,13 +145,7 @@ inline void drawPanels(const Model&m,float l,float b,float r,float t,float scale
  curve(x1+14,y1+18,m.compression,true);
  label(x1+8,y1+6,"S IN 0-100 / S OUT");
  formatted(x1+8,y1+49,"BASE / SKIN %.0f%%",p.pm_sat_skin);
- panel(x0,y0,"DENSITY");
- formatted(x0+8,y0+62,"D %.1f   C %.1f",p.pm_density,p.pm_chroma);
- formatted(x0+8,y0+50,"RESPONSE %.2f",p.pm_response);
- formatted(x0+8,y0+38,"SH %.0f / %.0f",p.pm_shadow,p.pm_sr);
- formatted(x0+8,y0+26,"HI %.0f / %.0f",p.pm_highlight,p.pm_hr);
- formatted(x0+8,y0+14,"SKIN %.0f%%",p.pm_density_skin);
- label(x0+100,y0+14,p.pm_db?"BYPASS":"ACTIVE");
+ densityPanel(x0,y0,m);
  panel(x1,y0,"FINAL SAT KEEP");
  formatted(x1+8,y0+62,"SH %.2f  K %.2f",p.pm_sd_t,p.pm_sd_k);
  curve(x1+14,y0+18,m.finalKeep,false);
