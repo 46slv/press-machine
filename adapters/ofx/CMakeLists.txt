@@ -9,6 +9,7 @@ set(LIBRARY
  "${SUPPORT}/Library/ofxsInteract.cpp" "${SUPPORT}/Library/ofxsLog.cpp"
  "${SUPPORT}/Library/ofxsMultiThread.cpp" "${SUPPORT}/Library/ofxsParams.cpp"
  "${SUPPORT}/Library/ofxsProperty.cpp" "${SUPPORT}/Library/ofxsPropertyValidation.cpp")
+configure_file(THIRD_PARTY_NOTICES.txt "${CMAKE_BINARY_DIR}/PressMachineV2.ofx.bundle/Contents/Resources/THIRD_PARTY_NOTICES.txt" COPYONLY)
 set(PTX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/generated/Kernel.ptx")
 configure_file(src/KernelResource.rc.in "${CMAKE_CURRENT_BINARY_DIR}/KernelResource.rc" @ONLY)
 add_library(PressMachine MODULE src/Plugin.cpp src/CudaRunner.cpp ${LIBRARY} "${CMAKE_CURRENT_BINARY_DIR}/KernelResource.rc")
