@@ -10,7 +10,7 @@ Use one repository with shared math and separate DCTL/OFX adapters and releases.
 
 Validated build inputs: Windowsx64, Visual Studio2019 MSVC14.29, CMake4.4.3, Resolve21.1 build14's official OpenFX SDK, and its bundled NVRTC12.8. No new CUDA toolkit is installed. The NVIDIA driver must support the generated compute75 PTX and CUDA context IDs. The SDK itself is not included in this source package.
 
-Run build.ps1 for generation, shader compile, CMake build and CPU checks. Add -Clean for a clean C++ rebuild. SDK path can be set with CMake RESOLVE_OFX_SDK. Output: build/PressMachineV2.ofx.bundle/Contents/Win64/PressMachine.ofx. 
+Run build.ps1 for generation, shader compile, CMake build, package-name/export checks and CPU checks. Add -Clean for a clean C++ rebuild. SDK path can be set with CMake RESOLVE_OFX_SDK. Output: build/PressMachineV2.ofx.bundle/Contents/Win64/PressMachineV2.ofx. 
 
 Run tests/verify_cuda.py and tests/verify_cuda_adapter.py only when no Resolve playback or render benchmark is running. They create and release isolated CUDA contexts. The actual adapter harness verifies the same module loading/cache/stream code linked into the OFX, in addition to independent kernel parity.
 
@@ -23,3 +23,5 @@ Alpha is copied. Premultiplied RGB uses correctly rounded component division, fi
 A development log records the first actual CPU/CUDA render entry per process at the local app-data PressMachine/OFXv2-test.log. Exclude first-render logging and GPU module warm-up from steady-state timings. CUDA enqueue trace is not itself a pixel-correctness result.
 
 Resolve Host load/UI, same-input operation, candidate-specific numeric output, persistence, real-footage/4K performance and broader visual acceptance must be reported separately. Do not transfer old DCTL/OFX results to a new binary. OpenCL/Metal, other OSes and Free/Studio cross-edition compatibility are not verified by this Windows candidate. There is no public installer or automatic legacy migration.
+
+The bundle name and binary name must have the same stem: PressMachineV2.ofx.bundle/Contents/Win64/PressMachineV2.ofx. Package checks catch mismatches before installation. See the [OpenFX packaging specification](https://openfx.readthedocs.io/en/main/Reference/ofxPackaging.html).

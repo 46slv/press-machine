@@ -16,7 +16,7 @@ add_library(PressMachine MODULE src/Plugin.cpp src/CudaRunner.cpp ${LIBRARY} "${
 target_include_directories(PressMachine PRIVATE "${RESOLVE_OFX_SDK}/OpenFX-1.4/include" "${SUPPORT}/include")
 target_compile_definitions(PressMachine PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
 target_compile_options(PressMachine PRIVATE /fp:strict /O2 /W3)
-set_target_properties(PressMachine PROPERTIES PREFIX "" SUFFIX ".ofx"
+set_target_properties(PressMachine PROPERTIES PREFIX "" OUTPUT_NAME "PressMachineV2" SUFFIX ".ofx"
  RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/PressMachineV2.ofx.bundle/Contents/Win64"
  LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}/PressMachineV2.ofx.bundle/Contents/Win64"
  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/PressMachineV2.ofx.bundle/Contents/Win64"
