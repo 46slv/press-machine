@@ -1,6 +1,6 @@
-# Press Machine v2 SkinAxis TEST
+# Press Machine v2.0
 
-Separate SkinAxis test variation of the Windows OFX migration. Hue Angle zero follows the existing skin chart reference; old red-zero variants remain separate. This is a TEST candidate, not a release or full product acceptance. The current DCTL test baseline stays available for use, investigation and implementation. No existing timeline or legacy OFX state is converted automatically.
+Windows OFX v2.0 release source. Hue Angle zero follows the existing skin chart reference; old red-zero variants remain separate. The release changes metadata only from the qualified SkinAxis trial; its binary requires a separate Host receipt. See ../../docs/PressMachine-v2.0-Release.md for distribution, installation and known limits. The current DCTL test baseline stays available for use, investigation and implementation. No existing timeline or legacy OFX state is converted automatically.
 
 All25 existing controls stay. Hue Angle zero has the intentional SkinAxis interpretation; other control meanings stay. OFX groups put color-space setup first, followed by Pre Saturation, Hue, Comp/Saturation Protection, Density and final desaturation. Hue Points offers1,2,3,4,6(default2). Density Bypass is a checkbox affecting Density only. Existing Skin Protect remains. Additional controls and expanded/new skin masks are deferred to v2.1.
 
@@ -38,7 +38,7 @@ The only creative-equation change is the pmcf_phase constant. Skin Protect masks
 
 To retain a legacy physical target, newAngle = wrap360(oldAngle - 26.120959577861925). Old 30 maps to new 3.8790404221381; old 0/360 maps to new 333.8790404221381. Do not round converted values to the displayed slider increment. Binary32 conversion is not universally bit-identical, and independently wrapping animated keys may change interpolation. No node, preset or keyframe is migrated automatically.
 
-This candidate has its own identifier com.46slv.PressMachine.v2.skinaxis, label Press Machine v2 SkinAxis TEST and bundle PressMachineV2SkinAxis.ofx.bundle. Existing red-zero plugins and DCTL artifacts are retained. Its diagnostic lines include variant=SkinAxis and the full plugin identifier to distinguish simultaneously loaded variants.
+This candidate has its own identifier com.46slv.PressMachine.v2.skinaxis, label Press Machine v2.0 and bundle PressMachineV2SkinAxis.ofx.bundle. Existing red-zero plugins and DCTL artifacts are retained. Its diagnostic lines include variant=SkinAxis, release=2.0.0 and the full plugin identifier to distinguish simultaneously loaded variants.
 
 regenerate.py emits generated/PressMachine_Full_SkinAxis_TEST.dctl. A frozen candidate artifact, when included under adapters/dctl/candidates, must be checked against its recorded SHA256 and shared-core hash rather than edited directly.
 

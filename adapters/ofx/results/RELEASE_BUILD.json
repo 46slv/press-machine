@@ -1,0 +1,47 @@
+{
+  "release": "2.0.0",
+  "label": "Press Machine v2.0",
+  "plugin_id": "com.46slv.PressMachine.v2.skinaxis",
+  "ofx_version": [
+    2,
+    0
+  ],
+  "qualified_predecessor_sha256": "50a9372f751d7290b088ff3c16b60f9fadb58d8cf1087736a4f36c0aa03a4dd3",
+  "binary_sha256": "14249fb953dc23aac39b82a65fa0926c1ef99d828a94a5f22303700da6cda3eb",
+  "core_sha256": "47af5048800756be4460852bd2b58f6bb4e255f8da1cd042b9942725373a7b2e",
+  "schema_sha256": "43be401f517ee88cdc4a7ac1518b50c9ec62ef69fb3bc88d804cecf654a0f356",
+  "embedded_ptx_sha256": "51a117755d4f7ed1ec937fe172ee9b2c1760fe8fca9f372ba070e6c399b9ac8a",
+  "embedded_ptx_byte_exact_to_50a": true,
+  "dctl_sha256": "6bf6df9aef31359e6759a0f0066d5e574a0ced361addfe11e9659757b5c16176",
+  "pixel_math_schema_kernel_and_cuda_adapter": "unchanged from qualified SkinAxis source",
+  "executable_source_diff": [
+    "label and description",
+    "release=2.0.0 diagnostic marker"
+  ],
+  "trace_file": "%LOCALAPPDATA%/PressMachine/OFXv2-test.log",
+  "trace_marker": "revision=2 variant=SkinAxis release=2.0.0 plugin=com.46slv.PressMachine.v2.skinaxis",
+  "files": {
+    "PressMachine_v2_0_SkinAxis.dctl": {
+      "bytes": 153584,
+      "sha256": "6bf6df9aef31359e6759a0f0066d5e574a0ced361addfe11e9659757b5c16176"
+    },
+    "PressMachineV2SkinAxis.ofx.bundle/Contents/Resources/THIRD_PARTY_NOTICES.txt": {
+      "bytes": 1909,
+      "sha256": "8981926377f38498c813b4cf13dd9072e41a03a6fd211fe7e49a245a7976a5af"
+    },
+    "PressMachineV2SkinAxis.ofx.bundle/Contents/Win64/PressMachineV2SkinAxis.ofx": {
+      "bytes": 3859968,
+      "sha256": "14249fb953dc23aac39b82a65fa0926c1ef99d828a94a5f22303700da6cda3eb"
+    }
+  },
+  "CPU_reference_2850": "PASS",
+  "Hue_off_baseline_1100": "PASS",
+  "alpha_55_plus_44": "PASS",
+  "identity_4": "PASS",
+  "phase_axes_25_and_legacy_translation_5250": "PASS",
+  "trace_unit_checks_15": "PASS",
+  "GPU_independent_retest": "not run for release binary; embedded PTX and CUDA adapter unchanged",
+  "Host_acceptance": "pending",
+  "build_seconds_sum": 31.142794,
+  "tests_bound_to_binary": "14249fb953dc23aac39b82a65fa0926c1ef99d828a94a5f22303700da6cda3eb"
+}
