@@ -13,7 +13,7 @@ inline void traceBackend(OFX::ImageEffect& effect,bool cuda,void* stream,int sou
  gate.emit([&](){
   SYSTEMTIME t;GetSystemTime(&t);char line[384];
   const int count=std::snprintf(line,sizeof(line),
-   "PressMachineBackendTrace revision=2 variant=SkinAxis plugin=com.46slv.PressMachine.v2.skinaxis %04u-%02u-%02uT%02u:%02u:%02uZ pid=%lu backend=%s stream=%s event=%s srcRowBytes=%d dstRowBytes=%d\r\n",
+   "PressMachineBackendTrace revision=2 variant=SkinAxisHUD plugin=com.46slv.PressMachine.v2.skinaxis.hud %04u-%02u-%02uT%02u:%02u:%02uZ pid=%lu backend=%s stream=%s event=%s srcRowBytes=%d dstRowBytes=%d\r\n",
    (unsigned)t.wYear,(unsigned)t.wMonth,(unsigned)t.wDay,(unsigned)t.wHour,(unsigned)t.wMinute,(unsigned)t.wSecond,
    GetCurrentProcessId(),cuda?"CUDA":"CPU",stream?"Host":"default/none",cuda?"enqueue-success":"cpu-dispatch",sourcePitch,targetPitch);
   if(count<=0||count>=(int)sizeof(line))return false;

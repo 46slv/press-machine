@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "qualified_base": "02c57f0e93ae27b25b97ab6f1b5e1a51c8da2235",
+  "frozen_file_sha256": {
+    "parameters/press_machine_v2.json": "43be401f517ee88cdc4a7ac1518b50c9ec62ef69fb3bc88d804cecf654a0f356",
+    "adapters/ofx/src/CudaRunner.cpp": "289a253c124b5bfc94f5a08c05551f1044c6ee4398ca8d0e701d1bb2b24fbcdf",
+    "adapters/ofx/src/Kernel.cu": "e2c601b2765511d2775c3b7eca40e7040e35bd6a0e51717c8b8027bbd9cac146",
+    "adapters/ofx/tests/Native.cpp": "779b0703fac4bb5b33e492de81eccb2370d8e11a6ca248d52ec98c559519c641",
+    "core/press_machine/AlphaAndIdentity.hpp.in": "145a7f5d3747af9ce9f4a2146b84c7a9234fbdfa6efd0a24c4cb494c03c28c19",
+    "core/press_machine/PixelMath.dctlh": "0a602fcc17d03618b4ba4a71c9cb0f464ac902530f881eef213601b507f5831e",
+    "core/press_machine/PixelPipeline.dctlh": "546be6eefe3172f9586c27efaeb0037d4e7a3620f13dea255ed3ace875b96b57",
+    "core/press_machine/PlatformPrefix.hpp.in": "59e197c62856d425f21b5c57f9771afe26f8eeefb9502e3d0455cb434b1e9595"
+  },
+  "processor_and_image_effect_class_byte_identical": true,
+  "core_parameter_count": 25,
+  "graph_ofx_only_default_off": true,
+  "graph_nonanimated_no_evaluate_hint": true,
+  "host_export_pixel_test": false
+}

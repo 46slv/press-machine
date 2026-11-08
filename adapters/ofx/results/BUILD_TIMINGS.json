@@ -1,52 +1,67 @@
 [
     {
         "step":  "shared-source-generation",
-        "seconds":  0.1406075,
+        "seconds":  0.1528946,
         "exit_code":  0
     },
     {
         "step":  "UI-descriptor-generation",
-        "seconds":  0.0891559,
+        "seconds":  0.097255899999999992,
         "exit_code":  0
     },
     {
         "step":  "shader-NVRTC-compile",
-        "seconds":  5.6432971,
+        "seconds":  5.8588512999999995,
         "exit_code":  0
     },
     {
         "step":  "CMake-configure",
-        "seconds":  0.30501429999999996,
+        "seconds":  0.3730178,
+        "exit_code":  0
+    },
+    {
+        "step":  "clean-generated-build",
+        "seconds":  0.7415413,
         "exit_code":  0
     },
     {
         "step":  "CXX-compile-link",
-        "seconds":  5.6499334,
+        "seconds":  22.78626,
         "exit_code":  0
     },
     {
         "step":  "trace-logging-unit-tests",
-        "seconds":  0.090575599999999992,
+        "seconds":  0.18407969999999999,
+        "exit_code":  0
+    },
+    {
+        "step":  "HUD-model-unit-tests",
+        "seconds":  0.5041799,
+        "exit_code":  0
+    },
+    {
+        "step":  "HUD-source-separation",
+        "seconds":  0.6794523,
         "exit_code":  0
     },
     {
         "step":  "package-layout-and-exports",
-        "seconds":  0.1597861,
+        "seconds":  0.2009611,
         "exit_code":  0
     },
     {
         "step":  "CPU-parity",
-        "seconds":  0.3936398,
+        "seconds":  0.32433799999999996,
         "exit_code":  0
     },
     {
         "step":  "skin-axis-phase-and-legacy",
-        "seconds":  0.3725698,
+        "seconds":  0.3112175,
         "exit_code":  0
     },
     {
         "step":  "CPU-alpha-extremes",
-        "seconds":  0.110132,
+        "seconds":  0.0946549,
         "exit_code":  0
     }
 ]

@@ -3,7 +3,7 @@ import ctypes as c
 import hashlib,json,sys
 
 R=Path(__file__).resolve().parents[1]
-bundle=Path(sys.argv[1]) if len(sys.argv)>1 else R/'build/PressMachineV2SkinAxis.ofx.bundle'
+bundle=Path(sys.argv[1]) if len(sys.argv)>1 else R/'build/PressMachineV2SkinAxisHUD.ofx.bundle'
 suffix='.ofx.bundle'
 assert bundle.name.endswith(suffix), 'Expected an OFX bundle directory'
 stem=bundle.name[:-len(suffix)]
@@ -25,7 +25,7 @@ dll.OfxGetPlugin.restype=c.POINTER(Plugin)
 assert dll.OfxGetNumberOfPlugins()==1
 plugin=dll.OfxGetPlugin(0).contents
 assert plugin.api==b'OfxImageEffectPluginAPI' and plugin.api_version==1
-assert plugin.identifier==b'com.46slv.PressMachine.v2.skinaxis'
+assert plugin.identifier==b'com.46slv.PressMachine.v2.skinaxis.hud'
 assert (plugin.major,plugin.minor)==(2,0) and plugin.set_host and plugin.entry
 report={'status':'PASS','bundle_name':bundle.name,'binary_relative_path':relative.as_posix(),
         'binary_sha256':hashlib.sha256(binary.read_bytes()).hexdigest(),

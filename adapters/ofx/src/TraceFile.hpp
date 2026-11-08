@@ -28,7 +28,7 @@ inline FileResult writeFile(const std::wstring& directory,const char* text,DWORD
    result.stage=FileStage::directory;result.error=error;return result;
   }
  }
- const std::wstring path=directory+L"\\OFXv2-test.log";
+ const std::wstring path=directory+L"\\OFXv2-hud-test.log";
  HANDLE file=CreateFileW(path.c_str(),GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,
                          nullptr,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,nullptr);
  if(file==INVALID_HANDLE_VALUE){result.stage=FileStage::open;result.error=GetLastError();return result;}

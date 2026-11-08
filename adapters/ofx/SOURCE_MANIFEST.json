@@ -2,14 +2,18 @@
   "baseline_sha256": "19382145bacab207480f2384069416f0608deeaac36935fd6a9cd296c78854c8",
   "baseline_file": "adapters/dctl/PressMachine_Full_Color_19382145_TEST.dctl",
   "core_sha256": "47af5048800756be4460852bd2b58f6bb4e255f8da1cd042b9942725373a7b2e",
-  "controls": 25,
-  "new_controls": 0,
+  "controls": 26,
+  "new_controls": 1,
   "math": "Only active CF2 pmcf_phase constant changes from red-zero to the existing skin chart direction; all other math/pipeline tokens match19382145",
-  "scope": "v2 SkinAxis trial: requested Hue Angle zero change; no new controls or expanded skin masks",
-  "status": "development; not Host accepted",
+  "scope": "Isolated read-only HUD prototype: frozen SkinAxis core, 25 processing parameters plus Graph display Boolean",
+  "status": "development; HUD Host viewer/export acceptance pending",
   "generated_dctl_sha256": "6bf6df9aef31359e6759a0f0066d5e574a0ced361addfe11e9659757b5c16176",
-  "adapter_revision": "skin-axis-zero/logging-revision2/retained1938-equations-except-approved-phase",
-  "identifier": "com.46slv.PressMachine.v2.skinaxis",
+  "adapter_revision": "skin-axis-zero/read-only-core-hud-v1/logging-revision2/retained1938-equations-except-approved-phase",
+  "identifier": "com.46slv.PressMachine.v2.skinaxis.hud",
   "skin_phase_radians": 0.7282199160893196,
-  "legacy_mapping": "new = wrap360(old -26.120959577861925 degrees), not an automatic or bit-identical migration"
+  "legacy_mapping": "new = wrap360(old -26.120959577861925 degrees), not an automatic or bit-identical migration",
+  "core_controls": 25,
+  "ofx_only_display_controls": [
+    "pm_graph"
+  ]
 }

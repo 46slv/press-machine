@@ -13,5 +13,7 @@
   "tolerance": 0.0001220703125,
   "jit_seconds": 0.010810400010086596,
   "seconds": 0.42166430002544075,
-  "scope": "independent NVIDIA context; CUDA kernel pitch/ROI/alpha/parameter parity, not Resolve Host acceptance"
+  "scope": "independent NVIDIA context; CUDA kernel pitch/ROI/alpha/parameter parity, not Resolve Host acceptance",
+  "evidence_origin": "Retained from qualified SkinAxis base 02c57f0; not executed for HUD prototype",
+  "hud_candidate_gpu_tested": false
 }

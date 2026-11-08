@@ -1,3 +1,5 @@
+> Development branch: isolated **SkinAxis HUD prototype**, with one read-only Graph checkbox and a separate plugin ID. Resolve viewer/export acceptance is pending. See [HUD prototype scope and tests](adapters/ofx/HUD_PROTOTYPE.md).
+
 # press-machine
 
 Canonical repository for Press Machine / SatComp development.

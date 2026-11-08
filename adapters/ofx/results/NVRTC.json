@@ -1,0 +1,16 @@
+{
+  "status": 0,
+  "seconds": 5.706016800017096,
+  "compiler": "C:\\Program Files\\Blackmagic Design\\DaVinci Resolve\\nvrtc64_120_0.dll",
+  "options": [
+    "--gpu-architecture=compute_75",
+    "--std=c++14",
+    "--fmad=false",
+    "--prec-div=true",
+    "--prec-sqrt=true",
+    "--ftz=false"
+  ],
+  "source_sha256": "28b2cd46ca417a6430b0b7a954ea21b96e0683e96956284db40a9b2379068d47",
+  "ptx_sha256": "51a117755d4f7ed1ec937fe172ee9b2c1760fe8fca9f372ba070e6c399b9ac8a",
+  "ptx_bytes": 3380841
+}

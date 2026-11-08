@@ -17,5 +17,7 @@
     "nonnull-Host-stream"
   ],
   "seconds": 0.401215800025966,
-  "scope": "independent NVIDIA context; actual CUDA adapter with context-ID cache/default completion/non-null stream/pitch/ROI/subnormal alpha/parameters; not Resolve Host acceptance"
+  "scope": "independent NVIDIA context; actual CUDA adapter with context-ID cache/default completion/non-null stream/pitch/ROI/subnormal alpha/parameters; not Resolve Host acceptance",
+  "evidence_origin": "Retained from qualified SkinAxis base 02c57f0; not executed for HUD prototype",
+  "hud_candidate_gpu_tested": false
 }
