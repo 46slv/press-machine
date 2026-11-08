@@ -65,9 +65,9 @@ public:
 };
 mDeclarePluginFactory(PressMachineFactory,{}, {});
 void PressMachineFactory::describe(OFX::ImageEffectDescriptor&d){
- d.setLabels("Press Machine v2 TEST","Press Machine v2 TEST","Press Machine v2 TEST");
+ d.setLabels("Press Machine v2 SkinAxis TEST","Press Machine v2 SkinAxis TEST","Press Machine v2 SkinAxis TEST");
  d.setPluginGrouping("Press Machine");
- d.setPluginDescription("v2.0 development. Existing19382145 functionality; DCTL baseline preserved. No automatic legacy-state migration. Input color settings must match the node's actual input.");
+ d.setPluginDescription("v2.0 development. Skin-reference angle zero; legacy angle values need phase conversion. DCTL baseline preserved. No automatic legacy-state migration. Input color settings must match the node's actual input.");
  d.addSupportedContext(OFX::eContextFilter);d.addSupportedContext(OFX::eContextGeneral);
  d.addSupportedBitDepth(OFX::eBitDepthFloat);d.setSingleInstance(false);d.setHostFrameThreading(false);
  d.setRenderThreadSafety(OFX::eRenderFullySafe);d.setSupportsTiles(true);d.setSupportsMultiResolution(true);
@@ -82,4 +82,4 @@ void PressMachineFactory::describeInContext(OFX::ImageEffectDescriptor&d,OFX::Co
  defineParameters(d);
 }
 OFX::ImageEffect* PressMachineFactory::createInstance(OfxImageEffectHandle h,OFX::ContextEnum){return new PressMachine(h);}
-void OFX::Plugin::getPluginIDs(OFX::PluginFactoryArray&a){static PressMachineFactory factory("com.46slv.PressMachine.v2",2,0);a.push_back(&factory);}
+void OFX::Plugin::getPluginIDs(OFX::PluginFactoryArray&a){static PressMachineFactory factory("com.46slv.PressMachine.v2.skinaxis",2,0);a.push_back(&factory);}

@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "scope": "limited candidate-specific Host acceptance; one skin-footage scene and one state",
+  "artifact_sha256": "50a9372f751d7290b088ff3c16b60f9fadb58d8cf1087736a4f36c0aa03a4dd3",
+  "generated_dctl_sha256": "6bf6df9aef31359e6759a0f0066d5e574a0ced361addfe11e9659757b5c16176",
+  "source_commit_tested": "02c57f0e93ae27b25b97ab6f1b5e1a51c8da2235",
+  "shared_core_sha256": "47af5048800756be4460852bd2b58f6bb4e255f8da1cd042b9942725373a7b2e",
+  "Host": "Resolve21.1 build14 Windows",
+  "scene_count": 1,
+  "state_count": 1,
+  "state": {
+    "Hue_Angle": 0,
+    "Hue_Points": 1,
+    "Hue_Compression": 50
+  },
+  "observations": {
+    "registered_load": true,
+    "actual_UI_controls": 25,
+    "skin_warm_direction_convergence": true,
+    "variant_specific_CUDA_Host_stream_enqueue": true,
+    "comparison_OFX_vs_new_native_DCTL": {
+      "max_error": 1.1920928955078125e-07,
+      "over_gate_count": 0
+    },
+    "comparison_new_native_vs_legacy_physical_angle_reference": {
+      "max_error": 1.1920928955078125e-07,
+      "over_gate_count": 0
+    },
+    "normal_restart_preserved": [
+      "all25 displayed values",
+      "image",
+      "five-node state",
+      "new PowerGrade"
+    ],
+    "variant_trace_after_restart": true
+  },
+  "not_established": [
+    "automatic legacy migration",
+    "red clipping repair",
+    "general performance or speedup",
+    "broader visual qualification",
+    "complete skin-mask locus or fixed vectorscope alignment"
+  ]
+}

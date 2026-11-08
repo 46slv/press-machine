@@ -1,7 +1,8 @@
 {
   "status": "PASS",
-  "baseline": "19382145",
-  "bit_exact_cases": 2850,
+  "reference": "19382145 with only approved CF2 phase constant changed",
+  "reference_bit_exact_cases": 2850,
+  "unchanged_hue_off_baseline_cases": 1100,
   "max_error": 0.0,
   "threads": 4,
   "profiles": [
@@ -28,6 +29,6 @@
   ],
   "alpha_cases": 55,
   "identity_cases": 4,
-  "seconds": 0.20498219999717548,
-  "scope": "CPU compiled baseline vs parameterized shared core; not Resolve Host acceptance"
+  "seconds": 0.2381551000289619,
+  "scope": "phase-adjusted1938 equation reference; Hue-off also original1938 exact; not Host acceptance"
 }

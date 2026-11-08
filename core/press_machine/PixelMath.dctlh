@@ -1944,7 +1944,8 @@ __DEVICE__ pmvp3 pmcf_xyz_dwg(pmvp3 v){return pmvp_make(pm_precise_dot3(v.x,v.y,
 __DEVICE__ float2 pmcf_kr(){return make_float2(2.62700200080871582e-01f,1.19303953383109729e-08f);}
 __DEVICE__ float2 pmcf_kg(){return make_float2(6.77998065948486328e-01f,5.57038459803038677e-09f);}
 __DEVICE__ float2 pmcf_kb(){return make_float2(5.93017153441905975e-02f,1.12567133392360574e-09f);}
-__DEVICE__ float2 pmcf_phase(){return make_float2(2.72323161363601685e-01f,6.31167917930497424e-09f);}
+// Hue zero follows the existing D65 sRGB (194,150,130) skin chart reference.
+__DEVICE__ float2 pmcf_phase(){return make_float2(7.28219926357269287e-01f,-1.02679500457725226e-08f);}
 
 __DEVICE__ pmvp3 pmcf_unit(float2 h){
  h=pmah_wrap(h);float2 si=pmah_sin(h),hs=pmah_sin(pm_pair_mul(h,pm_pair(.5f)));

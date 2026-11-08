@@ -13,6 +13,8 @@ states=[default,state(pm_pre=130,pm_compression=50,pm_density=40,pm_chroma=20,pm
  state(pm_density=300,pm_chroma=-100,pm_response=1,pm_shadow=100,pm_sr=100),
  state(pm_sd_t=.25,pm_sd_k=.18,pm_hd_t=.7,pm_hd_k=.18)]
 for n in range(5):states.append(state(pm_hue_points_index=n,pm_hue_compression=50,pm_hue_angle=80))
+for n in range(5):
+ for angle in (0.,360.):states.append(state(pm_hue_points_index=n,pm_hue_compression=50,pm_hue_angle=angle))
 cpu=c.CDLL(str(R/'build/Release/PressMachineParity.dll'));cpu.pm_eval.argtypes=[c.POINTER(c.c_float),c.POINTER(c.c_double),c.c_int,c.POINTER(c.c_float)]
 D=c.WinDLL('nvcuda.dll')
 def fn(name,args):f=getattr(D,name);f.argtypes=args;f.restype=c.c_int;return f
@@ -72,7 +74,7 @@ try:
        words+=4
       else:assert o==(-99.,-99.,-99.,-99.);sentinels+=4
      assert all(target[y*(dp//4)+j]==-99. for j in range(dw*4,dp//4))
- result=dict(status='PASS',device=name.value.decode(),source='actual CudaRunner adapter / embedded compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=5,states=10,premult_modes=2,max_error=maxerr,tolerance=2**-13,first_adapter_call_seconds=jit,stream_modes=['default-completed','nonnull-Host-stream'],seconds=time.perf_counter()-start,scope='independent NVIDIA context; actual CUDA adapter with context-ID cache/default completion/non-null stream/pitch/ROI/subnormal alpha/parameters; not Resolve Host acceptance')
+ result=dict(status='PASS',device=name.value.decode(),source='actual CudaRunner adapter / embedded compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=5,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,first_adapter_call_seconds=jit,stream_modes=['default-completed','nonnull-Host-stream'],seconds=time.perf_counter()-start,scope='independent NVIDIA context; actual CUDA adapter with context-ID cache/default completion/non-null stream/pitch/ROI/subnormal alpha/parameters; not Resolve Host acceptance')
  (R/'results/CUDA_ADAPTER_PARITY.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 finally:
  if src.value:free(src)
