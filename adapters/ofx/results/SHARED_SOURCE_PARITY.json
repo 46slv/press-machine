@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "baseline_sha256": "19382145bacab207480f2384069416f0608deeaac36935fd6a9cd296c78854c8",
+  "shared_core_sha256": "5eb367921f8706ebfa178ca87682291659922f87f3f21ed73713fddf0756d117",
+  "generated_dctl_sha256": "6e37ab2a54eec588bdfcd8459160b085e005195b6be2cbc51b55094da60f0f56",
+  "math_pipeline_tokens_exact": true,
+  "scope": "shared-core export; generated DCTL not installed or Host tested"
+}

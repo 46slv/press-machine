@@ -1,0 +1,9 @@
+build/
+__pycache__/
+tests/__pycache__/
+generated/PixelCore.hpp
+generated/Descriptors.hpp
+generated/Kernel.ptx
+generated/KernelPtx.hpp
+generated/PressMachine_Full_FromSharedCore_TEST.dctl
+results/*.log
