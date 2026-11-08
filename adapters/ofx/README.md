@@ -41,3 +41,9 @@ To retain a legacy physical target, newAngle = wrap360(oldAngle - 26.12095957786
 This candidate has its own identifier com.46slv.PressMachine.v2.skinaxis, label Press Machine v2 SkinAxis TEST and bundle PressMachineV2SkinAxis.ofx.bundle. Existing red-zero plugins and DCTL artifacts are retained. Its diagnostic lines include variant=SkinAxis and the full plugin identifier to distinguish simultaneously loaded variants.
 
 regenerate.py emits generated/PressMachine_Full_SkinAxis_TEST.dctl. A frozen candidate artifact, when included under adapters/dctl/candidates, must be checked against its recorded SHA256 and shared-core hash rather than edited directly.
+
+## Limited Host acceptance for artifact50a9372f
+
+The exact 50a9372f artifact passed Resolve21.1 build14 Windows load, 25-control UI, a skin-footage Angle0/Points1/Hue50 check, and variant-specific CUDA/Host-stream enqueue logging. Completed-frame OFX versus new native DCTL, and new native versus the legacy physical-angle reference, each had maximum error1.1920928955e-7 with no samples over the gate.
+
+A normal restart preserved all25 displayed values, the image, five-node state and new PowerGrade; a fresh process emitted the SkinAxis trace. See results/HOST_LIMITED_ACCEPTANCE_SKINAXIS.json. This is one scene and one state, not broad visual qualification, automatic migration, clipping repair or a general performance result. The receipt applies only to its recorded artifact/core hashes.
