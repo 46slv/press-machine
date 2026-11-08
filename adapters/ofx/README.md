@@ -1,16 +1,16 @@
-# Press Machine OFX v2.0 development
+# Press Machine v2 SkinAxis TEST
 
-Equivalent-function Windows OFX migration from the retained19382145 DCTL. This is a TEST candidate, not a release or full product acceptance. The current DCTL test baseline stays available for use, investigation and implementation. No existing timeline or legacy OFX state is converted automatically.
+Separate SkinAxis test variation of the Windows OFX migration. Hue Angle zero follows the existing skin chart reference; old red-zero variants remain separate. This is a TEST candidate, not a release or full product acceptance. The current DCTL test baseline stays available for use, investigation and implementation. No existing timeline or legacy OFX state is converted automatically.
 
-All25 existing controls and their meanings stay. OFX groups put color-space setup first, followed by Pre Saturation, Hue, Comp/Saturation Protection, Density and final desaturation. Hue Points offers1,2,3,4,6(default2). Density Bypass is a checkbox affecting Density only. Existing Skin Protect remains. Additional controls and expanded/new skin masks are deferred to v2.1.
+All25 existing controls stay. Hue Angle zero has the intentional SkinAxis interpretation; other control meanings stay. OFX groups put color-space setup first, followed by Pre Saturation, Hue, Comp/Saturation Protection, Density and final desaturation. Hue Points offers1,2,3,4,6(default2). Density Bypass is a checkbox affecting Density only. Existing Skin Protect remains. Additional controls and expanded/new skin masks are deferred to v2.1.
 
 ## Source and build
 
-Use one repository with shared math and separate DCTL/OFX adapters and releases. See ../../docs/PressMachine-v2-architecture.md. Immutable baseline1938 is at adapters/dctl/PressMachine_Full_Color_19382145_TEST.dctl. Shared math and pipeline are under core/press_machine/ in the repository root. regenerate.py emits the CPU/CUDA header and a separate development DCTL; its token test checks mathematical equivalence to the retained baseline. Never overwrite the baseline with a generated artifact.
+Use one repository with shared math and separate DCTL/OFX adapters and releases. See ../../docs/PressMachine-v2-architecture.md. Immutable baseline1938 is at adapters/dctl/PressMachine_Full_Color_19382145_TEST.dctl. Shared math and pipeline are under core/press_machine/ in the repository root. regenerate.py emits the CPU/CUDA header and a separate development DCTL; its token test checks equality to the retained baseline except for the single approved active CF2 phase constant. Never overwrite the baseline with a generated artifact.
 
 Validated build inputs: Windowsx64, Visual Studio2019 MSVC14.29, CMake4.4.3, Resolve21.1 build14's official OpenFX SDK, and its bundled NVRTC12.8. No new CUDA toolkit is installed. The NVIDIA driver must support the generated compute75 PTX and CUDA context IDs. The SDK itself is not included in this source package.
 
-Run build.ps1 for generation, shader compile, CMake build, package-name/export checks and CPU checks. Add -Clean for a clean C++ rebuild. SDK path can be set with CMake RESOLVE_OFX_SDK. Output: build/PressMachineV2.ofx.bundle/Contents/Win64/PressMachineV2.ofx. 
+Run build.ps1 for generation, shader compile, CMake build, package-name/export checks and CPU checks. Add -Clean for a clean C++ rebuild. SDK path can be set with CMake RESOLVE_OFX_SDK. Output: build/PressMachineV2SkinAxis.ofx.bundle/Contents/Win64/PressMachineV2SkinAxis.ofx. 
 
 Run tests/verify_cuda.py and tests/verify_cuda_adapter.py only when no Resolve playback or render benchmark is running. They create and release isolated CUDA contexts. The actual adapter harness verifies the same module loading/cache/stream code linked into the OFX, in addition to independent kernel parity.
 
@@ -28,4 +28,16 @@ The build runs standalone diagnostic tests for retry/exception/concurrency behav
 
 Resolve Host load/UI, same-input operation, candidate-specific numeric output, persistence, real-footage/4K performance and broader visual acceptance must be reported separately. Do not transfer old DCTL/OFX results to a new binary. OpenCL/Metal, other OSes and Free/Studio cross-edition compatibility are not verified by this Windows candidate. There is no public installer or automatic legacy migration.
 
-The bundle name and binary name must have the same stem: PressMachineV2.ofx.bundle/Contents/Win64/PressMachineV2.ofx. Package checks catch mismatches before installation. See the [OpenFX packaging specification](https://openfx.readthedocs.io/en/main/Reference/ofxPackaging.html).
+The bundle name and binary name must have the same stem: PressMachineV2SkinAxis.ofx.bundle/Contents/Win64/PressMachineV2SkinAxis.ofx. Package checks catch mismatches before installation. See the [OpenFX packaging specification](https://openfx.readthedocs.io/en/main/Reference/ofxPackaging.html).
+
+## Skin-reference zero and compatibility
+
+The reference is the existing Skin Protect chart swatch, D65 sRGB (194,150,130), transformed into the active CF2 linear BT.2020 chroma plane. Its phase is 0.72821991608931957 radians (41.723927749288961 degrees). The old zero is the BT.2020 red direction at 15.60296817142704 degrees. This is not a promise that every Oklab skin-mask center or a displayed vectorscope line shares one fixed CF2 angle.
+
+The only creative-equation change is the pmcf_phase constant. Skin Protect masks, Points choices, other stages and all control ranges/defaults remain unchanged. Hue Angle zero is the intentional meaning change. Hue Compression zero is bit-identical to the retained baseline. One Point can still strongly tint neutrals or increase chroma; start at a moderate strength.
+
+To retain a legacy physical target, newAngle = wrap360(oldAngle - 26.120959577861925). Old 30 maps to new 3.8790404221381; old 0/360 maps to new 333.8790404221381. Do not round converted values to the displayed slider increment. Binary32 conversion is not universally bit-identical, and independently wrapping animated keys may change interpolation. No node, preset or keyframe is migrated automatically.
+
+This candidate has its own identifier com.46slv.PressMachine.v2.skinaxis, label Press Machine v2 SkinAxis TEST and bundle PressMachineV2SkinAxis.ofx.bundle. Existing red-zero plugins and DCTL artifacts are retained. Its diagnostic lines include variant=SkinAxis and the full plugin identifier to distinguish simultaneously loaded variants.
+
+regenerate.py emits generated/PressMachine_Full_SkinAxis_TEST.dctl. A frozen candidate artifact, when included under adapters/dctl/candidates, must be checked against its recorded SHA256 and shared-core hash rather than edited directly.

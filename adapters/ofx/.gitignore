@@ -9,3 +9,5 @@ generated/PressMachine_Full_FromSharedCore_TEST.dctl
 results/*.log
 
 /results/trace-unit-fixture/
+
+/generated/PressMachine_Full_SkinAxis_TEST.dctl

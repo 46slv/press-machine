@@ -1,8 +1,11 @@
 {
   "status": "PASS",
   "baseline_sha256": "19382145bacab207480f2384069416f0608deeaac36935fd6a9cd296c78854c8",
-  "shared_core_sha256": "5eb367921f8706ebfa178ca87682291659922f87f3f21ed73713fddf0756d117",
-  "generated_dctl_sha256": "6e37ab2a54eec588bdfcd8459160b085e005195b6be2cbc51b55094da60f0f56",
-  "math_pipeline_tokens_exact": true,
-  "scope": "shared-core export; generated DCTL not installed or Host tested"
+  "shared_core_sha256": "47af5048800756be4460852bd2b58f6bb4e255f8da1cd042b9942725373a7b2e",
+  "generated_dctl_sha256": "6bf6df9aef31359e6759a0f0066d5e574a0ced361addfe11e9659757b5c16176",
+  "math_pipeline_tokens_exact": false,
+  "math_pipeline_tokens_exact_except_skin_phase": true,
+  "skin_phase_radians": 0.7282199160893196,
+  "legacy_angle_shift_degrees": 26.120959577861925,
+  "scope": "SkinAxis candidate: only approved active CF2 phase differs from1938; not Host tested"
 }

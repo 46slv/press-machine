@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "reference": "D65 exact-chromaticity sRGB chart194,150,130; independent double equations",
+  "linear_srgb": [
+    0.5394794890121072,
+    0.3049873140698863,
+    0.2232279573168085
+  ],
+  "XYZ": [
+    0.37182342261330653,
+    0.34894709976783955,
+    0.2589668266542291
+  ],
+  "CF2_ab": [
+    0.06755750622765153,
+    0.06024217081432105
+  ],
+  "skin_phase_radians": 0.7282199160893197,
+  "phase_shift_degrees": 26.12095957786193,
+  "axis_exposure_points_cases": 25,
+  "max_axis_error_radians": 2.886579864025407e-15,
+  "legacy_float_translation_cases": 5250,
+  "legacy_max_absolute_error": 4.1835010051727295e-05,
+  "legacy_max_normalized_error": 4.1835010051727295e-05,
+  "legacy_normalized_tolerance": 6.103515625e-05,
+  "worst_legacy_translation_case": {
+    "profile": [
+      2,
+      2
+    ],
+    "points_index": 0,
+    "new_angle": 333.8790404221381,
+    "legacy_angle": 359.9999878981744,
+    "amount": 100.0,
+    "input": [
+      0.6638245011970296,
+      0.6786749357150014,
+      0.5821327062702965,
+      1.0
+    ],
+    "new": [
+      0.79184889793396,
+      0.5122522115707397,
+      0.09290596097707748,
+      1.0
+    ],
+    "old": [
+      0.79184889793396,
+      0.5122522115707397,
+      0.09286412596702576,
+      1.0
+    ]
+  },
+  "same_angle_intentional_changed_cases": 684,
+  "bit_identical_legacy_migration_promised": false,
+  "Host_acceptance": false
+}

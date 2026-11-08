@@ -41,6 +41,8 @@ struct float2{float x,y;};struct float3{float x,y,z;}; inline float2 make_float2
 #define DEFINE_UI_TOOLTIP(...)
 
 namespace original {
+static thread_local bool skin_phase_reference=false;
+
 // PRESSMACHINE COMMON COLOR TEST CANDIDATE. NATIVE RESEARCH; HOST/GPU QUALIFICATION PENDING.
 // Explicit input primaries + transfer -> linear DWG pair -> shared creative core -> output (default follows input).
 // Full: Pre -> Hue -> Comp -> Density -> final tonal desat; Density Bypass affects Density only. Standalone Comp Bypass affects Comp only.
@@ -2016,7 +2018,7 @@ __DEVICE__ pmvp3 pmcf_xyz_dwg(pmvp3 v){return pmvp_make(pm_precise_dot3(v.x,v.y,
 __DEVICE__ float2 pmcf_kr(){return make_float2(2.62700200080871582e-01f,1.19303953383109729e-08f);}
 __DEVICE__ float2 pmcf_kg(){return make_float2(6.77998065948486328e-01f,5.57038459803038677e-09f);}
 __DEVICE__ float2 pmcf_kb(){return make_float2(5.93017153441905975e-02f,1.12567133392360574e-09f);}
-__DEVICE__ float2 pmcf_phase(){return make_float2(2.72323161363601685e-01f,6.31167917930497424e-09f);}
+__DEVICE__ float2 pmcf_phase(){return skin_phase_reference?make_float2(7.28219926357269287e-01f,-1.02679500457725226e-08f):make_float2(2.72323161363601685e-01f,6.31167917930497424e-09f);}
 
 __DEVICE__ pmvp3 pmcf_unit(float2 h){
  h=pmah_wrap(h);float2 si=pmah_sin(h),hs=pmah_sin(pm_pair_mul(h,pm_pair(.5f)));
@@ -2186,3 +2188,7 @@ __DEVICE__ float3 transform(int p_Width,int p_Height,int p_X,int p_Y,float p_R,f
 EXPORT void pm_eval(const float*x,const double*v,int premult,float*out){pm::pixel(fromValues(v),x,out,premult);}
 EXPORT int pm_identity(const double*v){return pm::identity(fromValues(v));}
 EXPORT void pm_baseline(const float*x,const double*v,float*out){original::pmi_ig=(int)v[0];original::pmi_it=(int)v[1];original::pmi_og=(int)v[2];original::pmi_ot=(int)v[3];original::pm_pre=(float)v[4];original::pm_hue_angle=(float)v[5];original::pm_hue_points_index=(int)v[6];original::pm_hue_compression=(float)v[7];original::pm_threshold=(float)v[8];original::pm_compression=(float)v[9];original::pm_softness=(float)v[10];original::pm_sat_skin=(float)v[11];original::pm_density=(float)v[12];original::pm_chroma=(float)v[13];original::pm_response=(float)v[14];original::pm_shadow=(float)v[15];original::pm_sr=(float)v[16];original::pm_highlight=(float)v[17];original::pm_hr=(float)v[18];original::pm_density_skin=(float)v[19];original::pm_db=(int)v[20];original::pm_sd_t=(float)v[21];original::pm_sd_k=(float)v[22];original::pm_hd_t=(float)v[23];original::pm_hd_k=(float)v[24];auto z=original::transform(1,1,0,0,x[0],x[1],x[2]);out[0]=z.x;out[1]=z.y;out[2]=z.z;out[3]=x[3];}
+
+EXPORT void pm_skin_reference(const float*x,const double*v,float*out){const bool previous=original::skin_phase_reference;original::skin_phase_reference=true;pm_baseline(x,v,out);original::skin_phase_reference=previous;}
+EXPORT double pm_skin_phase(){auto p=pm::pmcf_phase();return (double)p.x+(double)p.y;}
+EXPORT void pm_skin_endpoint(double a,double b,double Y,double angle,int points,double*out){auto pair=[](double x){const float h=(float)x;return pm::make_float2(h,(float)(x-h));};auto v=pm::pmcf_endpoint(pair(a),pair(b),pair(Y),(float)angle,points);out[0]=(double)v.y.x+v.y.y;out[1]=(double)v.z.x+v.z.y;}

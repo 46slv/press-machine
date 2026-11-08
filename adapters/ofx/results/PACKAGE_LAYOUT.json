@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "bundle_name": "PressMachineV2SkinAxis.ofx.bundle",
+  "binary_relative_path": "Contents/Win64/PressMachineV2SkinAxis.ofx",
+  "binary_sha256": "50a9372f751d7290b088ff3c16b60f9fadb58d8cf1087736a4f36c0aa03a4dd3",
+  "plugin_count": 1,
+  "identifier": "com.46slv.PressMachine.v2.skinaxis",
+  "api": "OfxImageEffectPluginAPI",
+  "api_version": 1,
+  "plugin_version": [
+    2,
+    0
+  ],
+  "dependency_notice_text_exact": true,
+  "host_acceptance": false
+}

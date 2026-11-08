@@ -25,6 +25,7 @@ for i,p in enumerate(params):
   decl.append(v+'->setRange('+str(p['min'])+','+str(p['max'])+');'+v+'->setDisplayRange('+str(p['min'])+','+str(p['max'])+');'+v+'->setIncrement('+str(p['step'])+');\n')
  if p['kind']=='choice':
   for option in p['options']:decl.append(v+'->appendOption("'+option+'");\n')
+ if p['id']=='pm_hue_angle':decl.append(v+'->setHint("0 degrees: skin-tone reference axis.");\n')
  if p['id']=='pm_hue_points_index':decl.append(v+'->setHint("1, 2, 3, 4, 6 equally spaced directions. Existing DCTL states are not converted automatically.");\n')
  if p['id']=='pm_db':decl.append(v+'->setHint("Bypass Density only, preserving its settings. Other stages remain active.");\n')
  decl.append(v+'->setParent(*'+p['groupid']+');page->addChild(*'+v+');\n')

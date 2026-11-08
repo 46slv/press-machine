@@ -19,9 +19,10 @@ Measure-Step 'CXX-compile-link' {cmake --build "$root\build" --config Release --
 Measure-Step 'trace-logging-unit-tests' {& "$root\build\Release\PressMachineTraceTests.exe" "$root\results\trace-unit-fixture"}
 Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package.py"}
 Measure-Step 'CPU-parity' {python "$root\tests\verify_cpu.py"}
+Measure-Step 'skin-axis-phase-and-legacy' {python "$root\tests\verify_skin_axis.py"}
 Measure-Step 'CPU-alpha-extremes' {python "$root\tests\verify_alpha.py"}
 $records | ConvertTo-Json -Depth 5 | Set-Content "$root\results\BUILD_TIMINGS.json"
-Get-FileHash -LiteralPath "$root\build\PressMachineV2.ofx.bundle\Contents\Win64\PressMachineV2.ofx" -Algorithm SHA256 | Format-List
+Get-FileHash -LiteralPath "$root\build\PressMachineV2SkinAxis.ofx.bundle\Contents\Win64\PressMachineV2SkinAxis.ofx" -Algorithm SHA256 | Format-List
 # CUDA adapter/kernel tests use an isolated GPU context. Run only after
 # coordinating with the sole Resolve Host benchmark owner:
 # python "$root\tests\verify_cuda.py"
