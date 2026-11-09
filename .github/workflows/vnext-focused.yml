@@ -32,6 +32,15 @@ jobs:
         run: python3 adapters/ofx/tests/verify_vnext.py
       - name: Alpha and extreme values
         run: python3 adapters/ofx/tests/verify_alpha_v3.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PressMachine-v3-dev-${{ github.sha }}
+          path: |
+            adapters/ofx/generated/PressMachine_V3_Dev_TEST.dctl
+            adapters/ofx/SOURCE_MANIFEST_V3.json
+            adapters/ofx/results/v3/FOCUSED_CPU.json
+            adapters/ofx/results/v3/ALPHA_EXTREMES.json
+          if-no-files-found: error
 
   focused-windows-cpu:
     runs-on: windows-latest
