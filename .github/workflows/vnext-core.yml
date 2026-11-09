@@ -30,6 +30,21 @@ jobs:
         env:
           PM_VNEXT_NATIVE: /tmp/libpmvnext.so
         run: python adapters/ofx_vnext/tests/verify_cpu.py
+      - name: Static-check Windows OFX/CUDA harness
+        run: |
+          python -m py_compile adapters/ofx_vnext/compile_cuda.py adapters/ofx_vnext/tests/verify_cuda_adapter.py
+          python - <<'PY'
+          from pathlib import Path
+          plugin=Path('adapters/ofx_vnext/src/Plugin.cpp').read_text()
+          runner=Path('adapters/ofx_vnext/src/CudaRunner.cpp').read_text()
+          kernel=Path('adapters/ofx_vnext/src/Kernel.cu').read_text()
+          cmake=Path('adapters/ofx_vnext/CMakeLists.txt').read_text()
+          assert 'com.46slv.PressMachine.vnext.test' in plugin
+          assert 'PressMachineVNextKernel' in kernel and 'PressMachineVNextKernel' in runner
+          assert 'PressMachineVNext.ofx.bundle' in cmake and 'OUTPUT_NAME "PressMachineVNext"' in cmake
+          assert 'Resolve-bundled' not in plugin  # no runtime documentation text in implementation source
+          print('Windows OFX/CUDA static contracts PASS')
+          PY
       - name: Check generated DCTL and OFX parameter contracts
         run: |
           python - <<'PY'
