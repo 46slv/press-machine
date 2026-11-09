@@ -2,6 +2,20 @@
 
 Use one repository, with separate adapters and releases. The same color transforms, pixel math, parameter meanings and numerical fixtures should not be maintained in two repositories: a fix could otherwise silently change only one backend.
 
+## vNext candidate coexistence
+
+The remainder of this document describes the released v2.0 / SkinAxis architecture unless a section says otherwise. The current vNext candidate is intentionally additive rather than an in-place rewrite:
+
+- `parameters/press_machine_v2.json` and released v2.0 identifiers/artifacts remain immutable.
+- `parameters/press_machine_vnext.json` defines the candidate schema with Hue Pattern, Hue Bias and Luma Split.
+- `core/press_machine/*VNext*` composes the new Comp → Hue → Density pipeline while reusing the retained numerical/color helpers.
+- `adapters/vnext/` generates the candidate DCTL/shared headers.
+- `adapters/ofx_vnext/` is the separate OFX/CUDA candidate adapter with a new test identifier.
+- v2.0 saved Points states are not reinterpreted or migrated automatically.
+
+Technical contract: [Press Machine vNext — Comp → Hue → Density](PressMachine-vNext-Comp-Hue-Density-Spec.md). Candidate-specific tests and Host receipts must stay attached to the exact vNext source/artifact; v2.0 receipts are not inherited.
+
+
 Proposed final layout:
 - core/: shared color/math and per-pixel pipeline, without UI or Host ownership.
 - parameters/: stable IDs, types, ranges, defaults, menu index/value mappings and group order.

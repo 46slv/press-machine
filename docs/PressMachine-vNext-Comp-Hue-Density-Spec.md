@@ -1,10 +1,28 @@
 # Press Machine vNext — Comp → Hue → Density implementation specification
 
-Status: **implementation baseline / source integration and Host acceptance pending**  
+Status: **versioned source candidate implemented / cloud CPU prebuild PASS / target CUDA-OFX-Resolve Host qualification pending**  
 Date: 2026-11-09  
 Scope: shared pixel core, parameter schema, DCTL and OFX adapters
 
 This document defines the implementation contract for the next Press Machine color pipeline. It does not change or reinterpret the released v2.0 plugin, existing DCTL artifacts, saved nodes, or their acceptance receipts.
+
+## Implementation checkpoint — 2026-11-09
+
+The contract is now represented by executable candidate source on PR #7 rather than documentation alone:
+
+- versioned schema: `parameters/press_machine_vnext.json`;
+- shared candidate composition: `PlatformPrefixVNext.hpp.in`, `PixelVNext.dctlh`, `PixelPipelineVNext.dctlh`, `AlphaAndIdentityVNext.hpp.in`;
+- generated DCTL/shared glue: `adapters/vnext/`;
+- OFX/CUDA candidate source and Windows build harness: `adapters/ofx_vnext/`.
+
+Cloud run **42597880896** passed generation, independent Pattern/Luma scalar geometry, C++17 shared-core compile/run, the native CPU adapter harness, Comp/Look one-net-delta protection checks, post-Hue Density response checks, and generated DCTL/OFX parameter-contract checks. The generated candidate artifact was retained by Actions with SHA-256 digest `e9ca64b404199506a135331d2b88c4394f7e44aa17dce44bf1a41403be0c1dee`.
+
+The first focused CPU failure was a test-fixture error, not a product equation error: it expected pure Luma Split to change an 18% gray sample even though `q_ref(0.18)=0` by contract. The fixture was moved into the shadow domain and the complete focused suite passed.
+
+Engineering choice for Analogous is **±30°**. ±45° creates a 90° outer span and ±60° a 120° outer span, directly colliding with the characteristic spacing of Tetradic/Triadic families. ±30° keeps a compact 60° analogous family while Hue Bias remains the independent control for stronger Primary-Hue dominance.
+
+Still separate and unverified for this candidate: target-Windows NVRTC/CUDA parity, actual Resolve OpenFX SDK build/load, DCTL/OFX UI and persistence, representative footage, sustained same-condition 4K, and final visual acceptance. These are not inferred from v2.0 receipts.
+
 
 The design goal is to make the responsibilities explicit:
 

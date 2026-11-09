@@ -26,3 +26,11 @@ Bundle and module use the same `PressMachineVNext` stem.
 ## Evidence boundary
 
 Cloud CI compiles and runs the shared CPU core plus the independent geometry/scalar reference. CUDA/NVRTC, actual OFX SDK build, Resolve load/UI/persistence, real footage and 4K acceptance require the target Windows Resolve host and are separate evidence. Do not transfer v2.0 Host receipts to this candidate.
+
+After a successful Windows build, and only when no Resolve render/playback owns the test GPU, run:
+
+```powershell
+python tests\verify_cuda_adapter.py
+```
+
+This exercises the actual vNext `CudaRunner` path in an independent NVIDIA context, including pitch/ROI, premultiplied alpha, default-stream completion and non-null stream behavior, and compares the output to the exact shared CPU core.
