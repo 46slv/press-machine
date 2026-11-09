@@ -2,6 +2,20 @@
 
 Use one repository, with separate adapters and releases. The same color transforms, pixel math, parameter meanings and numerical fixtures should not be maintained in two repositories: a fix could otherwise silently change only one backend.
 
+## v3.dev candidate coexistence
+
+The remainder of this document describes released v2.0 / historical SkinAxis behavior unless a section explicitly says otherwise. The current DEV-12 Revision 3 candidate is additive:
+
+- released `parameters/press_machine_v2.json`, DCTL artifacts, plugin identity and v2 receipts remain immutable;
+- `parameters/press_machine_v3.json` is the separate 27-control development schema;
+- `core/press_machine/VNextHue.dctlh` plus the shared pipeline implement Comp → Hue Pattern/Bias/Split → post-Hue Density;
+- the existing `adapters/ofx/` generation/build system emits the v3.dev DCTL/CPU/CUDA/OFX candidate under a separate identity;
+- v2 Points states are not reinterpreted or migrated automatically;
+- candidate-specific evidence lives under `adapters/ofx/results/v3/` and must not inherit v2 Host receipts.
+
+Technical contract: [Press Machine vNext — Comp → Hue → Density](PressMachine-vNext-Comp-Hue-Density-Spec.md).
+
+
 Proposed final layout:
 - core/: shared color/math and per-pixel pipeline, without UI or Host ownership.
 - parameters/: stable IDs, types, ranges, defaults, menu index/value mappings and group order.
