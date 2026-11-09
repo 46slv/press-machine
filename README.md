@@ -7,6 +7,7 @@ Color processing shared by DCTL and OpenFX adapters.
 - Preserved red-zero DCTL baseline: adapters/dctl/PressMachine_Full_Color_19382145_TEST.dctl.
 - Shared math: core/press_machine. Stable parameter schema: parameters/press_machine_v2.json.
 - [Architecture and backend coexistence](docs/PressMachine-v2-architecture.md).
+- [vNext Comp → Hue → Density implementation specification](docs/PressMachine-vNext-Comp-Hue-Density-Spec.md) — design baseline only; source integration and Host acceptance are pending.
 
 DCTL and OFX remain in this repository with separate artifacts and validation receipts. Legacy projects are not automatically migrated. The graph HUD and expanded masks are separate work, not part of v2.0.
 
