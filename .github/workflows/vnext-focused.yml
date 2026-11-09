@@ -14,6 +14,20 @@ jobs:
         run: |
           python3 adapters/ofx/regenerate.py
           python3 adapters/ofx/generate_descriptors.py
+      - name: Static-check Windows candidate harness
+        run: |
+          python3 -m py_compile adapters/ofx/compile_cuda.py adapters/ofx/tests/verify_cuda_v3.py adapters/ofx/tests/verify_cuda_adapter_v3.py adapters/ofx/tests/verify_package_v3.py
+          python3 - <<'PY'
+          from pathlib import Path
+          plugin=Path('adapters/ofx/src/Plugin.cpp').read_text()
+          cmake=Path('adapters/ofx/CMakeLists.txt').read_text()
+          compile_cuda=Path('adapters/ofx/compile_cuda.py').read_text()
+          assert 'com.46slv.PressMachine.v3.dev' in plugin
+          assert 'PressMachineV3Dev.ofx.bundle' in cmake
+          assert 'OUTPUT_NAME "PressMachineV3Dev"' in cmake
+          assert "results/v3" in compile_cuda.replace("\\","/")
+          print('Windows v3.dev static contracts PASS')
+          PY
       - name: Focused source and generated-DCTL qualification
         run: python3 adapters/ofx/tests/verify_vnext.py
       - name: Alpha and extreme values
