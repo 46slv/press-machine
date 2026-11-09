@@ -6,7 +6,7 @@ Identity: `com.46slv.PressMachine.v3.dev`, version 3.0, label `Press Machine v3.
 
 ## Current v3.dev checkpoint
 
-Canonical open source lane: [Draft PR #9](https://github.com/46slv/press-machine/pull/9), head `53f074b12d3b05ad23fd830e152d6c89c8434787`.
+Canonical open source lane: [Draft PR #9](https://github.com/46slv/press-machine/pull/9). Source implementation baseline: `c32d6dc1952c4a8c87053d3f757f57613bd91a4b`. Expanded focused qualification suite: `95c8ed1fa709db1f6104a40e74a3f2484e01748e`. Documentation-only commits may advance the PR head without changing pixel source.
 
 Focused cloud qualification for this head passes:
 
