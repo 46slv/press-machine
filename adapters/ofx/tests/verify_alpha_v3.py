@@ -2,7 +2,7 @@ from pathlib import Path
 import ctypes as c,json,math,struct,os,sys
 R=Path(__file__).resolve().parents[1]
 schema=json.loads((R.parents[1]/'parameters/press_machine_v3.json').read_text());default=[p['default'] for p in schema];idx={p['id']:i for i,p in enumerate(schema)}
-path=Path(sys.argv[1]) if len(sys.argv)>1 else R/('build/Release/PressMachineParity.dll' if os.name=='nt' else 'build/libvnext_native.so')
+path=Path(sys.argv[1]) if len(sys.argv)>1 else ((R/'build/Release/PressMachineParity.dll') if os.name=='nt' and (R/'build/Release/PressMachineParity.dll').exists() else ((R/'build/VNextNative.dll') if os.name=='nt' else (R/'build/libvnext_native.so')))
 lib=c.CDLL(str(path));lib.pm_eval.argtypes=[c.POINTER(c.c_float),c.POINTER(c.c_double),c.c_int,c.POINTER(c.c_float)]
 f=lambda x:c.c_float(x).value
 def run(x,v,m):
