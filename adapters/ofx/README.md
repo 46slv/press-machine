@@ -4,6 +4,22 @@ This branch implements the separate Comp → Hue → Density candidate with 27 c
 
 Identity: `com.46slv.PressMachine.v3.dev`, version 3.0, label `Press Machine v3.dev`. Bundle and binary stem: `PressMachineV3Dev`. The name intentionally distinguishes this unqualified development candidate from released v2.0.
 
+## Current v3.dev checkpoint
+
+Canonical open source lane: [Draft PR #9](https://github.com/46slv/press-machine/pull/9), head `53f074b12d3b05ad23fd830e152d6c89c8434787`.
+
+Focused cloud qualification for this head passes:
+
+- 75,877 shared-core / formula / generated-DCTL checks;
+- 180 mixed generated-DCTL ↔ CPU-adapter cases bit-exact;
+- all 600 input/output profile selector combinations bit-exact, finite, alpha-preserving;
+- 77 alpha/extreme cases PASS with maximum error 0;
+- Windows NVRTC/CUDA/package scripts parse and their bundle/plugin/kernel source contracts pass static CI checks.
+
+This does **not** establish target-Windows NVRTC output, RTX CUDA parity, native OFX SDK build/load, Resolve UI/persistence, footage, 4K performance, or final visual acceptance. Those remain the next candidate-specific gates.
+
+Analogous uses ±30° in the current candidate. ±45°/±60° are not blocking comparison variants; reopen that engineering choice only if Resolve/footage evidence shows a material Analogous usability problem.
+
 ## Build and verification
 
 Run `python regenerate.py` and `python generate_descriptors.py`. The schema generates the common parameter layout/defaults, OFX descriptors/value mapping and DCTL controls. `regenerate.py` emits `generated/PixelCore.hpp` and `generated/PressMachine_V3_Dev_TEST.dctl`; v3 generation hashes go to `SOURCE_MANIFEST_V3.json`. The immutable v2 DCTL, schema and historical evidence are never rewritten. Do not copy generated output over an accepted artifact.
