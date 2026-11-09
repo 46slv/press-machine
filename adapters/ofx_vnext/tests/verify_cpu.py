@@ -21,11 +21,11 @@ pack=lambda x:struct.pack('4f',*x)
 assert lib.pm_vnext_identity(arr(defaults))==1
 for x in [(0.,0.,0.,1.),(.18,.18,.18,1.),(.7,.12,-.03,1.),(-.2,.6,1.4,.5)]: assert pack(eval(x,defaults))==pack(x)
 base=state(pmi_it=4,pm_hue_pattern=2,pm_hue_angle=35,pm_luma_split=300)
-a=eval((.18,.18,.18,1.),base);assert all(math.isfinite(x) for x in a[:3]) and a[:3]!=(.18,.18,.18)
-b=eval((.18,.18,.18,1.),base);assert pack(a)==pack(b)
+a=eval((.04,.04,.04,1.),base);assert all(math.isfinite(x) for x in a[:3]) and pack(a)!=pack((.04,.04,.04,1.))
+b=eval((.04,.04,.04,1.),base);assert pack(a)==pack(b)
 split=state(pmi_it=4,pm_hue_angle=35,pm_hue_pattern=2,pm_luma_split=300)
 weighted=state(pmi_it=4,pm_hue_angle=35,pm_hue_pattern=2,pm_luma_split=300,pm_density=100)
-s=eval((.18,.18,.18,1.),split);d=eval((.18,.18,.18,1.),weighted);Y=lambda x:.27411851*x[0]+.87363190*x[1]-.14775041*x[2];assert Y(d)<Y(s)
+s=eval((.04,.04,.04,1.),split);d=eval((.04,.04,.04,1.),weighted);Y=lambda x:.27411851*x[0]+.87363190*x[1]-.14775041*x[2];assert Y(d)<Y(s),(s,d,Y(s),Y(d))
 skin=(.4,.2,.12);mask=lib.pm_vnext_skin_mask((c.c_float*3)(*skin));assert 0<=mask<=1
 for protect in (0.,50.,100.):
  v=state(pm_pre=150,pm_compression=60,pm_threshold=50,pm_sat_skin=protect);st=stages(skin,v);raw,cond=st[1],st[2];keep=1-(protect/100)*mask
