@@ -1,8 +1,9 @@
 from pathlib import Path
 import ctypes as c,json,math,os,struct
-ROOT=Path(__file__).resolve().parents[2]
-schema=json.loads((ROOT.parents[1]/'parameters/press_machine_vnext.json').read_text());defaults=[p['default'] for p in schema];idx={p['id']:i for i,p in enumerate(schema)}
-lib=c.CDLL(os.environ.get('PM_VNEXT_NATIVE',str(ROOT/'build/Release/PressMachineVNextParity.dll')))
+REPO=Path(__file__).resolve().parents[3]
+ADAPTER=Path(__file__).resolve().parents[1]
+schema=json.loads((REPO/'parameters/press_machine_vnext.json').read_text());defaults=[p['default'] for p in schema];idx={p['id']:i for i,p in enumerate(schema)}
+lib=c.CDLL(os.environ.get('PM_VNEXT_NATIVE',str(ADAPTER/'build/Release/PressMachineVNextParity.dll')))
 lib.pm_vnext_eval.argtypes=[c.POINTER(c.c_float),c.POINTER(c.c_double),c.c_int,c.POINTER(c.c_float)]
 lib.pm_vnext_identity.argtypes=[c.POINTER(c.c_double)];lib.pm_vnext_identity.restype=c.c_int
 lib.pm_vnext_skin_mask.argtypes=[c.POINTER(c.c_float)];lib.pm_vnext_skin_mask.restype=c.c_float
@@ -42,4 +43,4 @@ for alpha in (0.,.125,.5,1.):
  x=(.2*alpha,.1*alpha,.04*alpha,alpha);o=eval(x,v,1);assert struct.pack('f',o[3])==struct.pack('f',alpha)
  if alpha==0:assert pack(o)==pack(x)
 result={'status':'PASS','parameters':len(schema),'pattern_states':len(states),'samples_per_state':len(samples),'net_comp_skin_cases':3,'net_look_skin_cases':3,'post_hue_density_case':'PASS','alpha_cases':4,'skin_mask_sample':mask,'scope':'shared CPU vNext core; not CUDA or Resolve Host'}
-(ROOT/'results').mkdir(exist_ok=True);(ROOT/'results/CPU_VNEXT.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
+(ADAPTER/'results').mkdir(exist_ok=True);(ADAPTER/'results/CPU_VNEXT.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
