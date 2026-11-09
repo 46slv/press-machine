@@ -229,13 +229,27 @@ for i in range(180):
     check(a[3] == pixel[3], 'alpha_unchanged')
     check(all(math.isfinite(v) for v in a), 'adapter_finite')
     parity_cases += 1
+# All supported input/output profile selector combinations must stay finite and use the same generated-DCTL wiring.
+profile_conversion_cases = 0
+for ig in range(4):
+    for it in range(5):
+        for og in range(5):
+            for ot in range(6):
+                p = params(pmi_ig=ig, pmi_it=it, pmi_og=og, pmi_ot=ot)
+                pixel = (C.c_float*4)(.30, .20, .10, 1.0)
+                a, b = (C.c_float*4)(), (C.c_float*4)()
+                lib.pm_eval(pixel, p, 0, a); lib.pm_dctl_eval(pixel, p, b)
+                check(bytes(a) == bytes(b), 'profile_generated_dctl_bit_parity')
+                check(all(math.isfinite(v) for v in a), 'profile_conversion_finite')
+                check(a[3] == 1.0, 'profile_alpha_unchanged')
+                profile_conversion_cases += 1
 check(lib.pm_identity(params()) == 1, 'identity_default')
 for key in ['pm_hue_bias', 'pm_luma_split']:
     check(lib.pm_identity(params(**{key: 1})) == 0, 'identity_bias_split_active')
 
 result = dict(status='PASS', checks=sum(counts.values()), groups=counts,
               max_scalar_absolute_error=max_scalar, max_geometry_absolute_error=max_geometry,
-              max_hue_y_normalized_error=max_y, generated_dctl_cpu_bit_exact_cases=parity_cases,
+              max_hue_y_normalized_error=max_y, generated_dctl_cpu_bit_exact_cases=parity_cases, profile_conversion_cases=profile_conversion_cases,
               shared_core_sha256=hashlib.sha256((ROOT/'generated/PixelCore.hpp').read_bytes()).hexdigest(),
               generated_dctl_sha256=hashlib.sha256((ROOT/'generated/PressMachine_V3_Dev_TEST.dctl').read_bytes()).hexdigest(),
               scope='Focused shared-core binary32-pair CPU and CPU-compiled generated-DCTL checks only. CUDA, native OFX SDK build, Resolve, save/reopen, footage, 4K, and user visual acceptance NOT RUN.')
