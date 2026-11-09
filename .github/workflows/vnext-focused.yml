@@ -43,7 +43,11 @@ jobs:
       - name: Generate and qualify with runner Visual Studio
         shell: pwsh
         run: |
-          $devShell = "${env:ProgramFiles}\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1"
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          if (-not (Test-Path $vswhere)) { throw "vswhere not found: $vswhere" }
+          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vs) { throw "Visual Studio with C++ tools not found" }
+          $devShell = Join-Path $vs "Common7\Tools\Launch-VsDevShell.ps1"
           if (-not (Test-Path $devShell)) { throw "Visual Studio DevShell not found: $devShell" }
           & $devShell -Arch amd64 -HostArch amd64 -SkipAutomaticLocation
           python adapters/ofx/regenerate.py
