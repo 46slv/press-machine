@@ -15,13 +15,13 @@ The contract is now represented by executable candidate source on PR #7 rather t
 - generated DCTL/shared glue: `adapters/vnext/`;
 - OFX/CUDA candidate source and Windows build harness: `adapters/ofx_vnext/`.
 
-Cloud run **42597880896** passed generation, independent Pattern/Luma scalar geometry, C++17 shared-core compile/run, the native CPU adapter harness, Comp/Look one-net-delta protection checks, post-Hue Density response checks, and generated DCTL/OFX parameter-contract checks. The generated candidate artifact was retained by Actions with SHA-256 digest `e9ca64b404199506a135331d2b88c4394f7e44aa17dce44bf1a41403be0c1dee`.
+Latest expanded cloud PASS is PR run **42598575657** at code/workflow head `05055e50ae5d93ef8e3c60c6bfddd1b2430ca077`. It passed generation, independent Pattern/Luma scalar geometry, C++17 shared-core compile/run, the native CPU adapter harness, Comp/Look one-net-delta protection checks, post-Hue Density and invalid-domain fallback, Final colored-black policy, 400 input/output profile conversion cases, signed HDR/negative and alpha stress, generated DCTL/OFX parameter contracts, plus Python/static source checks for the Windows NVRTC / OFX / CudaRunner harness. The generated candidate artifact was retained by Actions with SHA-256 digest `4206f02bd3a12cb66a06f33a9bf651c9bfca189c877727b3d6a2a0fc2882658b`.
 
 The first focused CPU failure was a test-fixture error, not a product equation error: it expected pure Luma Split to change an 18% gray sample even though `q_ref(0.18)=0` by contract. The fixture was moved into the shadow domain and the complete focused suite passed.
 
 Engineering choice for Analogous is **±30°**. ±45° creates a 90° outer span and ±60° a 120° outer span, directly colliding with the characteristic spacing of Tetradic/Triadic families. ±30° keeps a compact 60° analogous family while Hue Bias remains the independent control for stronger Primary-Hue dominance.
 
-Still separate and unverified for this candidate: target-Windows NVRTC/CUDA parity, actual Resolve OpenFX SDK build/load, DCTL/OFX UI and persistence, representative footage, sustained same-condition 4K, and final visual acceptance. These are not inferred from v2.0 receipts.
+Still separate and unverified for this candidate: execution of the target-Windows NVRTC compile, actual CUDA parity on the target RTX GPU, actual Resolve OpenFX SDK build/load, DCTL/OFX UI and persistence, representative footage, sustained same-condition 4K, and final visual acceptance. The Windows harness source itself is syntax/static-contract checked in cloud; that is not target-GPU or Host acceptance. These are not inferred from v2.0 receipts.
 
 
 The design goal is to make the responsibilities explicit:
