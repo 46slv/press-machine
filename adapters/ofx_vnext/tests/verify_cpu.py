@@ -38,9 +38,34 @@ samples=[(.18,.18,.18,1.),(.7,.12,-.03,1.),(-.2,.6,1.4,1.),(3.,-.5,.2,1.)]
 for v in states:
  for x in samples:
   o=eval(x,v);assert all(math.isfinite(y) for y in o) and o[3]==x[3]
+# Explicit invalid Density domain: signed pure-blue working RGB has nonpositive canonical Y; valid Hue must survive Density no-op.
+v=state(pm_hue_pattern=4,pm_hue_compression=70,pm_hue_angle=17,pm_density=300)
+st=stages((0.,0.,1.),v)
+assert max(abs(st[3][i]-st[2][i]) for i in range(3))>1e-7
+assert st[4]==st[3],(st[2],st[3],st[4])
+# Final colored-black policy: OFF preserves look; ON neutralizes selected deep shadow while retaining luminance.
+dark=(.02,.01,.005)
+off=stages(dark,state());on=stages(dark,state(pm_sd_t=.5,pm_sd_k=.2))
+assert off[6]==off[5]
+assert max(on[6])-min(on[6])<2e-6,(on[5],on[6])
+assert abs(Y(on[6])-Y(on[5]))<2e-6,(Y(on[5]),Y(on[6]))
+# Safe profile-conversion matrix: creative-neutral conversion must remain finite across every supported input/output profile pair.
+profile_cases=0
+for ig in range(4):
+ for it in range(5):
+  for og in range(1,5):
+   for ot in range(1,6):
+    x=(.18,.12,.07,1.)
+    o=eval(x,state(pmi_ig=ig,pmi_it=it,pmi_og=og,pmi_ot=ot))
+    assert all(math.isfinite(y) for y in o) and o[3]==1.
+    profile_cases+=1
+# Relative-linear signed/HDR stress remains finite without 0..1 clipping.
+for x in [(-2.,.4,3.,1.),(16.,-4.,.5,1.),(-.25,-.1,.8,.5)]:
+ o=eval(x,state(pmi_it=4,pm_hue_pattern=3,pm_hue_compression=100,pm_hue_bias=100,pm_luma_split=-300,pm_density=-300,pm_chroma=-100))
+ assert all(math.isfinite(y) for y in o) and o[3]==x[3]
 v=state(pm_hue_pattern=4,pm_hue_compression=75,pm_luma_split=200,pm_density=-120)
 for alpha in (0.,.125,.5,1.):
  x=(.2*alpha,.1*alpha,.04*alpha,alpha);o=eval(x,v,1);assert struct.pack('f',o[3])==struct.pack('f',alpha)
  if alpha==0:assert pack(o)==pack(x)
-result={'status':'PASS','parameters':len(schema),'pattern_states':len(states),'samples_per_state':len(samples),'net_comp_skin_cases':3,'net_look_skin_cases':3,'post_hue_density_case':'PASS','alpha_cases':4,'skin_mask_sample':mask,'scope':'shared CPU vNext core; not CUDA or Resolve Host'}
+result={'status':'PASS','parameters':len(schema),'pattern_states':len(states),'samples_per_state':len(samples),'net_comp_skin_cases':3,'net_look_skin_cases':3,'post_hue_density_case':'PASS','invalid_density_retains_hue':'PASS','final_black_policy':'PASS','profile_conversion_cases':profile_cases,'signed_hdr_stress':3,'alpha_cases':4,'skin_mask_sample':mask,'scope':'shared CPU vNext core; not CUDA or Resolve Host'}
 (ADAPTER/'results').mkdir(exist_ok=True);(ADAPTER/'results/CPU_VNEXT.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
