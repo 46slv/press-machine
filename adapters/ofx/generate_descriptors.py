@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 r=Path(__file__).resolve().parent
-params=json.loads((r.parents[1]/'parameters/press_machine_v2.json').read_text())
+params=json.loads((r.parents[1]/'parameters/press_machine_v3.json').read_text())
 decl=['#pragma once\n#include "ofxsImageEffect.h"\n#include <array>\nstruct Parameters{\n']
 kind={'double':'Double','bool':'Boolean','choice':'Choice'}
 for p in params:decl.append(' OFX::'+kind[p['kind']]+'Param* '+p['id']+';\n')
@@ -26,8 +26,14 @@ for i,p in enumerate(params):
  if p['kind']=='choice':
   for option in p['options']:decl.append(v+'->appendOption("'+option+'");\n')
  if p['id']=='pm_hue_angle':decl.append(v+'->setHint("0 degrees: skin-tone reference axis.");\n')
- if p['id']=='pm_hue_points_index':decl.append(v+'->setHint("1, 2, 3, 4, 6 equally spaced directions. Existing DCTL states are not converted automatically.");\n')
+ if p['id']=='pm_hue_pattern':decl.append(v+'->setHint("Six anchor families. Bias and Split remain active at Strength zero. No v2 state migration.");\n')
  if p['id']=='pm_db':decl.append(v+'->setHint("Bypass Density only, preserving its settings. Other stages remain active.");\n')
  decl.append(v+'->setParent(*'+p['groupid']+');page->addChild(*'+v+');\n')
 decl.append('}\n');(r/'generated/Descriptors.hpp').write_text(''.join(decl))
-print('Generated25 OFX parameter descriptors.')
+print(f'Generated {len(params)} OFX parameter descriptors.')
+
+values=['#pragma once\n#include "PixelCore.hpp"\ninline constexpr int kParameterCount = '+str(len(params))+';\ninline pm::Parameters fromValues(const double* v){pm::Parameters p{};']
+for i,p in enumerate(params):
+ values.append('p.'+p['id']+'=('+('float' if p['kind']=='double' else 'int')+')v['+str(i)+'];')
+values.append('return p;}\n')
+(r/'generated/ParameterValues.hpp').write_text(''.join(values))

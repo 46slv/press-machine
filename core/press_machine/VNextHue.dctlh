@@ -1,0 +1,140 @@
+// DEV-12 vNext: Comp -> Hue -> Density. Released v2 helpers stay immutable.
+// All geometry uses float pairs and one zero-XYZ-Y reconstruction per pixel.
+#ifndef PRESSMACHINE_VNEXT_HUE_DCTLH
+#define PRESSMACHINE_VNEXT_HUE_DCTLH
+__DEVICE__ float2 pmvn_phase(float angle) {
+ return pmah_wrap(pm_pair_add(pmcf_phase(),pm_pair_mul(pm_pair(angle==360.0f?0.0f:angle),make_float2(1.74532923847436905e-02f,1.35199601514202072e-10f))));
+}
+__DEVICE__ int pmvn_pattern_count(int pattern) {
+ return pattern==0?1:(pattern==2?2:(pattern==5?4:3));
+}
+// Sorted anchor offsets, expressed as exact fractions of a full turn.
+__DEVICE__ float2 pmvn_anchor(int pattern,int index) {
+ if(index==0)return pm_pair(0.0f);
+ float numerator=0.0f,denominator=1.0f;
+ if(pattern==1){numerator=index==1?1.0f:11.0f;denominator=12.0f;}
+ if(pattern==2){numerator=1.0f;denominator=2.0f;}
+ if(pattern==3){numerator=index==1?5.0f:7.0f;denominator=12.0f;}
+ if(pattern==4){numerator=(float)index;denominator=3.0f;}
+ if(pattern==5){numerator=(float)index;denominator=4.0f;}
+ return pm_pair_mul(pmah_tau(),pm_pair_div(pm_pair(numerator),pm_pair(denominator)));
+}
+__DEVICE__ float2 pmvn_q_ref(float2 Y) {
+ if(!pmvp_positive(Y))return pm_pair(-1.0f);
+ float2 sy=pm_pair_sqrt(Y),s18=pm_pair_sqrt(make_float2(0.18000000715255737f,-7.1525572131747595e-09f));
+ return pm_pair_div(pmvp_sub(sy,s18),pm_pair_add(sy,s18));
+}
+__DEVICE__ float2 pmvn_drive(float bias,float split,float2 q) {
+ float2 r=pm_pair_add(pm_pair_div(pm_pair(bias),pm_pair(100.0f)),pm_pair_mul(pm_pair_div(pm_pair(split),pm_pair(100.0f)),q));
+ if(r.x==0.0f&&r.y==0.0f)return pm_pair(0.0f);
+ float2 e=pmvp_exp2(pm_pair_mul(pm_pair(2.0f),pmvp_abs(r)));
+ float2 w=pm_pair_div(pmvp_sub(e,pm_pair(1.0f)),pm_pair_add(e,pm_pair(1.0f)));
+ return pmvp_positive(r)?w:pm_pair_neg(w);
+}
+__DEVICE__ pmvp3 pmvn_ray(float2 a,float2 b,float2 Y,float2 phi) {
+ pmvp3 u=pmcf_unit(phi);float2 floor=pm_pair(0.0f);
+ if(pmvp_positive(Y)){
+  pmvp3 d=pmcf_delta_rgb(u.y,u.z);
+  float2 denom=pm_pair_neg(pmcc_min(d.x,pmcc_min(d.y,d.z)));
+  if(!pmvp_positive(denom))return pmvp_make(pm_pair(0.0f),a,b);
+  floor=pm_pair_div(Y,denom);
+ }
+ float scale=_fmaxf(_fmaxf(pmvp_round(pmvp_abs(a)),pmvp_round(pmvp_abs(b))),pmvp_round(floor));
+ if(scale==0.0f)return pmvp_make(pm_pair(0.0f),a,b);
+ if(!pm_finite(scale))return pmvp_make(pm_pair(0.0f),a,b);
+ float2 sc=pm_pair(scale),va=pm_pair_div(a,sc),vb=pm_pair_div(b,sc);
+ float2 along=pmcc_max(pmcf_dot(va,vb,u),pm_pair_div(floor,sc));
+ return pmvp_make(pm_pair(0.0f),pm_pair_mul(pm_pair_mul(along,u.y),sc),pm_pair_mul(pm_pair_mul(along,u.z),sc));
+}
+__DEVICE__ float2 pmvn_F(float2 u) {
+ float2 u2=pm_pair_mul(u,u),u3=pm_pair_mul(u2,u),u4=pm_pair_mul(u2,u2);
+ float2 m=pm_pair_div(pm_pair(1.0f),pm_pair(10.0f));
+ float2 numerator=pm_pair_add(pm_pair_mul(m,u),pm_pair_mul(pmvp_sub(pm_pair(1.0f),m),pmvp_sub(u3,pm_pair_mul(pm_pair(0.5f),u4))));
+ return pm_pair_div(numerator,pm_pair_mul(pm_pair(0.5f),pm_pair_add(pm_pair(1.0f),m)));
+}
+__DEVICE__ pmvp3 pmvn_target(float2 a,float2 b,float2 Y,float2 phi,int pattern) {
+ if(pattern==0)return pmvn_ray(a,b,Y,phi);
+ float scale=_fmaxf(pmvp_round(pmvp_abs(a)),pmvp_round(pmvp_abs(b)));
+ if(scale==0.0f)return pmvp_make(pm_pair(0.0f),a,b);
+ if(!pm_finite(scale))return pmvp_make(pm_pair(0.0f),a,b);
+ float2 sc=pm_pair(scale),va=pm_pair_div(a,sc),vb=pm_pair_div(b,sc);
+ float2 h=pmah_wrap(pmvp_sub(pmah_atan2(vb,va),phi));
+ int count=pmvn_pattern_count(pattern),nearest=0;float2 distance=pmah_tau(),d=pm_pair(0.0f);
+ for(int i=0;i<4;i++){
+  if(i>=count)break;
+  float2 candidate=pmah_wrap(pmvp_sub(h,pmvn_anchor(pattern,i))),ad=pmvp_abs(candidate);
+  if(pmvp_positive(pmvp_sub(distance,ad))){nearest=i;distance=ad;d=candidate;}
+ }
+ float2 anchor=pmvn_anchor(pattern,nearest),gap;
+ if(pmvp_positive(d)){
+  gap=pmvp_sub(nearest+1==count?pmah_tau():pmvn_anchor(pattern,nearest+1),anchor);
+ }else{
+  gap=pmvp_sub(anchor,nearest==0?pmvp_sub(pmvn_anchor(pattern,count-1),pmah_tau()):pmvn_anchor(pattern,nearest-1));
+ }
+ float2 H=pm_pair_mul(pm_pair(0.5f),gap),u=pmah_clamp01(pm_pair_div(distance,H));
+ float2 Q=pm_pair_mul(pm_pair_mul(u,u),pmvp_sub(pm_pair(3.0f),pm_pair_mul(pm_pair(2.0f),u)));
+ float2 delta=pm_pair_mul(H,pmvn_F(u));if(!pmvp_positive(d))delta=pm_pair_neg(delta);
+ pmvp3 direction=pmcf_unit(pm_pair_add(phi,pm_pair_add(anchor,delta)));
+ float2 radius=pm_pair_mul(pm_pair_sqrt(pm_pair_add(pm_pair_mul(va,va),pm_pair_mul(vb,vb))),pmvp_sub(pm_pair(1.0f),Q));
+ return pmvp_make(pm_pair(0.0f),pm_pair_mul(sc,pm_pair_mul(radius,direction.y)),pm_pair_mul(sc,pm_pair_mul(radius,direction.z)));
+}
+__DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 Y_ref,float angle,int pattern,float strength,float bias,float split) {
+ if(strength==0.0f&&bias==0.0f&&split==0.0f)return input;
+ if(!pmvp_finite(input))return input;
+ float peak=pmv_peak(pmvp_high(input));if(peak==0.0f)return input;
+ pmvp3 xyz=pmvp_dwg_xyz(pmvp_div(input,peak)),xy=pmcf_xy(pmcf_xyz_rec(xyz));
+ if(pmif_neutral(input))xy.y=xy.z=pm_pair(0.0f);
+ float2 phi=pmvn_phase(angle),a=xy.y,b=xy.z;
+ if(strength!=0.0f){
+  pmvp3 target=pmvn_target(a,b,xyz.y,phi,pattern);float2 s=pm_pair_div(pm_pair(strength),pm_pair(100.0f));
+  a=pm_pair_add(a,pm_pair_mul(s,pmvp_sub(target.y,a)));
+  b=pm_pair_add(b,pm_pair_mul(s,pmvp_sub(target.z,b)));
+ }
+ if(bias!=0.0f||split!=0.0f){
+  float2 w=pmvn_drive(bias,split,pmvn_q_ref(Y_ref));
+  if(w.x!=0.0f||w.y!=0.0f){
+   pmvp3 target=pmvn_ray(a,b,xyz.y,pmvp_positive(w)?phi:pm_pair_add(phi,pmah_pi()));
+   float2 t=pmvp_abs(w);a=pm_pair_add(a,pm_pair_mul(t,pmvp_sub(target.y,a)));b=pm_pair_add(b,pm_pair_mul(t,pmvp_sub(target.z,b)));
+  }
+ }
+ float2 da=pmvp_sub(a,xy.y),db=pmvp_sub(b,xy.z);
+ if(da.x==0.0f&&da.y==0.0f&&db.x==0.0f&&db.y==0.0f)return input;
+ pmvp3 delta=pmcf_rec_xyz(pmcf_delta_rgb(da,db));delta.y=pm_pair(0.0f);
+ pmvp3 out=pmvp_add(input,pmvp_scale(pmcf_xyz_dwg(delta),pm_pair(peak)));
+ return pmvp_finite(out)?out:input;
+}
+typedef struct {pmvp3 pre_raw;pmvp3 conditioned;pmvp3 hue;pmvp3 look;pmvp3 final;} pmvn_stages;
+__DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
+ float pre,float threshold,float compression,float softness,float density,float chroma,float response,float shadow,float sr,float highlight,float hr,float comp_skin,float look_skin,int db,
+ float angle,int pattern,float strength,float bias,float split,float st,float sk,float ht,float hk){
+ pmvn_stages z;z.pre_raw=z.conditioned=z.hue=z.look=z.final=input;
+ if(db<0||db>1||!pmvp_finite(input)||!pmc_controls_valid(pre,threshold,compression,softness,density,chroma,response,shadow,sr,highlight,hr,comp_skin,look_skin)||
+  !pmah_controls_valid(angle,1,strength,50.0f)||pattern<0||pattern>5||!pm_finite(bias)||_fabs(bias)>100.0f||!pm_finite(split)||_fabs(split)>300.0f||
+  !pmfd_control(st)||!pmfd_control(sk)||!pmfd_control(ht)||!pmfd_control(hk))return z;
+ float peak=pmv_peak(pmvp_high(input));float2 Y_ref=pm_pair(0.0f);
+ if(peak!=0.0f)Y_ref=pm_pair_mul(pmvpy_Y(pmvp_div(input,peak)),pm_pair(peak));
+ // Capture the original mask once. pre=100 leaves the analysis output untouched.
+ pmvq_input_result analysis=pmc_prepare_stages(input.x,input.y,input.z,100.0f,comp_skin,look_skin);
+ // The canonical gray contract bypasses conditioning matrix/root round trips.
+ z.pre_raw=pmif_neutral(input)?input:pmvq_presat(input,pre,pm_pair(1.0f),0,2,0.001f,2);
+ pmvp3 comp_raw=pmif_neutral(z.pre_raw)?z.pre_raw:pmc_comp_stage(z.pre_raw,threshold,compression,softness,pm_pair(1.0f));
+ z.conditioned=pmcc_mix(input,comp_raw,analysis.keep_sat);
+ pmvp3 hue_raw=pmvn_hue(z.conditioned,Y_ref,angle,pattern,strength,bias,split);
+ pmvp3 density_raw=pmif_neutral(hue_raw)?hue_raw:pmc_density_stage(hue_raw,density,chroma,response,shadow,sr,highlight,hr,pm_pair(1.0f),db);
+ // Store protected Hue for output fallback; never reveal an unprotected raw branch.
+ z.hue=pmcc_mix(z.conditioned,hue_raw,analysis.keep_density);
+ z.look=pmcc_mix(z.conditioned,density_raw,analysis.keep_density);
+ z.final=pmc_final_desat(z.look.x,z.look.y,z.look.z,st,sk,ht,hk);return z;
+}
+__DEVICE__ float3 pmvn_finish(float3 original,pmvp3 input,pmvn_stages z,int ig,int it,int og,int ot){
+ int same=pma_profiles_same(ig,it,og,ot);
+ for(int i=0;i<5;i++){
+  pmvp3 stage=i==0?z.final:(i==1?z.look:(i==2?z.hue:(i==3?z.conditioned:input)));
+  if(same&&pmvp_same(stage,input))return original;
+  int neutral_endpoint=i==0&&!pmvp_same(z.final,z.look)&&pmif_neutral(z.final);
+  pmi_encoded_result o=neutral_endpoint?pmif_encode_final_neutral(stage,ot):pmi_encode_output(stage.x,stage.y,stage.z,og,ot);
+  if(o.valid)return o.rgb;
+ }
+ return original;
+}
+#endif

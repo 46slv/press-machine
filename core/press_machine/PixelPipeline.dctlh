@@ -5,11 +5,9 @@ __DEVICE__ float3 transform(const Parameters& p,int p_Width,int p_Height,int p_X
  float2 sr=pma_decode_channel(p_R,it),sg=pma_decode_channel(p_G,it),sb=pma_decode_channel(p_B,it);
  if(!pma_linear_domain_valid(sr,it)||!pma_linear_domain_valid(sg,it)||!pma_linear_domain_valid(sb,it))return original;
  pmvp3 input=pmvp_make(pma_to_dwg_channel(sr,sg,sb,ig,0),pma_to_dwg_channel(sr,sg,sb,ig,1),pma_to_dwg_channel(sr,sg,sb,ig,2));
- int points=pmif_points_from_ui(p.pm_hue_points_index),db=pmif_ui_integer(p.pm_db,0,1);
- pmif_stages z;
- if(p_R==p_G&&p_G==p_B&&!(points==1&&p.pm_hue_compression>0.0f))z.pre=z.hue=z.comp=z.density=z.final=input;
- else z=pmif_process(input,p.pm_pre,pmi_threshold_ui(p.pm_threshold,p.pm_compression),p.pm_compression,p.pm_softness,p.pm_density,p.pm_chroma,p.pm_response,p.pm_shadow,p.pm_sr,p.pm_highlight,p.pm_hr,p.pm_sat_skin,p.pm_density_skin,db,
-  p.pm_hue_angle,points,p.pm_hue_compression,p.pm_sd_t,p.pm_sd_k,p.pm_hd_t,p.pm_hd_k);
- return pmif_finish(original,input,z,ig,it,og,ot);
+ int db=pmif_ui_integer(p.pm_db,0,1);
+ pmvn_stages z=pmvn_process(input,p.pm_pre,pmi_threshold_ui(p.pm_threshold,p.pm_compression),p.pm_compression,p.pm_softness,p.pm_density,p.pm_chroma,p.pm_response,p.pm_shadow,p.pm_sr,p.pm_highlight,p.pm_hr,p.pm_sat_skin,p.pm_density_skin,db,
+  p.pm_hue_angle,p.pm_hue_pattern,p.pm_hue_compression,p.pm_hue_bias,p.pm_luma_split,p.pm_sd_t,p.pm_sd_k,p.pm_hd_t,p.pm_hd_k);
+ return pmvn_finish(original,input,z,ig,it,og,ot);
 }
 

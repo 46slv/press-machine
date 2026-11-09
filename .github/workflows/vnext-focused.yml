@@ -1,0 +1,20 @@
+name: vNext focused CPU
+on:
+  pull_request:
+  push:
+    branches: ['dev/dev12-vnext-hue-*']
+permissions:
+  contents: read
+jobs:
+  focused-cpu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate v3 candidate
+        run: |
+          python3 adapters/ofx/regenerate.py
+          python3 adapters/ofx/generate_descriptors.py
+      - name: Focused source and generated-DCTL qualification
+        run: python3 adapters/ofx/tests/verify_vnext.py
+      - name: Alpha and extreme values
+        run: python3 adapters/ofx/tests/verify_alpha_v3.py

@@ -1,6 +1,6 @@
 # Press Machine vNext — Comp → Hue → Density implementation specification
 
-Status: **implementation baseline / source integration and Host acceptance pending**  
+Status: **v3.dev source integration candidate / focused CPU checks passed / CUDA and Host acceptance pending**
 Date: 2026-11-09  
 Scope: shared pixel core, parameter schema, DCTL and OFX adapters
 
@@ -677,3 +677,22 @@ Done when:
 - No spatial, temporal, semantic face-mask or multi-image processing in this change.
 
 The v2.0 release and its immutable evidence remain separate. This specification is complete enough to begin source implementation without additional product decisions; remaining choices are implementation constants, focused verification, and visual acceptance rather than architecture questions.
+
+## 18. v3.dev source qualification receipt — 2026-11-09
+
+Implemented in the separate 27-control schema and `com.46slv.PressMachine.v3.dev` identity:
+
+- Comp-before-Hue pipeline with one original-input skin analysis and fixed `Y_ref`.
+- One net Comp Skin mix and one net Look Skin mix, including protected output fallback.
+- Six Pattern families, common skin-reference Angle, direct Strength, independent Bias and Split.
+- General non-uniform Pattern field, one zero-Y reconstruction, and the existing post-Hue Density response.
+- Schema-generated CPU/CUDA parameter snapshot, OFX descriptors, DCTL controls and default values.
+- Final black policy and exact neutral conditioning/Density paths. New Bias/Split gray coloration is not bypassed.
+
+Focused Linux/GCC checks (`tests/verify_vnext.py`): **74,071 checks passed**. Independent binary64 formula comparison covers the scalar mapping, all Pattern fields, anchor/cell boundaries, angular order, phase seam, scale covariance, direct Strength, fixed input reference, both protection domains and post-Hue Density tap. Maximum scalar absolute error: `1.4544e-14`; geometry absolute error: `7.1475e-12`; normalized Hue Y error: `1.0053e-14`. The CPU-compiled generated DCTL and the CPU adapter are bit-exact for 180 mixed states. The 77-case alpha/extreme fixture passed with maximum error 0. Exact generated hashes are in `adapters/ofx/SOURCE_MANIFEST_V3.json`, with focused receipts under `results/v3/`.
+
+These are source/CPU checks, not a Resolve DCTL compiler receipt or a native OFX binary receipt. Old v2 schema, DCTL and evidence remain unchanged. Do not use the old 25-value harness against the new 27-value ABI.
+
+Still unverified: Windows SDK/NVRTC build, CUDA kernel/adapter execution, Resolve UI/default/menu readback, save/reopen and PowerGrade persistence, completed-frame CPU/CUDA/DCTL comparisons, representative footage, same-condition 4K responsiveness, HDR/negative/gamut visual behavior, and final user acceptance. Analogous ±30° is the existing implementation baseline; ±45°/±60° footage/Host comparison remains an engineering acceptance task, not an accepted product decision. Density redesign research is a separate candidate and is not silently integrated here.
+
+Host work must continue through the single assigned Resolve owner after the higher-priority Density work. This candidate is not an accepted release or permission to replace v2 in existing projects.

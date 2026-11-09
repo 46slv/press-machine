@@ -39,7 +39,7 @@ class PressMachine:public OFX::ImageEffect{
  OFX::Clip *source,*output;
  Parameters handles;
  pm::Parameters values(double time){
-  double v[25];handles.read(time,v);return fromValues(v);
+  double v[kParameterCount];handles.read(time,v);return fromValues(v);
  }
 public:
  PressMachine(OfxImageEffectHandle h):OFX::ImageEffect(h),handles(*this){
@@ -65,9 +65,9 @@ public:
 };
 mDeclarePluginFactory(PressMachineFactory,{}, {});
 void PressMachineFactory::describe(OFX::ImageEffectDescriptor&d){
- d.setLabels("Press Machine v2.0","Press Machine v2.0","Press Machine v2.0");
+ d.setLabels("Press Machine v3.dev","Press Machine v3.dev","Press Machine v3.dev");
  d.setPluginGrouping("Press Machine");
- d.setPluginDescription("Press Machine v2.0. Skin-reference angle zero. Legacy red-zero angles require conversion; no automatic state migration. Input color settings must match the node's actual input.");
+ d.setPluginDescription("Press Machine v3.dev. Comp -> Hue -> Density development candidate. Pattern, Bias and Split share Angle. No automatic v2 state migration. Input color settings must match the node's actual input.");
  d.addSupportedContext(OFX::eContextFilter);d.addSupportedContext(OFX::eContextGeneral);
  d.addSupportedBitDepth(OFX::eBitDepthFloat);d.setSingleInstance(false);d.setHostFrameThreading(false);
  d.setRenderThreadSafety(OFX::eRenderFullySafe);d.setSupportsTiles(true);d.setSupportsMultiResolution(true);
@@ -82,4 +82,4 @@ void PressMachineFactory::describeInContext(OFX::ImageEffectDescriptor&d,OFX::Co
  defineParameters(d);
 }
 OFX::ImageEffect* PressMachineFactory::createInstance(OfxImageEffectHandle h,OFX::ContextEnum){return new PressMachine(h);}
-void OFX::Plugin::getPluginIDs(OFX::PluginFactoryArray&a){static PressMachineFactory factory("com.46slv.PressMachine.v2.skinaxis",2,0);a.push_back(&factory);}
+void OFX::Plugin::getPluginIDs(OFX::PluginFactoryArray&a){static PressMachineFactory factory("com.46slv.PressMachine.v3.dev",3,0);a.push_back(&factory);}
