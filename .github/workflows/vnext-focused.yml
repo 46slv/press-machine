@@ -32,3 +32,25 @@ jobs:
         run: python3 adapters/ofx/tests/verify_vnext.py
       - name: Alpha and extreme values
         run: python3 adapters/ofx/tests/verify_alpha_v3.py
+
+  focused-windows-cpu:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+      - name: Generate v3 candidate
+        shell: pwsh
+        run: |
+          python adapters/ofx/regenerate.py
+          python adapters/ofx/generate_descriptors.py
+      - name: Focused MSVC source and generated-DCTL qualification
+        shell: pwsh
+        run: python adapters/ofx/tests/verify_vnext.py
+      - name: MSVC alpha and extreme values
+        shell: pwsh
+        run: python adapters/ofx/tests/verify_alpha_v3.py
