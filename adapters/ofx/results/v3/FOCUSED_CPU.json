@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "checks": 74071,
+  "checks": 74077,
   "groups": {
     "scalar_reference": 1001,
     "pattern_curve_monotonic": 1001,
@@ -24,6 +24,12 @@
     "density_bypass_hue_active": 1,
     "post_hue_density_tap": 1,
     "fixed_input_y_reference": 1,
+    "invalid_hue_local_fallback": 1,
+    "invalid_hue_density_continues": 1,
+    "invalid_density_keeps_hue": 1,
+    "invalid_density_local_fallback": 1,
+    "invalid_presat_comp_continues": 1,
+    "invalid_final_keeps_look": 1,
     "bias_independent_strength_pattern": 6,
     "split_colored_black_off": 1,
     "final_black_policy_on": 1,
@@ -38,7 +44,7 @@
   "max_geometry_absolute_error": 7.147449299083064e-12,
   "max_hue_y_normalized_error": 1.0052537624772696e-14,
   "generated_dctl_cpu_bit_exact_cases": 180,
-  "shared_core_sha256": "a5912224892c5416d972ce560d94d320f57d947445a31ee22848e1c25f0b98d1",
-  "generated_dctl_sha256": "e68b3756c652e64a6727c64403f7cd185317986743433dcd15d31b845aaeaa72",
+  "shared_core_sha256": "720856350b287ac25b7d87979c067ca06051fd3b0847bb091505bc7524796ee6",
+  "generated_dctl_sha256": "0def70bfe427362d1588b5b12f463aa7e88dac56a0354cf3adf7ebb936260bcb",
   "scope": "Focused shared-core binary32-pair CPU and CPU-compiled generated-DCTL checks only. CUDA, native OFX SDK build, Resolve, save/reopen, footage, 4K, and user visual acceptance NOT RUN."
 }

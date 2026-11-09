@@ -80,7 +80,8 @@ __DEVICE__ pmvp3 pmvn_target(float2 a,float2 b,float2 Y,float2 phi,int pattern) 
 }
 __DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 Y_ref,float angle,int pattern,float strength,float bias,float split) {
  if(strength==0.0f&&bias==0.0f&&split==0.0f)return input;
- if(!pmvp_finite(input))return input;
+ if(!pmvp_finite(input)||!pmah_controls_valid(angle,1,strength,50.0f)||pattern<0||pattern>5||
+  !pm_finite(bias)||_fabs(bias)>100.0f||!pm_finite(split)||_fabs(split)>300.0f)return input;
  float peak=pmv_peak(pmvp_high(input));if(peak==0.0f)return input;
  pmvp3 xyz=pmvp_dwg_xyz(pmvp_div(input,peak)),xy=pmcf_xy(pmcf_xyz_rec(xyz));
  if(pmif_neutral(input))xy.y=xy.z=pm_pair(0.0f);
@@ -108,22 +109,22 @@ __DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
  float pre,float threshold,float compression,float softness,float density,float chroma,float response,float shadow,float sr,float highlight,float hr,float comp_skin,float look_skin,int db,
  float angle,int pattern,float strength,float bias,float split,float st,float sk,float ht,float hk){
  pmvn_stages z;z.pre_raw=z.conditioned=z.hue=z.look=z.final=input;
- if(db<0||db>1||!pmvp_finite(input)||!pmc_controls_valid(pre,threshold,compression,softness,density,chroma,response,shadow,sr,highlight,hr,comp_skin,look_skin)||
-  !pmah_controls_valid(angle,1,strength,50.0f)||pattern<0||pattern>5||!pm_finite(bias)||_fabs(bias)>100.0f||!pm_finite(split)||_fabs(split)>300.0f||
-  !pmfd_control(st)||!pmfd_control(sk)||!pmfd_control(ht)||!pmfd_control(hk))return z;
+ if(!pmvp_finite(input))return z;
  float peak=pmv_peak(pmvp_high(input));float2 Y_ref=pm_pair(0.0f);
  if(peak!=0.0f)Y_ref=pm_pair_mul(pmvpy_Y(pmvp_div(input,peak)),pm_pair(peak));
  // Capture the original mask once. pre=100 leaves the analysis output untouched.
- pmvq_input_result analysis=pmc_prepare_stages(input.x,input.y,input.z,100.0f,comp_skin,look_skin);
+ int comp_skin_valid=pm_finite(comp_skin)&&comp_skin>=0.0f&&comp_skin<=100.0f;
+ int look_skin_valid=pm_finite(look_skin)&&look_skin>=0.0f&&look_skin<=100.0f;
+ pmvq_input_result analysis=pmc_prepare_stages(input.x,input.y,input.z,100.0f,comp_skin_valid?comp_skin:0.0f,look_skin_valid?look_skin:0.0f);
  // The canonical gray contract bypasses conditioning matrix/root round trips.
- z.pre_raw=pmif_neutral(input)?input:pmvq_presat(input,pre,pm_pair(1.0f),0,2,0.001f,2);
+ z.pre_raw=pmif_neutral(input)||!pm_finite(pre)||pre<0.0f||pre>200.0f?input:pmvq_presat(input,pre,pm_pair(1.0f),0,2,0.001f,2);
  pmvp3 comp_raw=pmif_neutral(z.pre_raw)?z.pre_raw:pmc_comp_stage(z.pre_raw,threshold,compression,softness,pm_pair(1.0f));
- z.conditioned=pmcc_mix(input,comp_raw,analysis.keep_sat);
+ z.conditioned=comp_skin_valid?pmcc_mix(input,comp_raw,analysis.keep_sat):input;
  pmvp3 hue_raw=pmvn_hue(z.conditioned,Y_ref,angle,pattern,strength,bias,split);
  pmvp3 density_raw=pmif_neutral(hue_raw)?hue_raw:pmc_density_stage(hue_raw,density,chroma,response,shadow,sr,highlight,hr,pm_pair(1.0f),db);
  // Store protected Hue for output fallback; never reveal an unprotected raw branch.
- z.hue=pmcc_mix(z.conditioned,hue_raw,analysis.keep_density);
- z.look=pmcc_mix(z.conditioned,density_raw,analysis.keep_density);
+ z.hue=look_skin_valid?pmcc_mix(z.conditioned,hue_raw,analysis.keep_density):z.conditioned;
+ z.look=look_skin_valid?pmcc_mix(z.conditioned,density_raw,analysis.keep_density):z.conditioned;
  z.final=pmc_final_desat(z.look.x,z.look.y,z.look.z,st,sk,ht,hk);return z;
 }
 __DEVICE__ float3 pmvn_finish(float3 original,pmvp3 input,pmvn_stages z,int ig,int it,int og,int ot){
