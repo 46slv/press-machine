@@ -1,0 +1,20 @@
+// vNext alpha and identity contract.
+PM_DEVICE void pixel(const Parameters& p,const float* src,float* dst,int premult){
+ const float a=src[3];const bool scale=premult&&a!=0.0f&&a!=1.0f&&pm_finite(a);
+ if(premult&&a==0.0f){for(int c=0;c<4;++c)dst[c]=src[c];return;}
+ const float3 straight=scale?make_float3(pm_rn_div(src[0],a),pm_rn_div(src[1],a),pm_rn_div(src[2],a)):make_float3(src[0],src[1],src[2]);
+ if(scale&&!pm_finite3(straight)){for(int c=0;c<4;++c)dst[c]=src[c];return;}
+ const float3 v=transform(p,1,1,0,0,straight.x,straight.y,straight.z);
+ if(scale&&v.x==straight.x&&v.y==straight.y&&v.z==straight.z){for(int c=0;c<4;++c)dst[c]=src[c];return;}
+ const float3 result=scale?make_float3(pm_rn_mul(v.x,a),pm_rn_mul(v.y,a),pm_rn_mul(v.z,a)):v;
+ if(scale&&!pm_finite3(result)){for(int c=0;c<4;++c)dst[c]=src[c];return;}
+ dst[0]=result.x;dst[1]=result.y;dst[2]=result.z;dst[3]=a;
+}
+PM_DEVICE bool identity(const Parameters& p){
+ const int og=p.pmi_og==0?p.pmi_ig:p.pmi_og-1,ot=p.pmi_ot==0?p.pmi_it:p.pmi_ot-1;
+ return p.pmi_ig==og&&p.pmi_it==ot&&p.pm_pre==100.0f&&p.pm_compression==0.0f&&
+  p.pm_hue_compression==0.0f&&p.pm_hue_bias==0.0f&&p.pm_luma_split==0.0f&&
+  (p.pm_density==0.0f||p.pm_db==1)&&p.pm_sd_t==0.0f&&p.pm_hd_t==1.0f;
+}
+}
+#undef __DEVICE__

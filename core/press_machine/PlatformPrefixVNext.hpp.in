@@ -1,0 +1,67 @@
+#pragma once
+#ifdef __CUDACC__
+#define PM_DEVICE __device__
+#define __DEVICE__ __device__
+#define DEVICE_IS_CUDA 1
+#define _fabs fabsf
+#define _fminf fminf
+#define _fmaxf fmaxf
+#define _floorf floorf
+#define _fmaf fmaf
+#define _powf powf
+#define _sqrtf sqrtf
+#define _log2f log2f
+#else
+#include <cmath>
+#define PM_DEVICE inline
+#define __DEVICE__ inline
+#define _fabs std::fabs
+#define _fminf std::fmin
+#define _fmaxf std::fmax
+#define _floorf std::floor
+#define _fmaf std::fma
+#define _powf std::pow
+#define _sqrtf std::sqrt
+#define _log2f std::log2
+#endif
+namespace pm {
+#ifndef __CUDACC__
+struct float2{float x,y;}; struct float3{float x,y,z;};
+inline float2 make_float2(float x,float y){return {x,y};}
+inline float3 make_float3(float x,float y,float z){return {x,y,z};}
+#endif
+struct Parameters {
+ int pmi_ig;
+ int pmi_it;
+ int pmi_og;
+ int pmi_ot;
+ float pm_pre;
+ float pm_threshold;
+ float pm_compression;
+ float pm_softness;
+ float pm_sat_skin;
+ float pm_hue_angle;
+ int pm_hue_pattern;
+ float pm_hue_compression;
+ float pm_hue_bias;
+ float pm_luma_split;
+ float pm_density;
+ float pm_chroma;
+ float pm_response;
+ float pm_shadow;
+ float pm_sr;
+ float pm_highlight;
+ float pm_hr;
+ float pm_density_skin;
+ int pm_db;
+ float pm_sd_t;
+ float pm_sd_k;
+ float pm_hd_t;
+ float pm_hd_k;
+};
+PM_DEVICE Parameters defaultParameters(){Parameters p{};
+ p.pmi_ig=0;p.pmi_it=0;p.pmi_og=0;p.pmi_ot=0;
+ p.pm_pre=100.0f;p.pm_threshold=80.0f;p.pm_compression=0.0f;p.pm_softness=20.0f;p.pm_sat_skin=0.0f;
+ p.pm_hue_angle=0.0f;p.pm_hue_pattern=2;p.pm_hue_compression=0.0f;p.pm_hue_bias=0.0f;p.pm_luma_split=0.0f;
+ p.pm_density=0.0f;p.pm_chroma=0.0f;p.pm_response=2.0f;p.pm_shadow=0.0f;p.pm_sr=50.0f;p.pm_highlight=0.0f;p.pm_hr=50.0f;p.pm_density_skin=0.0f;p.pm_db=0;
+ p.pm_sd_t=0.0f;p.pm_sd_k=0.18f;p.pm_hd_t=1.0f;p.pm_hd_k=0.18f;return p;}

@@ -1,0 +1,290 @@
+[
+  {
+    "id": "pmi_ig",
+    "label": "Input Primaries",
+    "kind": "choice",
+    "default": 0,
+    "options": [
+      "DWG D65",
+      "ARRI Wide Gamut 3 D65",
+      "ARRI Wide Gamut 4 D65",
+      "ACES AP1 CAT02"
+    ],
+    "group": "Color Space"
+  },
+  {
+    "id": "pmi_it",
+    "label": "Input Transfer",
+    "kind": "choice",
+    "default": 0,
+    "options": [
+      "DaVinci Intermediate",
+      "LogC3 EI800 Exposure",
+      "LogC4 Scene",
+      "ACEScct Reversible",
+      "Relative Linear"
+    ],
+    "group": "Color Space"
+  },
+  {
+    "id": "pmi_og",
+    "label": "Output Primaries",
+    "kind": "choice",
+    "default": 0,
+    "options": [
+      "Same as Input",
+      "DWG D65",
+      "ARRI Wide Gamut 3 D65",
+      "ARRI Wide Gamut 4 D65",
+      "ACES AP1 CAT02"
+    ],
+    "group": "Color Space"
+  },
+  {
+    "id": "pmi_ot",
+    "label": "Output Transfer",
+    "kind": "choice",
+    "default": 0,
+    "options": [
+      "Same as Input",
+      "DaVinci Intermediate",
+      "LogC3 EI800 Exposure",
+      "LogC4 Scene",
+      "ACEScct Reversible",
+      "Relative Linear"
+    ],
+    "group": "Color Space"
+  },
+  {
+    "id": "pm_pre",
+    "label": "Pre Saturation",
+    "kind": "double",
+    "default": 100,
+    "min": 0,
+    "max": 200,
+    "step": 0.1,
+    "group": "Pre Saturation"
+  },
+  {
+    "id": "pm_threshold",
+    "label": "Threshold",
+    "kind": "double",
+    "default": 80,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Comp / Saturation Protection"
+  },
+  {
+    "id": "pm_compression",
+    "label": "Amount %",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Comp / Saturation Protection"
+  },
+  {
+    "id": "pm_softness",
+    "label": "Knee %",
+    "kind": "double",
+    "default": 20,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Comp / Saturation Protection"
+  },
+  {
+    "id": "pm_sat_skin",
+    "label": "Comp Skin Protect",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Comp / Saturation Protection"
+  },
+  {
+    "id": "pm_hue_angle",
+    "label": "Hue Angle",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 360,
+    "step": 0.1,
+    "group": "Hue / Look"
+  },
+  {
+    "id": "pm_hue_pattern",
+    "label": "Hue Pattern",
+    "kind": "choice",
+    "default": 2,
+    "options": [
+      "Mono",
+      "Analogous",
+      "Complementary",
+      "Split Complementary",
+      "Triadic",
+      "Tetradic"
+    ],
+    "group": "Hue / Look"
+  },
+  {
+    "id": "pm_hue_compression",
+    "label": "Hue Strength",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Hue / Look"
+  },
+  {
+    "id": "pm_hue_bias",
+    "label": "Hue Bias",
+    "kind": "double",
+    "default": 0,
+    "min": -100,
+    "max": 100,
+    "step": 0.1,
+    "group": "Hue / Look"
+  },
+  {
+    "id": "pm_luma_split",
+    "label": "Luma Split",
+    "kind": "double",
+    "default": 0,
+    "min": -300,
+    "max": 300,
+    "step": 0.1,
+    "group": "Hue / Look"
+  },
+  {
+    "id": "pm_density",
+    "label": "Density",
+    "kind": "double",
+    "default": 0,
+    "min": -300,
+    "max": 300,
+    "step": 0.1,
+    "group": "Density"
+  },
+  {
+    "id": "pm_chroma",
+    "label": "Density Chroma",
+    "kind": "double",
+    "default": 0,
+    "min": -100,
+    "max": 100,
+    "step": 0.1,
+    "group": "Density"
+  },
+  {
+    "id": "pm_response",
+    "label": "Saturation Response",
+    "kind": "double",
+    "default": 2,
+    "min": 1,
+    "max": 4,
+    "step": 0.01,
+    "group": "Density"
+  },
+  {
+    "id": "pm_shadow",
+    "label": "Shadow Protect",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Density"
+  },
+  {
+    "id": "pm_sr",
+    "label": "Shadow Range",
+    "kind": "double",
+    "default": 50,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Density"
+  },
+  {
+    "id": "pm_highlight",
+    "label": "Highlight Protect",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Density"
+  },
+  {
+    "id": "pm_hr",
+    "label": "Highlight Range",
+    "kind": "double",
+    "default": 50,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Density"
+  },
+  {
+    "id": "pm_density_skin",
+    "label": "Look Skin Protect",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 100,
+    "step": 0.1,
+    "group": "Density"
+  },
+  {
+    "id": "pm_db",
+    "label": "Density Bypass",
+    "kind": "bool",
+    "default": 0,
+    "group": "Density"
+  },
+  {
+    "id": "pm_sd_t",
+    "label": "Shadow Desat Threshold",
+    "kind": "double",
+    "default": 0,
+    "min": 0,
+    "max": 1,
+    "step": 0.001,
+    "group": "Final Desaturation"
+  },
+  {
+    "id": "pm_sd_k",
+    "label": "Shadow Desat Knee",
+    "kind": "double",
+    "default": 0.18,
+    "min": 0,
+    "max": 1,
+    "step": 0.001,
+    "group": "Final Desaturation"
+  },
+  {
+    "id": "pm_hd_t",
+    "label": "Highlight Desat Threshold",
+    "kind": "double",
+    "default": 1,
+    "min": 0,
+    "max": 1,
+    "step": 0.001,
+    "group": "Final Desaturation"
+  },
+  {
+    "id": "pm_hd_k",
+    "label": "Highlight Desat Knee",
+    "kind": "double",
+    "default": 0.18,
+    "min": 0,
+    "max": 1,
+    "step": 0.001,
+    "group": "Final Desaturation"
+  }
+]

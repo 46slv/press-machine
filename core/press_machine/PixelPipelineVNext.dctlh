@@ -1,0 +1,15 @@
+// Press Machine vNext shared pipeline. Keep the DCTL main signature on one line after generation.
+__DEVICE__ float3 transform(const Parameters& p,int p_Width,int p_Height,int p_X,int p_Y,float p_R,float p_G,float p_B) {
+ float3 original=make_float3(p_R,p_G,p_B);int ig=p.pmi_ig,it=p.pmi_it;
+ int og=p.pmi_og==0?ig:p.pmi_og-1,ot=p.pmi_ot==0?it:p.pmi_ot-1;
+ if(!pma_profile_valid(ig,it)||!pma_profile_valid(og,ot)||!pma_encoded_domain_valid(original,it))return original;
+ float2 sr=pma_decode_channel(p_R,it),sg=pma_decode_channel(p_G,it),sb=pma_decode_channel(p_B,it);
+ if(!pma_linear_domain_valid(sr,it)||!pma_linear_domain_valid(sg,it)||!pma_linear_domain_valid(sb,it))return original;
+ pmvp3 input=pmvp_make(pma_to_dwg_channel(sr,sg,sb,ig,0),pma_to_dwg_channel(sr,sg,sb,ig,1),pma_to_dwg_channel(sr,sg,sb,ig,2));
+ int db=pmif_ui_integer(p.pm_db,0,1);
+ pmvn_stages z=pmvn_process(input,p.pm_pre,pmi_threshold_ui(p.pm_threshold,p.pm_compression),p.pm_compression,p.pm_softness,p.pm_sat_skin,
+  p.pm_hue_angle,p.pm_hue_pattern,p.pm_hue_compression,p.pm_hue_bias,p.pm_luma_split,
+  p.pm_density,p.pm_chroma,p.pm_response,p.pm_shadow,p.pm_sr,p.pm_highlight,p.pm_hr,p.pm_density_skin,db,
+  p.pm_sd_t,p.pm_sd_k,p.pm_hd_t,p.pm_hd_k);
+ return pmvn_finish(original,input,z,ig,it,og,ot);
+}

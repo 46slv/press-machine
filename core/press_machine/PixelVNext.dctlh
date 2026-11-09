@@ -1,0 +1,164 @@
+// Press Machine vNext implementation: Comp -> Hue -> Density.
+// This module is appended after the released v2 PixelMath helpers and does not mutate v2 behavior.
+#ifndef PRESSMACHINE_VNEXT_DCTLH
+#define PRESSMACHINE_VNEXT_DCTLH
+
+__DEVICE__ int pmvn_pattern_valid(int pattern){return pattern>=0&&pattern<=5;}
+__DEVICE__ int pmvn_hue_controls_valid(float angle,int pattern,float strength,float bias,float split){
+ return pm_finite(angle)&&angle>=0.0f&&angle<=360.0f&&pmvn_pattern_valid(pattern)&&
+  pm_finite(strength)&&strength>=0.0f&&strength<=100.0f&&
+  pm_finite(bias)&&bias>=-100.0f&&bias<=100.0f&&
+  pm_finite(split)&&split>=-300.0f&&split<=300.0f;
+}
+__DEVICE__ float2 pmvn_skin_mask(pmvp3 input){
+ float3 high=pmvp_high(input);
+ if(!pmvp_finite(input)||(high.x==high.y&&high.y==high.z))return pm_pair(0.0f);
+ float peak=pmv_peak(high);if(!pm_finite(peak)||peak==0.0f)return pm_pair(0.0f);
+ pmvp3 n=pmvp_div(input,peak);pmvq_state base=pmvq_prepare_base(n);
+ float2 color=pmvq_skin_lab(base.lab,base.chroma);
+ float2 mask=pm_pair_mul(color,base.lms_confidence);
+ return pmah_clamp01(mask);
+}
+__DEVICE__ float2 pmvn_skin_keep(float protect,float2 mask){
+ if(protect==0.0f)return pm_pair(1.0f);
+ float2 p=pm_pair_div(pm_pair(protect),pm_pair(100.0f));
+ return pmah_clamp01(pmvp_sub(pm_pair(1.0f),pm_pair_mul(p,mask)));
+}
+__DEVICE__ float2 pmvn_q_ref(float2 y){
+ if(!pm_finite(y.x)||!pm_finite(y.y))return pm_pair(0.0f);
+ if(pmvp_ge(pm_pair(0.0f),y))return pm_pair(-1.0f);
+ float2 sy=pm_pair_sqrt(y),s18=pm_pair_sqrt(make_float2(0.18000000715255737f,-7.152557379708213e-09f));
+ return pm_pair_div(pmvp_sub(sy,s18),pm_pair_add(sy,s18));
+}
+__DEVICE__ float2 pmvn_drive_weight(float bias,float split,float2 q){
+ float2 b=pm_pair_div(pm_pair(bias),pm_pair(100.0f));
+ float2 s=pm_pair_div(pm_pair(split),pm_pair(100.0f));
+ float2 d=pm_pair_add(b,pm_pair_mul(s,q));
+ if(d.x==0.0f&&d.y==0.0f)return pm_pair(0.0f);
+ int positive=pmvp_ge(d,pm_pair(0.0f));float2 a=pmvp_abs(d);
+ float2 e=pmvp_exp2(pm_pair_mul(pm_pair(2.0f),a));
+ float2 w=pm_pair_div(pmvp_sub(e,pm_pair(1.0f)),pm_pair_add(e,pm_pair(1.0f)));
+ return positive?w:pm_pair_neg(w);
+}
+__DEVICE__ int pmvn_anchor_count(int pattern){
+ if(pattern==0)return 1;if(pattern==1)return 3;if(pattern==2)return 2;if(pattern==3)return 3;if(pattern==4)return 3;return pattern==5?4:0;
+}
+__DEVICE__ float pmvn_anchor_degrees(int pattern,int i){
+ if(pattern==0)return 0.0f;
+ if(pattern==1){if(i==0)return -30.0f;if(i==1)return 0.0f;return 30.0f;}
+ if(pattern==2)return i==0?0.0f:180.0f;
+ if(pattern==3){if(i==0)return 0.0f;if(i==1)return 150.0f;return 210.0f;}
+ if(pattern==4){if(i==0)return 0.0f;if(i==1)return 120.0f;return 240.0f;}
+ if(pattern==5){if(i==0)return 0.0f;if(i==1)return 90.0f;if(i==2)return 180.0f;return 270.0f;}
+ return 0.0f;
+}
+__DEVICE__ float2 pmvn_radians(float degrees){
+ return pm_pair_mul(pm_pair(degrees),pm_pair_div(pmah_pi(),pm_pair(180.0f)));
+}
+__DEVICE__ float2 pmvn_anchor_angle(int pattern,int i,float2 phi){
+ return pmah_wrap(pm_pair_add(phi,pmvn_radians(pmvn_anchor_degrees(pattern,i))));
+}
+__DEVICE__ float2 pmvn_positive_gap(float2 a,float2 b){
+ float2 d=pmah_wrap(pmvp_sub(b,a));if(!pmvp_positive(d))d=pm_pair_add(d,pmah_tau());return d;
+}
+__DEVICE__ float2 pmvn_pattern_F(float2 u){
+ const float m=0.10f;
+ float2 u2=pm_pair_mul(u,u),u3=pm_pair_mul(u2,u),u4=pm_pair_mul(u3,u);
+ float2 shape=pmvp_sub(u3,pm_pair_mul(pm_pair(0.5f),u4));
+ float2 numerator=pm_pair_add(pm_pair_mul(pm_pair(m),u),pm_pair_mul(pm_pair(1.0f-m),shape));
+ return pmah_clamp01(pm_pair_div(numerator,pm_pair((1.0f+m)*0.5f)));
+}
+__DEVICE__ float2 pmvn_pattern_Q(float2 u){
+ float2 u2=pm_pair_mul(u,u);return pmah_clamp01(pm_pair_mul(u2,pmvp_sub(pm_pair(3.0f),pm_pair_mul(pm_pair(2.0f),u))));
+}
+__DEVICE__ pmvp3 pmvn_multi_target(float2 a,float2 b,float2 phi,int pattern){
+ float2 r=pm_pair_sqrt(pm_pair_add(pm_pair_mul(a,a),pm_pair_mul(b,b)));
+ if(!pmvp_positive(r))return pmvp_make(pm_pair(0.0f),pm_pair(0.0f),pm_pair(0.0f));
+ float2 h=pmah_atan2(b,a),best_abs=pmah_tau(),best_d=pm_pair(0.0f);int best=0;
+ int count=pmvn_anchor_count(pattern);
+ for(int i=0;i<4;i++){
+  if(i>=count)break;
+  float2 ai=pmvn_anchor_angle(pattern,i,phi),d=pmah_wrap(pmvp_sub(h,ai)),ad=pmvp_abs(d);
+  if(pmvp_ge(best_abs,ad)){best=i;best_abs=ad;best_d=d;}
+ }
+ float2 ai=pmvn_anchor_angle(pattern,best,phi),gap;
+ int side=pmvp_ge(best_d,pm_pair(0.0f))?1:-1;
+ if(side>0){int n=(best+1)%count;gap=pmvn_positive_gap(ai,pmvn_anchor_angle(pattern,n,phi));}
+ else{int p=(best+count-1)%count;gap=pmvn_positive_gap(pmvn_anchor_angle(pattern,p,phi),ai);}
+ float2 half=pm_pair_mul(pm_pair(0.5f),gap);if(!pmvp_positive(half))return pmvp_make(pm_pair(0.0f),a,b);
+ float2 u=pmah_clamp01(pm_pair_div(pmvp_abs(best_d),half));
+ float2 f=pmvn_pattern_F(u),q=pmvn_pattern_Q(u);
+ float2 signed_offset=pm_pair_mul(half,f);if(side<0)signed_offset=pm_pair_neg(signed_offset);
+ pmvp3 dir=pmcf_unit(pm_pair_add(ai,signed_offset));
+ float2 rt=pm_pair_mul(r,pmvp_sub(pm_pair(1.0f),q));
+ return pmvp_make(pm_pair(0.0f),pm_pair_mul(rt,dir.y),pm_pair_mul(rt,dir.z));
+}
+__DEVICE__ pmvp3 pmvn_pattern_target(float2 a,float2 b,float2 y,float angle,int pattern){
+ if(pattern==0)return pmcf_endpoint(a,b,y,angle,1);
+ float2 phi=pmah_wrap(pm_pair_add(pmcf_phase(),pmvn_radians(angle==360.0f?0.0f:angle)));
+ return pmvn_multi_target(a,b,phi,pattern);
+}
+__DEVICE__ float pmvn_opposite_angle(float angle){
+ float a=angle>=180.0f?angle-180.0f:angle+180.0f;return a==360.0f?0.0f:a;
+}
+__DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 y_ref,float angle,int pattern,float strength,float bias,float split){
+ if((strength==0.0f&&bias==0.0f&&split==0.0f)||!pmvn_hue_controls_valid(angle,pattern,strength,bias,split)||!pmvp_finite(input))return input;
+ float3 high=pmvp_high(input);int neutral=high.x==high.y&&high.y==high.z;
+ float peak=pmv_peak(high);if(!pm_finite(peak)||peak==0.0f)return input;
+ pmvp3 xyz=pmvp_dwg_xyz(pmvp_div(input,peak)),rec=pmcf_xyz_rec(xyz),xy=pmcf_xy(rec);
+ if(!pmvp_finite(xyz)||!pmvp_finite(rec)||!pmvp_finite(xy))return input;
+ if(neutral)xy.y=xy.z=pm_pair(0.0f);
+ pmvp3 target=pmvn_pattern_target(xy.y,xy.z,xyz.y,angle,pattern);
+ float2 s=pm_pair_div(pm_pair(strength),pm_pair(100.0f));
+ pmvp3 v=pmvp_make(pm_pair(0.0f),
+  pm_pair_add(xy.y,pm_pair_mul(s,pmvp_sub(target.y,xy.y))),
+  pm_pair_add(xy.z,pm_pair_mul(s,pmvp_sub(target.z,xy.z))));
+ float2 w=pmvn_drive_weight(bias,split,pmvn_q_ref(y_ref));
+ if(!(w.x==0.0f&&w.y==0.0f)){
+  pmvp3 plus=pmcf_endpoint(v.y,v.z,xyz.y,angle,1);
+  pmvp3 minus=pmcf_endpoint(v.y,v.z,xyz.y,pmvn_opposite_angle(angle),1);
+  float2 wp=pmcc_max(w,pm_pair(0.0f)),wm=pmcc_max(pm_pair_neg(w),pm_pair(0.0f));
+  v.y=pm_pair_add(v.y,pm_pair_add(pm_pair_mul(wp,pmvp_sub(plus.y,v.y)),pm_pair_mul(wm,pmvp_sub(minus.y,v.y))));
+  v.z=pm_pair_add(v.z,pm_pair_add(pm_pair_mul(wp,pmvp_sub(plus.z,v.z)),pm_pair_mul(wm,pmvp_sub(minus.z,v.z))));
+ }
+ float2 da=pmvp_sub(v.y,xy.y),db=pmvp_sub(v.z,xy.z);
+ if(!pmvp_positive(pmvp_abs(da))&&!pmvp_positive(pmvp_abs(db)))return input;
+ pmvp3 dxyz=pmcf_rec_xyz(pmcf_delta_rgb(da,db));dxyz.y=pm_pair(0.0f);
+ pmvp3 delta=pmcf_xyz_dwg(dxyz),out=pmvp_add(input,pmvp_scale(delta,pm_pair(peak)));
+ return pmvp_finite(out)?out:input;
+}
+typedef struct {
+ pmvp3 pre_raw;pmvp3 comp_raw;pmvp3 conditioned;pmvp3 hue;pmvp3 density_raw;pmvp3 look;pmvp3 final;
+} pmvn_stages;
+__DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
+ float pre,float threshold,float compression,float softness,float comp_skin,
+ float angle,int pattern,float hue_strength,float hue_bias,float luma_split,
+ float density,float chroma,float response,float shadow,float sr,float highlight,float hr,float look_skin,int db,
+ float st,float sk,float ht,float hk){
+ pmvn_stages z;z.pre_raw=z.comp_raw=z.conditioned=z.hue=z.density_raw=z.look=z.final=input;
+ if(db<0||db>1||!pmvp_finite(input)||
+  !pmc_controls_valid(pre,threshold,compression,softness,density,chroma,response,shadow,sr,highlight,hr,comp_skin,look_skin)||
+  !pmvn_hue_controls_valid(angle,pattern,hue_strength,hue_bias,luma_split)||
+  !pmfd_control(st)||!pmfd_control(sk)||!pmfd_control(ht)||!pmfd_control(hk))return z;
+ float2 y_ref=pmvpy_Y(input),mask=pmvn_skin_mask(input);
+ z.pre_raw=pmvq_presat(input,pre,pm_pair(1.0f),0,2,0.001f,2);
+ z.comp_raw=pmc_comp_stage(z.pre_raw,threshold,compression,softness,pm_pair(1.0f));
+ z.conditioned=pmcc_mix(input,z.comp_raw,pmvn_skin_keep(comp_skin,mask));
+ z.hue=pmvn_hue(z.conditioned,y_ref,angle,pattern,hue_strength,hue_bias,luma_split);
+ z.density_raw=pmc_density_stage(z.hue,density,chroma,response,shadow,sr,highlight,hr,pm_pair(1.0f),db);
+ z.look=pmcc_mix(z.conditioned,z.density_raw,pmvn_skin_keep(look_skin,mask));
+ z.final=pmc_final_desat(z.look.x,z.look.y,z.look.z,st,sk,ht,hk);
+ return z;
+}
+__DEVICE__ float3 pmvn_finish(float3 original,pmvp3 input,pmvn_stages z,int ig,int it,int og,int ot){
+ int same=pma_profiles_same(ig,it,og,ot);
+ for(int i=0;i<5;i++){
+  pmvp3 stage=i==0?z.final:(i==1?z.look:(i==2?z.hue:(i==3?z.conditioned:input)));
+  if(same&&pmvp_same(stage,input))return original;
+  int neutral_endpoint=i==0&&!pmvp_same(z.final,z.look)&&pmif_neutral(z.final);
+  pmi_encoded_result o=neutral_endpoint?pmif_encode_final_neutral(stage,ot):pmi_encode_output(stage.x,stage.y,stage.z,og,ot);
+  if(o.valid)return o.rgb;
+ }
+ return original;
+}
+#endif

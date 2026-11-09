@@ -1,0 +1,37 @@
+name: vNext core
+on:
+  push:
+    branches: [docs/vnext-comp-hue-density-spec-20261109]
+  pull_request:
+    paths:
+      - 'parameters/press_machine_vnext.json'
+      - 'core/press_machine/*VNext*'
+      - 'adapters/vnext/**'
+      - '.github/workflows/vnext-core.yml'
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Generate vNext core
+        run: python adapters/vnext/regenerate.py
+      - name: Independent geometry/scalar reference
+        run: python adapters/vnext/tests/reference_geometry.py
+      - name: Compile shared C++ core
+        run: g++ -std=c++17 -O2 -Wall -Wextra -pedantic adapters/vnext/tests/CoreSmoke.cpp -o /tmp/pm-vnext-smoke
+      - name: Run shared C++ smoke
+        run: /tmp/pm-vnext-smoke
+      - name: Check generated DCTL contract
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('adapters/vnext/generated/PressMachine_vNext_TEST.dctl')
+          s=p.read_text()
+          assert 'Hue Pattern' in s and 'Hue Bias' in s and 'Luma Split' in s
+          assert 'Hue Points' not in s
+          line=next(x for x in s.splitlines() if x.startswith('__DEVICE__ float3 transform('))
+          assert 'p_Width' in line and line.rstrip().endswith('{')
+          print('generated DCTL contract PASS',p.stat().st_size)
+          PY
