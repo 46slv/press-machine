@@ -7,6 +7,7 @@ on:
       - 'parameters/press_machine_vnext.json'
       - 'core/press_machine/*VNext*'
       - 'adapters/vnext/**'
+      - 'adapters/ofx_vnext/**'
       - '.github/workflows/vnext-core.yml'
 jobs:
   core:
@@ -23,7 +24,13 @@ jobs:
         run: g++ -std=c++17 -O2 -Wall -Wextra -pedantic adapters/vnext/tests/CoreSmoke.cpp -o /tmp/pm-vnext-smoke
       - name: Run shared C++ smoke
         run: /tmp/pm-vnext-smoke
-      - name: Check generated DCTL contract
+      - name: Compile CPU adapter harness
+        run: g++ -std=c++17 -O2 -Wall -Wextra -fPIC -shared adapters/ofx_vnext/tests/Native.cpp -o /tmp/libpmvnext.so
+      - name: Focused CPU pipeline checks
+        env:
+          PM_VNEXT_NATIVE: /tmp/libpmvnext.so
+        run: python adapters/ofx_vnext/tests/verify_cpu.py
+      - name: Check generated DCTL and OFX parameter contracts
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -33,5 +40,15 @@ jobs:
           assert 'Hue Points' not in s
           line=next(x for x in s.splitlines() if x.startswith('__DEVICE__ float3 transform('))
           assert 'p_Width' in line and line.rstrip().endswith('{')
-          print('generated DCTL contract PASS',p.stat().st_size)
+          d=Path('adapters/vnext/generated/Descriptors.hpp').read_text()
+          assert 'Comp Skin Protect' in d and 'Look Skin Protect' in d
+          print('generated contracts PASS',p.stat().st_size)
           PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PressMachine-vNext-${{ github.sha }}
+          path: |
+            adapters/vnext/generated/PressMachine_vNext_TEST.dctl
+            adapters/vnext/generated/GENERATION.json
+            adapters/vnext/results/REFERENCE_GEOMETRY.json
+            adapters/ofx_vnext/results/CPU_VNEXT.json
