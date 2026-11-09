@@ -6,6 +6,13 @@ Scope: shared pixel core, parameter schema, DCTL and OFX adapters
 
 This document defines the implementation contract for the next Press Machine color pipeline. It does not change or reinterpret the released v2.0 plugin, existing DCTL artifacts, saved nodes, or their acceptance receipts.
 
+## Current source/evidence pointer
+
+- Source candidate: [Draft PR #9](https://github.com/46slv/press-machine/pull/9), head `53f074b12d3b05ad23fd830e152d6c89c8434787`.
+- Focused CI: run `42599109654`, 75,877 checks PASS; generated DCTL↔CPU 180 mixed cases bit-exact; 600 profile selector combinations bit-exact/finite; alpha/extreme 77 PASS/max error 0; Windows harness static contracts PASS.
+- Target Windows CUDA/OFX/Resolve, persistence, footage, 4K and final visual acceptance remain unverified.
+
+
 The design goal is to make the responsibilities explicit:
 
 - **Pre Saturation + Saturation Comp** condition the incoming chroma range.
