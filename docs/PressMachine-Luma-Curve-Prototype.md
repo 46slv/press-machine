@@ -33,6 +33,18 @@ See the JSON receipts in [`results/v3_curve`](../adapters/ofx/results/v3_curve):
 
 [`HOST_DCTL_LIMITED.json`](../adapters/ofx/results/v3_curve/HOST_DCTL_LIMITED.json) contains hashes, completed job IDs, actual adjustment deltas and the separate remaining gates. Existing v3 Host captures do not qualify this new candidate.
 
+## Separate Density follow-up
+
+After the nine non-Density captures above, six new frames exercised Density +/-100 with Chroma 0/+/-50 on the same synthetic fixture. All 1,327,104 RGB values per frame met the CPU comparison tolerance, maximum difference 1.1920928955078125e-7, with zero nonfinite values and exact alpha. A separate binary64 measurement of the actual captured pixels found:
+
+- In 442,320 eligible chromatic pixels, Density +100 lowered Y by a median 0.74954 EV and -100 raised it by the same amount. There were no opposite-direction changes beyond the stated 1e-6 EV margin.
+- Against Chroma0 at the same Density sign, Chroma +50 increased relative Oklab C/L by a median factor 1.06709; -50 reduced it to 0.93713. There were no opposite-direction changes beyond the stated 1e-5 relative margin.
+- All 48 neutral pixels retained exact RGBA words in all six states. Pixel counts include repeated pixels within one synthetic frame, not that many independent inputs.
+
+A seventh new capture enabled the **Density Bypass** checkbox with Hue Angle17/Strength70 and retained Density100/Chroma50 settings. Its 1,769,472 RGBA words and EXR file SHA matched the existing Hue-only capture exactly. This confirms one native checkbox interaction that preserves Hue while bypassing Density, not global Bypass or all saved states.
+
+Receipts: [four quadrants](../adapters/ofx/results/v3_curve/HOST_DENSITY_QUADRANTS.json), [Density Bypass](../adapters/ofx/results/v3_curve/HOST_DENSITY_BYPASS.json). These observations do not establish +/-300 headroom, protection extremes, all domains/profiles, white-edge repair, texture fidelity, real-footage or 4K acceptance. The candidate source and tested DCTL bytes remain unchanged.
+
 ## Known Host limitation
 
 After project reload, the DCTL name field displayed blank even though the parameter values and captured output persisted. Resetting only the DCTL-row list restored the displayed name without changing the active values. This is an observed workaround, not an established root cause or proof of cold-start behavior. Do not use the whole-effect reset to repair the name if you need to preserve adjustments.
