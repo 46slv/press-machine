@@ -1,0 +1,29 @@
+// Provisional luminance response only. Color anchors, Pattern, Bias and Density are separate.
+// Default controls dispatch to the exact existing response, without a recomputed neutral path.
+#ifndef PRESSMACHINE_HUE_LUMA_CURVE_DCTLH
+#define PRESSMACHINE_HUE_LUMA_CURVE_DCTLH
+__DEVICE__ float2 pmvn_q_ref(float2 Y) {
+ if(!pmvp_positive(Y))return pm_pair(-1.0f);
+ float2 sy=pm_pair_sqrt(Y),s18=pm_pair_sqrt(make_float2(0.18000000715255737f,-7.1525572131747595e-09f));
+ return pm_pair_div(pmvp_sub(sy,s18),pm_pair_add(sy,s18));
+}
+__DEVICE__ float2 pmvn_curve_q_ref(float2 Y,float pivot_ev,float width) {
+ if(!pm_finite(pivot_ev)||_fabs(pivot_ev)>6.0f||!pm_finite(width)||width<0.25f||width>4.0f)
+  return pmvn_q_ref(Y);
+ if(pivot_ev==0.0f&&width==1.0f)return pmvn_q_ref(Y);
+ if(!pmvp_positive(Y))return pm_pair(-1.0f);
+ float2 q;
+ if(pivot_ev==0.0f)q=pmvn_q_ref(Y);
+ else {
+  float2 sy=pm_pair_sqrt(Y),s18=pm_pair_sqrt(make_float2(0.18000000715255737f,-7.1525572131747595e-09f));
+  // Shift the reference root, not HDR input Y; finite Y does not overflow due to exposure shift.
+  float2 pivot=pm_pair_mul(s18,pmvp_exp2(pm_pair_mul(pm_pair(pivot_ev),pm_pair(0.5f))));
+  q=pm_pair_div(pmvp_sub(sy,pivot),pm_pair_add(sy,pivot));
+ }
+ if(width==1.0f)return q;
+ float2 magnitude=pmah_clamp01(pmvp_abs(q));
+ float2 denominator=pm_pair_add(pm_pair(width),pm_pair_mul(pmvp_sub(pm_pair(1.0f),pm_pair(width)),magnitude));
+ float2 shaped=pm_pair_div(magnitude,denominator);
+ return pmvp_positive(q)?shaped:pm_pair_neg(shaped);
+}
+#endif

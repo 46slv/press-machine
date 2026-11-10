@@ -6,11 +6,11 @@ import re
 
 r = Path(__file__).resolve().parent
 root = r.parents[1]
-schema_path = root / 'parameters/press_machine_v3.json'
+schema_path = root / 'parameters/press_machine_v3_curve.json'
 schema = json.loads(schema_path.read_text())
-assert len(schema) == 27 and len({p['id'] for p in schema}) == 27
+assert len(schema) == 29 and len({p['id'] for p in schema}) == 29
 (r / 'generated').mkdir(exist_ok=True)
-(r / 'results/v3').mkdir(parents=True, exist_ok=True)
+(r / 'results/v3_curve').mkdir(parents=True, exist_ok=True)
 
 def declarations():
     lines = ['struct Parameters {\n']
@@ -23,7 +23,7 @@ def declarations():
     return ''.join(lines) + 'return p;}\n'
 
 def ui_declarations():
-    lines = ['// Press Machine v3.dev: Comp -> Hue -> Density. Host qualification pending.']
+    lines = ['// Press Machine v3 Curve TEST: Comp -> Hue -> Density. Host qualification pending.']
     for p in schema:
         start = f"DEFINE_UI_PARAMS({p['id']}, {p['label']}, "
         if p['kind'] == 'double':
@@ -46,7 +46,7 @@ def ui_declarations():
 
 prefix = (root / 'core/press_machine/PlatformPrefix.hpp.in').read_text() + declarations()
 math = (root / 'core/press_machine/PixelMath.dctlh').read_text()
-hue = (root / 'core/press_machine/VNextHue.dctlh').read_text()
+hue = (root / 'core/press_machine/HueLumaCurve.dctlh').read_text() + '\n' + (root / 'core/press_machine/VNextHue.dctlh').read_text()
 # Insert Hue helpers before the pipeline tail within PixelMath, if that tail calls them.
 marker = '// PM_VNEXT_HUE_INSERT'
 if marker in math:
@@ -62,14 +62,14 @@ for p in schema:
     dctl_pipeline = re.sub(r'\bp\.' + p['id'] + r'\b', p['id'], dctl_pipeline)
 dctl = ui_declarations() + math + dctl_pipeline
 assert not re.search(r'\bp\.', dctl_pipeline), 'Unmapped parameter in DCTL pipeline'
-(r / 'generated/PressMachine_V3_Dev_TEST.dctl').write_text(dctl, newline='\n')
+(r / 'generated/PressMachine_V3_Curve_TEST.dctl').write_text(dctl, newline='\n')
 sha = lambda b: hashlib.sha256(b).hexdigest()
-manifest = dict(status='GENERATED_NOT_HOST_VALIDATED', plugin_identifier='com.46slv.PressMachine.v3.dev',
+manifest = dict(status='GENERATED_NOT_HOST_VALIDATED', plugin_identifier='com.46slv.PressMachine.v3.curve.dev',
                 parameter_count=len(schema), schema_sha256=sha(schema_path.read_bytes()),
                 shared_core_sha256=sha(core.encode()), generated_dctl_sha256=sha(dctl.encode()),
                 immutable_baseline_sha256=sha((root / 'adapters/dctl/PressMachine_Full_Color_19382145_TEST.dctl').read_bytes()),
                 scope='v3 development source generation only; no v2 numerical-equivalence or Host acceptance claim')
-(r / 'SOURCE_MANIFEST_V3.json').write_text(json.dumps(manifest, indent=2) + '\n')
+(r / 'SOURCE_MANIFEST_V3_CURVE.json').write_text(json.dumps(manifest, indent=2) + '\n')
 print(json.dumps(manifest, indent=2))
 # CPU-compiled DCTL adapter: catches generated UI IDs, defaults and transform wiring.
 # This is not a Resolve DCTL compiler or GPU execution receipt.
@@ -85,7 +85,7 @@ namespace generated_dctl {
 struct float2{float x,y;}; struct float3{float x,y,z;};
 inline float2 make_float2(float x,float y){return {x,y};}
 inline float3 make_float3(float x,float y,float z){return {x,y,z};}
-#include "PressMachine_V3_Dev_TEST.dctl"
+#include "PressMachine_V3_Curve_TEST.dctl"
 inline void readValues(const double* v){
 '''
 for i, p in enumerate(schema):
@@ -99,4 +99,4 @@ wrapper += '''}
 #undef PMUI_DCTLUI_CHECK_BOX
 #undef PMUI_DCTLUI_COMBO_BOX
 '''
-(r / 'generated/DctlReferenceV3.hpp').write_text(wrapper, newline='\n')
+(r / 'generated/DctlReferenceV3Curve.hpp').write_text(wrapper, newline='\n')

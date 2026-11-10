@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "checks": 14450,
+  "groups": {
+    "finite_bounded": 4275,
+    "independent_curve_reference": 4275,
+    "curve_monotonic": 4275,
+    "shifted_midpoint": 25,
+    "symmetric_exposure_response": 100,
+    "default_scalar_exact": 171,
+    "invalid_curve_legacy_fallback": 35,
+    "nondefault_generated_dctl_CPU_exact": 300,
+    "nondefault_pipeline_finite": 300,
+    "alpha_word_preserved": 300,
+    "curve_hue_finite": 180,
+    "curve_hue_Y_preserved": 180,
+    "Split_zero_curve_no_effect_exact": 30,
+    "UI_pivot_active_response": 1,
+    "UI_width_active_response": 1,
+    "curve_only_creative_identity": 2
+  },
+  "max_scalar_absolute_error": 5.67323965583455e-14,
+  "max_hue_Y_normalized_error": 8.526512829121202e-15,
+  "parameters": [
+    {
+      "id": "pm_luma_pivot_ev",
+      "label": "Luma Pivot EV",
+      "kind": "double",
+      "default": 0.0,
+      "min": -6.0,
+      "max": 6.0,
+      "step": 0.05,
+      "group": "Luma Curve TEST"
+    },
+    {
+      "id": "pm_luma_width",
+      "label": "Luma Width",
+      "kind": "double",
+      "default": 1.0,
+      "min": 0.25,
+      "max": 4.0,
+      "step": 0.01,
+      "group": "Luma Curve TEST"
+    }
+  ],
+  "baseline": {
+    "run": false,
+    "scope": "Optional pinned27-value adapter binary is not available in ordinary CI."
+  },
+  "library_sha256": "0fbc9a6688ae6b67b67c6f4076dcdae11d87864d2985e818e15032ef34dea5d4",
+  "schema_sha256": "23d00ad71ad11db00f1245e0022c59dfcbb83c1ef2b9858a359b514fb2f306c6",
+  "curve_source_sha256": "06893f6c0f6cca6383965bf2d9f349caa12ac3f608f5a818eb6c3947e7caf4a6",
+  "scope": "Provisional curve CPU/reference and CPU-compiled generated-DCTL checks. Ranges and shape are adjustable starting points, not final design. Resolve29-control UI, persistence, native pixels, product OFX Host, footage and4K not established by this report."
+}

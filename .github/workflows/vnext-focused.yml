@@ -2,7 +2,7 @@ name: vNext focused CPU
 on:
   pull_request:
   push:
-    branches: ['dev/dev12-vnext-hue-*']
+    branches: ['dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*']
 permissions:
   contents: read
 jobs:
@@ -22,24 +22,27 @@ jobs:
           plugin=Path('adapters/ofx/src/Plugin.cpp').read_text()
           cmake=Path('adapters/ofx/CMakeLists.txt').read_text()
           compile_cuda=Path('adapters/ofx/compile_cuda.py').read_text()
-          assert 'com.46slv.PressMachine.v3.dev' in plugin
-          assert 'PressMachineV3Dev.ofx.bundle' in cmake
-          assert 'OUTPUT_NAME "PressMachineV3Dev"' in cmake
-          assert "results/v3" in compile_cuda.replace("\\","/")
+          assert 'com.46slv.PressMachine.v3.curve.dev' in plugin
+          assert 'PressMachineV3CurveDev.ofx.bundle' in cmake
+          assert 'OUTPUT_NAME "PressMachineV3CurveDev"' in cmake
+          assert "results/v3_curve" in compile_cuda.replace("\\","/")
           print('Windows v3.dev static contracts PASS')
           PY
       - name: Focused source and generated-DCTL qualification
         run: python3 adapters/ofx/tests/verify_vnext.py
       - name: Alpha and extreme values
         run: python3 adapters/ofx/tests/verify_alpha_v3.py
+      - name: Provisional luminance curve
+        run: python3 adapters/ofx/tests/verify_luma_curve.py
       - uses: actions/upload-artifact@v4
         with:
-          name: PressMachine-v3-dev-${{ github.sha }}
+          name: PressMachine-v3-curve-test-${{ github.sha }}
           path: |
-            adapters/ofx/generated/PressMachine_V3_Dev_TEST.dctl
-            adapters/ofx/SOURCE_MANIFEST_V3.json
-            adapters/ofx/results/v3/FOCUSED_CPU.json
-            adapters/ofx/results/v3/ALPHA_EXTREMES.json
+            adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl
+            adapters/ofx/SOURCE_MANIFEST_V3_CURVE.json
+            adapters/ofx/results/v3_curve/FOCUSED_CPU.json
+            adapters/ofx/results/v3_curve/ALPHA_EXTREMES.json
+            adapters/ofx/results/v3_curve/LUMA_CURVE.json
           if-no-files-found: error
 
   focused-windows-cpu:
@@ -63,3 +66,4 @@ jobs:
           python adapters/ofx/generate_descriptors.py
           python adapters/ofx/tests/verify_vnext.py
           python adapters/ofx/tests/verify_alpha_v3.py
+          python adapters/ofx/tests/verify_luma_curve.py
