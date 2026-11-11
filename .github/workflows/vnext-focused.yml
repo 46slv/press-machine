@@ -2,7 +2,7 @@ name: vNext focused CPU
 on:
   pull_request:
   push:
-    branches: ['dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*']
+    branches: ['dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*', 'dev/reuse-v3-graph-*']
 permissions:
   contents: read
 jobs:
@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Generate v3 candidate
         run: |
           python3 adapters/ofx/regenerate.py
@@ -28,6 +30,8 @@ jobs:
           assert "results/v3_curve" in compile_cuda.replace("\\","/")
           print('Windows v3.dev static contracts PASS')
           PY
+      - name: Graph HUD models and source isolation
+        run: python3 adapters/ofx/tests/verify_hud.py
       - name: Focused source and generated-DCTL qualification
         run: python3 adapters/ofx/tests/verify_vnext.py
       - name: Alpha and extreme values
@@ -43,12 +47,15 @@ jobs:
             adapters/ofx/results/v3_curve/FOCUSED_CPU.json
             adapters/ofx/results/v3_curve/ALPHA_EXTREMES.json
             adapters/ofx/results/v3_curve/LUMA_CURVE.json
+            adapters/ofx/results/v3_curve/graph/
           if-no-files-found: error
 
   focused-windows-cpu:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -64,6 +71,7 @@ jobs:
           & $devShell -Arch amd64 -HostArch amd64 -SkipAutomaticLocation
           python adapters/ofx/regenerate.py
           python adapters/ofx/generate_descriptors.py
+          python adapters/ofx/tests/verify_hud.py
           python adapters/ofx/tests/verify_vnext.py
           python adapters/ofx/tests/verify_alpha_v3.py
           python adapters/ofx/tests/verify_luma_curve.py

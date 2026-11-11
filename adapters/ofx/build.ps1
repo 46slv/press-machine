@@ -17,6 +17,10 @@ Measure-Step 'CMake-configure' {cmake -S $root -B "$root\build" -G 'Visual Studi
 if($Clean){Measure-Step 'clean-generated-build' {cmake --build "$root\build" --config Release --target clean}}
 Measure-Step 'CXX-compile-link' {cmake --build "$root\build" --config Release --parallel 4}
 Measure-Step 'trace-logging-unit-tests' {& "$root\build\Release\PressMachineTraceTests.exe" "$root\results\trace-unit-fixture"}
+New-Item -ItemType Directory -Force "$root\results\v3_curve\graph" | Out-Null
+Measure-Step 'HUD-model-unit-tests' {& "$root\build\Release\PressMachineHudTests.exe" "$root\results\v3_curve\graph\HUD_MODEL.json"}
+Measure-Step 'Density-interaction-focused-tests' {& "$root\build\Release\PressMachineDensityGraphTests.exe" "$root\results\v3_curve\graph\DENSITY_GRAPH.json"}
+Measure-Step 'HUD-source-separation' {python "$root\tests\verify_hud_source.py"}
 Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package_v3.py"}
 Measure-Step 'vNext-focused-tests' {python "$root\tests\verify_vnext.py"}
 Measure-Step 'CPU-alpha-extremes' {python "$root\tests\verify_alpha_v3.py"}

@@ -1,0 +1,24 @@
+{
+  "status": "ADDRESS_UNDEFINED_SANITIZERS_PASS",
+  "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
+  "compile_flags": [
+    "-O1",
+    "-g",
+    "-std=c++17",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer"
+  ],
+  "runtime_options": "ASAN_OPTIONS=detect_leaks=0",
+  "HUD_cases": 12129,
+  "Density_assertions": 5434,
+  "both_exit_codes": 0,
+  "source_sha256": {
+    "adapters/ofx/tests/HudTests.cpp": "f3a3763730e2fb0be6ab94d199dc5ce6e07a5064721c0b05e609c08b0b4412e2",
+    "adapters/ofx/tests/DensityGraphTests.cpp": "0da4492a591d87ec34380e048c92f9b672515d6b11987b57c6618585c6794997",
+    "adapters/ofx/src/HudModel.hpp": "a09faf196ec6fe16f472153177a2680fbf114e2faf46151b3983f712a24e9f93",
+    "adapters/ofx/src/DensityGraph.hpp": "0a9ee06247ac214d56a867f007c53d5feaddc5e91dd82b1570f22d23ad254e95"
+  },
+  "leak_sanitizer": "UNAVAILABLE: initial detect_leaks=1 execution ended in LeakSanitizer fatal error because this execution environment uses ptrace. Not a leak-check pass.",
+  "Host_acceptance": false
+}

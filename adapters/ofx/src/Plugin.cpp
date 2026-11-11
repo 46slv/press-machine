@@ -7,6 +7,7 @@
 #include "../generated/ParameterValues.hpp"
 #include "../generated/Descriptors.hpp"
 #include "Trace.hpp"
+#include "HudOverlay.hpp"
 void runCuda(void*,const void*,void*,long long,long long,int,int,int,int,int,int,int,int,int,int,int,const pm::Parameters&);
 class Processor:public OFX::ImageProcessor{
  OFX::Image* src=nullptr;
@@ -74,6 +75,7 @@ void PressMachineFactory::describe(OFX::ImageEffectDescriptor&d){
  d.setTemporalClipAccess(false);d.setSupportsMultipleClipPARs(false);d.setRenderTwiceAlways(false);
  d.setSupportsCudaRender(true);d.setSupportsCudaStream(true);d.setSupportsOpenCLRender(false);
  d.setNoSpatialAwareness(true);
+ pmhud::describe(d);
 }
 void PressMachineFactory::describeInContext(OFX::ImageEffectDescriptor&d,OFX::ContextEnum){
  auto* s=d.defineClip(kOfxImageEffectSimpleSourceClipName);s->addSupportedComponent(OFX::ePixelComponentRGBA);

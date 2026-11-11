@@ -4,6 +4,7 @@ This branch adds adjustable **Luma Pivot EV** and **Luma Width** to the separate
 
 - [Design, controls, measured scope and limits](docs/PressMachine-Luma-Curve-Prototype.md)
 - [Generated DCTL](adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl), SHA-256 `8c9ebcb72295d60877f300d5ddb863d629b565cb0be11deb984e5f1b77bafad6`
+- [Reused Graph HUD source candidate and pending Host gates](docs/PressMachine-Graph-HUD-Migration.md)
 - [Current build instructions](adapters/ofx/README.md#current-29-control-candidate)
 - [Limited native DCTL evidence](adapters/ofx/results/v3_curve/HOST_DCTL_LIMITED.json)
 

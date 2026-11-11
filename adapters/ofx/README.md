@@ -1,5 +1,7 @@
 # Current 29-control candidate
 
+This source lane also restores the existing viewer-only Graph HUD for all 29 controls. [Migration, display meanings, tests and remaining Host gates](../../docs/PressMachine-Graph-HUD-Migration.md). Graph defaults OFF and does not alter processing; no Graph-enabled binary is accepted by these source checks.
+
 This branch builds `com.46slv.PressMachine.v3.curve.dev` version 3.1, label `Press Machine v3 Curve TEST`, bundle/binary stem `PressMachineV3CurveDev`. It does not replace the released v2 or original 27-control v3 identities.
 
 From the repository root, run `python adapters/ofx/regenerate.py` and `python adapters/ofx/generate_descriptors.py`. The candidate schema is `parameters/press_machine_v3_curve.json`; generated DCTL is `adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl`, with source hashes in `SOURCE_MANIFEST_V3_CURVE.json`.

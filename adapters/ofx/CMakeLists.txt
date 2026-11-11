@@ -28,9 +28,14 @@ add_library(PressMachineCudaAdapterTest SHARED tests/CudaAdapterHarness.cpp src/
 target_compile_definitions(PressMachineCudaAdapterTest PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
 target_compile_options(PressMachineCudaAdapterTest PRIVATE /fp:strict /O2 /W3)
 
-target_link_libraries(PressMachine PRIVATE shell32 ole32)
+target_link_libraries(PressMachine PRIVATE shell32 ole32 opengl32)
 add_executable(PressMachineTraceTests tests/TraceTests.cpp)
 target_include_directories(PressMachineTraceTests PRIVATE "${RESOLVE_OFX_SDK}/OpenFX-1.4/include")
 target_compile_definitions(PressMachineTraceTests PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
 target_compile_options(PressMachineTraceTests PRIVATE /W3)
 target_link_libraries(PressMachineTraceTests PRIVATE shell32 ole32)
+
+add_executable(PressMachineHudTests tests/HudTests.cpp)
+target_compile_options(PressMachineHudTests PRIVATE /fp:strict /O2 /W3)
+add_executable(PressMachineDensityGraphTests tests/DensityGraphTests.cpp)
+target_compile_options(PressMachineDensityGraphTests PRIVATE /fp:strict /O2 /W3)
