@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "bundle_name": "PressMachineV3CurveDev.ofx.bundle",
+  "binary_relative_path": "Contents/Win64/PressMachineV3CurveDev.ofx",
+  "binary_sha256": "2661e8575f01a27e86f2c09af99fbb92d2aa0ff7655f9c490c391d5cccefb1a3",
+  "plugin_count": 1,
+  "identifier": "com.46slv.PressMachine.v3.curve.dev",
+  "api": "OfxImageEffectPluginAPI",
+  "api_version": 1,
+  "plugin_version": [
+    3,
+    1
+  ],
+  "dependency_notice_text_exact": true,
+  "host_acceptance": false
+}

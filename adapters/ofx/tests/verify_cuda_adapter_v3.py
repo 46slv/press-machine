@@ -1,6 +1,6 @@
 from pathlib import Path
 import ctypes as c,json,time,math,struct,random
-R=Path(__file__).resolve().parents[1];schema=json.loads((R.parents[1]/'parameters/press_machine_v3.json').read_text())
+R=Path(__file__).resolve().parents[1];schema=json.loads((R.parents[1]/'parameters/press_machine_v3_curve.json').read_text())
 P=type('Parameters',(c.Structure,),{'_fields_':[(p['id'],c.c_float if p['kind']=='double' else c.c_int) for p in schema]})
 assert c.sizeof(P)==4*len(schema)
 default=[p['default'] for p in schema];idx={p['id']:i for i,p in enumerate(schema)}
@@ -17,6 +17,11 @@ for n in range(6):
  for angle in (0.,360.):states.append(state(pm_hue_pattern=n,pm_hue_compression=50,pm_hue_angle=angle))
 for bias,split in [(100,0),(-100,0),(0,300),(0,-300),(100,300),(-100,-300)]:
  for pattern in range(6):states.append(state(pm_hue_pattern=pattern,pm_hue_bias=bias,pm_luma_split=split))
+# Candidate-specific nondefault branches, with Split active and Density neutral.
+curve_start=len(states)
+for i,(pivot,width) in enumerate([(p,w) for p in (-6.,0.,6.) for w in (.25,1.,4.) if (p,w)!=(0.,1.)]):
+ states.append(state(pm_luma_pivot_ev=pivot,pm_luma_width=width,pm_luma_split=300 if i%2 else -300,
+                     pm_hue_bias=20,pm_hue_compression=50,pm_hue_angle=33,pm_hue_pattern=i%6,pm_density=0))
 cpu=c.CDLL(str(R/'build/Release/PressMachineParity.dll'));cpu.pm_eval.argtypes=[c.POINTER(c.c_float),c.POINTER(c.c_double),c.c_int,c.POINTER(c.c_float)]
 D=c.WinDLL('nvcuda.dll')
 def fn(name,args):f=getattr(D,name);f.argtypes=args;f.restype=c.c_int;return f
@@ -44,7 +49,7 @@ try:
    alpha=[0.,.5,1.,1e-40,1e-10,-1e-40][x];v=([alpha,alpha*.5,0.,alpha] if 0<abs(alpha)<1e-8 else [rng.uniform(-.05,.8) for _ in range(3)]+[alpha])
    for ch in range(4):source[y*(sp//4)+x*4+ch]=v[ch]
  ok(alloc(c.byref(src),c.sizeof(source)));ok(alloc(c.byref(dst),c.sizeof(target)));ok(htod(src,source,c.sizeof(source)))
- maxerr=0.;cases=0;words=0;alpha_words=0;sentinels=0
+ maxerr=0.;cases=0;words=0;alpha_words=0;sentinels=0;curve_changed_pixels=0
  for ig,it in [(0,0),(1,1),(2,2),(3,3),(0,4)]:
   for vi,v in enumerate(states):
    v=v[:];v[idx['pmi_ig']]=ig;v[idx['pmi_it']]=it
@@ -71,13 +76,20 @@ try:
         assert all(math.isfinite(z) for z in o),o
         assert error<=2**-13,(ig,it,vi,premult,ax,ay,o,tuple(want),error)
         assert struct.pack('f',o[3])==struct.pack('f',want[3])
+        if vi>=curve_start:
+         baseline=v[:];baseline[idx['pm_luma_pivot_ev']]=0.;baseline[idx['pm_luma_width']]=1.
+         legacy=(c.c_float*4)();cpu.pm_eval(ins,(c.c_double*len(schema))(*baseline),premult,legacy)
+         if max(abs(want[j]-legacy[j]) for j in range(3))>4*2**-13:
+          assert max(abs(o[j]-legacy[j]) for j in range(3))>2*2**-13
+          curve_changed_pixels+=1
         alpha_words+=1;cases+=1
        else:assert o==(0.,0.,0.,0.)
        words+=4
       else:assert o==(-99.,-99.,-99.,-99.);sentinels+=4
      assert all(target[y*(dp//4)+j]==-99. for j in range(dw*4,dp//4))
- result=dict(status='PASS',device=name.value.decode(),source='actual CudaRunner adapter / embedded compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=5,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,first_adapter_call_seconds=jit,stream_modes=['default-completed','nonnull-Host-stream'],seconds=time.perf_counter()-start,scope='independent NVIDIA context; actual CUDA adapter with context-ID cache/default completion/non-null stream/pitch/ROI/subnormal alpha/parameters; not Resolve Host acceptance')
- (R/'results/v3/CUDA_ADAPTER_PARITY.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
+ assert curve_changed_pixels>0
+ result=dict(curve_nondefault_states=len(states)-curve_start,curve_measurably_changed_pixels=curve_changed_pixels,status='PASS',device=name.value.decode(),source='actual CudaRunner adapter / embedded compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=5,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,first_adapter_call_seconds=jit,stream_modes=['default-parameter','harness-created-nonnull-parameter'],seconds=time.perf_counter()-start,scope='independent NVIDIA context; actual CUDA adapter and new curve states; one context/positive pitch/ROI/subnormal alpha/parameters. Later sync/readback does not independently prove async or default completion. Not actual Resolve Host or cache recreation acceptance')
+ (R/'results/v3_curve/CUDA_ADAPTER_PARITY.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 finally:
  if src.value:free(src)
  if dst.value:free(dst)

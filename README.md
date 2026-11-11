@@ -1,3 +1,14 @@
+# Provisional 29-control curve candidate
+
+This branch adds adjustable **Luma Pivot EV** and **Luma Width** to the separate TEST candidate. The default 0/1 pair preserves the original luminance response. Set Luma Split away from zero to explore the curve. Final shape and ranges remain provisional.
+
+- [Design, controls, measured scope and limits](docs/PressMachine-Luma-Curve-Prototype.md)
+- [Generated DCTL](adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl), SHA-256 `8c9ebcb72295d60877f300d5ddb863d629b565cb0be11deb984e5f1b77bafad6`
+- [Current build instructions](adapters/ofx/README.md#current-29-control-candidate)
+- [Limited native DCTL evidence](adapters/ofx/results/v3_curve/HOST_DCTL_LIMITED.json)
+
+Original 27-control v3 and released v2 artifacts remain separate. The retained baseline notes below do not describe the build target of this branch. This is not an accepted release.
+
 # Press Machine
 
 Color processing shared by DCTL and OpenFX adapters.

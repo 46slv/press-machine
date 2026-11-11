@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 r=Path(__file__).resolve().parent
-params=json.loads((r.parents[1]/'parameters/press_machine_v3.json').read_text())
+params=json.loads((r.parents[1]/'parameters/press_machine_v3_curve.json').read_text())
 decl=['#pragma once\n#include "ofxsImageEffect.h"\n#include <array>\nstruct Parameters{\n']
 kind={'double':'Double','bool':'Boolean','choice':'Choice'}
 for p in params:decl.append(' OFX::'+kind[p['kind']]+'Param* '+p['id']+';\n')

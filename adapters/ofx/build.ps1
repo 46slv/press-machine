@@ -20,8 +20,9 @@ Measure-Step 'trace-logging-unit-tests' {& "$root\build\Release\PressMachineTrac
 Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package_v3.py"}
 Measure-Step 'vNext-focused-tests' {python "$root\tests\verify_vnext.py"}
 Measure-Step 'CPU-alpha-extremes' {python "$root\tests\verify_alpha_v3.py"}
-$records | ConvertTo-Json -Depth 5 | Set-Content "$root\results\v3\BUILD_TIMINGS.json"
-Get-FileHash -LiteralPath "$root\build\PressMachineV3Dev.ofx.bundle\Contents\Win64\PressMachineV3Dev.ofx" -Algorithm SHA256 | Format-List
+Measure-Step 'provisional-luma-curve' {python "$root\tests\verify_luma_curve.py"}
+$records | ConvertTo-Json -Depth 5 | Set-Content "$root\results\v3_curve\BUILD_TIMINGS.json"
+Get-FileHash -LiteralPath "$root\build\PressMachineV3CurveDev.ofx.bundle\Contents\Win64\PressMachineV3CurveDev.ofx" -Algorithm SHA256 | Format-List
 # CUDA adapter/kernel tests use an isolated GPU context. Run only after
 # coordinating with the sole Resolve Host benchmark owner:
 # python "$root\tests\verify_cuda_v3.py"

@@ -19,11 +19,6 @@ __DEVICE__ float2 pmvn_anchor(int pattern,int index) {
  if(pattern==5){numerator=(float)index;denominator=4.0f;}
  return pm_pair_mul(pmah_tau(),pm_pair_div(pm_pair(numerator),pm_pair(denominator)));
 }
-__DEVICE__ float2 pmvn_q_ref(float2 Y) {
- if(!pmvp_positive(Y))return pm_pair(-1.0f);
- float2 sy=pm_pair_sqrt(Y),s18=pm_pair_sqrt(make_float2(0.18000000715255737f,-7.1525572131747595e-09f));
- return pm_pair_div(pmvp_sub(sy,s18),pm_pair_add(sy,s18));
-}
 __DEVICE__ float2 pmvn_drive(float bias,float split,float2 q) {
  float2 r=pm_pair_add(pm_pair_div(pm_pair(bias),pm_pair(100.0f)),pm_pair_mul(pm_pair_div(pm_pair(split),pm_pair(100.0f)),q));
  if(r.x==0.0f&&r.y==0.0f)return pm_pair(0.0f);
@@ -78,7 +73,7 @@ __DEVICE__ pmvp3 pmvn_target(float2 a,float2 b,float2 Y,float2 phi,int pattern) 
  float2 radius=pm_pair_mul(pm_pair_sqrt(pm_pair_add(pm_pair_mul(va,va),pm_pair_mul(vb,vb))),pmvp_sub(pm_pair(1.0f),Q));
  return pmvp_make(pm_pair(0.0f),pm_pair_mul(sc,pm_pair_mul(radius,direction.y)),pm_pair_mul(sc,pm_pair_mul(radius,direction.z)));
 }
-__DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 Y_ref,float angle,int pattern,float strength,float bias,float split) {
+__DEVICE__ pmvp3 pmvn_hue_curve(pmvp3 input,float2 Y_ref,float angle,int pattern,float strength,float bias,float split,float pivot_ev,float width) {
  if(strength==0.0f&&bias==0.0f&&split==0.0f)return input;
  if(!pmvp_finite(input)||!pmah_controls_valid(angle,1,strength,50.0f)||pattern<0||pattern>5||
   !pm_finite(bias)||_fabs(bias)>100.0f||!pm_finite(split)||_fabs(split)>300.0f)return input;
@@ -92,7 +87,7 @@ __DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 Y_ref,float angle,int pattern,float
   b=pm_pair_add(b,pm_pair_mul(s,pmvp_sub(target.z,b)));
  }
  if(bias!=0.0f||split!=0.0f){
-  float2 w=pmvn_drive(bias,split,pmvn_q_ref(Y_ref));
+  float2 w=pmvn_drive(bias,split,pmvn_curve_q_ref(Y_ref,pivot_ev,width));
   if(w.x!=0.0f||w.y!=0.0f){
    pmvp3 target=pmvn_ray(a,b,xyz.y,pmvp_positive(w)?phi:pm_pair_add(phi,pmah_pi()));
    float2 t=pmvp_abs(w);a=pm_pair_add(a,pm_pair_mul(t,pmvp_sub(target.y,a)));b=pm_pair_add(b,pm_pair_mul(t,pmvp_sub(target.z,b)));
@@ -104,10 +99,14 @@ __DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 Y_ref,float angle,int pattern,float
  pmvp3 out=pmvp_add(input,pmvp_scale(pmcf_xyz_dwg(delta),pm_pair(peak)));
  return pmvp_finite(out)?out:input;
 }
+// Preserve the original direct helper for existing default-curve qualification.
+__DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 Y_ref,float angle,int pattern,float strength,float bias,float split) {
+ return pmvn_hue_curve(input,Y_ref,angle,pattern,strength,bias,split,0.0f,1.0f);
+}
 typedef struct {pmvp3 pre_raw;pmvp3 conditioned;pmvp3 hue;pmvp3 look;pmvp3 final;} pmvn_stages;
 __DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
  float pre,float threshold,float compression,float softness,float density,float chroma,float response,float shadow,float sr,float highlight,float hr,float comp_skin,float look_skin,int db,
- float angle,int pattern,float strength,float bias,float split,float st,float sk,float ht,float hk){
+ float angle,int pattern,float strength,float bias,float split,float st,float sk,float ht,float hk,float pivot_ev,float width){
  pmvn_stages z;z.pre_raw=z.conditioned=z.hue=z.look=z.final=input;
  if(!pmvp_finite(input))return z;
  float peak=pmv_peak(pmvp_high(input));float2 Y_ref=pm_pair(0.0f);
@@ -120,7 +119,7 @@ __DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
  z.pre_raw=pmif_neutral(input)||!pm_finite(pre)||pre<0.0f||pre>200.0f?input:pmvq_presat(input,pre,pm_pair(1.0f),0,2,0.001f,2);
  pmvp3 comp_raw=pmif_neutral(z.pre_raw)?z.pre_raw:pmc_comp_stage(z.pre_raw,threshold,compression,softness,pm_pair(1.0f));
  z.conditioned=comp_skin_valid?pmcc_mix(input,comp_raw,analysis.keep_sat):input;
- pmvp3 hue_raw=pmvn_hue(z.conditioned,Y_ref,angle,pattern,strength,bias,split);
+ pmvp3 hue_raw=pmvn_hue_curve(z.conditioned,Y_ref,angle,pattern,strength,bias,split,pivot_ev,width);
  pmvp3 density_raw=pmif_neutral(hue_raw)?hue_raw:pmc_density_stage(hue_raw,density,chroma,response,shadow,sr,highlight,hr,pm_pair(1.0f),db);
  // Store protected Hue for output fallback; never reveal an unprotected raw branch.
  z.hue=look_skin_valid?pmcc_mix(z.conditioned,hue_raw,analysis.keep_density):z.conditioned;

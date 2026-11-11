@@ -11,10 +11,10 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
-SCHEMA = json.loads((REPO / 'parameters/press_machine_v3.json').read_text())
+SCHEMA = json.loads((REPO / 'parameters/press_machine_v3_curve.json').read_text())
 BUILD = ROOT / 'build'
 BUILD.mkdir(exist_ok=True)
-RESULTS = ROOT / 'results/v3'
+RESULTS = ROOT / 'results/v3_curve'
 RESULTS.mkdir(parents=True, exist_ok=True)
 LIB = BUILD / ('VNextNative.dll' if os.name == 'nt' else 'libvnext_native.so')
 if os.name == 'nt':
@@ -251,7 +251,7 @@ result = dict(status='PASS', checks=sum(counts.values()), groups=counts,
               max_scalar_absolute_error=max_scalar, max_geometry_absolute_error=max_geometry,
               max_hue_y_normalized_error=max_y, generated_dctl_cpu_bit_exact_cases=parity_cases, profile_conversion_cases=profile_conversion_cases,
               shared_core_sha256=hashlib.sha256((ROOT/'generated/PixelCore.hpp').read_bytes()).hexdigest(),
-              generated_dctl_sha256=hashlib.sha256((ROOT/'generated/PressMachine_V3_Dev_TEST.dctl').read_bytes()).hexdigest(),
+              generated_dctl_sha256=hashlib.sha256((ROOT/'generated/PressMachine_V3_Curve_TEST.dctl').read_bytes()).hexdigest(),
               scope='Focused shared-core binary32-pair CPU and CPU-compiled generated-DCTL checks only. CUDA, native OFX SDK build, Resolve, save/reopen, footage, 4K, and user visual acceptance NOT RUN.')
 (RESULTS/'FOCUSED_CPU.json').write_text(json.dumps(result, indent=2)+'\n')
 print(json.dumps(result, indent=2))

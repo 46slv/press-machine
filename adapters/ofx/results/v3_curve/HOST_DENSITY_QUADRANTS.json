@@ -1,0 +1,403 @@
+{
+  "status": "MEASURED_LIMITED_DENSITY_QUADRANTS",
+  "DCTL_sha256": "8c9ebcb72295d60877f300d5ddb863d629b565cb0be11deb984e5f1b77bafad6",
+  "fixture_sha256": "568e18a07528a39f1a436c50d3c402745c2ebca112368393fe9a5b71d1e40be6",
+  "CPU_sha256": "0fbc9a6688ae6b67b67c6f4076dcdae11d87864d2985e818e15032ef34dea5d4",
+  "metrics": "Actual captured pixels, independently decoded in binary64 DI -> linear DWG -> XYZ D65 -> Oklab. This measures output semantics, not an independent Density-formula oracle. C/L is relative chroma; absolute C and Y are not assumed invariant under Chroma.",
+  "eligibility": {
+    "input_Y_gt": 1e-05,
+    "input_C_gt": 1e-05,
+    "input_L_gt": 0.0001,
+    "pixels": 442320,
+    "total_pixels": 442368
+  },
+  "observations": [
+    {
+      "case": "DP100_C0",
+      "pixels": 442320,
+      "Y_exposure_delta_EV": {
+        "min": -1.3725046114957726,
+        "median": -0.7495377505746297,
+        "max": -1.0169429605061585e-06
+      },
+      "opposite_direction_beyond_1e_6_EV": 0
+    },
+    {
+      "case": "DP100_CP50",
+      "pixels": 442320,
+      "relative_Oklab_C_over_L_vs_same_Density_Chroma0": {
+        "min": 1.0,
+        "median": 1.067091470300537,
+        "max": 1.1247249085341557
+      },
+      "opposite_Chroma_direction_beyond_1e_5_relative": 0,
+      "Y_exposure_delta_EV_vs_source": {
+        "min": -1.3725054611863134,
+        "median": -0.7495378632551118,
+        "max": -1.0169429605061585e-06
+      },
+      "additional_Y_EV_vs_Chroma0": {
+        "min": -2.4011216921799946e-06,
+        "median": -8.097362906720734e-08,
+        "max": 2.640684966202882e-06
+      },
+      "max_abs_Oklab_hue_delta_radians_vs_Chroma0": 1.5310435368731667e-05
+    },
+    {
+      "case": "DP100_CN50",
+      "pixels": 442320,
+      "relative_Oklab_C_over_L_vs_same_Density_Chroma0": {
+        "min": 0.8958848263506713,
+        "median": 0.9371265861800315,
+        "max": 1.0
+      },
+      "opposite_Chroma_direction_beyond_1e_5_relative": 0,
+      "Y_exposure_delta_EV_vs_source": {
+        "min": -1.37250423721855,
+        "median": -0.749537775075763,
+        "max": -1.0169429605061585e-06
+      },
+      "additional_Y_EV_vs_Chroma0": {
+        "min": -1.706790370345794e-06,
+        "median": 3.4078067124467515e-09,
+        "max": 2.3153015248502293e-06
+      },
+      "max_abs_Oklab_hue_delta_radians_vs_Chroma0": 1.8886779016735744e-05
+    },
+    {
+      "case": "DN100_C0",
+      "pixels": 442320,
+      "Y_exposure_delta_EV": {
+        "min": 1.5780786811733688e-06,
+        "median": 0.7495377439047345,
+        "max": 1.3725044835221907
+      },
+      "opposite_direction_beyond_1e_6_EV": 0
+    },
+    {
+      "case": "DN100_CP50",
+      "pixels": 442320,
+      "relative_Oklab_C_over_L_vs_same_Density_Chroma0": {
+        "min": 1.0,
+        "median": 1.0670914157557316,
+        "max": 1.1247252283920866
+      },
+      "opposite_Chroma_direction_beyond_1e_5_relative": 0,
+      "Y_exposure_delta_EV_vs_source": {
+        "min": 1.5780786811733688e-06,
+        "median": 0.7495380330217601,
+        "max": 1.3725065592930552
+      },
+      "additional_Y_EV_vs_Chroma0": {
+        "min": -3.4931624910020742e-06,
+        "median": -6.10492200405879e-08,
+        "max": 3.7316318155437425e-06
+      },
+      "max_abs_Oklab_hue_delta_radians_vs_Chroma0": 1.888373114500297e-05
+    },
+    {
+      "case": "DN100_CN50",
+      "pixels": 442320,
+      "relative_Oklab_C_over_L_vs_same_Density_Chroma0": {
+        "min": 0.8958855330086887,
+        "median": 0.9371263803718247,
+        "max": 1.0
+      },
+      "opposite_Chroma_direction_beyond_1e_5_relative": 0,
+      "Y_exposure_delta_EV_vs_source": {
+        "min": 1.5780786811733688e-06,
+        "median": 0.7495380218890721,
+        "max": 1.372506031320927
+      },
+      "additional_Y_EV_vs_Chroma0": {
+        "min": -2.2465184077716423e-06,
+        "median": 6.029764958392167e-08,
+        "max": 2.7410745839376482e-06
+      },
+      "max_abs_Oklab_hue_delta_radians_vs_Chroma0": 1.552572892526971e-05
+    }
+  ],
+  "neutral_pixels": 48,
+  "neutral_RGBA_word_differences": {
+    "DP100_C0": 0,
+    "DP100_CP50": 0,
+    "DP100_CN50": 0,
+    "DN100_C0": 0,
+    "DN100_CP50": 0,
+    "DN100_CN50": 0
+  },
+  "completed_cases": [
+    {
+      "case": "DP100_C0",
+      "job_id": "a1568886-feca-40de-b3e0-90c26dca4cfa",
+      "job_status": {
+        "JobStatus": "Complete",
+        "CompletionPercentage": 100
+      },
+      "sha256": "e12266ac38a8567eb8bba85e5820bd46b7e1038d9a353cb7d2c9614422b21973",
+      "max_abs_RGB": 5.960464477539063e-08,
+      "max_normalized_RGB": 5.960464477539063e-08,
+      "values_above_2neg13": 0,
+      "nonfinite": 0,
+      "alpha_word_difference": 0,
+      "parameters": {
+        "pmi_ig": 0,
+        "pmi_it": 0,
+        "pmi_og": 0,
+        "pmi_ot": 0,
+        "pm_pre": 100.0,
+        "pm_threshold": 80.0,
+        "pm_compression": 0.0,
+        "pm_softness": 20.0,
+        "pm_sat_skin": 0.0,
+        "pm_hue_angle": 0.0,
+        "pm_hue_pattern": 2,
+        "pm_hue_compression": 0.0,
+        "pm_hue_bias": 0.0,
+        "pm_luma_split": 0.0,
+        "pm_density": 100,
+        "pm_chroma": 0.0,
+        "pm_response": 2.0,
+        "pm_shadow": 0.0,
+        "pm_sr": 50.0,
+        "pm_highlight": 0.0,
+        "pm_hr": 50.0,
+        "pm_density_skin": 0.0,
+        "pm_db": 0,
+        "pm_sd_t": 0.0,
+        "pm_sd_k": 0.18,
+        "pm_hd_t": 1.0,
+        "pm_hd_k": 0.18,
+        "pm_luma_pivot_ev": 0.0,
+        "pm_luma_width": 1.0
+      }
+    },
+    {
+      "case": "DP100_CP50",
+      "job_id": "54b03ee3-2563-4239-87e5-7c573dba6087",
+      "job_status": {
+        "JobStatus": "Complete",
+        "CompletionPercentage": 100
+      },
+      "sha256": "2f8bf1a99f76e2eec3d79f4317afb91fb94d3837eea96d2e815d931f394568e9",
+      "max_abs_RGB": 5.960464477539063e-08,
+      "max_normalized_RGB": 5.960464477539063e-08,
+      "values_above_2neg13": 0,
+      "nonfinite": 0,
+      "alpha_word_difference": 0,
+      "parameters": {
+        "pmi_ig": 0,
+        "pmi_it": 0,
+        "pmi_og": 0,
+        "pmi_ot": 0,
+        "pm_pre": 100.0,
+        "pm_threshold": 80.0,
+        "pm_compression": 0.0,
+        "pm_softness": 20.0,
+        "pm_sat_skin": 0.0,
+        "pm_hue_angle": 0.0,
+        "pm_hue_pattern": 2,
+        "pm_hue_compression": 0.0,
+        "pm_hue_bias": 0.0,
+        "pm_luma_split": 0.0,
+        "pm_density": 100,
+        "pm_chroma": 50,
+        "pm_response": 2.0,
+        "pm_shadow": 0.0,
+        "pm_sr": 50.0,
+        "pm_highlight": 0.0,
+        "pm_hr": 50.0,
+        "pm_density_skin": 0.0,
+        "pm_db": 0,
+        "pm_sd_t": 0.0,
+        "pm_sd_k": 0.18,
+        "pm_hd_t": 1.0,
+        "pm_hd_k": 0.18,
+        "pm_luma_pivot_ev": 0.0,
+        "pm_luma_width": 1.0
+      }
+    },
+    {
+      "case": "DP100_CN50",
+      "job_id": "8350538e-502a-413b-90dc-d03a20091800",
+      "job_status": {
+        "JobStatus": "Complete",
+        "CompletionPercentage": 100
+      },
+      "sha256": "7df07d7784a54b7489e389c69d393f26a500fd14e6ef90eda047b9851816e570",
+      "max_abs_RGB": 5.960464477539063e-08,
+      "max_normalized_RGB": 5.960464477539063e-08,
+      "values_above_2neg13": 0,
+      "nonfinite": 0,
+      "alpha_word_difference": 0,
+      "parameters": {
+        "pmi_ig": 0,
+        "pmi_it": 0,
+        "pmi_og": 0,
+        "pmi_ot": 0,
+        "pm_pre": 100.0,
+        "pm_threshold": 80.0,
+        "pm_compression": 0.0,
+        "pm_softness": 20.0,
+        "pm_sat_skin": 0.0,
+        "pm_hue_angle": 0.0,
+        "pm_hue_pattern": 2,
+        "pm_hue_compression": 0.0,
+        "pm_hue_bias": 0.0,
+        "pm_luma_split": 0.0,
+        "pm_density": 100,
+        "pm_chroma": -50,
+        "pm_response": 2.0,
+        "pm_shadow": 0.0,
+        "pm_sr": 50.0,
+        "pm_highlight": 0.0,
+        "pm_hr": 50.0,
+        "pm_density_skin": 0.0,
+        "pm_db": 0,
+        "pm_sd_t": 0.0,
+        "pm_sd_k": 0.18,
+        "pm_hd_t": 1.0,
+        "pm_hd_k": 0.18,
+        "pm_luma_pivot_ev": 0.0,
+        "pm_luma_width": 1.0
+      }
+    },
+    {
+      "case": "DN100_C0",
+      "job_id": "02fef85d-6fe9-4684-b75d-dce1112a1982",
+      "job_status": {
+        "JobStatus": "Complete",
+        "CompletionPercentage": 100
+      },
+      "sha256": "86c2c54991048241c2446c7561db7f444e33348d6dbf8098ee4151fcf2a4092f",
+      "max_abs_RGB": 5.960464477539063e-08,
+      "max_normalized_RGB": 5.960464477539063e-08,
+      "values_above_2neg13": 0,
+      "nonfinite": 0,
+      "alpha_word_difference": 0,
+      "parameters": {
+        "pmi_ig": 0,
+        "pmi_it": 0,
+        "pmi_og": 0,
+        "pmi_ot": 0,
+        "pm_pre": 100.0,
+        "pm_threshold": 80.0,
+        "pm_compression": 0.0,
+        "pm_softness": 20.0,
+        "pm_sat_skin": 0.0,
+        "pm_hue_angle": 0.0,
+        "pm_hue_pattern": 2,
+        "pm_hue_compression": 0.0,
+        "pm_hue_bias": 0.0,
+        "pm_luma_split": 0.0,
+        "pm_density": -100,
+        "pm_chroma": 0.0,
+        "pm_response": 2.0,
+        "pm_shadow": 0.0,
+        "pm_sr": 50.0,
+        "pm_highlight": 0.0,
+        "pm_hr": 50.0,
+        "pm_density_skin": 0.0,
+        "pm_db": 0,
+        "pm_sd_t": 0.0,
+        "pm_sd_k": 0.18,
+        "pm_hd_t": 1.0,
+        "pm_hd_k": 0.18,
+        "pm_luma_pivot_ev": 0.0,
+        "pm_luma_width": 1.0
+      }
+    },
+    {
+      "case": "DN100_CP50",
+      "job_id": "c19466ce-db4b-4680-ab29-2a4509f2f46d",
+      "job_status": {
+        "JobStatus": "Complete",
+        "CompletionPercentage": 100
+      },
+      "sha256": "0e6bc71e0f4dd7be4e91a174d714b5570be00a47a99593f4cf67f0edeed7f370",
+      "max_abs_RGB": 1.1920928955078125e-07,
+      "max_normalized_RGB": 1.1920928955078125e-07,
+      "values_above_2neg13": 0,
+      "nonfinite": 0,
+      "alpha_word_difference": 0,
+      "parameters": {
+        "pmi_ig": 0,
+        "pmi_it": 0,
+        "pmi_og": 0,
+        "pmi_ot": 0,
+        "pm_pre": 100.0,
+        "pm_threshold": 80.0,
+        "pm_compression": 0.0,
+        "pm_softness": 20.0,
+        "pm_sat_skin": 0.0,
+        "pm_hue_angle": 0.0,
+        "pm_hue_pattern": 2,
+        "pm_hue_compression": 0.0,
+        "pm_hue_bias": 0.0,
+        "pm_luma_split": 0.0,
+        "pm_density": -100,
+        "pm_chroma": 50,
+        "pm_response": 2.0,
+        "pm_shadow": 0.0,
+        "pm_sr": 50.0,
+        "pm_highlight": 0.0,
+        "pm_hr": 50.0,
+        "pm_density_skin": 0.0,
+        "pm_db": 0,
+        "pm_sd_t": 0.0,
+        "pm_sd_k": 0.18,
+        "pm_hd_t": 1.0,
+        "pm_hd_k": 0.18,
+        "pm_luma_pivot_ev": 0.0,
+        "pm_luma_width": 1.0
+      }
+    },
+    {
+      "case": "DN100_CN50",
+      "job_id": "732b2de3-ecf8-43a1-a051-a97f3cec8c12",
+      "job_status": {
+        "JobStatus": "Complete",
+        "CompletionPercentage": 100
+      },
+      "sha256": "12b6d0b9212319fa9713fc44abb3b2708bc9020a76791619b42e26fd19231ada",
+      "max_abs_RGB": 8.940696716308594e-08,
+      "max_normalized_RGB": 8.940696716308594e-08,
+      "values_above_2neg13": 0,
+      "nonfinite": 0,
+      "alpha_word_difference": 0,
+      "parameters": {
+        "pmi_ig": 0,
+        "pmi_it": 0,
+        "pmi_og": 0,
+        "pmi_ot": 0,
+        "pm_pre": 100.0,
+        "pm_threshold": 80.0,
+        "pm_compression": 0.0,
+        "pm_softness": 20.0,
+        "pm_sat_skin": 0.0,
+        "pm_hue_angle": 0.0,
+        "pm_hue_pattern": 2,
+        "pm_hue_compression": 0.0,
+        "pm_hue_bias": 0.0,
+        "pm_luma_split": 0.0,
+        "pm_density": -100,
+        "pm_chroma": -50,
+        "pm_response": 2.0,
+        "pm_shadow": 0.0,
+        "pm_sr": 50.0,
+        "pm_highlight": 0.0,
+        "pm_hr": 50.0,
+        "pm_density_skin": 0.0,
+        "pm_db": 0,
+        "pm_sd_t": 0.0,
+        "pm_sd_k": 0.18,
+        "pm_hd_t": 1.0,
+        "pm_hd_k": 0.18,
+        "pm_luma_pivot_ev": 0.0,
+        "pm_luma_width": 1.0
+      }
+    }
+  ],
+  "scope": "Six synthetic 1152x384 states, Density +/-100, Chroma0/+/-50, Response2, protections/Hue/final desat off. Not +/-300 headroom, all profiles/domain, white-edge repair, texture fidelity, real footage, 4K, product OFX or visual acceptance.",
+  "local_source_receipt_sha256": "fd0c3ea4b13c968ad0b476d7b47417cd768ec6bb4846cc9a6d0810fb4a6caead"
+}

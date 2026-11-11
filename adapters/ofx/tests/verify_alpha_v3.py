@@ -1,7 +1,7 @@
 from pathlib import Path
 import ctypes as c,json,math,struct,os,sys
 R=Path(__file__).resolve().parents[1]
-schema=json.loads((R.parents[1]/'parameters/press_machine_v3.json').read_text());default=[p['default'] for p in schema];idx={p['id']:i for i,p in enumerate(schema)}
+schema=json.loads((R.parents[1]/'parameters/press_machine_v3_curve.json').read_text());default=[p['default'] for p in schema];idx={p['id']:i for i,p in enumerate(schema)}
 path=Path(sys.argv[1]) if len(sys.argv)>1 else ((R/'build/Release/PressMachineParity.dll') if os.name=='nt' and (R/'build/Release/PressMachineParity.dll').exists() else ((R/'build/VNextNative.dll') if os.name=='nt' else (R/'build/libvnext_native.so')))
 lib=c.CDLL(str(path));lib.pm_eval.argtypes=[c.POINTER(c.c_float),c.POINTER(c.c_double),c.c_int,c.POINTER(c.c_float)]
 f=lambda x:c.c_float(x).value
@@ -33,4 +33,4 @@ for x in cases:
     error=max(abs(a-b) for a,b in zip(y,want));maxerr=max(maxerr,error)
     assert error<=max(1e-44,max(abs(q) for q in want[:3])*2**-22),(x,si,y,want,error)
 result=dict(status='PASS',cases=len(cases)*len(states),subnormal_identity_word_exact=True,finite_rgba_preserved=True,independent_ratio_reference='Python double division then binary32 rounding; no reciprocal',max_error=maxerr)
-(R/'results/v3/ALPHA_EXTREMES.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
+(R/'results/v3_curve/ALPHA_EXTREMES.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))

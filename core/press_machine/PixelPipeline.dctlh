@@ -7,7 +7,7 @@ __DEVICE__ float3 transform(const Parameters& p,int p_Width,int p_Height,int p_X
  pmvp3 input=pmvp_make(pma_to_dwg_channel(sr,sg,sb,ig,0),pma_to_dwg_channel(sr,sg,sb,ig,1),pma_to_dwg_channel(sr,sg,sb,ig,2));
  int db=pmif_ui_integer(p.pm_db,0,1);
  pmvn_stages z=pmvn_process(input,p.pm_pre,pmi_threshold_ui(p.pm_threshold,p.pm_compression),p.pm_compression,p.pm_softness,p.pm_density,p.pm_chroma,p.pm_response,p.pm_shadow,p.pm_sr,p.pm_highlight,p.pm_hr,p.pm_sat_skin,p.pm_density_skin,db,
-  p.pm_hue_angle,p.pm_hue_pattern,p.pm_hue_compression,p.pm_hue_bias,p.pm_luma_split,p.pm_sd_t,p.pm_sd_k,p.pm_hd_t,p.pm_hd_k);
+  p.pm_hue_angle,p.pm_hue_pattern,p.pm_hue_compression,p.pm_hue_bias,p.pm_luma_split,p.pm_sd_t,p.pm_sd_k,p.pm_hd_t,p.pm_hd_k,p.pm_luma_pivot_ev,p.pm_luma_width);
  return pmvn_finish(original,input,z,ig,it,og,ot);
 }
 

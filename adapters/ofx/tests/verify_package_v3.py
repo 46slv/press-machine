@@ -3,7 +3,7 @@ import ctypes as c
 import hashlib,json,sys
 
 R=Path(__file__).resolve().parents[1]
-bundle=Path(sys.argv[1]) if len(sys.argv)>1 else R/'build/PressMachineV3Dev.ofx.bundle'
+bundle=Path(sys.argv[1]) if len(sys.argv)>1 else R/'build/PressMachineV3CurveDev.ofx.bundle'
 suffix='.ofx.bundle'
 assert bundle.name.endswith(suffix), 'Expected an OFX bundle directory'
 stem=bundle.name[:-len(suffix)]
@@ -25,14 +25,14 @@ dll.OfxGetPlugin.restype=c.POINTER(Plugin)
 assert dll.OfxGetNumberOfPlugins()==1
 plugin=dll.OfxGetPlugin(0).contents
 assert plugin.api==b'OfxImageEffectPluginAPI' and plugin.api_version==1
-assert plugin.identifier==b'com.46slv.PressMachine.v3.dev'
-assert (plugin.major,plugin.minor)==(3,0) and plugin.set_host and plugin.entry
+assert plugin.identifier==b'com.46slv.PressMachine.v3.curve.dev'
+assert (plugin.major,plugin.minor)==(3,1) and plugin.set_host and plugin.entry
 report={'status':'PASS','bundle_name':bundle.name,'binary_relative_path':relative.as_posix(),
         'binary_sha256':hashlib.sha256(binary.read_bytes()).hexdigest(),
         'plugin_count':1,'identifier':plugin.identifier.decode(),
         'api':plugin.api.decode(),'api_version':plugin.api_version,
         'plugin_version':[plugin.major,plugin.minor],
         'dependency_notice_text_exact':True,'host_acceptance':False}
-(R/'results/v3').mkdir(parents=True,exist_ok=True)
-(R/'results/v3/PACKAGE_LAYOUT.json').write_text(json.dumps(report,indent=2),newline='\n')
+(R/'results/v3_curve').mkdir(parents=True,exist_ok=True)
+(R/'results/v3_curve/PACKAGE_LAYOUT.json').write_text(json.dumps(report,indent=2),newline='\n')
 print(json.dumps(report,indent=2))

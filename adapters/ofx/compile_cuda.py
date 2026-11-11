@@ -1,7 +1,7 @@
 import ctypes as c,json,time,hashlib,os
 from pathlib import Path
 r=Path(__file__).resolve().parent
-results=r/'results/v3'
+results=r/'results/v3_curve'
 results.mkdir(parents=True,exist_ok=True)
 dll=Path(r'C:\Program Files\Blackmagic Design\DaVinci Resolve\nvrtc64_120_0.dll')
 dll_directory=os.add_dll_directory(str(dll.parent))

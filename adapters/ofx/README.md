@@ -1,3 +1,19 @@
+# Current 29-control candidate
+
+This branch builds `com.46slv.PressMachine.v3.curve.dev` version 3.1, label `Press Machine v3 Curve TEST`, bundle/binary stem `PressMachineV3CurveDev`. It does not replace the released v2 or original 27-control v3 identities.
+
+From the repository root, run `python adapters/ofx/regenerate.py` and `python adapters/ofx/generate_descriptors.py`. The candidate schema is `parameters/press_machine_v3_curve.json`; generated DCTL is `adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl`, with source hashes in `SOURCE_MANIFEST_V3_CURVE.json`.
+
+On a configured Windows OpenFX SDK/MSVC toolchain, run `adapters/ofx/build.ps1`. Output is `adapters/ofx/build/PressMachineV3CurveDev.ofx.bundle/Contents/Win64/PressMachineV3CurveDev.ofx`. The script generates sources, compiles NVRTC/C++, checks exports/package layout, and runs the focused, alpha and curve tests. CUDA harnesses `verify_cuda_v3.py` and `verify_cuda_adapter_v3.py` exercise this 29-value ABI and write to `results/v3_curve/`. Do not run the historical 25-value harnesses against it.
+
+CPU checks are `tests/verify_vnext.py`, `tests/verify_alpha_v3.py` and `tests/verify_luma_curve.py`. The optional `--baseline-dll` argument to the curve suite compares a separately pinned old 27-value adapter; it writes a distinct `LUMA_CURVE_BASELINE.json` receipt and is not needed for CI. Do not substitute a newly rebuilt 29-value library as the baseline.
+
+[Prototype controls, actual native evidence and limits](../../docs/PressMachine-Luma-Curve-Prototype.md). The built-in Resolve DCTL path has limited synthetic-frame evidence. Product OFX Host loading and persistence, full UI range/menu coverage, footage, 4K timing and final visual acceptance remain separate gates. No accepted product bundle is installed by this branch.
+
+## Retained original 27-control baseline notes
+
+The notes and commands below describe the original v3 branch, followed by v2 history. They are retained for context and do not select the current build target.
+
 # Press Machine v3.dev development candidate
 
 This branch implements the separate Comp → Hue → Density candidate with 27 controls. The new schema is `parameters/press_machine_v3.json`; no v2 node, preset, menu index, or saved state is migrated. Pattern choices are Mono, Analogous, Complementary (default), Split Complementary, Triadic and Tetradic. Hue Bias ±100 and Luma Split ±300 remain active at Strength zero. Comp Skin Protect covers conditioning; Look Skin Protect covers Hue plus Density.

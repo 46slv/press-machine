@@ -1,12 +1,24 @@
 # Press Machine vNext — Comp → Hue → Density implementation specification
 
-Status: **v3.dev source integration candidate / focused CPU checks passed / CUDA and Host acceptance pending**
+Status: **v3.dev base specification / provisional 29-control extension below / product OFX Host acceptance pending**
 Date: 2026-11-09  
 Scope: shared pixel core, parameter schema, DCTL and OFX adapters
 
 This document defines the implementation contract for the next Press Machine color pipeline. It does not change or reinterpret the released v2.0 plugin, existing DCTL artifacts, saved nodes, or their acceptance receipts.
 
-## Current source/evidence pointer
+## Current 29-control candidate and contract clarification
+
+The user requested an adjustable provisional luminance-to-hue response, then OFX packaging and release inclusion only if its tests pass. DEV-12 contract Revision 4 records non-Density completion first, Density follow-up afterward, and future mask expansion deferred. Existing Skin Protect and baseline Density integration remain regression obligations.
+
+- Current candidate: [Draft PR #10](https://github.com/46slv/press-machine/pull/10), branch `dev/non-density-luma-curve-20261110`, implementation `7bdc4ba11246e926378ed7f17493931cebb185dc`, evidence/docs head `15d4a94c0d5e5743c46d29dcd889233782ae25fc` before this documentation-only clarification.
+- The 27-control base is [Draft PR #9](https://github.com/46slv/press-machine/pull/9), `36c3cea889aefb4772274587fee7e2f12ba39ed4`. Both PRs remain unmerged at this checkpoint.
+- The extension adds only `pm_luma_pivot_ev` and `pm_luma_width`. Its isolated mapping, defaults, invalid-value fallback and limited receipts are specified in [Provisional luminance response controls](PressMachine-Luma-Curve-Prototype.md). This candidate-specific extension supersedes the no-extra-curve-controls statements in section 7 for this variant only. It does not introduce a general tone/contrast stage or finalize the curve family/ranges.
+- Standalone Windows CPU/CUDA, build/package/export checks and limited built-in Resolve DCTL captures are complete within their recorded scope. Product OFX load/render/UI/persistence, representative footage, full profile coverage, 4K and final visual/release acceptance remain open. See the exact receipts in [`results/v3_curve`](../adapters/ofx/results/v3_curve).
+- DCTL SHA256: `8c9ebcb72295d60877f300d5ddb863d629b565cb0be11deb984e5f1b77bafad6`; OFX SHA256: `2661e8575f01a27e86f2c09af99fbb92d2aa0ff7655f9c490c391d5cccefb1a3`. A docs/evidence-only head does not constitute new whole-head Host acceptance.
+
+The actual released v2.0.0 package has 25 controls and already includes Final Shadow and Highlight Desaturation. This 29-control candidate is the changed 27-control vNext pipeline plus two provisional controls, not v2 plus two compatible additions. Keep the separate plugin ID and existing v2 nodes; do not auto-convert old menu indices or saved states.
+
+## Historical 27-control source/evidence checkpoint
 
 - Source candidate: [Draft PR #9](https://github.com/46slv/press-machine/pull/9), head `53f074b12d3b05ad23fd830e152d6c89c8434787`.
 - Focused CI: run `42599109654`, 75,877 checks PASS; generated DCTL↔CPU 180 mixed cases bit-exact; 600 profile selector combinations bit-exact/finite; alpha/extreme 77 PASS/max error 0; Windows harness static contracts PASS.
@@ -98,7 +110,9 @@ Keep the existing Density parameters and meanings. Rename the user-facing label 
 
 ### 2.4 Final desaturation
 
-Keep the current Shadow Threshold / Knee contract. Threshold 0 remains exact off. Highlight Desaturation may remain optional and neutral by default.
+Keep the current Shadow Threshold / Knee contract. Threshold 0 remains exact off. For active Shadow Threshold > 0, positive Knee provides the smooth transition; Knee 0 intentionally keeps input at level >= Threshold and fully desaturates below it. Do not require smoothness across that supported hard-step endpoint.
+
+Independent Final Highlight Threshold / Knee controls are already implemented in the released v2 package and current candidate. The R3 optional feature designation is not a claim of missing implementation and is not promoted to Must here. Because the controls are included, their off/default, active and overlapping Shadow/Highlight behavior still requires regression testing. Final desaturation is separate from Density Highlight Protect.
 
 ---
 
@@ -268,7 +282,7 @@ Tie-breaking at an exact midpoint may be deterministic by anchor index because b
 
 ## 7. Fixed Luma Split curve
 
-Luma Split uses a broad, fixed scene-linear response around 18% gray. It does not expose Pivot, Knee, Toe, Shoulder, Gamma or Contrast controls.
+The original 27-control Luma Split uses a broad, fixed scene-linear response around 18% gray. That base has no curve controls. The separately versioned 29-control TEST extension exposes provisional Luma Pivot EV and Luma Width only, as specified in [the prototype contract](PressMachine-Luma-Curve-Prototype.md). Defaults 0/1 call the original response directly. No general Knee, Toe, Shoulder, Gamma, Contrast or tone-pivot stage is added.
 
 Let:
 
@@ -289,7 +303,7 @@ Properties:
 - Negative-stop values are symmetric in log exposure.
 - The response approaches ±1 asymptotically and has no hard threshold.
 
-This formula is the implementation baseline. Reference-image analysis may later validate or revise the fixed constant/curve in a new candidate, but does not block the first implementation and does not add user controls.
+This formula remains the 27-control baseline and the exact default path of the 29-control extension. The extension's two provisional adjustments alter only the luminance-to-hue weight and read the immutable original-input Y_ref. Reference images and hands-on use will inform later curve selection; the current family/ranges are not finally accepted.
 
 ---
 

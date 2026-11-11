@@ -1,0 +1,18 @@
+{
+  "status": "MEASURED_HUE_PRESERVING_DENSITY_BYPASS_PASS",
+  "DCTL_sha256": "8c9ebcb72295d60877f300d5ddb863d629b565cb0be11deb984e5f1b77bafad6",
+  "Hue_only_EXR_sha256": "6414fefe82c2f53916469d26f1a1a36389f94458567cb929dd8be694917b1042",
+  "Hue_DensityBypass_EXR_sha256": "6414fefe82c2f53916469d26f1a1a36389f94458567cb929dd8be694917b1042",
+  "EXR_file_SHA_equal": true,
+  "RGBA_words_compared": 1769472,
+  "RGBA_word_differences": 0,
+  "Hue_Angle": 17,
+  "Hue_Strength": 70,
+  "Density_settings_preserved": {
+    "Density": 100,
+    "Chroma": 50,
+    "Bypass": 1
+  },
+  "scope": "Actual checkbox ON and one completed synthetic frame compared to the existing Hue-only capture. Not all Bypass states, persistence, other profiles or real-footage acceptance.",
+  "local_source_receipt_sha256": "a24645e79ed35ba89eedaac5c4aacd44e48edaff6fa0d2910af183e184c56916"
+}
