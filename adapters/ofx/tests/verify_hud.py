@@ -14,7 +14,7 @@ results = root / 'results/v3_curve/graph'
 build.mkdir(parents=True, exist_ok=True)
 results.mkdir(parents=True, exist_ok=True)
 subprocess.run([sys.executable, str(root / 'tests/verify_hud_source.py')], check=True)
-for source, receipt in [('HudPlacementTests', 'HUD_PLACEMENT'), ('HudTests', 'HUD_MODEL'), ('DensityGraphTests', 'DENSITY_GRAPH')]:
+for source, receipt in [('HudPlacementTests', 'HUD_PLACEMENT'), ('HudTests', 'HUD_MODEL'), ('DensityGraphTests', 'DENSITY_GRAPH'), ('NeutralHueTests', 'NEUTRAL_HUE'), ('MakeupTests', 'MAKEUP')]:
     target = build / (source + ('.exe' if os.name == 'nt' else ''))
     if os.name == 'nt':
         command = ['cl', '/nologo', '/O2', '/EHsc', '/std:c++17', '/fp:strict',
@@ -23,12 +23,20 @@ for source, receipt in [('HudPlacementTests', 'HUD_PLACEMENT'), ('HudTests', 'HU
         command = ['g++', '-O2', '-std=c++17', '-ffp-contract=off',
                    str(root / 'tests' / (source + '.cpp')), '-o', str(target)]
     subprocess.run(command, check=True, cwd=build)
-    subprocess.run([str(target), str(results / (receipt + '.json'))], check=True, cwd=build)
+    if source in ('NeutralHueTests', 'MakeupTests'):
+        run = subprocess.run([str(target)], check=True, cwd=build, capture_output=True, text=True)
+        print(run.stdout, end='')
+        (results / (receipt + '.json')).write_text(json.dumps({
+            'status': 'PASS_SOURCE_NOT_HOST', 'suite': source, 'stdout': run.stdout,
+            'test_source_sha256': hashlib.sha256((root / 'tests' / (source + '.cpp')).read_bytes().replace(b'\r\n', b'\n')).hexdigest()
+        }, indent=2) + '\n')
+    else:
+        subprocess.run([str(target), str(results / (receipt + '.json'))], check=True, cwd=build)
 
 inputs = ['src/HudOverlay.hpp', 'src/HudPlacement.hpp', 'tests/HudPlacementTests.cpp', 'src/HudModel.hpp', 'src/DensityGraph.hpp',
           'src/Plugin.cpp', 'generate_descriptors.py', 'generated/Descriptors.hpp',
           'generated/PixelCore.hpp', 'generated/ParameterValues.hpp',
-          'tests/HudTests.cpp', 'tests/DensityGraphTests.cpp',
+          'tests/HudTests.cpp', 'tests/DensityGraphTests.cpp', 'tests/NeutralHueTests.cpp', 'tests/MakeupTests.cpp', 'src/NeutralHueGraph.hpp',
           'tests/verify_hud.py', 'tests/verify_hud_source.py']
 manifest = {
     'status': 'SOURCE_CHECKS_PASS_NOT_HOST_VALIDATED',

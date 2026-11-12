@@ -1,0 +1,6 @@
+{
+  "status": "PASS_SOURCE_NOT_HOST",
+  "suite": "MakeupTests",
+  "stdout": "PASS Makeup cases=165; single-vs-perstage protection separation=0.00218651;identity/invalid/gray/Hue-only/Density0 gates\n",
+  "test_source_sha256": "dd84ceea2ee15c3b0b082a40afb1d0e23c9406a4f13d85c40f6636f3496cd29a"
+}

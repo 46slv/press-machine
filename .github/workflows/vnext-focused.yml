@@ -1,8 +1,8 @@
-name: vNext focused CPU
+name: Press Machine 2.2 focused CPU
 on:
   pull_request:
   push:
-    branches: ['dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*', 'dev/reuse-v3-graph-*']
+    branches: ['dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*', 'dev/reuse-v3-graph-*', 'feat/pressmachine22-*', 'feat/makeup-sat-hud150-*', 'feat/hue-neutral-hud-*']
 permissions:
   contents: read
 jobs:
@@ -40,7 +40,7 @@ jobs:
         run: python3 adapters/ofx/tests/verify_luma_curve.py
       - uses: actions/upload-artifact@v4
         with:
-          name: PressMachine-v3-curve-test-${{ github.sha }}
+          name: PressMachine-2.2-source-checks-${{ github.sha }}
           path: |
             adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl
             adapters/ofx/SOURCE_MANIFEST_V3_CURVE.json

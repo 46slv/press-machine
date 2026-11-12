@@ -27,3 +27,6 @@ Makeup raw-chain/single-skin oracle; CPU/generated-DCTL CPU/CUDA parity; old29 a
 
 ## Packaging and rollback
 Keep historical internal bundle name. Preserve the entire previous same-ID bundle outside Plugins and its hashes, save/export projects, check no render, close Resolve, replace in vacated path, cold restart and verify actual loaded binary. Never merge two bundles. Restore the preserved bundle and hash to reverse; trial Makeup states should not be overwritten in an older product.
+
+## Automatic build gates
+The2.2 feature-branch push CI now runs the existing neutral-Hue reference and Makeup single-protection suites through verify_hud.py on Linux and Windows. The Windows OFX build.ps1 also explicitly executes both CMake test targets before source/package checks, so merely compiling the tests is no longer mistaken for running them. Portable runner records each new suite output and test-source hash separately. These are source/model gates, not Host acceptance or a rebuilt deployed product.
