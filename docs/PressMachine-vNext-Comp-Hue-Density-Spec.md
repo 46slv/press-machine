@@ -1,3 +1,24 @@
+# Current product contract: Press Machine 2.2
+
+This current override supersedes the historical29/27-control checkpoints and pipeline below where they conflict. The historical text is retained as evidence, not a request to remove subsequently approved controls.
+
+- User-facing name: **Press Machine 2.2**. Existing trial compatibility keys stay `com.46slv.PressMachine.v3.curve.dev`, OFX major/minor3.1, internal bundle stem `PressMachineV3CurveDev`. Public2.2 is not an OFX major downgrade or replacement of released v2.
+- Current schema:30 controls, with `pm_makeup` appended at index29,0..200/default100; earlier29 IDs/types/defaults/ranges/options/order preserved. Graph is a separate viewer-only switch.
+- Current conditioning: raw Pre Sat -> raw Sat Comp -> raw Makeup Sat, then **one** original-input Comp Skin net mix for the whole block. Then Hue -> post-Hue Density -> **one** Look Skin net mix for the combined Hue+Density change -> Final shadow/highlight desaturation. Comp Skin is not a second Comp operation.
+- Makeup inherits Pre's model. Neutral100 preserves the prior29-control result; there is no automatic v2 or27-control migration.
+- Graph is mandatory in every OFX artifact: variable Pattern swatches, neutral-input Hue output-color-strength curve, four-panel auto1.5 with tiny-viewer fit limits; OpenFX overlays required. Reference curves are not footage measurements. SatComp curve is BASE COMP BEFORE MAKEUP, not the full conditioning response.
+- Actual2.2 descriptor-only binary75799ec745badc5219909dd35afcf494a9a28fb304eed4bd7cbbd2319eb75251 keeps the tested Makeup core/schema/PTX/Graph. Source f1e78eb and later build/CI/evidence commits are not a new pixel formula.
+- SS2.2 installation/label/Graph and existing-trial state recognition are complete within their recorded limits. Current generated DCTL ae50fc47726103e12041186a287c4f3ef0580c3074092c86993ecae7942121ca has limited actual built-in Host default/active evidence. Neither is full-domain acceptance.
+- NonDensity-first remains the priority history; baseline Density integration may be inspected without declaring all nonDensity gates complete or adopting a new Hue formula. New mask expansion and research white-fringe/texture models are not adopted.
+
+[日本語利用メモ](PressMachine-2.2-Quick-Guide-JA.md).
+
+Current bounded receipts and open conditions: [2.2 gates](../adapters/ofx/PRODUCT22_GATES.md), [Density integration](../adapters/ofx/PRODUCT22_DENSITY_INTERACTION.md).
+
+---
+
+## Historical implementation specification
+
 # Press Machine vNext — Comp → Hue → Density implementation specification
 
 Status: **v3.dev base specification / provisional 29-control extension below / product OFX Host acceptance pending**

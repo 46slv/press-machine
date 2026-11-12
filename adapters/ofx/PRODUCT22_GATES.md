@@ -18,9 +18,9 @@ User selected the public name2.2 after trying the Makeup/Graph1.5 candidate. Thi
 Makeup raw-chain/single-skin oracle; CPU/generated-DCTL CPU/CUDA parity; old29 at Makeup100 bit-exact; limited old29 Host load/GraphON-OFF; SS recognition of fe11629a; short unique4K206frames. See MAKEUP_HUD150_CANDIDATE.md. Those artifacts have their own exact hashes and are not relabeled as fresh2.2 Host tests.
 
 ## Open gates and known limits
--2.2 named binary SS installation/recognition still pending at this checkpoint.
+-2.2 named binary SS installation/recognition complete with saved original project/settings/timeline/jobs and reversible backups; no new SS render/pixel gate.
 - No automatic v2 or original27-control migration; keyframe/animated state coverage pending.
-- Host DCTL evaluation pending; generated DCTL CPU parity is not Host DCTL.
+- Current generated DCTL has limited actual built-in Host default/active and Density/LookSkin evidence; wide profile/range/motion/alpha/Final-active conditions remain open. Generated DCTL CPU parity alone is still not Host DCTL.
 - Wide profile/material/menu/alpha/fallback acceptance, real-time playback and long sustained thermal/memory behavior are not broadly accepted.
 - Known Host alpha0 hidden-RGB loss reproduces with pure copy OFX; not a fixed PM bug or full RGBA pass. Extreme finite stress misses ordinary absolute tolerance; do not silently switch tolerance or infer practical footage impact.
 - User visual acceptance is bounded to the trial they saw; not every material/operator choice. No formal tag/release/main replacement performed.
