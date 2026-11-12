@@ -51,10 +51,10 @@ int main(int argc,char**argv){
    require(q.y>=-1&&q.y<=1&&drive.y>=-1&&drive.y<=1,"signed plot bounds");++tests;
   }
  }
- // All 29 values invalidate, including appended Pivot/Width; invalid input
+ // All 30 values invalidate, including appended Pivot/Width; invalid input
  // does not poison the cached state. Repeated redraws reuse the same model.
- static_assert(kParameterCount==29,"candidate ABI");
- std::array<double,kParameterCount> values{};values[28]=1;
+ static_assert(kParameterCount==30,"candidate ABI");
+ std::array<double,kParameterCount> values{};values[28]=1;values[29]=100;
  pmhud::ModelCache cache;
  require(cache.update(values)==pmhud::CacheUpdate::Rebuilt,"initial cache");
  require(cache.update(values)==pmhud::CacheUpdate::Unchanged,"repeat cache");

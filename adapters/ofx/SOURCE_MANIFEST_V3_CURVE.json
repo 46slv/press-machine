@@ -1,10 +1,10 @@
 {
   "status": "GENERATED_NOT_HOST_VALIDATED",
   "plugin_identifier": "com.46slv.PressMachine.v3.curve.dev",
-  "parameter_count": 29,
-  "schema_sha256": "23d00ad71ad11db00f1245e0022c59dfcbb83c1ef2b9858a359b514fb2f306c6",
-  "shared_core_sha256": "265cb56c5a7b71cd3c62794385d2678c0b3d2ef20cbae96e51eeae79e2de529d",
-  "generated_dctl_sha256": "8c9ebcb72295d60877f300d5ddb863d629b565cb0be11deb984e5f1b77bafad6",
+  "parameter_count": 30,
+  "schema_sha256": "42a42a65590fbb14978ae1889520c331cabb7baadcfb65cbb989b9d279510722",
+  "shared_core_sha256": "4a95adf22fa02c175ea4487ffd4ad2115234ed0b615618145ccad28095aab8cd",
+  "generated_dctl_sha256": "ae50fc47726103e12041186a287c4f3ef0580c3074092c86993ecae7942121ca",
   "immutable_baseline_sha256": "19382145bacab207480f2384069416f0608deeaac36935fd6a9cd296c78854c8",
   "scope": "v3 development source generation only; no v2 numerical-equivalence or Host acceptance claim"
 }

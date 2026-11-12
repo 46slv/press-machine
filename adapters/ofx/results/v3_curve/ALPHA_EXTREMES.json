@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "cases": 77,
+  "cases": 121,
   "subnormal_identity_word_exact": true,
   "finite_rgba_preserved": true,
   "independent_ratio_reference": "Python double division then binary32 rounding; no reciprocal",

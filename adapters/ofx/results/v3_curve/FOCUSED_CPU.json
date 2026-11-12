@@ -48,7 +48,7 @@
   "max_hue_y_normalized_error": 1.0052537624772696e-14,
   "generated_dctl_cpu_bit_exact_cases": 180,
   "profile_conversion_cases": 600,
-  "shared_core_sha256": "265cb56c5a7b71cd3c62794385d2678c0b3d2ef20cbae96e51eeae79e2de529d",
-  "generated_dctl_sha256": "8c9ebcb72295d60877f300d5ddb863d629b565cb0be11deb984e5f1b77bafad6",
+  "shared_core_sha256": "4a95adf22fa02c175ea4487ffd4ad2115234ed0b615618145ccad28095aab8cd",
+  "generated_dctl_sha256": "ae50fc47726103e12041186a287c4f3ef0580c3074092c86993ecae7942121ca",
   "scope": "Focused shared-core binary32-pair CPU and CPU-compiled generated-DCTL checks only. CUDA, native OFX SDK build, Resolve, save/reopen, footage, 4K, and user visual acceptance NOT RUN."
 }

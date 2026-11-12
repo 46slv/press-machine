@@ -28,14 +28,14 @@ F = C.POINTER(C.c_float)
 lib.pm_vnext_scalar.argtypes = [C.c_double] * 4 + [D]
 lib.pm_vnext_target.argtypes = [C.c_double] * 4 + [C.c_int, D]
 lib.pm_vnext_hue.argtypes = [D, C.c_double, C.c_double, C.c_int, C.c_double, C.c_double, C.c_double, D]
-lib.pm_vnext_stages.argtypes = [D, D, D]
-lib.pm_vnext_legacy_neutral_hue.argtypes = [D, D, D]
-lib.pm_vnext_density.argtypes = [D, D, D]
+lib.pm_vnext_stages30.argtypes = [D, D, D]
+lib.pm_vnext_legacy_neutral_hue30.argtypes = [D, D, D]
+lib.pm_vnext_density30.argtypes = [D, D, D]
 lib.pm_vnext_y.argtypes = [D]
 lib.pm_vnext_y.restype = C.c_double
-lib.pm_eval.argtypes = [F, D, C.c_int, F]
-lib.pm_dctl_eval.argtypes = [F, D, F]
-lib.pm_identity.argtypes = [D]
+lib.pm_eval30.argtypes = [F, D, C.c_int, F]
+lib.pm_dctl_eval30.argtypes = [F, D, F]
+lib.pm_identity30.argtypes = [D]
 
 counts = {}
 metrics = {}
@@ -49,7 +49,7 @@ def params(**updates):
     return arr([values[p['id']] for p in SCHEMA])
 def stage(x, p):
     out = (C.c_double * 17)()
-    lib.pm_vnext_stages(arr(x), p, out)
+    lib.pm_vnext_stages30(arr(x), p, out)
     return [list(out[i:i+3]) for i in range(0, 15, 3)], list(out[15:])
 def target(a, b, y, angle, pattern):
     out = (C.c_double * 3)()
@@ -166,7 +166,7 @@ for x in samples:
         check(ey < 3e-8, 'hue_preserves_y', str(ey))
     p = params(pm_pre=130, pm_compression=60, pm_threshold=65, pm_density=180, pm_chroma=-40)
     z, _ = stage(x, p)
-    old = (C.c_double*3)();lib.pm_vnext_legacy_neutral_hue(arr(x), p, old)
+    old = (C.c_double*3)();lib.pm_vnext_legacy_neutral_hue30(arr(x), p, old)
     check(error(z[4], old) < tolerance(x, 1e-10), 'neutral_hue_legacy_core', f'{x} new={z[4]} old={list(old)}')
 
 for pattern in range(6):
@@ -178,7 +178,7 @@ for pattern in range(6):
         check(error(out, expected) < 2e-12, 'direct_strength_displacement')
 
 x = [.7, .45, .3]
-base = dict(pm_pre=150, pm_compression=80, pm_threshold=40, pm_hue_compression=70, pm_hue_bias=80, pm_luma_split=150, pm_density=150, pm_chroma=30)
+base = dict(pm_makeup=150, pm_pre=150, pm_compression=80, pm_threshold=40, pm_hue_compression=70, pm_hue_bias=80, pm_luma_split=150, pm_density=150, pm_chroma=30)
 raw, _ = stage(x, params(**base))
 for skin in [0, 50, 100]:
     z, keep = stage(x, params(**base, pm_sat_skin=skin))
@@ -191,12 +191,12 @@ for skin in [0, 50, 100]:
 z, _ = stage(x, params(**base, pm_db=1))
 check(error(z[2], z[3]) == 0, 'density_bypass_keeps_hue')
 check(error(z[1], z[2]) > 1e-4, 'density_bypass_hue_active')
-direct = (C.c_double*3)();lib.pm_vnext_density(arr(raw[2]), params(**base), direct)
+direct = (C.c_double*3)();lib.pm_vnext_density30(arr(raw[2]), params(**base), direct)
 check(error(raw[3], direct) < 2e-12, 'post_hue_density_tap')
 y_ref = lib.pm_vnext_y(arr(x));lib.pm_vnext_hue(arr(raw[1]), y_ref, 0, 2, 70, 80, 150, direct)
 check(error(raw[2], direct) < 2e-12, 'fixed_input_y_reference')
 invalid_hue, _ = stage(x, params(**base, pm_hue_pattern=99))
-lib.pm_vnext_density(arr(invalid_hue[1]), params(**base), direct)
+lib.pm_vnext_density30(arr(invalid_hue[1]), params(**base), direct)
 check(error(invalid_hue[2], invalid_hue[1]) == 0, 'invalid_hue_local_fallback')
 check(error(invalid_hue[3], direct) < 2e-12, 'invalid_hue_density_continues')
 invalid_density, _ = stage(x, params(**{**base, 'pm_density': float('nan')}))
@@ -218,13 +218,13 @@ check(error(desat[4], desat[3]) > 1e-5, 'final_after_look')
 
 parity_cases = 0
 for i in range(180):
-    p = params(pmi_it=4, pm_pre=rng.uniform(0, 200), pm_compression=rng.uniform(0, 100), pm_hue_pattern=i%6,
+    p = params(pmi_it=4, pm_pre=rng.uniform(0, 200), pm_makeup=rng.uniform(0,200), pm_compression=rng.uniform(0, 100), pm_hue_pattern=i%6,
                pm_hue_angle=rng.uniform(0, 360), pm_hue_compression=rng.uniform(0, 100), pm_hue_bias=rng.uniform(-100, 100),
                pm_luma_split=rng.uniform(-300, 300), pm_density=rng.uniform(-300, 300), pm_chroma=rng.uniform(-100, 100),
                pm_sat_skin=rng.choice([0, 50, 100]), pm_density_skin=rng.choice([0, 50, 100]))
     pixel = (C.c_float*4)(*[rng.uniform(-2, 10) for _ in range(3)], rng.random())
     a, b = (C.c_float*4)(), (C.c_float*4)()
-    lib.pm_eval(pixel, p, 0, a);lib.pm_dctl_eval(pixel, p, b)
+    lib.pm_eval30(pixel, p, 0, a);lib.pm_dctl_eval30(pixel, p, b)
     check(bytes(a) == bytes(b), 'generated_dctl_cpu_bit_parity')
     check(a[3] == pixel[3], 'alpha_unchanged')
     check(all(math.isfinite(v) for v in a), 'adapter_finite')
@@ -238,14 +238,14 @@ for ig in range(4):
                 p = params(pmi_ig=ig, pmi_it=it, pmi_og=og, pmi_ot=ot)
                 pixel = (C.c_float*4)(.30, .20, .10, 1.0)
                 a, b = (C.c_float*4)(), (C.c_float*4)()
-                lib.pm_eval(pixel, p, 0, a); lib.pm_dctl_eval(pixel, p, b)
+                lib.pm_eval30(pixel, p, 0, a); lib.pm_dctl_eval30(pixel, p, b)
                 check(bytes(a) == bytes(b), 'profile_generated_dctl_bit_parity')
                 check(all(math.isfinite(v) for v in a), 'profile_conversion_finite')
                 check(a[3] == 1.0, 'profile_alpha_unchanged')
                 profile_conversion_cases += 1
-check(lib.pm_identity(params()) == 1, 'identity_default')
+check(lib.pm_identity30(params()) == 1, 'identity_default')
 for key in ['pm_hue_bias', 'pm_luma_split']:
-    check(lib.pm_identity(params(**{key: 1})) == 0, 'identity_bias_split_active')
+    check(lib.pm_identity30(params(**{key: 1})) == 0, 'identity_bias_split_active')
 
 result = dict(status='PASS', checks=sum(counts.values()), groups=counts,
               max_scalar_absolute_error=max_scalar, max_geometry_absolute_error=max_geometry,

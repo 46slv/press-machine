@@ -104,9 +104,9 @@ __DEVICE__ pmvp3 pmvn_hue(pmvp3 input,float2 Y_ref,float angle,int pattern,float
  return pmvn_hue_curve(input,Y_ref,angle,pattern,strength,bias,split,0.0f,1.0f);
 }
 typedef struct {pmvp3 pre_raw;pmvp3 conditioned;pmvp3 hue;pmvp3 look;pmvp3 final;} pmvn_stages;
-__DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
+__DEVICE__ pmvn_stages pmvn_process_makeup(pmvp3 input,
  float pre,float threshold,float compression,float softness,float density,float chroma,float response,float shadow,float sr,float highlight,float hr,float comp_skin,float look_skin,int db,
- float angle,int pattern,float strength,float bias,float split,float st,float sk,float ht,float hk,float pivot_ev,float width){
+ float angle,int pattern,float strength,float bias,float split,float st,float sk,float ht,float hk,float pivot_ev,float width,float makeup){
  pmvn_stages z;z.pre_raw=z.conditioned=z.hue=z.look=z.final=input;
  if(!pmvp_finite(input))return z;
  float peak=pmv_peak(pmvp_high(input));float2 Y_ref=pm_pair(0.0f);
@@ -118,13 +118,21 @@ __DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
  // The canonical gray contract bypasses conditioning matrix/root round trips.
  z.pre_raw=pmif_neutral(input)||!pm_finite(pre)||pre<0.0f||pre>200.0f?input:pmvq_presat(input,pre,pm_pair(1.0f),0,2,0.001f,2);
  pmvp3 comp_raw=pmif_neutral(z.pre_raw)?z.pre_raw:pmc_comp_stage(z.pre_raw,threshold,compression,softness,pm_pair(1.0f));
- z.conditioned=comp_skin_valid?pmcc_mix(input,comp_raw,analysis.keep_sat):input;
+ // Makeup uses the exact Pre model, unprotected here. Protect the whole block once.
+ pmvp3 makeup_raw=pmif_neutral(comp_raw)||!pm_finite(makeup)||makeup<0.0f||makeup>200.0f?comp_raw:pmvq_presat(comp_raw,makeup,pm_pair(1.0f),0,2,0.001f,2);
+ z.conditioned=comp_skin_valid?pmcc_mix(input,makeup_raw,analysis.keep_sat):input;
  pmvp3 hue_raw=pmvn_hue_curve(z.conditioned,Y_ref,angle,pattern,strength,bias,split,pivot_ev,width);
  pmvp3 density_raw=pmif_neutral(hue_raw)?hue_raw:pmc_density_stage(hue_raw,density,chroma,response,shadow,sr,highlight,hr,pm_pair(1.0f),db);
  // Store protected Hue for output fallback; never reveal an unprotected raw branch.
  z.hue=look_skin_valid?pmcc_mix(z.conditioned,hue_raw,analysis.keep_density):z.conditioned;
  z.look=look_skin_valid?pmcc_mix(z.conditioned,density_raw,analysis.keep_density):z.conditioned;
  z.final=pmc_final_desat(z.look.x,z.look.y,z.look.z,st,sk,ht,hk);return z;
+}
+__DEVICE__ pmvn_stages pmvn_process(pmvp3 input,
+ float pre,float threshold,float compression,float softness,float density,float chroma,float response,float shadow,float sr,float highlight,float hr,float comp_skin,float look_skin,int db,
+ float angle,int pattern,float strength,float bias,float split,float st,float sk,float ht,float hk,float pivot_ev,float width){
+ // Backward source-API compatibility: omitted Makeup is exactly neutral100.
+ return pmvn_process_makeup(input,pre,threshold,compression,softness,density,chroma,response,shadow,sr,highlight,hr,comp_skin,look_skin,db,angle,pattern,strength,bias,split,st,sk,ht,hk,pivot_ev,width,100.0f);
 }
 __DEVICE__ float3 pmvn_finish(float3 original,pmvp3 input,pmvn_stages z,int ig,int it,int og,int ot){
  int same=pma_profiles_same(ig,it,og,ot);

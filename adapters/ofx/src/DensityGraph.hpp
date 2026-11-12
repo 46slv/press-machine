@@ -38,11 +38,11 @@ inline pm::pmvp3 referenceInput(int index,float ev){
 inline pm::pmvn_stages densityStages(const pm::Parameters&p,pm::pmvp3 input){
  // Whole upstream path preserves the Skin mask made from original input.
  // Input/output encoding settings are inapplicable to already-linear DWG probes.
- return pm::pmvn_process(input,p.pm_pre,pm::pmi_threshold_ui(p.pm_threshold,p.pm_compression),
+ return pm::pmvn_process_makeup(input,p.pm_pre,pm::pmi_threshold_ui(p.pm_threshold,p.pm_compression),
   p.pm_compression,p.pm_softness,p.pm_density,p.pm_chroma,p.pm_response,p.pm_shadow,p.pm_sr,
   p.pm_highlight,p.pm_hr,p.pm_sat_skin,p.pm_density_skin,p.pm_db,
   p.pm_hue_angle,p.pm_hue_pattern,p.pm_hue_compression,p.pm_hue_bias,p.pm_luma_split,
-  p.pm_sd_t,p.pm_sd_k,p.pm_hd_t,p.pm_hd_k,p.pm_luma_pivot_ev,p.pm_luma_width);
+  p.pm_sd_t,p.pm_sd_k,p.pm_hd_t,p.pm_hd_k,p.pm_luma_pivot_ev,p.pm_luma_width,p.pm_makeup);
 }
 inline DensitySample sampleDensity(const pm::Parameters&p,int probe,float ev){
  DensitySample s;s.inputEV=ev;

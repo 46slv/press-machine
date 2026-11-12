@@ -4,14 +4,16 @@ import argparse,ctypes as C,hashlib,json,math,os,random,struct
 R=Path(__file__).resolve().parents[1];REPO=R.parents[1]
 schema=json.loads((REPO/'parameters/press_machine_v3_curve.json').read_text())
 old_schema=json.loads((REPO/'parameters/press_machine_v3.json').read_text())
-assert len(schema)==29 and schema[:27]==old_schema
+assert len(schema)==30
+# Only UI grouping changed in the legacy27 prefix; IDs/defaults/ranges/model stay frozen.
+assert [{k:v for k,v in p.items() if k!='group'} for p in schema[:27]] == [{k:v for k,v in p.items() if k!='group'} for p in old_schema]
 default={p['id']:p['default'] for p in schema}
 libpath=R/'build'/('VNextNative.dll' if os.name=='nt' else 'libvnext_native.so')
 lib=C.CDLL(str(libpath));D=C.POINTER(C.c_double);F=C.POINTER(C.c_float)
 lib.pm_vnext_curve.argtypes=[C.c_double]*3+[D]
 lib.pm_vnext_hue_curve.argtypes=[D]+[C.c_double]*2+[C.c_int]+[C.c_double]*5+[D]
 lib.pm_vnext_y.argtypes=[D];lib.pm_vnext_y.restype=C.c_double
-lib.pm_eval.argtypes=[F,D,C.c_int,F];lib.pm_dctl_eval.argtypes=[F,D,F];lib.pm_identity.argtypes=[D]
+lib.pm_eval30.argtypes=[F,D,C.c_int,F];lib.pm_dctl_eval30.argtypes=[F,D,F];lib.pm_identity30.argtypes=[D]
 counts={};max_scalar=max_y=0.0
 def check(ok,group,detail=''):
  counts[group]=counts.get(group,0)+1
@@ -28,7 +30,7 @@ def oracle(y,pivot,width):
  q=(sy-root)/(sy+root)
  return q/(width+(1-width)*abs(q))
 def pixel(x,p):
- o=(C.c_float*4)();lib.pm_eval((C.c_float*4)(*x),p,0,o);return bytes(o),tuple(o)
+ o=(C.c_float*4)();lib.pm_eval30((C.c_float*4)(*x),p,0,o);return bytes(o),tuple(o)
 ys=[-3e37,-1.,0.,1e-37,1e-12,.001,.18,.72,2.88,1e12,3e37]
 ys += [.18*2**(-24+48*i/160) for i in range(161)]
 for pivot in [-6.,-1.3,0.,1.3,6.]:
@@ -59,7 +61,7 @@ for i in range(300):
           pm_sat_skin=rng.choice([0,50,100]),pm_density_skin=rng.choice([0,50,100]),
           pm_sd_t=rng.choice([0,.5]),pm_sd_k=.18)
  x=(C.c_float*4)(*[rng.uniform(-2,8) for _ in range(3)],rng.random());a=(C.c_float*4)();b=(C.c_float*4)()
- lib.pm_eval(x,p,0,a);lib.pm_dctl_eval(x,p,b)
+ lib.pm_eval30(x,p,0,a);lib.pm_dctl_eval30(x,p,b)
  check(bytes(a)==bytes(b),'nondefault_generated_dctl_CPU_exact')
  check(all(math.isfinite(z) for z in a),'nondefault_pipeline_finite')
  check(struct.pack('f',a[3])==struct.pack('f',x[3]),'alpha_word_preserved')
@@ -81,14 +83,14 @@ for x in colors:
 base,_=pixel([.7,.45,.3,1],params(pmi_it=4,pm_luma_split=100))
 for k,kw in [('pivot',dict(pm_luma_pivot_ev=2)),('width',dict(pm_luma_width=3))]:
  got,_=pixel([.7,.45,.3,1],params(pmi_it=4,pm_luma_split=100,**kw));check(got!=base,'UI_'+k+'_active_response')
-for kw in [dict(pm_luma_pivot_ev=-6),dict(pm_luma_width=4)]:check(lib.pm_identity(params(**kw))==1,'curve_only_creative_identity')
+for kw in [dict(pm_luma_pivot_ev=-6),dict(pm_luma_width=4)]:check(lib.pm_identity30(params(**kw))==1,'curve_only_creative_identity')
 
 
 # Independent alpha-wrapper and final tonal-desaturation regression gates.
 # The shared product math remains unchanged; this exercises the generated
 # straight-RGB DCTL adapter against the OFX CPU premultiplication wrapper.
-lib.pm_vnext_stages.argtypes=[D,D,D]
-lib.pm_eval.restype=None;lib.pm_dctl_eval.restype=None;lib.pm_vnext_stages.restype=None
+lib.pm_vnext_stages30.argtypes=[D,D,D]
+lib.pm_eval30.restype=None;lib.pm_dctl_eval30.restype=None;lib.pm_vnext_stages30.restype=None
 def f32(x): return struct.unpack('<f',struct.pack('<f',float(x)))[0]
 def f32bits(x): return struct.pack('<f',float(x))
 def f32_order(x):
@@ -97,7 +99,7 @@ def f32_order(x):
 def f32_ulp(a,b): return abs(f32_order(a)-f32_order(b))
 def dctl_rgb(rgb,p):
  src=(C.c_float*4)(*rgb,1.0);out=(C.c_float*4)()
- lib.pm_dctl_eval(src,p,out)
+ lib.pm_dctl_eval30(src,p,out)
  return tuple(out[:3])
 curve_p=params(pmi_it=4,pm_hue_angle=37,pm_hue_pattern=2,pm_hue_compression=70,
                pm_hue_bias=-25,pm_luma_split=180,pm_luma_pivot_ev=1.25,pm_luma_width=.65)
@@ -117,14 +119,14 @@ for alpha_name,bits in alpha_bits:
   changed_curve_cases+=int(changed)
   check(changed,'curve_premult_nondefault_effect',str((alpha_name,rgb)))
   want=[f32(curved[c]*alpha) for c in range(3)]+[alpha]
-  actual=(C.c_float*4)();lib.pm_eval((C.c_float*4)(*src),curve_p,1,actual)
+  actual=(C.c_float*4)();lib.pm_eval30((C.c_float*4)(*src),curve_p,1,actual)
   check(all(math.isfinite(x) for x in actual),'curve_premult_finite',str((alpha_name,rgb)))
   check(f32bits(actual[3])==f32bits(alpha),'curve_premult_alpha_exact',str(alpha_name))
   error=max(f32_ulp(actual[c],want[c]) for c in range(3));max_premult_ulp=max(max_premult_ulp,error)
   check(error<=1,'curve_premult_vs_straight_DCTL',str((alpha_name,rgb,error)))
   premult_case_count+=1
 hidden=(C.c_float*4)(-3.5,1e-7,7.0,0.0);hidden_out=(C.c_float*4)()
-lib.pm_eval(hidden,curve_p,1,hidden_out)
+lib.pm_eval30(hidden,curve_p,1,hidden_out)
 check(all(f32bits(hidden[i])==f32bits(hidden_out[i]) for i in range(4)),
       'premult_alpha0_hidden_RGB_exact')
 check(changed_curve_cases==premult_case_count,'all_subnormal_curve_cases_active')
@@ -178,7 +180,7 @@ desat_cases=[
 max_desat_error=0.;overlap_keep=None
 for name,target,st,sk,ht,hk in desat_cases:
  rgb=rgb_for_level(target);p=params(pmi_it=4,pm_sd_t=st,pm_sd_k=sk,pm_hd_t=ht,pm_hd_k=hk)
- x=arr(rgb);out=(C.c_double*17)();lib.pm_vnext_stages(x,p,out)
+ x=arr(rgb);out=(C.c_double*17)();lib.pm_vnext_stages30(x,p,out)
  look=list(out[9:12]);actual=list(out[12:15])
  check(max(abs(look[i]-rgb[i]) for i in range(3))<2e-8,
        'final_desat_test_input_unchanged',name)
@@ -209,7 +211,7 @@ if args.baseline_dll:
  for i in range(1200):
   p=default.copy();p.update(pmi_it=4,pm_pre=rng.uniform(0,200),pm_threshold=rng.uniform(0,100),pm_compression=rng.uniform(0,100),pm_hue_angle=rng.uniform(0,360),pm_hue_pattern=i%6,pm_hue_compression=rng.uniform(0,100),pm_hue_bias=rng.uniform(-100,100),pm_luma_split=rng.uniform(-300,300),pm_density=rng.uniform(-300,300),pm_chroma=rng.uniform(-100,100),pm_sat_skin=rng.choice([0,50,100]),pm_density_skin=rng.choice([0,50,100]))
   x=(C.c_float*4)(*[rng.uniform(-2,8) for _ in range(3)],rng.random());a=(C.c_float*4)();b=(C.c_float*4)()
-  old.pm_eval(x,arr([p[z['id']] for z in old_schema]),i%2,a);lib.pm_eval(x,arr([p[z['id']] for z in schema]),i%2,b)
+  old.pm_eval(x,arr([p[z['id']] for z in old_schema]),i%2,a);lib.pm_eval30(x,arr([p[z['id']] for z in schema]),i%2,b)
   check(bytes(a)==bytes(b),'old27_adapter_default_curve_RGBA_exact')
  baseline={'run':True,'sha256':bh,'cases':1200,'RGBA_words_exact':4800,'scope':'Same supported values with new curve at0/1. Random signed linear input and straight/premult modes. Not whole-domain equivalence.'}
 report={'status':'PASS','checks':sum(counts.values()),'groups':counts,'max_scalar_absolute_error':max_scalar,'max_hue_Y_normalized_error':max_y,'additional_regressions':report_extra,'parameters':schema[27:],'baseline':baseline,'library_sha256':hashlib.sha256(libpath.read_bytes()).hexdigest(),'schema_sha256':hashlib.sha256((REPO/'parameters/press_machine_v3_curve.json').read_bytes()).hexdigest(),'curve_source_sha256':hashlib.sha256((REPO/'core/press_machine/HueLumaCurve.dctlh').read_bytes()).hexdigest(),'scope':'Provisional curve CPU/reference and CPU-compiled generated-DCTL checks, including premultiplied subnormal-alpha coverage and an independent final-desaturation semantic oracle. Ranges and shape remain adjustable; no Resolve UI, persistence, native pixels, product OFX Host, footage or 4K acceptance claim.'}

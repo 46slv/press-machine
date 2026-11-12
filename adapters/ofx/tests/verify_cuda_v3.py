@@ -22,7 +22,9 @@ curve_start=len(states)
 for i,(pivot,width) in enumerate([(p,w) for p in (-6.,0.,6.) for w in (.25,1.,4.) if (p,w)!=(0.,1.)]):
  states.append(state(pm_luma_pivot_ev=pivot,pm_luma_width=width,pm_luma_split=300 if i%2 else -300,
                      pm_hue_bias=20,pm_hue_compression=50,pm_hue_angle=33,pm_hue_pattern=i%6,pm_density=0))
-cpu=c.CDLL(str(R/'build/Release/PressMachineParity.dll'));cpu.pm_eval.argtypes=[c.POINTER(c.c_float),c.POINTER(c.c_double),c.c_int,c.POINTER(c.c_float)]
+curve_end=len(states)
+states += [state(pm_makeup=m,pm_pre=130,pm_compression=60,pm_sat_skin=skin,pm_hue_bias=25,pm_density=40) for m in (0,50,150,200) for skin in (0,50,100)]
+cpu=c.CDLL(str(R/'build/Release/PressMachineParity.dll'));cpu.pm_eval30.argtypes=[c.POINTER(c.c_float),c.POINTER(c.c_double),c.c_int,c.POINTER(c.c_float)]
 D=c.WinDLL('nvcuda.dll')
 def fn(name,args):f=getattr(D,name);f.argtypes=args;f.restype=c.c_int;return f
 ptr=c.c_void_p;I=c.c_int;U=c.c_uint;L=c.c_size_t;Q=c.c_ulonglong
@@ -63,14 +65,14 @@ try:
       if 6<=ax<16 and 16<=ay<24:
        if 8<=ax<14 and 17<=ay<22:
         ins=(c.c_float*4)(*[source[(ay-17)*(sp//4)+(ax-8)*4+ch] for ch in range(4)])
-        want=(c.c_float*4)();cpu.pm_eval(ins,(c.c_double*len(schema))(*v),premult,want)
+        want=(c.c_float*4)();cpu.pm_eval30(ins,(c.c_double*len(schema))(*v),premult,want)
         error=max(abs(o[ch]-want[ch]) for ch in range(3));maxerr=max(maxerr,error)
         assert all(math.isfinite(z) for z in o),o
         assert error<=2**-13,(ig,it,vi,premult,ax,ay,o,tuple(want),error)
         assert struct.pack('f',o[3])==struct.pack('f',want[3])
-        if vi>=curve_start:
+        if curve_start<=vi<curve_end:
          baseline=v[:];baseline[idx['pm_luma_pivot_ev']]=0.;baseline[idx['pm_luma_width']]=1.
-         legacy=(c.c_float*4)();cpu.pm_eval(ins,(c.c_double*len(schema))(*baseline),premult,legacy)
+         legacy=(c.c_float*4)();cpu.pm_eval30(ins,(c.c_double*len(schema))(*baseline),premult,legacy)
          if max(abs(want[j]-legacy[j]) for j in range(3))>4*2**-13:
           assert max(abs(o[j]-legacy[j]) for j in range(3))>2*2**-13
           curve_changed_pixels+=1
@@ -80,7 +82,7 @@ try:
       else:assert o==(-99.,-99.,-99.,-99.);sentinels+=4
      assert all(target[y*(dp//4)+j]==-99. for j in range(dw*4,dp//4))
  assert curve_changed_pixels>0
- result=dict(curve_nondefault_states=len(states)-curve_start,curve_measurably_changed_pixels=curve_changed_pixels,status='PASS',device=name.value.decode(),source='shared PixelCore / compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=5,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,jit_seconds=jit,seconds=time.perf_counter()-start,scope='independent NVIDIA context; CUDA kernel pitch/ROI/alpha/parameter parity, not Resolve Host acceptance')
+ result=dict(curve_nondefault_states=curve_end-curve_start,curve_measurably_changed_pixels=curve_changed_pixels,status='PASS',device=name.value.decode(),source='shared PixelCore / compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=5,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,jit_seconds=jit,seconds=time.perf_counter()-start,scope='independent NVIDIA context; CUDA kernel pitch/ROI/alpha/parameter parity, not Resolve Host acceptance')
  (R/'results/v3_curve/CUDA_PARITY.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 finally:
  if src.value:free(src)

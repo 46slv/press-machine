@@ -157,11 +157,12 @@ inline void drawPanels(const Model&m,float l,float b,float r,float t,float scale
   glColor4f(s.preview[0],s.preview[1],s.preview[2],1);quad(x0+14+148*s.x,hy+24,148*(ng.samples[i+1].x-s.x),4);}glEnd();
  label(x0+8,hy+13,"INPUT EV -6  0  +6");
  label(x0+8,hy+3,ng.displayClipped?"KEY / STRIP SRGB CLIP":"KEY / STRIP Y=.18 SRGB");
- panel(x1,y1,"COMPRESSION");
+ panel(x1,y1,"SAT COMP");
+ formatted(x1+78,y1+76,"PRE%.0f",p.pm_pre);
  formatted(x1+8,y1+62,"T %.0f  A %.0f  K %.0f",p.pm_threshold,p.pm_compression,p.pm_softness);
  curve(x1+14,y1+18,m.compression,true);
- label(x1+8,y1+6,"S IN 0-100 / S OUT");
- formatted(x1+8,y1+49,"BASE / SKIN %.0f%%",p.pm_sat_skin);
+ label(x1+8,y1+6,"BASE COMP BEFORE MAKEUP");
+ formatted(x1+8,y1+49,"MAKEUP %.0f / SKIN %.0f",p.pm_makeup,p.pm_sat_skin);
  densityPanel(x0,y0,m);
  panel(x1,y0,"FINAL SAT KEEP");
  formatted(x1+8,y0+62,"SH %.2f  K %.2f",p.pm_sd_t,p.pm_sd_k);

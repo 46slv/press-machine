@@ -63,7 +63,7 @@
     "min": 0.0,
     "max": 200.0,
     "step": 0.1,
-    "group": "Pre Saturation"
+    "group": "Sat Comp"
   },
   {
     "id": "pm_threshold",
@@ -73,7 +73,7 @@
     "min": 0.0,
     "max": 100.0,
     "step": 0.1,
-    "group": "Comp / Saturation Protection"
+    "group": "Sat Comp"
   },
   {
     "id": "pm_compression",
@@ -83,7 +83,7 @@
     "min": 0.0,
     "max": 100.0,
     "step": 0.1,
-    "group": "Comp / Saturation Protection"
+    "group": "Sat Comp"
   },
   {
     "id": "pm_softness",
@@ -93,7 +93,7 @@
     "min": 0.0,
     "max": 100.0,
     "step": 0.1,
-    "group": "Comp / Saturation Protection"
+    "group": "Sat Comp"
   },
   {
     "id": "pm_sat_skin",
@@ -103,7 +103,7 @@
     "min": 0.0,
     "max": 100.0,
     "step": 0.1,
-    "group": "Comp / Saturation Protection"
+    "group": "Sat Comp"
   },
   {
     "id": "pm_hue_angle",
@@ -306,5 +306,15 @@
     "max": 4.0,
     "step": 0.01,
     "group": "Luma Curve TEST"
+  },
+  {
+    "id": "pm_makeup",
+    "label": "Makeup Saturation",
+    "kind": "double",
+    "default": 100.0,
+    "min": 0.0,
+    "max": 200.0,
+    "step": 0.1,
+    "group": "Sat Comp"
   }
 ]

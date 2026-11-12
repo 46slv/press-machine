@@ -1,4 +1,4 @@
-"""Source isolation for the 29-value legacy-HUD migration, not Host acceptance."""
+"""Source isolation for the30-value Makeup extension of existing v3 HUD, not Host acceptance."""
 from pathlib import Path
 import hashlib
 import json
@@ -22,7 +22,9 @@ frozen = [
     'adapters/ofx/SOURCE_MANIFEST_V3_CURVE.json',
     'adapters/dctl/PressMachine_Full_Color_19382145_TEST.dctl',
 ]
+approved_makeup_changes={'parameters/press_machine_v3_curve.json','adapters/ofx/generated/ParameterValues.hpp','adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl','adapters/ofx/SOURCE_MANIFEST_V3_CURVE.json','adapters/ofx/tests/NativeV3.cpp','core/press_machine/VNextHue.dctlh','core/press_machine/PixelPipeline.dctlh','core/press_machine/AlphaAndIdentity.hpp.in'}
 frozen += sorted(p.relative_to(r).as_posix() for p in (r / 'core/press_machine').glob('*') if p.is_file())
+frozen=[p for p in frozen if p not in approved_makeup_changes]
 hashes = {}
 for path in frozen:
     # Canonical LF content: Windows may check out .hpp.in templates as CRLF.
@@ -37,7 +39,7 @@ assert new.replace('#include "HudOverlay.hpp"\n', '').replace(' pmhud::describe(
 assert 'pm_graph' not in new, 'Graph leaked into processor/effect class'
 schema = json.loads((r / 'parameters/press_machine_v3_curve.json').read_text())
 ids = [p['id'] for p in schema]
-assert len(ids) == len(set(ids)) == 29
+assert len(ids) == len(set(ids)) == 30
 assert 'pm_graph' not in ids and 'pm_hue_points_index' not in ids
 
 generated = (o / 'generated/Descriptors.hpp').read_text()
@@ -80,13 +82,17 @@ assert 'pm::pmvn_curve_q_ref(' in model and 'pm::pmvn_drive(' in model
 assert 'z.conditioned' not in density and 'z.comp' not in density and 'z.density' not in density
 assert 'pm::pmvpy_Y(z.hue)' in density and 'pm::pmvpy_Y(z.look)' in density
 assert 'pm::pmvp_lab(z.hue)' in density and 'pm::pmvp_lab(z.look)' in density
-assert 'pm::pmvn_process(' in density
+assert 'pm::pmvn_process_makeup(' in density
 # Preserve legacy rendering infrastructure rather than substitute a new HUD.
 # Pinned canonical section hashes avoid requiring the old feature branch in CI.
 legacy_sections = [('inline const unsigned char* glyph', 'inline void densityPanel', 'b97df6835e0f096207e07ad98554ec18d49ea870706642cf6f870e1dabf5c975'), ('class Descriptor:', '\n}\n', '68e4c12c9324b015525175ba31518bfa6e14b752593403c22fe84681b976716a')]
 for start, end, sha in legacy_sections:
     section = overlay.split(start, 1)[1].split(end, 1)[0]
     assert hashlib.sha256(section.encode()).hexdigest() == sha, start
+assert ids[:29] == [p['id'] for p in json.loads(baseline('parameters/press_machine_v3_curve.json'))]
+old29=json.loads(__import__('subprocess').check_output(['git','show','f0e3160:parameters/press_machine_v3_curve.json'],cwd=r))
+assert [{k:v for k,v in p.items() if k!='group'} for p in schema[:29]]==[{k:v for k,v in p.items() if k!='group'} for p in old29]
+assert ids[29]=='pm_makeup' and schema[29]['default']==100 and schema[29]['min']==0 and schema[29]['max']==200
 assert 'opengl32' in (o / 'CMakeLists.txt').read_text()
 
 report = {
@@ -103,4 +109,4 @@ report = {
 results = o / 'results/v3_curve/graph'
 results.mkdir(parents=True, exist_ok=True)
 (results / 'HUD_SOURCE_SEPARATION.json').write_text(json.dumps(report, indent=2) + '\n')
-print('HUD source separation PASS:', len(hashes), 'frozen files; processing classes and identity unchanged; 29 redraw slaves')
+print('HUD source separation PASS:', len(hashes), 'frozen files; processing classes and plugin ID unchanged; approved core delta;30 redraw slaves')

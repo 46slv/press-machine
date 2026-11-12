@@ -8,7 +8,7 @@ r = Path(__file__).resolve().parent
 root = r.parents[1]
 schema_path = root / 'parameters/press_machine_v3_curve.json'
 schema = json.loads(schema_path.read_text())
-assert len(schema) == 29 and len({p['id'] for p in schema}) == 29
+assert len(schema) == 30 and len({p['id'] for p in schema}) == 30
 (r / 'generated').mkdir(exist_ok=True)
 (r / 'results/v3_curve').mkdir(parents=True, exist_ok=True)
 
@@ -24,7 +24,7 @@ def declarations():
 
 def ui_declarations():
     lines = ['// Press Machine v3 Curve TEST: Comp -> Hue -> Density. Host qualification pending.']
-    for p in schema:
+    for p in schema[:8]+schema[-1:]+schema[8:-1]:
         start = f"DEFINE_UI_PARAMS({p['id']}, {p['label']}, "
         if p['kind'] == 'double':
             line = start + f"DCTLUI_SLIDER_FLOAT, {p['default']}, {p['min']}, {p['max']}, {p['step']})"
