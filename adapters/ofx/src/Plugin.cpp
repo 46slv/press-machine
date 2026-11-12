@@ -66,9 +66,9 @@ public:
 };
 mDeclarePluginFactory(PressMachineFactory,{}, {});
 void PressMachineFactory::describe(OFX::ImageEffectDescriptor&d){
- d.setLabels("Press Machine v3 Curve TEST","Press Machine v3 Curve TEST","Press Machine v3 Curve TEST");
+ d.setLabels("Press Machine 2.2","Press Machine 2.2","Press Machine 2.2");
  d.setPluginGrouping("Press Machine");
- d.setPluginDescription("Press Machine v3 Curve TEST. Comp -> Hue -> Density development candidate. Pattern, Bias and Split share Angle. No automatic v2 state migration. Input color settings must match the node's actual input.");
+ d.setPluginDescription("Press Machine 2.2. Pre Sat -> Sat Comp -> Makeup Sat, one Comp Skin protection, then Hue -> Density -> Final. Input color settings must match the node's actual input.");
  d.addSupportedContext(OFX::eContextFilter);d.addSupportedContext(OFX::eContextGeneral);
  d.addSupportedBitDepth(OFX::eBitDepthFloat);d.setSingleInstance(false);d.setHostFrameThreading(false);
  d.setRenderThreadSafety(OFX::eRenderFullySafe);d.setSupportsTiles(true);d.setSupportsMultiResolution(true);

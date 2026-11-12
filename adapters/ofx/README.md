@@ -1,16 +1,14 @@
-# Current 29-control candidate
+# Press Machine 2.2
 
-This source lane also restores the existing viewer-only Graph HUD for all 29 controls. [Migration, display meanings, tests and remaining Host gates](../../docs/PressMachine-Graph-HUD-Migration.md). Graph defaults OFF and does not alter processing; no Graph-enabled binary is accepted by these source checks.
+Current user-facing product name: **Press Machine 2.2**. Existing Makeup + auto1.5 Graph implementation retained. Thirty creative/profile controls plus viewer-only Graph. Earlier v3/Curve TEST names below are historical.
 
-This branch builds `com.46slv.PressMachine.v3.curve.dev` version 3.1, label `Press Machine v3 Curve TEST`, bundle/binary stem `PressMachineV3CurveDev`. It does not replace the released v2 or original 27-control v3 identities.
+For saved trial compatibility, internal OFX identifier remains `com.46slv.PressMachine.v3.curve.dev`, OFX ABI version remains3.1, bundle/binary stem remains `PressMachineV3CurveDev`. These are compatibility keys, not the public product version. Descriptor-label update only, not released v2 replacement or major-version downgrade. Never install a second copy of the same ID. Keep the full old bundle outside OFX scan and preserve projects. Old v2/27-control IDs stay separate; no automatic migration.
 
-From the repository root, run `python adapters/ofx/regenerate.py` and `python adapters/ofx/generate_descriptors.py`. The candidate schema is `parameters/press_machine_v3_curve.json`; generated DCTL is `adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl`, with source hashes in `SOURCE_MANIFEST_V3_CURVE.json`.
+Order: Pre Sat -> Sat Comp -> Makeup Sat; Comp Skin protects the whole net change once; then Hue -> Density -> Final. Makeup0..200/default100 uses Pre model. Existing29 IDs/indexes remain stable; missing Makeup defaults100. Graph is mandatory: variable swatches, neutral-Hue reference and four-panel auto1.5. Requires OpenFX viewer overlays. Small-viewer fit limits and reference/footage distinctions remain.
 
-On a configured Windows OpenFX SDK/MSVC toolchain, run `adapters/ofx/build.ps1`. Output is `adapters/ofx/build/PressMachineV3CurveDev.ofx.bundle/Contents/Win64/PressMachineV3CurveDev.ofx`. The script generates sources, compiles NVRTC/C++, checks exports/package layout, and runs the focused, alpha and curve tests. CUDA harnesses `verify_cuda_v3.py` and `verify_cuda_adapter_v3.py` exercise this 29-value ABI and write to `results/v3_curve/`. Do not run the historical 25-value harnesses against it.
+Generate with `python adapters/ofx/regenerate.py` then `python adapters/ofx/generate_descriptors.py`; build on configured Windows SDK/MSVC using `adapters/ofx/build.ps1`. Schema `parameters/press_machine_v3_curve.json`. Native old29 APIs supply Makeup100; new native APIs explicitly suffix30. CPU/CUDA parameter layout120bytes; regenerate PTX with any schema/core change. DCTL names/trace internal release retain historical compatibility provenance, not public2.2 labeling. Host DCTL acceptance remains separate.
 
-CPU checks are `tests/verify_vnext.py`, `tests/verify_alpha_v3.py` and `tests/verify_luma_curve.py`. The optional `--baseline-dll` argument to the curve suite compares a separately pinned old 27-value adapter; it writes a distinct `LUMA_CURVE_BASELINE.json` receipt and is not needed for CI. Do not substitute a newly rebuilt 29-value library as the baseline.
-
-[Prototype controls, actual native evidence and limits](../../docs/PressMachine-Luma-Curve-Prototype.md). The built-in Resolve DCTL path has limited synthetic-frame evidence. Product OFX Host loading and persistence, full UI range/menu coverage, footage, 4K timing and final visual acceptance remain separate gates. No accepted product bundle is installed by this branch.
+[Bounded implementation/Host evidence and limits](MAKEUP_HUD150_CANDIDATE.md). CPU/CUDA/DCTL-as-CPU, old29 compatibility, limited Resolve save/render/display/short4K and SS recognition do not establish full-domain acceptance. Host DCTL, long sustained/realtime playback, known Host alpha0 hidden-RGB loss and extreme-value absolute-tolerance failure remain open. User allowed this version forward; limits are not erased.
 
 ## Retained original 27-control baseline notes
 

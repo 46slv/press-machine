@@ -35,7 +35,10 @@ for path in frozen:
 
 old = baseline('adapters/ofx/src/Plugin.cpp').decode()
 new = (o / 'src/Plugin.cpp').read_text()
-assert new.replace('#include "HudOverlay.hpp"\n', '').replace(' pmhud::describe(d);\n', '') == old
+# Product 2.2 changes descriptor text only; preserve the exact processing classes.
+assert new.split('mDeclarePluginFactory')[0].replace('#include "HudOverlay.hpp"\n', '') == old.split('mDeclarePluginFactory')[0]
+assert 'factory("com.46slv.PressMachine.v3.curve.dev",3,1)' in new
+assert 'd.setLabels("Press Machine 2.2","Press Machine 2.2","Press Machine 2.2")' in new
 assert 'pm_graph' not in new, 'Graph leaked into processor/effect class'
 schema = json.loads((r / 'parameters/press_machine_v3_curve.json').read_text())
 ids = [p['id'] for p in schema]
