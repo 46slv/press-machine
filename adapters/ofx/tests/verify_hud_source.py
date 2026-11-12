@@ -60,7 +60,11 @@ assert hashlib.sha256((o / 'generated/PressMachine_V3_Curve_TEST.dctl').read_byt
 overlay = (o / 'src/HudOverlay.hpp').read_text()
 model = (o / 'src/HudModel.hpp').read_text()
 density = (o / 'src/DensityGraph.hpp').read_text()
-for source in [overlay, model, density]:
+neutral = (o / "src/NeutralHueGraph.hpp").read_text()
+assert "pm::pmvn_hue_curve(" in neutral
+assert "pm::pmvpy_Y(input)" in neutral
+assert "makeNeutralHueGraph(p)" in model
+for source in [overlay, model, density, neutral]:
     for forbidden in ['setValue(', 'setValueAtTime(', 'fetchImage(', 'pm::pixel(', 'glClear(', 'swapBuffers(']:
         assert forbidden not in source, forbidden
     assert 'pm_hue_points_index' not in source

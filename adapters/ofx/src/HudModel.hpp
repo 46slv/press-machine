@@ -5,6 +5,7 @@
 #include <vector>
 #include "../generated/ParameterValues.hpp"
 #include "DensityGraph.hpp"
+#include "NeutralHueGraph.hpp"
 
 // Display model only. No image handles, render flags, GPU work or parameter writes.
 namespace pmhud {
@@ -16,6 +17,7 @@ struct Model {
  std::array<Swatch,4> swatches{};
  std::vector<Sample> compression,finalKeep,lumaResponse,signedDrive;
  DensityGraph density;
+ NeutralHueGraph neutralHue;
 };
 inline float compressionOut(const pm::Parameters&p,float s){
  if(s<=0.0f)return 0.0f;
@@ -51,7 +53,7 @@ inline Swatch directionSwatch(const pm::Parameters&p,int anchor){
  return {srgb((float)((rgb[0]-lo)/(hi-lo))),srgb((float)((rgb[1]-lo)/(hi-lo))),srgb((float)((rgb[2]-lo)/(hi-lo)))};
 }
 inline Model makeModel(const pm::Parameters&p){
- Model m;m.parameters=p;m.density=makeDensityGraph(p);m.anchors=p.pm_hue_pattern>=0&&p.pm_hue_pattern<6?pm::pmvn_pattern_count(p.pm_hue_pattern):0;
+ Model m;m.parameters=p;m.neutralHue=makeNeutralHueGraph(p);m.density=makeDensityGraph(p);m.anchors=p.pm_hue_pattern>=0&&p.pm_hue_pattern<6?pm::pmvn_pattern_count(p.pm_hue_pattern):0;
  for(int i=0;i<m.anchors;++i)m.swatches[i]=directionSwatch(p,i);
  for(int i=0;i<=128;++i){
   const float x=(float)i/128.0f;

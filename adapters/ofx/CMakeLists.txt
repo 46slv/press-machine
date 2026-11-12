@@ -39,3 +39,6 @@ add_executable(PressMachineHudTests tests/HudTests.cpp)
 target_compile_options(PressMachineHudTests PRIVATE /fp:strict /O2 /W3)
 add_executable(PressMachineDensityGraphTests tests/DensityGraphTests.cpp)
 target_compile_options(PressMachineDensityGraphTests PRIVATE /fp:strict /O2 /W3)
+
+add_executable(PressMachineNeutralHueTests tests/NeutralHueTests.cpp)
+target_compile_options(PressMachineNeutralHueTests PRIVATE /fp:strict /O2 /W3)

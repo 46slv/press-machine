@@ -144,19 +144,19 @@ inline void drawPanels(const Model&m,float l,float b,float r,float t,float scale
   glBegin(GL_QUADS);quad(x0+9+i*(w+3),hy+98,w,14);glEnd();}
  label(x0+8,hy+86,"0: SKIN / DIRECTION KEY");
  formatted(x0+8,hy+74,"PIV %.2f W %.2f",p.pm_luma_pivot_ev,p.pm_luma_width);
- glColor4f(.40f,.94f,.79f,1);text(x0+8,hy+62,"Q");
- glColor4f(1,.70f,.43f,1);text(x0+26,hy+62,"DRIVE");label(x0+68,hy+62,"-1 TO +1");
+ const auto& ng=m.neutralHue;
+ formatted(x0+8,hy+62,"NEUTRAL R/Y 0-%.1f",ng.range);
  glColor4f(.42f,.49f,.49f,.42f);glBegin(GL_LINES);
- glVertex2f(x0+14,hy+44);glVertex2f(x0+162,hy+44);
+ glVertex2f(x0+14,hy+30);glVertex2f(x0+162,hy+30);
  glVertex2f(x0+88,hy+30);glVertex2f(x0+88,hy+58);glEnd();
- for(int i=0;i<2;++i){
-  if(i==0)glColor4f(.40f,.94f,.79f,1);else glColor4f(1,.70f,.43f,1);
-  glBegin(GL_LINE_STRIP);
-  for(auto v:i==0?m.lumaResponse:m.signedDrive)glVertex2f(x0+14+148*v.x,hy+44+14*v.y);
-  glEnd();
- }
- label(x0+8,hy+18,"INPUT EV -6 TO +6");
- label(x0+8,hy+6,"DRIVE NOT OUTPUT HUE");
+ glBegin(GL_LINE_STRIP);
+ for(const auto&s:ng.samples){glColor4f(s.direction[0],s.direction[1],s.direction[2],1);
+  glVertex2f(x0+14+148*s.x,hy+30+28*s.strength/ng.range);}glEnd();
+ glBegin(GL_QUADS);
+ for(size_t i=0;i+1<ng.samples.size();i++){const auto&s=ng.samples[i];
+  glColor4f(s.preview[0],s.preview[1],s.preview[2],1);quad(x0+14+148*s.x,hy+24,148*(ng.samples[i+1].x-s.x),4);}glEnd();
+ label(x0+8,hy+13,"INPUT EV -6  0  +6");
+ label(x0+8,hy+3,ng.displayClipped?"KEY / STRIP SRGB CLIP":"KEY / STRIP Y=.18 SRGB");
  panel(x1,y1,"COMPRESSION");
  formatted(x1+8,y1+62,"T %.0f  A %.0f  K %.0f",p.pm_threshold,p.pm_compression,p.pm_softness);
  curve(x1+14,y1+18,m.compression,true);
