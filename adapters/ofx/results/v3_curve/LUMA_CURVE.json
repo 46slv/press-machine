@@ -1,0 +1,90 @@
+{
+  "status": "PASS",
+  "checks": 14535,
+  "groups": {
+    "finite_bounded": 4275,
+    "independent_curve_reference": 4275,
+    "curve_monotonic": 4275,
+    "shifted_midpoint": 25,
+    "symmetric_exposure_response": 100,
+    "default_scalar_exact": 171,
+    "invalid_curve_legacy_fallback": 35,
+    "nondefault_generated_dctl_CPU_exact": 300,
+    "nondefault_pipeline_finite": 300,
+    "alpha_word_preserved": 300,
+    "curve_hue_finite": 180,
+    "curve_hue_Y_preserved": 180,
+    "Split_zero_curve_no_effect_exact": 30,
+    "UI_pivot_active_response": 1,
+    "UI_width_active_response": 1,
+    "curve_only_creative_identity": 2,
+    "curve_premult_nondefault_effect": 15,
+    "curve_premult_finite": 15,
+    "curve_premult_alpha_exact": 15,
+    "curve_premult_vs_straight_DCTL": 15,
+    "premult_alpha0_hidden_RGB_exact": 1,
+    "all_subnormal_curve_cases_active": 1,
+    "final_desat_test_input_unchanged": 11,
+    "final_desat_independent_binary64_oracle": 11,
+    "final_desat_overlap_is_product": 1
+  },
+  "max_scalar_absolute_error": 5.67323965583455e-14,
+  "max_hue_Y_normalized_error": 8.526512829121202e-15,
+  "additional_regressions": {
+    "premult_curve_cases": 15,
+    "premult_alpha_classes": [
+      "min_subnormal",
+      "17_subnormal",
+      "max_subnormal",
+      "min_normal",
+      "normal_quarter"
+    ],
+    "nondefault_curve_effect_cases": 15,
+    "max_premult_RGB_ULP_vs_generated_DCTL": 0,
+    "alpha0_hidden_RGB_exact": true,
+    "independent_final_desat_cases": 11,
+    "overlap_keep_product": 0.7119140625000002,
+    "max_final_desat_abs_RGB_error": 8.020998309987704e-08,
+    "final_desat_oracle": "independent binary64 DWG-Y / DI-level / smoothstep / keep-product / RGB reconstruction"
+  },
+  "parameters": [
+    {
+      "id": "pm_luma_pivot_ev",
+      "label": "Luma Pivot EV",
+      "kind": "double",
+      "default": 0.0,
+      "min": -6.0,
+      "max": 6.0,
+      "step": 0.05,
+      "group": "Luma Curve TEST"
+    },
+    {
+      "id": "pm_luma_width",
+      "label": "Luma Width",
+      "kind": "double",
+      "default": 1.0,
+      "min": 0.25,
+      "max": 4.0,
+      "step": 0.01,
+      "group": "Luma Curve TEST"
+    },
+    {
+      "id": "pm_makeup",
+      "label": "Makeup Saturation",
+      "kind": "double",
+      "default": 100.0,
+      "min": 0.0,
+      "max": 200.0,
+      "step": 0.1,
+      "group": "Sat Comp"
+    }
+  ],
+  "baseline": {
+    "run": false,
+    "scope": "Optional pinned27-value adapter binary is not available in ordinary CI."
+  },
+  "library_sha256": "61e845a98455e1481a315fa16b9f648879fe5f1a1be293cf05f71fdf7ca4ee97",
+  "schema_sha256": "42a42a65590fbb14978ae1889520c331cabb7baadcfb65cbb989b9d279510722",
+  "curve_source_sha256": "06893f6c0f6cca6383965bf2d9f349caa12ac3f608f5a818eb6c3947e7caf4a6",
+  "scope": "Provisional curve CPU/reference and CPU-compiled generated-DCTL checks, including premultiplied subnormal-alpha coverage and an independent final-desaturation semantic oracle. Ranges and shape remain adjustable; no Resolve UI, persistence, native pixels, product OFX Host, footage or 4K acceptance claim."
+}

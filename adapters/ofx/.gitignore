@@ -11,3 +11,6 @@ results/*.log
 /results/trace-unit-fixture/
 
 /generated/PressMachine_Full_SkinAxis_TEST.dctl
+
+/generated/PressMachine_V3_Dev_TEST.dctl
+/generated/DctlReferenceV3.hpp

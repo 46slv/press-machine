@@ -1,6 +1,8 @@
 import ctypes as c,json,time,hashlib,os
 from pathlib import Path
 r=Path(__file__).resolve().parent
+results=r/'results/v3_curve'
+results.mkdir(parents=True,exist_ok=True)
 dll=Path(r'C:\Program Files\Blackmagic Design\DaVinci Resolve\nvrtc64_120_0.dll')
 dll_directory=os.add_dll_directory(str(dll.parent))
 builtins=c.WinDLL(str(dll.parent/"nvrtc-builtins64_128.dll"))
@@ -18,13 +20,13 @@ program=c.c_void_p()
 assert lib.nvrtcCreateProgram(c.byref(program),source.encode(),b'PressMachineKernel.cu',0,None,None)==0
 start=time.perf_counter();status=lib.nvrtcCompileProgram(program,len(options),(c.c_char_p*len(options))(*options));elapsed=time.perf_counter()-start
 size=c.c_size_t();lib.nvrtcGetProgramLogSize(program,c.byref(size));buf=c.create_string_buffer(size.value);lib.nvrtcGetProgramLog(program,buf)
-log=buf.value.decode(errors='replace');(r/'results/NVRTC.log').write_text(log)
+log=buf.value.decode(errors='replace');(results/'NVRTC.log').write_text(log)
 receipt=dict(status=status,seconds=elapsed,compiler=str(dll),options=[x.decode() for x in options],source_sha256=hashlib.sha256(source.encode()).hexdigest())
 if status==0:
  lib.nvrtcGetPTXSize(program,c.byref(size));buf=c.create_string_buffer(size.value);assert lib.nvrtcGetPTX(program,buf)==0
  ptx=buf.value;(r/'generated/Kernel.ptx').write_bytes(ptx);receipt.update(ptx_sha256=hashlib.sha256(ptx).hexdigest(),ptx_bytes=len(ptx))
  (r/'generated/KernelPtx.hpp').write_text('#pragma once\nstatic const char kPressMachinePtx[] = R"PMPTX('+ptx.decode()+')PMPTX";\n')
 lib.nvrtcDestroyProgram(c.byref(program))
-(r/'results/NVRTC.json').write_text(json.dumps(receipt,indent=2)+'\n')
+(results/'NVRTC.json').write_text(json.dumps(receipt,indent=2)+'\n')
 print(json.dumps(receipt,indent=2));print(log[-5000:])
 raise SystemExit(status)

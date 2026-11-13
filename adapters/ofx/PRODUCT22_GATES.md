@@ -1,0 +1,9 @@
+# Press Machine 2.2 release scope
+
+Release target ofx/v2.2.0. Exact Windows binary SHA256 ae2818ee7c72fa59d2f5fb5b05212d6e600bba82c6ded76e31abf629182cc8b9. This implements the owner-approved append-only SDR input/output gamut/transfer feature on the30-control Makeup/Graph1.5 product; it does not certify every possible image/backend/alpha/performance condition.
+
+See ../../docs/PressMachine-2.2-Input-Rec709.md and results/v3_curve/SDR_HOST_RELEASE.json for exact-current-binary menu/save-load/three active profile CPU comparisons, legacy still word-exact compatibility and Graph pixel noninterference. Native independent matrices/transfers/boundaries, generatedDCTL-as-CPU, legacy native profile regression,5040 profile selector combinations and isolated CUDA kernel/adapter parity pass. Existing pluginID/version3.1/stem, defaults/indices andGraph retained.
+
+Earlier75799/fe11629a receipts remain historical, not automatically relabeled as this binary's Host tests. The matching generatedDCTL has noGraph and no new-profile DCTL Host acceptance; it is not included as the complete product. Fine temporal/perceptual banding/flicker, broad footage/ranges/alpha/backends, prolonged/realtime4K and full-domain acceptance remain limited/unverified. Alpha0 hiddenRGB transport loss reproduced in pure-copy Host diagnostics; no PM-specific alpha fix is claimed. No PQ/HLG/HDR absolute/OOTF/black-offset model/range rescale/new mask/final experimental Hue adoption.
+
+Use the release README and hash manifest. Preserve whole previous same-ID bundle outside scan paths, save/DRP projects and ensure no render before quit. Never parallel-install sameID. v2/V21 assets untouched. New-choice states must not be saved in an older build. Deployment checks on the user's PC are recorded separately, not inferred from CDs.

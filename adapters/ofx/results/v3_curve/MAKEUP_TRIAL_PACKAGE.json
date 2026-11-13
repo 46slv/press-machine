@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "zip": "PressMachine-v3-Makeup-HUD150-fe11629a-TRIAL.zip",
+  "bytes": 726732,
+  "sha256": "c14b48d0215fe8cff5ecad931fdf492096f5cb355ae39f6dc06a584550b28756",
+  "entries": 4,
+  "binary_sha256": "fe11629a0280cb7fe33bcf980756d7f0349b01a750d4682d7775e2f6a99b03b5",
+  "source_commit": "5237676cc746c016c8f1b6efd92d4a90c8e1b7f3",
+  "evidence_commit": "39e74b826818b11ed71754ae8dcb0e843c0959e6",
+  "checks": [
+    "CRC",
+    "unique entries",
+    "no path traversal",
+    "exact entry set",
+    "all sizes/hashes",
+    "Host-tested binary exact"
+  ],
+  "scope": "Packaging verification only; no install/Host rerun/release; offline SS untouched"
+}

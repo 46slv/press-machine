@@ -1,0 +1,10 @@
+{
+  "status": "GENERATED_NOT_HOST_VALIDATED",
+  "plugin_identifier": "com.46slv.PressMachine.v3.curve.dev",
+  "parameter_count": 30,
+  "schema_sha256": "9831b57b22e588c614d58ee2c64c83df918e1ea9316bf9cdb2333b2f671a2a49",
+  "shared_core_sha256": "c782b3e30fce30d0e88a207d659f189ec1bd9d9632364d210b2356dd7fcff630",
+  "generated_dctl_sha256": "5045b4164f101101ca1468866657e0901f5fb340388a47fcabf6b312e26f27fc",
+  "immutable_baseline_sha256": "19382145bacab207480f2384069416f0608deeaac36935fd6a9cd296c78854c8",
+  "scope": "v3 development source generation only; no v2 numerical-equivalence or Host acceptance claim"
+}

@@ -1,0 +1,6 @@
+{
+  "status": "PASS_SOURCE_NOT_HOST",
+  "suite": "NeutralHueTests",
+  "stdout": "PASS samples=27864 +neutral/oracle/display/unused-stage gates\n",
+  "test_source_sha256": "66e3ae8849cc729bcfc47ab1123b39718f01ef3ab6c871f337843059f08cb557"
+}

@@ -17,12 +17,19 @@ Measure-Step 'CMake-configure' {cmake -S $root -B "$root\build" -G 'Visual Studi
 if($Clean){Measure-Step 'clean-generated-build' {cmake --build "$root\build" --config Release --target clean}}
 Measure-Step 'CXX-compile-link' {cmake --build "$root\build" --config Release --parallel 4}
 Measure-Step 'trace-logging-unit-tests' {& "$root\build\Release\PressMachineTraceTests.exe" "$root\results\trace-unit-fixture"}
-Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package.py"}
-Measure-Step 'CPU-parity' {python "$root\tests\verify_cpu.py"}
-Measure-Step 'skin-axis-phase-and-legacy' {python "$root\tests\verify_skin_axis.py"}
-Measure-Step 'CPU-alpha-extremes' {python "$root\tests\verify_alpha.py"}
-$records | ConvertTo-Json -Depth 5 | Set-Content "$root\results\BUILD_TIMINGS.json"
-Get-FileHash -LiteralPath "$root\build\PressMachineV2SkinAxis.ofx.bundle\Contents\Win64\PressMachineV2SkinAxis.ofx" -Algorithm SHA256 | Format-List
+New-Item -ItemType Directory -Force "$root\results\v3_curve\graph" | Out-Null
+Measure-Step 'HUD-model-unit-tests' {& "$root\build\Release\PressMachineHudTests.exe" "$root\results\v3_curve\graph\HUD_MODEL.json"}
+Measure-Step 'Density-interaction-focused-tests' {& "$root\build\Release\PressMachineDensityGraphTests.exe" "$root\results\v3_curve\graph\DENSITY_GRAPH.json"}
+Measure-Step 'neutral-Hue-reference-model-tests' {& "$root\build\Release\PressMachineNeutralHueTests.exe"}
+Measure-Step 'Makeup-single-protection-tests' {& "$root\build\Release\PressMachineMakeupTests.exe"}
+Measure-Step 'HUD-source-separation' {python "$root\tests\verify_hud_source.py"}
+Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package_v3.py"}
+Measure-Step 'vNext-focused-tests' {python "$root\tests\verify_vnext.py"}
+Measure-Step 'Rec709-independent-matrix-and-active-output' {python "$root\tests\verify_display_profiles.py"}
+Measure-Step 'CPU-alpha-extremes' {python "$root\tests\verify_alpha_v3.py"}
+Measure-Step 'provisional-luma-curve' {python "$root\tests\verify_luma_curve.py"}
+$records | ConvertTo-Json -Depth 5 | Set-Content "$root\results\v3_curve\BUILD_TIMINGS.json"
+Get-FileHash -LiteralPath "$root\build\PressMachineV3CurveDev.ofx.bundle\Contents\Win64\PressMachineV3CurveDev.ofx" -Algorithm SHA256 | Format-List
 # CUDA adapter/kernel tests use an isolated GPU context. Run only after
 # coordinating with the sole Resolve Host benchmark owner:
-# python "$root\tests\verify_cuda.py"
+# python "$root\tests\verify_cuda_v3.py"

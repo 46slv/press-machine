@@ -30,31 +30,4 @@ struct float2{float x,y;}; struct float3{float x,y,z;};
 inline float2 make_float2(float x,float y){return {x,y};}
 inline float3 make_float3(float x,float y,float z){return {x,y,z};}
 #endif
-struct Parameters {
- int pmi_ig;
- int pmi_it;
- int pmi_og;
- int pmi_ot;
- float pm_pre;
- float pm_hue_angle;
- int pm_hue_points_index;
- float pm_hue_compression;
- float pm_threshold;
- float pm_compression;
- float pm_softness;
- float pm_sat_skin;
- float pm_density;
- float pm_chroma;
- float pm_response;
- float pm_shadow;
- float pm_sr;
- float pm_highlight;
- float pm_hr;
- float pm_density_skin;
- int pm_db;
- float pm_sd_t;
- float pm_sd_k;
- float pm_hd_t;
- float pm_hd_k;
-};
-PM_DEVICE Parameters defaultParameters(){Parameters p{};p.pmi_ig=0;p.pmi_it=0;p.pmi_og=0;p.pmi_ot=0;p.pm_pre=100.0f;p.pm_hue_angle=0.0f;p.pm_hue_points_index=1;p.pm_hue_compression=0.0f;p.pm_threshold=80.0f;p.pm_compression=0.0f;p.pm_softness=20.0f;p.pm_sat_skin=0.0f;p.pm_density=0.0f;p.pm_chroma=0.0f;p.pm_response=2.0f;p.pm_shadow=0.0f;p.pm_sr=50.0f;p.pm_highlight=0.0f;p.pm_hr=50.0f;p.pm_density_skin=0.0f;p.pm_db=0;p.pm_sd_t=0.0f;p.pm_sd_k=0.18f;p.pm_hd_t=1.0f;p.pm_hd_k=0.18f;return p;}
+// Parameter declarations and defaults are generated from the v3 schema.

@@ -13,8 +13,8 @@ PM_DEVICE void pixel(const Parameters& p,const float* src,float* dst,int premult
 }
 PM_DEVICE bool identity(const Parameters& p){
  const int og=p.pmi_og==0?p.pmi_ig:p.pmi_og-1,ot=p.pmi_ot==0?p.pmi_it:p.pmi_ot-1;
- return p.pmi_ig==og && p.pmi_it==ot && p.pm_pre==100.0f &&
- p.pm_hue_compression==0.0f && p.pm_compression==0.0f &&
+ return p.pmi_ig==og && p.pmi_it==ot && p.pm_pre==100.0f && p.pm_makeup==100.0f &&
+ p.pm_hue_compression==0.0f && p.pm_hue_bias==0.0f && p.pm_luma_split==0.0f && p.pm_compression==0.0f &&
  (p.pm_density==0.0f || p.pm_db==1) && p.pm_sd_t==0.0f && p.pm_hd_t==1.0f;
 }
 }

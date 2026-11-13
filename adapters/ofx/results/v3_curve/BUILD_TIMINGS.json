@@ -1,0 +1,52 @@
+[
+  {
+    "exit_code": 0,
+    "step": "shared-source-generation",
+    "seconds": 0.1578895
+  },
+  {
+    "exit_code": 0,
+    "step": "UI-descriptor-generation",
+    "seconds": 0.1314819
+  },
+  {
+    "exit_code": 0,
+    "step": "shader-NVRTC-compile",
+    "seconds": 3.4805466
+  },
+  {
+    "exit_code": 0,
+    "step": "CMake-configure",
+    "seconds": 3.1630774
+  },
+  {
+    "exit_code": 0,
+    "step": "CXX-compile-link",
+    "seconds": 22.5733637
+  },
+  {
+    "exit_code": 0,
+    "step": "trace-logging-unit-tests",
+    "seconds": 0.189455
+  },
+  {
+    "exit_code": 0,
+    "step": "package-layout-and-exports",
+    "seconds": 0.2057901
+  },
+  {
+    "exit_code": 0,
+    "step": "vNext-focused-tests",
+    "seconds": 1.6495885
+  },
+  {
+    "exit_code": 0,
+    "step": "CPU-alpha-extremes",
+    "seconds": 0.1853279
+  },
+  {
+    "exit_code": 0,
+    "step": "provisional-luma-curve",
+    "seconds": 0.2705442
+  }
+]

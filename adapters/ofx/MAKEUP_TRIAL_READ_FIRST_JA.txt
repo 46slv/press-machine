@@ -1,0 +1,31 @@
+PressMachine v3 Makeup + Hue Graph auto1.5 試用候補
+
+正式リリースや画質採用の確定版ではありません。
+候補binary: fe11629a0280cb7fe33bcf980756d7f0349b01a750d4682d7775e2f6a99b03b5
+source: 5237676cc746c016c8f1b6efd92d4a90c8e1b7f3
+evidence: 39e74b826818b11ed71754ae8dcb0e843c0959e6
+plugin ID: com.46slv.PressMachine.v3.curve.dev / version3.1
+
+重要: 既存v3と同じIDです。同時配置せず、元bundleを丸ごと保全して切り替えます。v2やV21は変更しません。旧29設定はMakeup100として復元される限定実機確認済み。Makeupを変えた作品を旧版で開くとMakeup効果は再現できないので、試用は独立コピーで行ってください。旧版で試用作品を上書き保存しないでください。
+
+導入前
+1. 実行中のrenderを完了させ、未保存の作品を保存。プロジェクトをDRPに書き出す。
+2. Resolveを終了し、プロセスの終了を確認。
+3. C:\Program Files\Common Files\OFX\Plugins の既存 PressMachineV3CurveDev.ofx.bundle を、Plugins外の固有backup先へ丸ごと移動。全filesのhashを記録する。コピーが取れたつもりで元版を削除しない。
+4. この候補bundleを空いた同じ場所へコピー。元版へ上書きコピーしない。SHA256SUMS.jsonの候補全filesと一致を確認。
+5. Resolveを起動し、独立した試用プロジェクトで認識を確認。
+
+Graph
+GraphチェックだけでなくviewerをOpenFXオーバーレイにする必要があります。可変色見本と無彩色Hue基準のcurve、そのほか四隅panelを備えます。auto1.5は小viewerでfit上限、400x308未満では非表示。Hue基準curveはHue単独で、Pre/Comp/Makeupを含む画像全体の色ではありません。Sat Comp曲線もBASE COMP BEFORE MAKEUP表記です。
+
+演算
+Pre Sat→Sat Comp→Makeup Satの塊を作り、Comp Skinでnet変化を一回保護。その後Hue→Density→Final。Makeup0–200、100中立、Preと同じモデル。
+
+戻すとき
+1. 試用作品は別名保存・DRP保全。render停止状態を確認しResolve終了。
+2. 候補bundleをPlugins外へ移動。
+3. 保存した元bundleを元の場所へ丸ごと戻し、元hashと一致を確認。
+4. Resolve再起動後、元作品を開く。元設定とjobsが保全されていることを確認。
+
+限定確認
+旧29/Makeup100互換、GraphON/OFF画素非干渉、非中立設定と肌保護の実機対CPU、保存再読込、短尺4K実写出力を確認。長時間・リアルタイム再生・全素材/profile・画質の全面合格ではありません。生成DCTLのHost受入は別途未完で、このパッケージにDCTLを含めません。SS-noteはofflineで未導入です。

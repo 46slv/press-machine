@@ -1,0 +1,23 @@
+{
+  "curve_nondefault_states": 8,
+  "curve_measurably_changed_pixels": 924,
+  "status": "PASS",
+  "device": "NVIDIA GeForce RTX 4090 Laptop GPU",
+  "source": "actual CudaRunner adapter / embedded compute75 PTX",
+  "gpu_pixel_cases": 23700,
+  "rendered_words": 252800,
+  "preserved_alpha_words": 23700,
+  "outside_roi_sentinel_words": 126400,
+  "profiles": 5,
+  "states": 79,
+  "premult_modes": 2,
+  "max_error": 1.1920928955078125e-07,
+  "tolerance": 0.0001220703125,
+  "first_adapter_call_seconds": 0.019749600032810122,
+  "stream_modes": [
+    "default-parameter",
+    "harness-created-nonnull-parameter"
+  ],
+  "seconds": 0.6394307999871671,
+  "scope": "independent NVIDIA context; actual CUDA adapter and new curve states; one context/positive pitch/ROI/subnormal alpha/parameters. Later sync/readback does not independently prove async or default completion. Not actual Resolve Host or cache recreation acceptance"
+}

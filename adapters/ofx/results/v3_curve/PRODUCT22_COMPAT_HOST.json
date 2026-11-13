@@ -1,0 +1,17 @@
+{
+  "status": "PASS_LIMITED",
+  "binary_sha256": "75799ec745badc5219909dd35afcf494a9a28fb304eed4bd7cbbd2319eb75251",
+  "job": "19dc5b44-5379-4318-9fd7-905fc499928d",
+  "old_Makeup150_Skin100_scanline_payload_exact": true,
+  "header_differences": [
+    "proimCameraID"
+  ],
+  "bytes": 9616590,
+  "label": "Press Machine 2.2",
+  "internal_id": "com.46slv.PressMachine.v3.curve.dev",
+  "ofx_version": [
+    3,
+    1
+  ],
+  "scope": "Existing trial state static nonneutral/Graph compatibility. Not v2 migration, keyframe coverage, DCTL Host or broad release gate."
+}

@@ -1,0 +1,10 @@
+{
+  "status": "GENERATED_NOT_HOST_VALIDATED",
+  "plugin_identifier": "com.46slv.PressMachine.v3.dev",
+  "parameter_count": 27,
+  "schema_sha256": "044a20e2977a83c37ab25a8a6b91d2324d1e373b380ae7ade485bdbc81f8f06d",
+  "shared_core_sha256": "720856350b287ac25b7d87979c067ca06051fd3b0847bb091505bc7524796ee6",
+  "generated_dctl_sha256": "0def70bfe427362d1588b5b12f463aa7e88dac56a0354cf3adf7ebb936260bcb",
+  "immutable_baseline_sha256": "19382145bacab207480f2384069416f0608deeaac36935fd6a9cd296c78854c8",
+  "scope": "v3 development source generation only; no v2 numerical-equivalence or Host acceptance claim"
+}

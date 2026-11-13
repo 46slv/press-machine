@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "pixel_cases": 12000,
+  "RGBA_words_exact": 48000,
+  "old_native_sha256": "36ae5fd41e6afb56dd782f25998d094973dec66994d056947f214d894c5be932",
+  "new_native_sha256": "774fefad71d13e67c7075df2684146d70fc50765940c1abc17e53a9417b8bb1f",
+  "Makeup100_old29_pixel_bit_exact": true,
+  "new_legacy29_entrypoint_exact": true,
+  "scope": "Pinned independent old CPU DLL; random existing29 controls/profiles/straight-premult; not Host or whole-domain proof"
+}

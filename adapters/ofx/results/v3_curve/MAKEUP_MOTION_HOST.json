@@ -1,0 +1,39 @@
+{
+  "status": {
+    "JobStatus": "Complete",
+    "CompletionPercentage": 100
+  },
+  "job": {
+    "JobId": "3741cd7f-32d7-4d23-b918-29e84efdac0b",
+    "RenderJobName": "Job 1",
+    "TargetDir": "C:\\Users\\TWRT\\Documents\\Codex\\PM-Hue-Neutral-HUD-CDs-20261112_01\\MAKEUP\\MOTION",
+    "ExportAlpha": false,
+    "OutputFilename": "MAKEUP_C046_4K_206F.mp4",
+    "PresetName": "Custom",
+    "TimelineName": "C046_7_REPEATS_ACTIVE",
+    "MarkIn": 86400,
+    "MarkOut": 86605,
+    "FormatWidth": 3840,
+    "FormatHeight": 2160,
+    "FrameRate": "24",
+    "PixelAspectRatio": 1.0,
+    "AudioBitDepth": 16,
+    "AudioSampleRate": 48000,
+    "IsExportVideo": true,
+    "IsExportAudio": false,
+    "RenderMode": "Single clip",
+    "VideoFormat": "MP4",
+    "VideoCodec": "H.264 NVIDIA",
+    "AudioCodec": "aac",
+    "EncodingProfile": "Auto",
+    "MultiPassEncode": false,
+    "NetworkOptimization": false,
+    "ClipStartFrame": 1,
+    "TimelineStartTimecode": "01:00:00:00"
+  },
+  "wall_seconds": 17.21680070000002,
+  "free_before": 15959298048,
+  "min_free": 15815532544,
+  "recipe": "First clip only: AWG4/LogC4, Pre120 Threshold80 Comp40 Knee20 Makeup150 CompSkin60; Hue Complementary Angle0 Strength0 Bias50 Split100 Pivot0 Width.25; Density/Final neutral",
+  "scope": "206 unique frames, 8.583 seconds, actual 4K MP4 encoded workload, not long thermal/playback/color-oracle acceptance"
+}

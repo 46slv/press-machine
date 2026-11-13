@@ -1,3 +1,57 @@
+# Press Machine 2.2
+
+Current user-facing product name: **Press Machine 2.2**. Existing Makeup + auto1.5 Graph implementation retained. Thirty creative/profile controls plus viewer-only Graph. Earlier v3/Curve TEST names below are historical.
+
+For saved trial compatibility, internal OFX identifier remains `com.46slv.PressMachine.v3.curve.dev`, OFX ABI version remains3.1, bundle/binary stem remains `PressMachineV3CurveDev`. These are compatibility keys, not the public product version. Descriptor-label update only, not released v2 replacement or major-version downgrade. Never install a second copy of the same ID. Keep the full old bundle outside OFX scan and preserve projects. Old v2/27-control IDs stay separate; no automatic migration.
+
+Order: Pre Sat -> Sat Comp -> Makeup Sat; Comp Skin protects the whole net change once; then Hue -> Density -> Final. Makeup0..200/default100 uses Pre model. Existing29 IDs/indexes remain stable; missing Makeup defaults100. Graph is mandatory: variable swatches, neutral-Hue reference and four-panel auto1.5. Requires OpenFX viewer overlays. Small-viewer fit limits and reference/footage distinctions remain.
+
+Generate with `python adapters/ofx/regenerate.py` then `python adapters/ofx/generate_descriptors.py`; build on configured Windows SDK/MSVC using `adapters/ofx/build.ps1`. Schema `parameters/press_machine_v3_curve.json`. Native old29 APIs supply Makeup100; new native APIs explicitly suffix30. CPU/CUDA parameter layout120bytes; regenerate PTX with any schema/core change. DCTL names/trace internal release retain historical compatibility provenance, not public2.2 labeling. Host DCTL acceptance remains separate.
+
+[Bounded implementation/Host evidence and limits](MAKEUP_HUD150_CANDIDATE.md). CPU/CUDA/DCTL-as-CPU, old29 compatibility, limited Resolve save/render/display/short4K and SS recognition do not establish full-domain acceptance. Host DCTL, long sustained/realtime playback, known Host alpha0 hidden-RGB loss and extreme-value absolute-tolerance failure remain open. User allowed this version forward; limits are not erased.
+
+## Retained original 27-control baseline notes
+
+The notes and commands below describe the original v3 branch, followed by v2 history. They are retained for context and do not select the current build target.
+
+# Press Machine v3.dev development candidate
+
+This branch implements the separate Comp → Hue → Density candidate with 27 controls. The new schema is `parameters/press_machine_v3.json`; no v2 node, preset, menu index, or saved state is migrated. Pattern choices are Mono, Analogous, Complementary (default), Split Complementary, Triadic and Tetradic. Hue Bias ±100 and Luma Split ±300 remain active at Strength zero. Comp Skin Protect covers conditioning; Look Skin Protect covers Hue plus Density.
+
+Identity: `com.46slv.PressMachine.v3.dev`, version 3.0, label `Press Machine v3.dev`. Bundle and binary stem: `PressMachineV3Dev`. The name intentionally distinguishes this unqualified development candidate from released v2.0.
+
+## Current v3.dev checkpoint
+
+Canonical open source lane: [Draft PR #9](https://github.com/46slv/press-machine/pull/9). Source implementation baseline: `c32d6dc1952c4a8c87053d3f757f57613bd91a4b`. Expanded focused qualification suite: `95c8ed1fa709db1f6104a40e74a3f2484e01748e`. Documentation-only commits may advance the PR head without changing pixel source.
+
+Focused cloud qualification for this head passes:
+
+- 75,877 shared-core / formula / generated-DCTL checks;
+- 180 mixed generated-DCTL ↔ CPU-adapter cases bit-exact;
+- all 600 input/output profile selector combinations bit-exact, finite, alpha-preserving;
+- 77 alpha/extreme cases PASS with maximum error 0;
+- Windows NVRTC/CUDA/package scripts parse and their bundle/plugin/kernel source contracts pass static CI checks.
+
+This does **not** establish target-Windows NVRTC output, RTX CUDA parity, native OFX SDK build/load, Resolve UI/persistence, footage, 4K performance, or final visual acceptance. Those remain the next candidate-specific gates.
+
+Analogous uses ±30° in the current candidate. ±45°/±60° are not blocking comparison variants; reopen that engineering choice only if Resolve/footage evidence shows a material Analogous usability problem.
+
+## Build and verification
+
+Run `python regenerate.py` and `python generate_descriptors.py`. The schema generates the common parameter layout/defaults, OFX descriptors/value mapping and DCTL controls. `regenerate.py` emits `generated/PixelCore.hpp` and `generated/PressMachine_V3_Dev_TEST.dctl`; v3 generation hashes go to `SOURCE_MANIFEST_V3.json`. The immutable v2 DCTL, schema and historical evidence are never rewritten. Do not copy generated output over an accepted artifact.
+
+On the qualified Windows SDK toolchain, `build.ps1` generates sources, compiles NVRTC/C++, runs package checks, focused vNext tests and v3 alpha tests. Output: `build/PressMachineV3Dev.ofx.bundle/Contents/Win64/PressMachineV3Dev.ofx`. No SDK installation is performed by these scripts. Build, compile and Host receipts must be collected anew for this candidate.
+
+`tests/NativeV3.cpp` exports the shared CPU adapter and a CPU-compiled generated DCTL reference. This catches UI-to-core wiring and numeric differences under the same C++ compiler; it does not establish Resolve DCTL compilation or CPU/CUDA parity. Use `tests/verify_vnext.py` for the focused candidate tests. The old `Native.cpp`, `verify_cpu.py`, `verify_skin_axis.py` and original verifiers are v2 historical/reference harnesses and must not be run against the v3 parameter ABI. Old 25-value vectors are incompatible with this 27-value schema.
+
+After coordinating GPU ownership, use `tests/verify_cuda_v3.py` and `tests/verify_cuda_adapter_v3.py` for the candidate CUDA paths. `verify_alpha_v3.py` and `verify_package_v3.py` likewise write only to `results/v3/`. No v2 receipt establishes candidate correctness.
+
+Pending acceptance: Resolve compile/load, all 27 UI values and persistence, completed-frame DCTL/OFX CPU/CUDA comparisons tied to hashes, representative footage and same-condition 4K performance. Do not install or publish this as an accepted release before those gates.
+
+## Historical v2.0 notes (not candidate acceptance)
+
+The following retained notes describe v2.0 only. Old paths, commands and claims below are historical and do not apply to v3.dev.
+
 # Press Machine v2.0
 
 Windows OFX v2.0 release source. Hue Angle zero follows the existing skin chart reference; old red-zero variants remain separate. The release changes metadata only from the qualified SkinAxis trial; its binary has a separate limited Host receipt. See ../../docs/PressMachine-v2.0-Release.md for distribution, installation and known limits. The current DCTL test baseline stays available for use, investigation and implementation. No existing timeline or legacy OFX state is converted automatically.

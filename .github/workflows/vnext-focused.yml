@@ -1,0 +1,82 @@
+name: Press Machine 2.2 focused CPU
+on:
+  pull_request:
+  push:
+    branches: ['main', 'dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*', 'dev/reuse-v3-graph-*', 'feat/pressmachine22-*', 'feat/makeup-sat-hud150-*', 'feat/hue-neutral-hud-*', 'feat/pm22-input-rec709-*']
+permissions:
+  contents: read
+jobs:
+  focused-cpu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate v3 candidate
+        run: |
+          python3 adapters/ofx/regenerate.py
+          python3 adapters/ofx/generate_descriptors.py
+      - name: Static-check Windows candidate harness
+        run: |
+          python3 -m py_compile adapters/ofx/compile_cuda.py adapters/ofx/tests/verify_cuda_v3.py adapters/ofx/tests/verify_cuda_adapter_v3.py adapters/ofx/tests/verify_package_v3.py
+          python3 - <<'PY'
+          from pathlib import Path
+          plugin=Path('adapters/ofx/src/Plugin.cpp').read_text()
+          cmake=Path('adapters/ofx/CMakeLists.txt').read_text()
+          compile_cuda=Path('adapters/ofx/compile_cuda.py').read_text()
+          assert 'com.46slv.PressMachine.v3.curve.dev' in plugin
+          assert 'PressMachineV3CurveDev.ofx.bundle' in cmake
+          assert 'OUTPUT_NAME "PressMachineV3CurveDev"' in cmake
+          assert "results/v3_curve" in compile_cuda.replace("\\","/")
+          print('Windows v3.dev static contracts PASS')
+          PY
+      - name: Graph HUD models and source isolation
+        run: python3 adapters/ofx/tests/verify_hud.py
+      - name: Focused source and generated-DCTL qualification
+        run: python3 adapters/ofx/tests/verify_vnext.py
+      - name: Rec.709 independent matrix and active output qualification
+        run: python3 adapters/ofx/tests/verify_display_profiles.py
+      - name: Alpha and extreme values
+        run: python3 adapters/ofx/tests/verify_alpha_v3.py
+      - name: Provisional luminance curve
+        run: python3 adapters/ofx/tests/verify_luma_curve.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PressMachine-2.2-source-checks-${{ github.sha }}
+          path: |
+            adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl
+            adapters/ofx/SOURCE_MANIFEST_V3_CURVE.json
+            adapters/ofx/results/v3_curve/FOCUSED_CPU.json
+            adapters/ofx/results/v3_curve/REC709.json
+            adapters/ofx/results/v3_curve/DISPLAY_PROFILES.json
+            adapters/ofx/results/v3_curve/ALPHA_EXTREMES.json
+            adapters/ofx/results/v3_curve/LUMA_CURVE.json
+            adapters/ofx/results/v3_curve/graph/
+          if-no-files-found: error
+
+  focused-windows-cpu:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate and qualify with runner Visual Studio
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          if (-not (Test-Path $vswhere)) { throw "vswhere not found: $vswhere" }
+          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vs) { throw "Visual Studio with C++ tools not found" }
+          $devShell = Join-Path $vs "Common7\Tools\Launch-VsDevShell.ps1"
+          if (-not (Test-Path $devShell)) { throw "Visual Studio DevShell not found: $devShell" }
+          & $devShell -Arch amd64 -HostArch amd64 -SkipAutomaticLocation
+          python adapters/ofx/regenerate.py
+          python adapters/ofx/generate_descriptors.py
+          python adapters/ofx/tests/verify_hud.py
+          python adapters/ofx/tests/verify_vnext.py
+          python adapters/ofx/tests/verify_display_profiles.py
+          python adapters/ofx/tests/verify_alpha_v3.py
+          python adapters/ofx/tests/verify_luma_curve.py
