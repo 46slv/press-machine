@@ -2,10 +2,12 @@ from pathlib import Path
 import ctypes as c
 import hashlib,json,sys
 from verify_graph_gate import verify as verify_graph
+from graph_package_binding import verify as verify_binding
 
 R=Path(__file__).resolve().parents[1]
 graph_source=verify_graph(R)  # Current source only, not proof of arbitrary binary provenance.
 bundle=Path(sys.argv[1]) if len(sys.argv)>1 else R/'build/PressMachineV3CurveDev.ofx.bundle'
+binding=verify_binding(R,bundle)
 suffix='.ofx.bundle'
 assert bundle.name.endswith(suffix), 'Expected an OFX bundle directory'
 stem=bundle.name[:-len(suffix)]
@@ -35,6 +37,7 @@ report={'status':'PASS','bundle_name':bundle.name,'binary_relative_path':relativ
         'api':plugin.api.decode(),'api_version':plugin.api_version,
         'plugin_version':[plugin.major,plugin.minor],
         'graph_current_source_gate':graph_source,
+        'graph_build_binding':binding,
         'dependency_notice_text_exact':True,'host_acceptance':False}
 (R/'results/v3_curve').mkdir(parents=True,exist_ok=True)
 (R/'results/v3_curve/PACKAGE_LAYOUT.json').write_text(json.dumps(report,indent=2),newline='\n')

@@ -17,6 +17,12 @@ Every current OFX product build must run the non-optional Graph source-structure
 
 The package gate checks the current source tree, not the provenance or Graph contents of an arbitrary binary supplied to the verifier. Source/package structural checks are not proof of Host overlay visibility, viewport behavior or visual acceptance. Exact-binary Host evidence remains separately required. Negative mutation tests exercise missing Graph wiring and the actual mandatory CMake target dependency without claiming a portable fixture builds the Windows OFX product.
 
+### New-build Graph package binding
+
+New product builds write `Contents/Resources/GRAPH_BUILD_BINDING.json` in a product-target POST_BUILD step after rerunning the mandatory source gate. Format version 1 binds the fixed product binary path and SHA256 to canonical-LF hashes of the listed Graph/build inputs, including generated descriptors and the verification scripts. Normal package verification requires this sidecar and exact current-source/binary agreement, and rejects missing, malformed, stale, incompatible-version or redirected-path records. If only a hashed non-compiler input changes and an incremental build does not relink, package verification fails closed; perform a clean product rebuild to produce a fresh binding. No automatic legacy bypass is provided. Existing released v2/v2.2.0 assets are unchanged; their historical receipts do not become new-build binding receipts.
+
+This is accidental stale-build/binary-substitution detection, not signed provenance, proof that the compiler consumed the declared inputs, reproducible-build certification or proof of Graph execution. A party able to replace both the binary and sidecar can forge this binding. Real descriptor probing and exact-binary Host visibility remain separate open conditions. The implementation changes no product C++ or pixel formula. Portable compiled fixtures exercise POST_BUILD wiring but are not Windows OFX builds; a newly distributed binary still needs exact-binary Host smoke verification.
+
 [日本語利用メモ](PressMachine-2.2-Quick-Guide-JA.md).
 
 Current bounded receipts and open conditions: [2.2 gates](../adapters/ofx/PRODUCT22_GATES.md), [Density integration](../adapters/ofx/PRODUCT22_DENSITY_INTERACTION.md).
