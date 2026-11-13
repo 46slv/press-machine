@@ -48,3 +48,6 @@ target_compile_options(PressMachineMakeupTests PRIVATE /fp:strict /O2 /W3)
 
 add_library(PressMachineRec709Test SHARED tests/Rec709Native.cpp)
 target_compile_options(PressMachineRec709Test PRIVATE /fp:strict /O2 /W3)
+
+include(cmake/MandatoryGraphGate.cmake)
+pressmachine_require_graph(PressMachine "${CMAKE_CURRENT_SOURCE_DIR}")

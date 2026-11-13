@@ -12,6 +12,7 @@ function Measure-Step([string]$Name,[scriptblock]$Action){
 }
 Measure-Step 'shared-source-generation' {python "$root\regenerate.py"}
 Measure-Step 'UI-descriptor-generation' {python "$root\generate_descriptors.py"}
+Measure-Step 'mandatory-Graph-source-gate' {python "$root\tests\verify_graph_gate.py"}
 Measure-Step 'shader-NVRTC-compile' {python "$root\compile_cuda.py"}
 Measure-Step 'CMake-configure' {cmake -S $root -B "$root\build" -G 'Visual Studio 16 2019' -A x64}
 if($Clean){Measure-Step 'clean-generated-build' {cmake --build "$root\build" --config Release --target clean}}

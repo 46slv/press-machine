@@ -11,6 +11,12 @@ This current override supersedes the historical29/27-control checkpoints and pip
 - SS2.2 installation/label/Graph and existing-trial state recognition are complete within their recorded limits. Current generated DCTL ae50fc47726103e12041186a287c4f3ef0580c3074092c86993ecae7942121ca has limited actual built-in Host default/active evidence. Neither is full-domain acceptance.
 - NonDensity-first remains the priority history; baseline Density integration may be inspected without declaring all nonDensity gates complete or adopting a new Hue formula. New mask expansion and research white-fringe/texture models are not adopted.
 
+### Mandatory Graph build/package gate
+
+Every current OFX product build must run the non-optional Graph source-structure gate before compiling the product target, including direct CMake builds. The normal build script and package verifier must also fail closed when Graph descriptor, overlay registration, draw path, redraw wiring or OpenGL linkage is missing. Generation remains a prerequisite; missing generated descriptors must fail, not silently disable Graph. This does not change pixel processing, Graph defaults or legacy v2 artifacts.
+
+The package gate checks the current source tree, not the provenance or Graph contents of an arbitrary binary supplied to the verifier. Source/package structural checks are not proof of Host overlay visibility, viewport behavior or visual acceptance. Exact-binary Host evidence remains separately required. Negative mutation tests exercise missing Graph wiring and the actual mandatory CMake target dependency without claiming a portable fixture builds the Windows OFX product.
+
 [日本語利用メモ](PressMachine-2.2-Quick-Guide-JA.md).
 
 Current bounded receipts and open conditions: [2.2 gates](../adapters/ofx/PRODUCT22_GATES.md), [Density integration](../adapters/ofx/PRODUCT22_DENSITY_INTERACTION.md).
