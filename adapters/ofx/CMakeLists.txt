@@ -45,3 +45,6 @@ target_compile_options(PressMachineNeutralHueTests PRIVATE /fp:strict /O2 /W3)
 
 add_executable(PressMachineMakeupTests tests/MakeupTests.cpp)
 target_compile_options(PressMachineMakeupTests PRIVATE /fp:strict /O2 /W3)
+
+add_library(PressMachineRec709Test SHARED tests/Rec709Native.cpp)
+target_compile_options(PressMachineRec709Test PRIVATE /fp:strict /O2 /W3)

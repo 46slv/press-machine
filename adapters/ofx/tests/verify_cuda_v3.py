@@ -49,7 +49,7 @@ try:
    for ch in range(4):source[y*(sp//4)+x*4+ch]=v[ch]
  ok(alloc(c.byref(src),c.sizeof(source)));ok(alloc(c.byref(dst),c.sizeof(target)));ok(htod(src,source,c.sizeof(source)))
  maxerr=0.;cases=0;words=0;alpha_words=0;sentinels=0;curve_changed_pixels=0
- for ig,it in [(0,0),(1,1),(2,2),(3,3),(0,4)]:
+ for ig,it in [(0,0),(1,1),(2,2),(3,3),(0,4),(4,4)]:
   for vi,v in enumerate(states):
    v=v[:];v[idx['pmi_ig']]=ig;v[idx['pmi_it']]=it
    for premult in [0,1]:
@@ -82,7 +82,7 @@ try:
       else:assert o==(-99.,-99.,-99.,-99.);sentinels+=4
      assert all(target[y*(dp//4)+j]==-99. for j in range(dw*4,dp//4))
  assert curve_changed_pixels>0
- result=dict(curve_nondefault_states=curve_end-curve_start,curve_measurably_changed_pixels=curve_changed_pixels,status='PASS',device=name.value.decode(),source='shared PixelCore / compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=5,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,jit_seconds=jit,seconds=time.perf_counter()-start,scope='independent NVIDIA context; CUDA kernel pitch/ROI/alpha/parameter parity, not Resolve Host acceptance')
+ result=dict(curve_nondefault_states=curve_end-curve_start,curve_measurably_changed_pixels=curve_changed_pixels,status='PASS',device=name.value.decode(),source='shared PixelCore / compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=6,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,jit_seconds=jit,seconds=time.perf_counter()-start,scope='independent NVIDIA context; CUDA kernel pitch/ROI/alpha/parameter parity, not Resolve Host acceptance')
  (R/'results/v3_curve/CUDA_PARITY.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 finally:
  if src.value:free(src)

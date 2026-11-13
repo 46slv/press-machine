@@ -231,7 +231,7 @@ for i in range(180):
     parity_cases += 1
 # All supported input/output profile selector combinations must stay finite and use the same generated-DCTL wiring.
 profile_conversion_cases = 0
-for ig in range(4):
+for ig in range(len(SCHEMA[0]['options'])):
     for it in range(5):
         for og in range(5):
             for ot in range(6):

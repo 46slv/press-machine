@@ -8,7 +8,8 @@
       "DWG D65",
       "ARRI Wide Gamut 3 D65",
       "ARRI Wide Gamut 4 D65",
-      "ACES AP1 CAT02"
+      "ACES AP1 CAT02",
+      "Rec.709 D65"
     ],
     "group": "Color Space"
   },

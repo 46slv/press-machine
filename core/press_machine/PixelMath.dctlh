@@ -1482,7 +1482,7 @@ __DEVICE__ pmvp3 pmc_final_desat(float2 r,float2 g,float2 b,float shadow_t,float
 // Helpers are namespaced pma_; UI and no-change/Bypass policy belong to caller.
 #ifndef PRESSMACHINE_COLOR_ADAPTER_DCTLH
 #define PRESSMACHINE_COLOR_ADAPTER_DCTLH
-#define PMA_GAMUT_COUNT 4
+#define PMA_GAMUT_COUNT 5
 #define PMA_TRANSFER_COUNT 5
 #define PMA_LOGC4_A 2231.8263090676883f
 #define PMA_LOGC4_B 0.90713587487781033f
@@ -1692,6 +1692,11 @@ __DEVICE__ float2 pma_to_dwg_channel(float2 r,float2 g,float2 b,int gamut,int ax
         if(axis==1)return pma_precise_dot3(r,g,b,make_float2(0.031184511259198189f, 3.8516545508571198e-10f),make_float2(0.78331631422042847f, -8.4815265921633909e-09f),make_float2(0.18549919128417969f, -7.1638255327854949e-09f));
         if(axis==2)return pma_precise_dot3(r,g,b,make_float2(0.067400179803371429f, 2.528846909655158e-09f),make_float2(0.085586093366146088f, -2.5182433915915681e-09f),make_float2(0.84701371192932129f, 1.5277944243052843e-08f));
     }
+    if(gamut==4){ // Rec.709 D65; chromaticity-derived, no transfer change.
+        if(axis==0)return pma_precise_dot3(r,g,b,make_float2(0.56276744604110718f, 9.9660004693191695e-09f),make_float2(0.32351657748222351f, 1.1221735540800637e-08f),make_float2(0.11371595412492752f, 1.1640052255401656e-09f));
+        if(axis==1)return pma_precise_dot3(r,g,b,make_float2(0.077754631638526917f, 3.6465188646417346e-09f),make_float2(0.74957734346389771f, 2.6993243196216099e-09f),make_float2(0.17266802489757538f, -6.3458434063079494e-09f));
+        if(axis==2)return pma_precise_dot3(r,g,b,make_float2(0.064669199287891388f, 6.2843680259661028e-10f),make_float2(0.191998690366745f, 1.6795540513925289e-09f),make_float2(0.74333208799362183f, 2.0043751547405009e-08f));
+    }
     return pma_pair(0.0f);
 }
 __DEVICE__ float2 pma_from_dwg_channel(float2 r,float2 g,float2 b,int gamut,int axis) {
@@ -1710,6 +1715,11 @@ __DEVICE__ float2 pma_from_dwg_channel(float2 r,float2 g,float2 b,int gamut,int 
         if(axis==0)return pma_precise_dot3(r,g,b,make_float2(1.1008081436157227f, -1.6732849772438385e-08f),make_float2(0.0078776273876428604f, -3.392565672832859e-10f),make_float2(-0.10868574678897858f, -2.0666635069943595e-09f));
         if(axis==1)return pma_precise_dot3(r,g,b,make_float2(-0.023646220564842224f, -3.4342955562705058e-11f),make_float2(1.307750940322876f, 5.7631741157138094e-08f),make_float2(-0.28410476446151733f, -1.4858594354905108e-08f));
         if(axis==2)return pma_precise_dot3(r,g,b,make_float2(-0.085206270217895508f, -4.2690301294001642e-10f),make_float2(-0.13276791572570801f, -2.4372845963682721e-09f),make_float2(1.2179741859436035f, 2.2014654543767165e-09f));
+    }
+    if(gamut==4){ // Rec.709 D65; chromaticity-derived, no transfer change.
+        if(axis==0)return pma_precise_dot3(r,g,b,make_float2(1.8986148834228516f, 1.588305487132402e-08f),make_float2(-0.79217618703842163f, 3.6343776876890388e-09f),make_float2(-0.10643871873617172f, 2.83430945380303e-09f));
+        if(axis==1)return pma_precise_dot3(r,g,b,make_float2(-0.16894878447055817f, -2.0056012406399759e-09f),make_float2(1.4889757633209229f, -9.2028074050176656e-09f),make_float2(-0.32002696394920349f, -3.6927527702346197e-09f));
+        if(axis==2)return pma_precise_dot3(r,g,b,make_float2(-0.1215391606092453f, 4.9267256940765947e-12f),make_float2(-0.31567585468292236f, 1.6306792582909679e-09f),make_float2(1.4372149705886841f, 4.3067878152669437e-08f));
     }
     return pma_pair(0.0f);
 }

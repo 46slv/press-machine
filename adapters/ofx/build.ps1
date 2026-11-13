@@ -25,6 +25,7 @@ Measure-Step 'Makeup-single-protection-tests' {& "$root\build\Release\PressMachi
 Measure-Step 'HUD-source-separation' {python "$root\tests\verify_hud_source.py"}
 Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package_v3.py"}
 Measure-Step 'vNext-focused-tests' {python "$root\tests\verify_vnext.py"}
+Measure-Step 'Rec709-independent-matrix-and-active-output' {python "$root\tests\verify_rec709.py"}
 Measure-Step 'CPU-alpha-extremes' {python "$root\tests\verify_alpha_v3.py"}
 Measure-Step 'provisional-luma-curve' {python "$root\tests\verify_luma_curve.py"}
 $records | ConvertTo-Json -Depth 5 | Set-Content "$root\results\v3_curve\BUILD_TIMINGS.json"

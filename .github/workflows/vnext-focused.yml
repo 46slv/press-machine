@@ -2,7 +2,7 @@ name: Press Machine 2.2 focused CPU
 on:
   pull_request:
   push:
-    branches: ['dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*', 'dev/reuse-v3-graph-*', 'feat/pressmachine22-*', 'feat/makeup-sat-hud150-*', 'feat/hue-neutral-hud-*']
+    branches: ['dev/dev12-vnext-hue-*', 'dev/non-density-luma-curve-*', 'dev/reuse-v3-graph-*', 'feat/pressmachine22-*', 'feat/makeup-sat-hud150-*', 'feat/hue-neutral-hud-*', 'feat/pm22-input-rec709-*']
 permissions:
   contents: read
 jobs:
@@ -34,6 +34,8 @@ jobs:
         run: python3 adapters/ofx/tests/verify_hud.py
       - name: Focused source and generated-DCTL qualification
         run: python3 adapters/ofx/tests/verify_vnext.py
+      - name: Rec.709 independent matrix and active output qualification
+        run: python3 adapters/ofx/tests/verify_rec709.py
       - name: Alpha and extreme values
         run: python3 adapters/ofx/tests/verify_alpha_v3.py
       - name: Provisional luminance curve
@@ -45,6 +47,7 @@ jobs:
             adapters/ofx/generated/PressMachine_V3_Curve_TEST.dctl
             adapters/ofx/SOURCE_MANIFEST_V3_CURVE.json
             adapters/ofx/results/v3_curve/FOCUSED_CPU.json
+            adapters/ofx/results/v3_curve/REC709.json
             adapters/ofx/results/v3_curve/ALPHA_EXTREMES.json
             adapters/ofx/results/v3_curve/LUMA_CURVE.json
             adapters/ofx/results/v3_curve/graph/
@@ -73,5 +76,6 @@ jobs:
           python adapters/ofx/generate_descriptors.py
           python adapters/ofx/tests/verify_hud.py
           python adapters/ofx/tests/verify_vnext.py
+          python adapters/ofx/tests/verify_rec709.py
           python adapters/ofx/tests/verify_alpha_v3.py
           python adapters/ofx/tests/verify_luma_curve.py
