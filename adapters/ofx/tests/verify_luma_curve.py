@@ -7,8 +7,10 @@ old_schema=json.loads((REPO/'parameters/press_machine_v3.json').read_text())
 assert len(schema)==30
 # Only UI grouping changed in the legacy27 prefix; IDs/defaults/ranges/model stay frozen.
 comparison_schema=json.loads(json.dumps(schema))
-assert comparison_schema[0]['options'][-1]=='Rec.709 D65'
-comparison_schema[0]['options'].pop()
+assert comparison_schema[0]['options'][4:]==['Rec.709 D65','Rec.2020 D65','P3 D65']
+assert comparison_schema[2]['options'][5:]==['Rec.709 D65','Rec.2020 D65','P3 D65']
+assert comparison_schema[1]['options'][5:]==comparison_schema[3]['options'][6:]==['Gamma 2.4','Gamma 2.2','sRGB','Rec.709 OETF']
+for i,n in [(0,4),(1,5),(2,5),(3,6)]:comparison_schema[i]['options']=comparison_schema[i]['options'][:n]
 assert [{k:v for k,v in p.items() if k!='group'} for p in comparison_schema[:27]] == [{k:v for k,v in p.items() if k!='group'} for p in old_schema]
 default={p['id']:p['default'] for p in schema}
 libpath=R/'build'/('VNextNative.dll' if os.name=='nt' else 'libvnext_native.so')

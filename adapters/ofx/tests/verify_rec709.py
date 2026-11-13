@@ -47,7 +47,7 @@ if args.legacy_library:
     for density in [0,-100,100]:
      p=par(pmi_ig=ig,pmi_it=it,pmi_og=og,pm_makeup=150,pm_hue_bias=-25,pm_luma_split=100,pm_density=density)
      for x in pixels[:12]:check(bytes(eval(old,x,p))==bytes(eval(lib,x,p)),'legacy_profile_bit_exact')
-check(schema[0]['options'][-1]=='Rec.709 D65' and len(schema[0]['options'])==5,'schema_input_append')
-check(len(schema[2]['options'])==5 and len(schema)==30,'schema_output_count_retained')
+check(schema[0]['options'][4]=='Rec.709 D65' and schema[0]['options'][:4]==['DWG D65','ARRI Wide Gamut 3 D65','ARRI Wide Gamut 4 D65','ACES AP1 CAT02'],'schema_input_append')
+check(schema[2]['options'][:5]==['Same as Input','DWG D65','ARRI Wide Gamut 3 D65','ARRI Wide Gamut 4 D65','ACES AP1 CAT02'] and len(schema)==30,'schema_output_count_retained')
 report=dict(status='PASS_FOCUSED_REC709',counts=counts,max_errors=errors,legacy_binary_compared=bool(args.legacy_library),native_library_sha256=hashlib.sha256(native.read_bytes()).hexdigest(),legacy_library_sha256=hashlib.sha256(Path(args.legacy_library).read_bytes()).hexdigest() if args.legacy_library else None,limits='Native CPU/generated-DCTL CPU only. Independent rational chromaticity matrices. No Host/CUDA-completed/transfer gamma2.4 or display acceptance.')
 (R/'results/v3_curve/REC709.json').write_text(json.dumps(report,indent=2));print(json.dumps(report,indent=2))

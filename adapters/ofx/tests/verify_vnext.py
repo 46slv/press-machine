@@ -232,9 +232,9 @@ for i in range(180):
 # All supported input/output profile selector combinations must stay finite and use the same generated-DCTL wiring.
 profile_conversion_cases = 0
 for ig in range(len(SCHEMA[0]['options'])):
-    for it in range(5):
-        for og in range(5):
-            for ot in range(6):
+    for it in range(len(SCHEMA[1]['options'])):
+        for og in range(len(SCHEMA[2]['options'])):
+            for ot in range(len(SCHEMA[3]['options'])):
                 p = params(pmi_ig=ig, pmi_it=it, pmi_og=og, pmi_ot=ot)
                 pixel = (C.c_float*4)(.30, .20, .10, 1.0)
                 a, b = (C.c_float*4)(), (C.c_float*4)()

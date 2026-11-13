@@ -16,7 +16,7 @@
     "active_same": 2.226654075343504e-06
   },
   "legacy_binary_compared": true,
-  "native_library_sha256": "e601b11941e46ae0f9121e02d32f30231e048308af472f348b329d3804f57e3c",
+  "native_library_sha256": "174c63c9964195c1267c750478a3fd80dc637d42557f0cd4b1a452cf269d825f",
   "legacy_library_sha256": "774fefad71d13e67c7075df2684146d70fc50765940c1abc17e53a9417b8bb1f",
   "limits": "Native CPU/generated-DCTL CPU only. Independent rational chromaticity matrices. No Host/CUDA-completed/transfer gamma2.4 or display acceptance."
 }

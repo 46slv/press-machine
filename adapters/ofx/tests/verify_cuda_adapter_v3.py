@@ -52,7 +52,7 @@ try:
    for ch in range(4):source[y*(sp//4)+x*4+ch]=v[ch]
  ok(alloc(c.byref(src),c.sizeof(source)));ok(alloc(c.byref(dst),c.sizeof(target)));ok(htod(src,source,c.sizeof(source)))
  maxerr=0.;cases=0;words=0;alpha_words=0;sentinels=0;curve_changed_pixels=0
- for ig,it in [(0,0),(1,1),(2,2),(3,3),(0,4),(4,4)]:
+ for ig,it in [(0,0),(1,1),(2,2),(3,3),(0,4),(4,4),(4,5),(4,6),(4,7),(4,8),(5,8),(6,7)]:
   for vi,v in enumerate(states):
    v=v[:];v[idx['pmi_ig']]=ig;v[idx['pmi_it']]=it
    for premult in [0,1]:
@@ -90,7 +90,7 @@ try:
       else:assert o==(-99.,-99.,-99.,-99.);sentinels+=4
      assert all(target[y*(dp//4)+j]==-99. for j in range(dw*4,dp//4))
  assert curve_changed_pixels>0
- result=dict(curve_nondefault_states=curve_end-curve_start,curve_measurably_changed_pixels=curve_changed_pixels,status='PASS',device=name.value.decode(),source='actual CudaRunner adapter / embedded compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=6,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,first_adapter_call_seconds=jit,stream_modes=['default-parameter','harness-created-nonnull-parameter'],seconds=time.perf_counter()-start,scope='independent NVIDIA context; actual CUDA adapter and new curve states; one context/positive pitch/ROI/subnormal alpha/parameters. Later sync/readback does not independently prove async or default completion. Not actual Resolve Host or cache recreation acceptance')
+ result=dict(curve_nondefault_states=curve_end-curve_start,curve_measurably_changed_pixels=curve_changed_pixels,status='PASS',device=name.value.decode(),source='actual CudaRunner adapter / embedded compute75 PTX',gpu_pixel_cases=cases,rendered_words=words,preserved_alpha_words=alpha_words,outside_roi_sentinel_words=sentinels,profiles=12,states=len(states),premult_modes=2,max_error=maxerr,tolerance=2**-13,first_adapter_call_seconds=jit,stream_modes=['default-parameter','harness-created-nonnull-parameter'],seconds=time.perf_counter()-start,scope='independent NVIDIA context; actual CUDA adapter and new curve states; one context/positive pitch/ROI/subnormal alpha/parameters. Later sync/readback does not independently prove async or default completion. Not actual Resolve Host or cache recreation acceptance')
  (R/'results/v3_curve/CUDA_ADAPTER_PARITY.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result,indent=2))
 finally:
  if src.value:free(src)

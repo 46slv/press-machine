@@ -32,9 +32,13 @@ for path in frozen:
     new = (r / path).read_bytes().replace(b'\r\n', b'\n')
     if path == 'core/press_machine/PixelMath.dctlh':
         # Only approved Rec.709 branches/count differ; freeze all previous math.
-        normalized = re.sub(rb'    if\(gamut==4\)\{ // Rec\.709 D65; chromaticity-derived, no transfer change\.\n.*?    \}\n', b'', new, flags=re.S)
-        assert new.count(b'if(gamut==4)') == 2
-        normalized = normalized.replace(b'#define PMA_GAMUT_COUNT 5', b'#define PMA_GAMUT_COUNT 4')
+        normalized = re.sub(rb'    if\(gamut==[456]\)\{ // [^\n]+\n.*?    \}\n', b'', new, flags=re.S)
+        assert all(new.count(('if(gamut=='+str(g)+')').encode()) == 2 for g in (4,5,6))
+        normalized = re.sub(rb'// PM22_SDR_TRANSFERS_BEGIN\n.*?// PM22_SDR_TRANSFERS_END\n\n', b'', normalized, flags=re.S)
+        assert new.count(b'PM22_SDR_TRANSFERS_BEGIN') == 1
+        normalized = normalized.replace(b'    if(curve>=5&&curve<=8)return pma_pair(pma_display_decode(v,curve));\n', b'')
+        normalized = normalized.replace(b'    if(curve>=5&&curve<=8)return pma_display_encode(x,curve);\n', b'')
+        normalized = normalized.replace(b'#define PMA_GAMUT_COUNT 7', b'#define PMA_GAMUT_COUNT 4').replace(b'#define PMA_TRANSFER_COUNT 9', b'#define PMA_TRANSFER_COUNT 5')
         assert old == normalized, 'Unapproved math changed: ' + path
     else:
         assert old == new, 'Frozen source changed: ' + path
@@ -102,8 +106,10 @@ for start, end, sha in legacy_sections:
 assert ids[:29] == [p['id'] for p in json.loads(baseline('parameters/press_machine_v3_curve.json'))]
 old29=json.loads(__import__('subprocess').check_output(['git','show','f0e3160:parameters/press_machine_v3_curve.json'],cwd=r))
 comparison_schema=json.loads(json.dumps(schema))
-assert comparison_schema[0]['options'][-1]=='Rec.709 D65'
-comparison_schema[0]['options'].pop()
+assert comparison_schema[0]['options'][4:]==['Rec.709 D65','Rec.2020 D65','P3 D65']
+assert comparison_schema[2]['options'][5:]==['Rec.709 D65','Rec.2020 D65','P3 D65']
+assert comparison_schema[1]['options'][5:]==comparison_schema[3]['options'][6:]==['Gamma 2.4','Gamma 2.2','sRGB','Rec.709 OETF']
+for i,n in [(0,4),(1,5),(2,5),(3,6)]:comparison_schema[i]['options']=comparison_schema[i]['options'][:n]
 assert [{k:v for k,v in p.items() if k!='group'} for p in comparison_schema[:29]]==[{k:v for k,v in p.items() if k!='group'} for p in old29]
 assert ids[29]=='pm_makeup' and schema[29]['default']==100 and schema[29]['min']==0 and schema[29]['max']==200
 assert 'opengl32' in (o / 'CMakeLists.txt').read_text()

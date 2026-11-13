@@ -27,3 +27,8 @@ GraphをONにし、viewerをOpenFXオーバーレイにする。Graphは書出�
 ## 出力プロファイルを変えてEXRを渡す場合
 2.2の限定Host確認では、C046由来の既存処理済みfloat EXRをAWG4/LogC4として再入力し、AP1 CAT02/ACEScct Reversibleへ出力変換後に調べた先頭EXRには、素材由来の `tech_details_color_space=Wide Gamut 4` と `tech_details_gamma_space=Log C4` が残りました。これらのカメラ注記を、処理後の出力色空間の宣言として扱わないでください。
 この条件の受け渡しでは、実際に指定したOutput Primaries / Output Transferを別途記録し、受け取り側でAP1 / ACEScctを明示してください。Output Sameの場合も、nodeに実際に入る信号の色空間を確認します。自動判別に依存しないための注意であり、全形式のmetadata不具合や画素演算の誤りを示すものではありません。
+
+## 709・sRGB・Display P3などの設定
+Input/Outputの色域にRec.709 D65、Rec.2020 D65、P3 D65を追加。ガンマは別項目でGamma 2.4、Gamma 2.2、sRGB、Rec.709 OETFを選べます。元の選択肢・番号・既定値は変えていません。
+一般的なガンマ2.4の709信号はRec.709 D65＋Gamma 2.4、sRGB信号はRec.709 D65＋sRGB、Display P3信号はP3 D65＋sRGBです。実際のnode入力に合わせ、上流CSTで既に変換した場合は元素材の設定を重ねないでください。Rec.709 OETFとGamma 2.4は別の曲線です。Output Sameは入力と同じ色域・ガンマへ戻します。
+Gamma 2.4は黒オフセットなしのべき乗です。P3 D65はDCI-P3の映画白色点ではありません。PQ/HLG、映像レンジの変換、tone mapping、色域外の自動clipは追加していません。新しい選択肢を使って保存した作品を、これらがない旧版で上書き保存しないでください。

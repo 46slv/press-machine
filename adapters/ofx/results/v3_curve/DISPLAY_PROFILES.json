@@ -1,0 +1,21 @@
+{
+  "status": "PASS_FOCUSED_SDR_DISPLAY_PROFILES",
+  "counts": {
+    "analytic_transfer_boundary": 496,
+    "signed_zero": 32,
+    "transfer_roundtrip": 32,
+    "rational_gamut_matrix": 1248,
+    "active_profile_independent_oracle": 1440,
+    "display_generated_DCTL_exact": 1440,
+    "display_active_finite": 1440,
+    "display_neutral_exact": 36,
+    "unrepresentable_decode_fallback": 4,
+    "append_only_counts": 1
+  },
+  "max_errors": {
+    "transfer_abs": 0.0003384142080449237,
+    "active_profile_abs": 3.142309823456202e-07
+  },
+  "native_library_sha256": "174c63c9964195c1267c750478a3fd80dc637d42557f0cd4b1a452cf269d825f",
+  "limits": "Native/generatedDCTL CPU. New signed extension and continuous Rec709 OETF explicit. Gamma2.4 ideal zero-black; no PQ/HLG/range scaling/gamut mapping or broad Host claim."
+}

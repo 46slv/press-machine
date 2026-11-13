@@ -9,7 +9,9 @@
       "ARRI Wide Gamut 3 D65",
       "ARRI Wide Gamut 4 D65",
       "ACES AP1 CAT02",
-      "Rec.709 D65"
+      "Rec.709 D65",
+      "Rec.2020 D65",
+      "P3 D65"
     ],
     "group": "Color Space"
   },
@@ -23,7 +25,11 @@
       "LogC3 EI800 Exposure",
       "LogC4 Scene",
       "ACEScct Reversible",
-      "Relative Linear"
+      "Relative Linear",
+      "Gamma 2.4",
+      "Gamma 2.2",
+      "sRGB",
+      "Rec.709 OETF"
     ],
     "group": "Color Space"
   },
@@ -37,7 +43,10 @@
       "DWG D65",
       "ARRI Wide Gamut 3 D65",
       "ARRI Wide Gamut 4 D65",
-      "ACES AP1 CAT02"
+      "ACES AP1 CAT02",
+      "Rec.709 D65",
+      "Rec.2020 D65",
+      "P3 D65"
     ],
     "group": "Color Space"
   },
@@ -52,7 +61,11 @@
       "LogC3 EI800 Exposure",
       "LogC4 Scene",
       "ACEScct Reversible",
-      "Relative Linear"
+      "Relative Linear",
+      "Gamma 2.4",
+      "Gamma 2.2",
+      "sRGB",
+      "Rec.709 OETF"
     ],
     "group": "Color Space"
   },

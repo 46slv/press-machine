@@ -1,8 +1,8 @@
 // Press Machine v3 Curve TEST: Comp -> Hue -> Density. Host qualification pending.
-DEFINE_UI_PARAMS(pmi_ig, Input Primaries, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_IG_0, PMV3_PMI_IG_1, PMV3_PMI_IG_2, PMV3_PMI_IG_3, PMV3_PMI_IG_4 }, { DWG D65, ARRI Wide Gamut 3 D65, ARRI Wide Gamut 4 D65, ACES AP1 CAT02, Rec.709 D65 })
-DEFINE_UI_PARAMS(pmi_it, Input Transfer, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_IT_0, PMV3_PMI_IT_1, PMV3_PMI_IT_2, PMV3_PMI_IT_3, PMV3_PMI_IT_4 }, { DaVinci Intermediate, LogC3 EI800 Exposure, LogC4 Scene, ACEScct Reversible, Relative Linear })
-DEFINE_UI_PARAMS(pmi_og, Output Primaries, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_OG_0, PMV3_PMI_OG_1, PMV3_PMI_OG_2, PMV3_PMI_OG_3, PMV3_PMI_OG_4 }, { Same as Input, DWG D65, ARRI Wide Gamut 3 D65, ARRI Wide Gamut 4 D65, ACES AP1 CAT02 })
-DEFINE_UI_PARAMS(pmi_ot, Output Transfer, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_OT_0, PMV3_PMI_OT_1, PMV3_PMI_OT_2, PMV3_PMI_OT_3, PMV3_PMI_OT_4, PMV3_PMI_OT_5 }, { Same as Input, DaVinci Intermediate, LogC3 EI800 Exposure, LogC4 Scene, ACEScct Reversible, Relative Linear })
+DEFINE_UI_PARAMS(pmi_ig, Input Primaries, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_IG_0, PMV3_PMI_IG_1, PMV3_PMI_IG_2, PMV3_PMI_IG_3, PMV3_PMI_IG_4, PMV3_PMI_IG_5, PMV3_PMI_IG_6 }, { DWG D65, ARRI Wide Gamut 3 D65, ARRI Wide Gamut 4 D65, ACES AP1 CAT02, Rec.709 D65, Rec.2020 D65, P3 D65 })
+DEFINE_UI_PARAMS(pmi_it, Input Transfer, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_IT_0, PMV3_PMI_IT_1, PMV3_PMI_IT_2, PMV3_PMI_IT_3, PMV3_PMI_IT_4, PMV3_PMI_IT_5, PMV3_PMI_IT_6, PMV3_PMI_IT_7, PMV3_PMI_IT_8 }, { DaVinci Intermediate, LogC3 EI800 Exposure, LogC4 Scene, ACEScct Reversible, Relative Linear, Gamma 2.4, Gamma 2.2, sRGB, Rec.709 OETF })
+DEFINE_UI_PARAMS(pmi_og, Output Primaries, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_OG_0, PMV3_PMI_OG_1, PMV3_PMI_OG_2, PMV3_PMI_OG_3, PMV3_PMI_OG_4, PMV3_PMI_OG_5, PMV3_PMI_OG_6, PMV3_PMI_OG_7 }, { Same as Input, DWG D65, ARRI Wide Gamut 3 D65, ARRI Wide Gamut 4 D65, ACES AP1 CAT02, Rec.709 D65, Rec.2020 D65, P3 D65 })
+DEFINE_UI_PARAMS(pmi_ot, Output Transfer, DCTLUI_COMBO_BOX, 0, { PMV3_PMI_OT_0, PMV3_PMI_OT_1, PMV3_PMI_OT_2, PMV3_PMI_OT_3, PMV3_PMI_OT_4, PMV3_PMI_OT_5, PMV3_PMI_OT_6, PMV3_PMI_OT_7, PMV3_PMI_OT_8, PMV3_PMI_OT_9 }, { Same as Input, DaVinci Intermediate, LogC3 EI800 Exposure, LogC4 Scene, ACEScct Reversible, Relative Linear, Gamma 2.4, Gamma 2.2, sRGB, Rec.709 OETF })
 DEFINE_UI_PARAMS(pm_pre, Pre Saturation, DCTLUI_SLIDER_FLOAT, 100.0, 0.0, 200.0, 0.1)
 DEFINE_UI_PARAMS(pm_threshold, Threshold, DCTLUI_SLIDER_FLOAT, 80.0, 0.0, 100.0, 0.1)
 DEFINE_UI_PARAMS(pm_compression, Amount %, DCTLUI_SLIDER_FLOAT, 0.0, 0.0, 100.0, 0.1)
@@ -1518,8 +1518,8 @@ __DEVICE__ pmvp3 pmc_final_desat(float2 r,float2 g,float2 b,float shadow_t,float
 // Helpers are namespaced pma_; UI and no-change/Bypass policy belong to caller.
 #ifndef PRESSMACHINE_COLOR_ADAPTER_DCTLH
 #define PRESSMACHINE_COLOR_ADAPTER_DCTLH
-#define PMA_GAMUT_COUNT 5
-#define PMA_TRANSFER_COUNT 5
+#define PMA_GAMUT_COUNT 7
+#define PMA_TRANSFER_COUNT 9
 #define PMA_LOGC4_A 2231.8263090676883f
 #define PMA_LOGC4_B 0.90713587487781033f
 #define PMA_LOGC4_C 0.092864125122189639f
@@ -1675,7 +1675,33 @@ __DEVICE__ float2 pma_pair_exp2(float2 exponent) {
     return pma_pair_mul(y,pma_pair(_powf(2.0f,n)));
 }
 
+// PM22_SDR_TRANSFERS_BEGIN
+#define PMA_REC709_ALPHA 1.09929682680944f
+#define PMA_REC709_ALPHA_MINUS_ONE 0.09929682680944f
+#define PMA_REC709_BETA 0.018053968510807f
+// New display transfers: odd negative extension, no clamp/range scaling.
+__DEVICE__ float pma_display_decode(float v,int curve){
+ if(v==0.0f)return v;
+ float a=_fabs(v),y;
+ if(curve==5)y=_powf(a,2.4f);
+ else if(curve==6)y=_powf(a,2.2f);
+ else if(curve==7)y=a<=0.04045f?a/12.92f:_powf((a+0.055f)/1.055f,2.4f);
+ else y=a<=4.5f*PMA_REC709_BETA?a/4.5f:_powf((a+PMA_REC709_ALPHA_MINUS_ONE)/PMA_REC709_ALPHA,1.0f/0.45f);
+ return v<0.0f?-y:y;
+}
+__DEVICE__ float pma_display_encode(float v,int curve){
+ if(v==0.0f)return v;
+ float a=_fabs(v),y;
+ if(curve==5)y=_powf(a,1.0f/2.4f);
+ else if(curve==6)y=_powf(a,1.0f/2.2f);
+ else if(curve==7)y=a<=0.0031308f?12.92f*a:1.055f*_powf(a,1.0f/2.4f)-0.055f;
+ else y=a<=PMA_REC709_BETA?4.5f*a:PMA_REC709_ALPHA*_powf(a,0.45f)-PMA_REC709_ALPHA_MINUS_ONE;
+ return v<0.0f?-y:y;
+}
+// PM22_SDR_TRANSFERS_END
+
 __DEVICE__ float2 pma_decode_channel(float v,int curve) {
+    if(curve>=5&&curve<=8)return pma_pair(pma_display_decode(v,curve));
     if (curve==0) return pma_precise_decode(v);
     if (curve==1) {
         if (v<=5.367655f*.010591f+.092809f) return pma_pair_div(pma_pair_add(pma_pair(v),pma_pair_neg(make_float2(0.092808999121189117f, 8.7881091292985047e-10f))),make_float2(5.3676548004150391f, 1.9958496011440729e-07f));
@@ -1695,6 +1721,7 @@ __DEVICE__ float2 pma_decode_channel(float v,int curve) {
 }
 
 __DEVICE__ float pma_encode_raw(float x, int curve) {
+    if(curve>=5&&curve<=8)return pma_display_encode(x,curve);
     if (curve == 0) return pma_encode(x);
     if (curve == 1) {
         return x <= 0.010591f ? 5.367655f*x+0.092809f :
@@ -1733,6 +1760,16 @@ __DEVICE__ float2 pma_to_dwg_channel(float2 r,float2 g,float2 b,int gamut,int ax
         if(axis==1)return pma_precise_dot3(r,g,b,make_float2(0.077754631638526917f, 3.6465188646417346e-09f),make_float2(0.74957734346389771f, 2.6993243196216099e-09f),make_float2(0.17266802489757538f, -6.3458434063079494e-09f));
         if(axis==2)return pma_precise_dot3(r,g,b,make_float2(0.064669199287891388f, 6.2843680259661028e-10f),make_float2(0.191998690366745f, 1.6795540513925289e-09f),make_float2(0.74333208799362183f, 2.0043751547405009e-08f));
     }
+    if(gamut==5){ // SDR D65 chromaticity-derived matrix.
+        if(axis==0)return pma_precise_dot3(r,g,b,make_float2(0.892112135887146f, -1.4940699344379027e-08f),make_float2(0.024369176477193832f, -6.0597721285304829e-10f),make_float2(0.083518706262111664f, -3.079774213432529e-09f));
+        if(axis==1)return pma_precise_dot3(r,g,b,make_float2(0.032616600394248962f, 1.3698360223912687e-09f),make_float2(0.78613752126693726f, -4.362824768122664e-09f),make_float2(0.18124587833881378f, 2.9929889677760002e-09f));
+        if(axis==2)return pma_precise_dot3(r,g,b,make_float2(0.069977052509784698f, -1.3241505669725484e-09f),make_float2(0.10474949330091476f, -1.3970873347091128e-09f),make_float2(0.82527345418930054f, 2.7212381237262662e-09f));
+    }
+    if(gamut==6){ // SDR D65 chromaticity-derived matrix.
+        if(axis==0)return pma_precise_dot3(r,g,b,make_float2(0.67351722717285156f, 1.3794723585647262e-08f),make_float2(0.20159152150154114f, 5.9222382553514308e-09f),make_float2(0.12489122897386551f, 2.634779727728187e-09f));
+        if(axis==1)return pma_precise_dot3(r,g,b,make_float2(0.060329057276248932f, 1.2371365043506444e-09f),make_float2(0.75003421306610107f, 2.0564956404456325e-09f),make_float2(0.1896367222070694f, 4.1569485631498537e-09f));
+        if(axis==2)return pma_precise_dot3(r,g,b,make_float2(0.056543797254562378f, -1.2551752970324515e-09f),make_float2(0.12707416713237762f, 6.4736562777056861e-09f),make_float2(0.81638205051422119f, -2.0119642840654706e-08f));
+    }
     return pma_pair(0.0f);
 }
 __DEVICE__ float2 pma_from_dwg_channel(float2 r,float2 g,float2 b,int gamut,int axis) {
@@ -1756,6 +1793,16 @@ __DEVICE__ float2 pma_from_dwg_channel(float2 r,float2 g,float2 b,int gamut,int 
         if(axis==0)return pma_precise_dot3(r,g,b,make_float2(1.8986148834228516f, 1.588305487132402e-08f),make_float2(-0.79217618703842163f, 3.6343776876890388e-09f),make_float2(-0.10643871873617172f, 2.83430945380303e-09f));
         if(axis==1)return pma_precise_dot3(r,g,b,make_float2(-0.16894878447055817f, -2.0056012406399759e-09f),make_float2(1.4889757633209229f, -9.2028074050176656e-09f),make_float2(-0.32002696394920349f, -3.6927527702346197e-09f));
         if(axis==2)return pma_precise_dot3(r,g,b,make_float2(-0.1215391606092453f, 4.9267256940765947e-12f),make_float2(-0.31567585468292236f, 1.6306792582909679e-09f),make_float2(1.4372149705886841f, 4.3067878152669437e-08f));
+    }
+    if(gamut==5){ // SDR D65 chromaticity-derived matrix.
+        if(axis==0)return pma_precise_dot3(r,g,b,make_float2(1.1303021907806396f, -9.4644221348971769e-09f),make_float2(-0.020392851904034615f, -4.0251235677857267e-10f),make_float2(-0.10990932583808899f, -3.1715812198740423e-09f));
+        if(axis==1)return pma_precise_dot3(r,g,b,make_float2(-0.025547057390213013f, 3.0714619736471604e-10f),make_float2(1.3108493089675903f, 8.6055482739766376e-09f),make_float2(-0.28530225157737732f, -8.9126945823636561e-09f));
+        if(axis==2)return pma_precise_dot3(r,g,b,make_float2(-0.092598609626293182f, 2.8151772024642696e-09f),make_float2(-0.16465301811695099f, -3.4612275268131043e-09f),make_float2(1.2572516202926636f, 8.0966309212726628e-09f));
+    }
+    if(gamut==6){ // SDR D65 chromaticity-derived matrix.
+        if(axis==0)return pma_precise_dot3(r,g,b,make_float2(1.5315437316894531f, -1.8714972682687403e-08f),make_float2(-0.38718494772911072f, -1.1623830786788858e-08f),make_float2(-0.14435875415802002f, 5.3648030462483121e-10f));
+        if(axis==1)return pma_precise_dot3(r,g,b,make_float2(-0.10031766444444656f, -1.9088357561258817e-09f),make_float2(1.4132547378540039f, 5.2407447270752527e-09f),make_float2(-0.31293708086013794f, 4.1186716259744571e-09f));
+        if(axis==2)return pma_precise_dot3(r,g,b,make_float2(-0.090461947023868561f, -3.3511895480842213e-09f),make_float2(-0.19316357374191284f, -8.4297957503309817e-10f),make_float2(1.2836254835128784f, 4.1447073328981787e-08f));
     }
     return pma_pair(0.0f);
 }

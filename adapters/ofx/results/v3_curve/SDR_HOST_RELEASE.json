@@ -1,0 +1,71 @@
+{
+  "status": "PASS_LIMITED_SDR_HOST_RELEASE_GATE",
+  "tested_at_UTC": "2026-11-13T02:16:03.014692+00:00",
+  "binary_sha256": "ae2818ee7c72fa59d2f5fb5b05212d6e600bba82c6ded76e31abf629182cc8b9",
+  "CPU_library_sha256": "d3417a1b10920d08cd7d0cbfc22b1ddd1e49d9fb7c868e20ce766271c556a22a",
+  "legacy_75799_DWG_DI_RGB_words": 2400000,
+  "legacy_all_words_bit_exact": true,
+  "legacy_max_abs_delta": 0.0,
+  "Graph": {
+    "four_panels_visible_with_OpenFX_overlay": true,
+    "OFF_hides_panels": true,
+    "all_2400000_RGB_words_bit_exact": true,
+    "max_abs_delta": 0.0,
+    "whole_file_equal": true
+  },
+  "limits": "Three controlled known-float still cases/one prior DWGDI compatibility frame. Existing numeric source values declared under each profile; not natural-camera/color-management viewing acceptance. New gammas supported per explicit SDR definitions, not PQ/HLG/range scaling/black-offset models. No broad video/alpha/perceptual/SS acceptance. CUA observed selections/save-load/Graph; no retained screenshot claimed.",
+  "results": [
+    {
+      "case": "REC709_G24_SAME",
+      "selectors": [
+        4,
+        5,
+        0,
+        0
+      ],
+      "samples": 1892,
+      "max_abs_CPU_error": 1.1324882507324219e-06,
+      "threshold": 0.0001220703125,
+      "passed": true,
+      "all_RGB_finite": true,
+      "RGB_values": 2400000,
+      "sha256": "d306bca3f9d41bb48f85568c6384560fcae710cee7e4a9d7378976072ba9a15d",
+      "save_reload_UI_verified": true
+    },
+    {
+      "case": "P3_SRGB_TO709_G22",
+      "selectors": [
+        6,
+        7,
+        5,
+        7
+      ],
+      "samples": 1892,
+      "max_abs_CPU_error": 1.1920928955078125e-07,
+      "threshold": 0.0001220703125,
+      "passed": true,
+      "all_RGB_finite": true,
+      "RGB_values": 2400000,
+      "sha256": "6e54b0cedcde4d4885fbf35f945fa59a90646b2bd165c174a0098daa863b71d5",
+      "save_reload_UI_verified": true
+    },
+    {
+      "case": "REC2020_OETF_TOP3_SRGB",
+      "selectors": [
+        5,
+        8,
+        7,
+        8
+      ],
+      "samples": 1892,
+      "max_abs_CPU_error": 2.384185791015625e-07,
+      "threshold": 0.0001220703125,
+      "passed": true,
+      "all_RGB_finite": true,
+      "RGB_values": 2400000,
+      "sha256": "8ed77d4d921623a6f8bb13b3c12c026e854f06c0fbc9da6ce33fbf8e6fa44172",
+      "save_reload_UI_verified": true
+    }
+  ],
+  "restoration_confirmed": true
+}
