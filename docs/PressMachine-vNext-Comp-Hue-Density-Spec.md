@@ -85,7 +85,22 @@ Input profile decode / primary conversion
 | --- | --- | --- |
 | Conditioning | Pre Saturation and SatComp create a controlled chroma range before creative Hue processing | Create a split-tone look or global contrast |
 | Hue / Look | Hue Pattern, Bias and Luma Split form hue topology and warm/cool distribution | Act as a hidden post-Hue saturation limiter or tone curve |
-| Density | Read the actual post-H…186 tokens truncated…ion | existing range / 100 neutral | Chroma gain before Comp |
+| Density | Read the actual post-Hue color and map its chroma distribution to weight | Read raw Hue slider values as a hidden multiplier |
+| Final black policy | Optionally remove chroma from the finished deep shadows | Re-protect skin or modify global contrast |
+
+Hue is not specified as a saturation booster. It may increase or decrease chroma as a consequence of moving color in the chroma plane. That result is intentional input to Density.
+
+---
+
+## 2. Parameter contract
+
+Create a new versioned parameter schema instead of silently changing `press_machine_v2.json`. Existing plugin IDs and saved states are not migrated in place.
+
+### 2.1 Conditioning
+
+| ID suggestion | Label | Range / default | Meaning |
+| --- | --- | --- | --- |
+| `pm_pre` | Pre Saturation | existing range / 100 neutral | Chroma gain before Comp |
 | `pm_threshold` | Threshold | existing range/default | SatComp threshold |
 | `pm_compression` | Amount % | existing range/default | SatComp amount |
 | `pm_softness` | Knee % | existing range/default | SatComp knee |
