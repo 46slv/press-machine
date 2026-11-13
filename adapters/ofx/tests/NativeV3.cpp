@@ -57,3 +57,9 @@ EXPORT void pm_vnext_stages(const double*x,const double*v,double*out){double a[3
 EXPORT void pm_vnext_legacy_neutral_hue(const double*x,const double*v,double*out){double a[30];oldValues(v,a);pm_vnext_legacy_neutral_hue30(x,a,out);}
 EXPORT void pm_vnext_density(const double*x,const double*v,double*out){double a[30];oldValues(v,a);pm_vnext_density30(x,a,out);}
 EXPORT void pm_dctl_eval(const float*x,const double*v,float*out){double a[30];oldValues(v,a);pm_dctl_eval30(x,a,out);}
+
+// Direct mask boundary probe: exact DI coordinates avoid inverse-transfer rounding.
+EXPORT void pm_final_masks(double level,double st,double sk,double ht,double hk,double* out){
+ out[0]=value(pm::pmfd_shadow_keep(pair(level),(float)st,(float)sk));
+ out[1]=value(pm::pmfd_highlight_keep(pair(level),(float)ht,(float)hk));
+}

@@ -36,6 +36,7 @@ lib.pm_vnext_y.restype = C.c_double
 lib.pm_eval30.argtypes = [F, D, C.c_int, F]
 lib.pm_dctl_eval30.argtypes = [F, D, F]
 lib.pm_identity30.argtypes = [D]
+lib.pm_final_masks.argtypes = [C.c_double]*5+[D]
 
 counts = {}
 metrics = {}
@@ -216,18 +217,134 @@ desat, _ = stage([.001]*3, params(pm_luma_split=300, pm_sd_t=.5, pm_sd_k=.05))
 check(max(desat[4])-min(desat[4]) < 1e-12, 'final_black_policy_on')
 check(error(desat[4], desat[3]) > 1e-5, 'final_after_look')
 
+# Independent Final Shadow/Highlight oracle. Coefficients and DI constants are
+# the documented working-space/transfer definitions, not native helper calls.
+FINAL_Y = (.27411851, .87363190, -.14775041)
+def final_y(x): return sum(a*b for a, b in zip(FINAL_Y, x))
+def di_level(y):
+    return y*10.44426855 if y <= .002624090062454343 else (math.log2(y+.0075)+7)*.07329248
+
+def final_reference(x, st, sk, ht, hk):
+    # Public controls are binary32 in the compiled parameter snapshot.
+    st,sk,ht,hk = (C.c_float(v).value for v in (st,sk,ht,hk))
+    if (st == 0 and ht == 1) or max(x) == min(x): return list(x)
+    if not all(math.isfinite(v) and 0 <= v <= 1 for v in (st, sk, ht, hk)): return list(x)
+    y = final_y(x)
+    if y <= 0: return [y]*3 if st > 0 else list(x)
+    level = di_level(y)
+    def smooth(u): return u*u*(3-2*u)
+    # Evaluate each bounded interval independently; zero-width is an intentional
+    # hard switch, not a tiny positive knee approximation.
+    lo, hi = max(0, st-sk), min(1, ht+hk)
+    shadow = 1 if st == 0 or level >= st else (0 if sk == 0 or level <= lo else smooth((level-lo)/(st-lo)))
+    highlight = 1 if ht == 1 or level <= ht else (0 if hk == 0 or level >= hi else 1-smooth((level-ht)/(hi-ht)))
+    keep = shadow*highlight
+    return [y+(v-y)*keep for v in x]
+
+def final_params(c, **extra):
+    return params(**dict(zip(('pm_sd_t','pm_sd_k','pm_hd_t','pm_hd_k'), c)), **extra)
+
+def at_y(y):
+    # Fixed zero-Y chroma makes neutralization measurable even around signed zero.
+    return [y+.03, y-.03*FINAL_Y[0]/FINAL_Y[1], y]
+
+final_configs = [(0,.18,1,.18), (.25,.125,1,.18), (0,.18,.75,.125),
+                 (.75,.5,.25,.5), (1,1,0,1), (.125,1,.875,1),
+                 (.25,0,.75,0), (.75,0,.25,0)]
+final_levels = [0,.001,.0274067,.05,.125,.25,.375,.5,.625,.75,.875,1,1.25]
+# Sample both sides of every knee endpoint, avoiding false exact-boundary claims
+# from inverse-transform roundoff. Small positive knees have separate coverage.
+for c in final_configs:
+    for edge in (max(0,c[0]-c[1]),c[0],c[2],min(1,c[2]+c[3])):
+        final_levels.extend([edge-1e-6,edge+1e-6])
+final_levels = sorted(set(final_levels))
+ys = [(v/10.44426855 if v <= .0274067 else 2**(v/.07329248-7)-.0075) for v in final_levels]
+ys += [-100,-1,-1e-6,0,1e-6,.002624090062454343,1e6]
+max_final_error = 0
+for controls in final_configs + [(.5,1e-4,.5,1e-4)]:
+    for y in ys:
+        x_final = at_y(y)
+        z, _ = stage(x_final, final_params(controls))
+        # Hard-switch exact equality is tested directly below. An inverse DI
+        # round trip cannot establish which side the float-pair level occupies.
+        level = di_level(final_y(z[3])) if final_y(z[3]) > 0 else -1
+        if (controls[1] == 0 and abs(level-controls[0]) < 1e-10) or (controls[3] == 0 and abs(level-controls[2]) < 1e-10):
+            continue
+        expected = final_reference(z[3], *controls)
+        e = error(z[4], expected)/max(1, *(abs(v) for v in expected))
+        max_final_error = max(max_final_error, e)
+        check(e < 2e-10, 'final_independent_overlap_reference', f'{controls}, Y={y}, error={e}')
+        check(all(math.isfinite(v) for v in z[4]), 'final_overlap_finite')
+        check(abs(final_y(z[4])-final_y(z[3])) < tolerance(z[3]), 'final_overlap_preserves_y')
+        if controls[0] == 0 and controls[2] == 1:
+            check(z[4] == z[3], 'final_default_exact_identity')
+    for gray in [-100,0,.18,1,1e6]:
+        z, _ = stage([gray]*3, final_params(controls))
+        check(z[4] == z[3], 'final_neutral_exact_identity')
+
+# Exact threshold equality, hard switches, and clipped knee endpoints are
+# probed in DI coordinates; these assertions do not depend on inverse DI math.
+for st,sk,ht,hk in final_configs:
+    lo,hi=max(0,st-sk),min(1,ht+hk)
+    for level in sorted(set([lo,st,ht,hi,st-2**-20,st+2**-20,ht-2**-20,ht+2**-20])):
+        out=(C.c_double*2)();lib.pm_final_masks(level,st,sk,ht,hk,out)
+        def ramp(v,a,b):
+            u=max(0,min(1,(v-a)/(b-a)))
+            return u*u*(3-2*u)
+        sw=1 if st==0 or level>=st else (0 if sk==0 or level<=lo else ramp(level,lo,st))
+        hw=1 if ht==1 or level<=ht else (0 if hk==0 or level>=hi else 1-ramp(level,ht,hi))
+        check(error(out,[sw,hw])<2e-12,'final_exact_mask_boundaries')
+        if level==st: check(out[0]==1,'final_shadow_threshold_equality')
+        if level==ht: check(out[1]==1,'final_highlight_threshold_equality')
+
+# A partial-overlap witness rejects min/max or additive mask composition.
+x_final = at_y(2**(.5/.07329248-7)-.0075)
+z, _ = stage(x_final, final_params((.75,.5,.25,.5)))
+check(abs((z[4][0]-final_y(z[3]))/(z[3][0]-final_y(z[3]))-.25) < 2e-10, 'final_overlap_product_witness')
+
+# Every invalid control is a local no-op, preserving a nonneutral upstream look.
+for key in ('pm_sd_t','pm_sd_k','pm_hd_t','pm_hd_k'):
+    for invalid in (-.01,1.01,float('nan'),float('inf'),-float('inf')):
+        vals = dict(pm_sd_t=.75,pm_sd_k=.5,pm_hd_t=.25,pm_hd_k=.5,pm_hue_bias=40)
+        vals[key] = invalid
+        z, _ = stage([.06,.04,.02], params(**vals))
+        check(z[4] == z[3], 'final_invalid_local_fallback')
+
+# Compare against the actual post-Look sample, including partially protected skin;
+# this catches reclassification from input and a second application of skin keep.
+for skin in (0,50,100):
+    for controls in ((.75,.5,.25,.5), (.8,.2,1,.18), (0,.18,.1,.2)):
+        z, keeps = stage([.35,.17,.08], final_params(controls, pm_pre=120,pm_makeup=150,
+                         pm_compression=40,pm_hue_bias=70,pm_luma_split=100,
+                         pm_density=100,pm_sat_skin=skin,pm_density_skin=skin))
+        check((0 <= keeps[1] < 1) if skin else keeps[1] == 1, 'final_skin_fixture_eligible')
+        check(error(z[4],final_reference(z[3],*controls)) < tolerance(z[3]), 'final_post_look_no_reprotection')
+        check(error(z[4],z[3]) > 1e-5, 'final_active_after_skin_witness')
+
+
 parity_cases = 0
 for i in range(180):
     p = params(pmi_it=4, pm_pre=rng.uniform(0, 200), pm_makeup=rng.uniform(0,200), pm_compression=rng.uniform(0, 100), pm_hue_pattern=i%6,
                pm_hue_angle=rng.uniform(0, 360), pm_hue_compression=rng.uniform(0, 100), pm_hue_bias=rng.uniform(-100, 100),
                pm_luma_split=rng.uniform(-300, 300), pm_density=rng.uniform(-300, 300), pm_chroma=rng.uniform(-100, 100),
-               pm_sat_skin=rng.choice([0, 50, 100]), pm_density_skin=rng.choice([0, 50, 100]))
+               pm_sat_skin=rng.choice([0, 50, 100]), pm_density_skin=rng.choice([0, 50, 100]),
+               pm_sd_t=rng.uniform(0,1), pm_sd_k=rng.choice([0,.18,1]),
+               pm_hd_t=rng.uniform(0,1), pm_hd_k=rng.choice([0,.18,1]))
     pixel = (C.c_float*4)(*[rng.uniform(-2, 10) for _ in range(3)], rng.random())
     a, b = (C.c_float*4)(), (C.c_float*4)()
     lib.pm_eval30(pixel, p, 0, a);lib.pm_dctl_eval30(pixel, p, b)
     check(bytes(a) == bytes(b), 'generated_dctl_cpu_bit_parity')
     check(a[3] == pixel[3], 'alpha_unchanged')
     check(all(math.isfinite(v) for v in a), 'adapter_finite')
+    parity_cases += 1
+    # Retain default-Final coverage as well as the new active Final path.
+    defaults = {item['id']: item['default'] for item in SCHEMA}
+    for index,item in enumerate(SCHEMA):
+        if item['id'] in ('pm_sd_t','pm_sd_k','pm_hd_t','pm_hd_k'):
+            p[index] = defaults[item['id']]
+    lib.pm_eval30(pixel, p, 0, a);lib.pm_dctl_eval30(pixel, p, b)
+    check(bytes(a) == bytes(b), 'generated_dctl_default_final_cpu_bit_parity')
+    check(a[3] == pixel[3] and all(math.isfinite(v) for v in a), 'default_final_adapter_finite_alpha')
     parity_cases += 1
 # All supported input/output profile selector combinations must stay finite and use the same generated-DCTL wiring.
 profile_conversion_cases = 0
@@ -249,7 +366,7 @@ for key in ['pm_hue_bias', 'pm_luma_split']:
 
 result = dict(status='PASS', checks=sum(counts.values()), groups=counts,
               max_scalar_absolute_error=max_scalar, max_geometry_absolute_error=max_geometry,
-              max_hue_y_normalized_error=max_y, generated_dctl_cpu_bit_exact_cases=parity_cases, profile_conversion_cases=profile_conversion_cases,
+              max_hue_y_normalized_error=max_y, max_final_normalized_error=max_final_error, generated_dctl_cpu_bit_exact_cases=parity_cases, profile_conversion_cases=profile_conversion_cases,
               shared_core_sha256=hashlib.sha256((ROOT/'generated/PixelCore.hpp').read_bytes()).hexdigest(),
               generated_dctl_sha256=hashlib.sha256((ROOT/'generated/PressMachine_V3_Curve_TEST.dctl').read_bytes()).hexdigest(),
               scope='Focused shared-core binary32-pair CPU and CPU-compiled generated-DCTL checks only. CUDA, native OFX SDK build, Resolve, save/reopen, footage, 4K, and user visual acceptance NOT RUN.')

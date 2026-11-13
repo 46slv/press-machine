@@ -658,6 +658,31 @@ Use one strong split-tone scene with Final Shadow Desat off/on:
 - Threshold 0 exact identity;
 - no boundary banding or flicker on a moving gradient.
 
+### 15.5.1 Final Shadow/Highlight source regression contract
+
+The existing final-stage controls retain their current semantics. Both masks classify
+`DI(Y(x_look))` once, with linear DWG Y coefficients (0.27411851, 0.87363190,
+−0.14775041). Their chroma keeps multiply: `x_final = Y + (x_look − Y) *
+shadow_keep * highlight_keep`. Do not sequentially reclassify the already desaturated
+output or apply skin protection again. Positive knees use cubic smoothstep over
+`[max(0, shadow_threshold − shadow_knee), shadow_threshold]` and
+`[highlight_threshold, min(1, highlight_threshold + highlight_knee)]` respectively.
+Shadow threshold 0 and highlight threshold 1 disable their respective masks.
+Zero knees intentionally hard-switch outside the threshold, preserving chroma at the
+threshold itself; continuity is required only for positive-width knees.
+
+The focused source regression covers overlapping and separated masks, clipped knees,
+DI toe/log transition and HDR/negative luminance, exact default identity, neutral
+preservation, invalid-control local fallback, and final-stage placement after the
+protected look. Finite nonpositive Y neutralizes only with an active shadow mask.
+All four controls must be finite and in [0,1] for an active final stage; an invalid
+control bypasses this stage without discarding the look. This supplements existing
+requirements, not a new creative model. Highlight remains Should/Candidate, not
+a new Must. Older artifact Host results are not inherited by the current binary. Binary64 independent equations are compared
+with the shared float-pair core; mixed active controls also compare the CPU adapter
+with CPU-compiled generated DCTL. This does not certify Resolve, CUDA, temporal
+perception, alpha transport or broad footage acceptance.
+
 ### 15.6 End-to-end / Host
 
 - CPU reference → generated DCTL → OFX CPU → OFX CUDA parity, tied to exact source hash.
