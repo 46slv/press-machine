@@ -1,3 +1,9 @@
+# Press Machine 2.2.1 maintenance acceptance
+
+See [exact 2.2.1 release scope](../../docs/PressMachine-2.2.1-Release.md) for binary `5f6e0d978f1217c97d0162e99fda98b33fd7a998051eadeafbf027c8242b84b3`, 18-input build binding, normal Windows build and its own bounded real-footage/fixture Host acceptance. Continuous perceived flicker and sustained/realtime performance remain unverified. The historical section below describes v2.2.0 only; its Host results are not transferred to the new binary. Publication and post-download deployment are separately verified, not implied by this document.
+
+## Historical v2.2.0 receipt
+
 # Press Machine 2.2 release scope
 
 Release target ofx/v2.2.0. Exact Windows binary SHA256 ae2818ee7c72fa59d2f5fb5b05212d6e600bba82c6ded76e31abf629182cc8b9. This implements the owner-approved append-only SDR input/output gamut/transfer feature on the30-control Makeup/Graph1.5 product; it does not certify every possible image/backend/alpha/performance condition.
