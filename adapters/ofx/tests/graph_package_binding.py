@@ -9,7 +9,7 @@ VERSION = 1
 BINARY = 'Contents/Win64/PressMachineV3CurveDev.ofx'
 RECORD = 'Contents/Resources/GRAPH_BUILD_BINDING.json'
 INPUTS = (
-    'CMakeLists.txt', 'build.ps1', 'cmake/MandatoryGraphGate.cmake',
+    'CMakeLists.txt', 'build.ps1', 'SelectBuildGenerator.ps1', 'cmake/MandatoryGraphGate.cmake',
     'src/Plugin.cpp', 'src/HudOverlay.hpp', 'src/HudModel.hpp', 'src/HudPlacement.hpp',
     'src/DensityGraph.hpp', 'src/NeutralHueGraph.hpp', 'generated/Descriptors.hpp',
     'generated/ParameterValues.hpp', 'generated/PixelCore.hpp', 'generate_descriptors.py',
