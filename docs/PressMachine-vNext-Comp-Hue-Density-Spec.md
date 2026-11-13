@@ -11,6 +11,12 @@ This current override supersedes the historical29/27-control checkpoints and pip
 - SS2.2 installation/label/Graph and existing-trial state recognition are complete within their recorded limits. Current generated DCTL ae50fc47726103e12041186a287c4f3ef0580c3074092c86993ecae7942121ca has limited actual built-in Host default/active evidence. Neither is full-domain acceptance.
 - NonDensity-first remains the priority history; baseline Density integration may be inspected without declaring all nonDensity gates complete or adopting a new Hue formula. New mask expansion and research white-fringe/texture models are not adopted.
 
+### Mandatory Graph build/package gate
+
+Every current OFX product build must run the non-optional Graph source-structure gate before compiling the product target, including direct CMake builds. The normal build script and package verifier must also fail closed when Graph descriptor, overlay registration, draw path, redraw wiring or OpenGL linkage is missing. Generation remains a prerequisite; missing generated descriptors must fail, not silently disable Graph. This does not change pixel processing, Graph defaults or legacy v2 artifacts.
+
+The package gate checks the current source tree, not the provenance or Graph contents of an arbitrary binary supplied to the verifier. Source/package structural checks are not proof of Host overlay visibility, viewport behavior or visual acceptance. Exact-binary Host evidence remains separately required. Negative mutation tests exercise missing Graph wiring and the actual mandatory CMake target dependency without claiming a portable fixture builds the Windows OFX product.
+
 [日本語利用メモ](PressMachine-2.2-Quick-Guide-JA.md).
 
 Current bounded receipts and open conditions: [2.2 gates](../adapters/ofx/PRODUCT22_GATES.md), [Density integration](../adapters/ofx/PRODUCT22_DENSITY_INTERACTION.md).
@@ -79,22 +85,7 @@ Input profile decode / primary conversion
 | --- | --- | --- |
 | Conditioning | Pre Saturation and SatComp create a controlled chroma range before creative Hue processing | Create a split-tone look or global contrast |
 | Hue / Look | Hue Pattern, Bias and Luma Split form hue topology and warm/cool distribution | Act as a hidden post-Hue saturation limiter or tone curve |
-| Density | Read the actual post-Hue color and map its chroma distribution to weight | Read raw Hue slider values as a hidden multiplier |
-| Final black policy | Optionally remove chroma from the finished deep shadows | Re-protect skin or modify global contrast |
-
-Hue is not specified as a saturation booster. It may increase or decrease chroma as a consequence of moving color in the chroma plane. That result is intentional input to Density.
-
----
-
-## 2. Parameter contract
-
-Create a new versioned parameter schema instead of silently changing `press_machine_v2.json`. Existing plugin IDs and saved states are not migrated in place.
-
-### 2.1 Conditioning
-
-| ID suggestion | Label | Range / default | Meaning |
-| --- | --- | --- | --- |
-| `pm_pre` | Pre Saturation | existing range / 100 neutral | Chroma gain before Comp |
+| Density | Read the actual post-H…186 tokens truncated…ion | existing range / 100 neutral | Chroma gain before Comp |
 | `pm_threshold` | Threshold | existing range/default | SatComp threshold |
 | `pm_compression` | Amount % | existing range/default | SatComp amount |
 | `pm_softness` | Knee % | existing range/default | SatComp knee |
