@@ -51,3 +51,4 @@ target_compile_options(PressMachineRec709Test PRIVATE /fp:strict /O2 /W3)
 
 include(cmake/MandatoryGraphGate.cmake)
 pressmachine_require_graph(PressMachine "${CMAKE_CURRENT_SOURCE_DIR}")
+pressmachine_bind_graph_package(PressMachine "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/PressMachineV3CurveDev.ofx.bundle")

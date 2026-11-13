@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='pm-graph-gate-') as td:
     base = Path(td)
     fake = base / 'source/adapters/ofx'
     paths = ['src/Plugin.cpp', 'src/HudOverlay.hpp', 'generated/Descriptors.hpp',
-             'CMakeLists.txt', 'tests/verify_graph_gate.py', 'tests/verify_package_v3.py', 'cmake/MandatoryGraphGate.cmake']
+             'CMakeLists.txt', 'tests/verify_graph_gate.py', 'tests/verify_package_v3.py', 'tests/graph_package_binding.py', 'cmake/MandatoryGraphGate.cmake']
     for name in paths:
         dest = fake / name
         dest.parent.mkdir(parents=True, exist_ok=True)

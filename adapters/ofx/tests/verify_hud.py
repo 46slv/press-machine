@@ -14,6 +14,7 @@ results = root / 'results/v3_curve/graph'
 build.mkdir(parents=True, exist_ok=True)
 results.mkdir(parents=True, exist_ok=True)
 subprocess.run([sys.executable, str(root / 'tests/verify_graph_gate_mutations.py')], check=True)
+subprocess.run([sys.executable, str(root / 'tests/verify_graph_binding_tests.py')], check=True)
 subprocess.run([sys.executable, str(root / 'tests/verify_hud_source.py')], check=True)
 for source, receipt in [('HudPlacementTests', 'HUD_PLACEMENT'), ('HudTests', 'HUD_MODEL'), ('DensityGraphTests', 'DENSITY_GRAPH'), ('NeutralHueTests', 'NEUTRAL_HUE'), ('MakeupTests', 'MAKEUP')]:
     target = build / (source + ('.exe' if os.name == 'nt' else ''))
