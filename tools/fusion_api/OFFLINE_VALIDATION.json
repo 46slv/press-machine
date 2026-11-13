@@ -1,0 +1,34 @@
+{
+  "format": "pressmachine-toolkit-offline-validation-v1",
+  "generated_utc": "2026-11-08T09:45:49.491242+00:00",
+  "python_version": "3.12.10",
+  "scope": "synthetic SDK mocks and Python compilation only",
+  "compile": {
+    "pressmachine_fusion.py": "pass",
+    "test_pressmachine_fusion.py": "pass",
+    "validate_offline.py": "pass"
+  },
+  "tests": {
+    "run": 63,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true
+  },
+  "hashes_sha256": {
+    "pressmachine_fusion.py": "61e132fc9cd1307f662691bb284b50592ce5352f471c8ae4ce053495a3419b8e",
+    "test_pressmachine_fusion.py": "7308a85ff802e79bec26dca6cb3f8e2db5696d71c797271c9b489fa40e43e255",
+    "validate_offline.py": "a08ae5217b76c4716b8bbe439d81e5dbf98c36398a8ab9e7b65c4ebd21cf9377",
+    "schema/press_machine_v2.json": "43be401f517ee88cdc4a7ac1518b50c9ec62ef69fb3bc88d804cecf654a0f356",
+    "README_JA.md": "c87f8d6810051dece5064d2bcb33fc31a7fac979dc3439d7e29754c1e7a5c2e6",
+    "HOST_VERIFICATION.json": "acbf7ff65ba3d2840e9951eb8b57d8f20c4f84609bad0a5a72bb4d4520db7fe4"
+  },
+  "schema_sha256": "43be401f517ee88cdc4a7ac1518b50c9ec62ef69fb3bc88d804cecf654a0f356",
+  "host_connection_attempted": false,
+  "host_parameter_write_tested": false,
+  "pixel_reflection_tested": false,
+  "persistence_tested": false,
+  "color_calibration_tested": false,
+  "color_page_direct_api_tested": false,
+  "fdb_tested": false
+}

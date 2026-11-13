@@ -1,0 +1,42 @@
+{
+  "format": "pressmachine-toolkit-host-verification-v1",
+  "verified_utc": "2026-11-08T09:42:16+00:00",
+  "scope": "Existing Resolve handle, existing compiled production v2 Fusion target, read all 25 processing parameters and change Pre once",
+  "module_sha256": "61e132fc9cd1307f662691bb284b50592ce5352f471c8ae4ce053495a3419b8e",
+  "schema_sha256": "43be401f517ee88cdc4a7ac1518b50c9ec62ef69fb3bc88d804cecf654a0f356",
+  "tested_binary_sha256": "14249fb953dc23aac39b82a65fa0926c1ef99d828a94a5f22303700da6cda3eb",
+  "reg_id": "ofx.com._46slv.PressMachine.v2.skinaxis",
+  "connection_mode": "injected existing Resolve handle",
+  "list_select_inspect_passed": true,
+  "processing_parameters_read": 25,
+  "fresh_snapshot_saved": true,
+  "one_shot_write": {
+    "parameter": "pm_pre",
+    "expected_before": 50,
+    "requested": 60,
+    "set_input_calls": 1,
+    "setter_return": null,
+    "readback": 60,
+    "other_parameters_unchanged": 24,
+    "undo_closed": true,
+    "outcome": "success_numeric_only"
+  },
+  "tool_or_comp_created": false,
+  "graph_rewired": false,
+  "render_requested": false,
+  "project_saved": false,
+  "reset_performed": false,
+  "production_source_unchanged": true,
+  "production_binary_unchanged": true,
+  "toolkit_pixel_reflection_tested": false,
+  "external_cli_connection_tested": false,
+  "persistence_tested": false,
+  "color_calibration_tested": false,
+  "color_page_direct_api_tested": false,
+  "fdb_tested": false,
+  "prior_route_evidence": {
+    "separate_from_this_toolkit_test": true,
+    "description": "An earlier production v2 probe changed Pre 100 to 50 once and verified numerical readback plus a same-frame pixel difference. It is not this toolkit's image-response test."
+  },
+  "sanitization": "No real project, timeline, clip or session IDs, private file paths, raw captures, or media included"
+}
