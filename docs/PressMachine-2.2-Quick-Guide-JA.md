@@ -25,5 +25,5 @@ GraphをONにし、viewerをOpenFXオーバーレイにする。Graphは書出�
 限定Host表示/保存/画素、短尺4K、現行DCTL、Density連携の証拠はあるが、全素材/profile/全range、長時間/リアルタイム/alphaの全面保証ではない。設定例の強さや見た目を推奨preset・採用判断にしない。
 
 ## 出力プロファイルを変えてEXRを渡す場合
-2.2の限定Host確認では、AWG4/LogC4入力からAP1 CAT02/ACEScct Reversibleへ出力変換したEXRにも、素材由来の `tech_details_color_space=Wide Gamut 4` と `tech_details_gamma_space=Log C4` が残りました。これらのカメラ注記を、処理後の出力色空間の宣言として扱わないでください。
+2.2の限定Host確認では、C046由来の既存処理済みfloat EXRをAWG4/LogC4として再入力し、AP1 CAT02/ACEScct Reversibleへ出力変換後に調べた先頭EXRには、素材由来の `tech_details_color_space=Wide Gamut 4` と `tech_details_gamma_space=Log C4` が残りました。これらのカメラ注記を、処理後の出力色空間の宣言として扱わないでください。
 この条件の受け渡しでは、実際に指定したOutput Primaries / Output Transferを別途記録し、受け取り側でAP1 / ACEScctを明示してください。Output Sameの場合も、nodeに実際に入る信号の色空間を確認します。自動判別に依存しないための注意であり、全形式のmetadata不具合や画素演算の誤りを示すものではありません。
