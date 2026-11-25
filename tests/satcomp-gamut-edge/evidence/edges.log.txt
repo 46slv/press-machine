@@ -1,0 +1,62 @@
+Blur fixtures: Gaussian-CDF stationary 2 frames and translation 8 frames with 0.375px/frame; sigma=2.8 px. Same-profile, plus explicit output transfer.
+DWG-linear neutral bypass edit 0 | candidate-base 0 | spatial curvature 0.0241088 | temporal curvature 0.00345186 | Y overshoot 0
+DWG-linear neutral amount100 edit 0 | candidate-base 0 | spatial curvature 0.0241088 | temporal curvature 0.00345186 | Y overshoot 0
+AP1-logc4 neutral bypass edit 0 | candidate-base 0 | spatial curvature 0.0118404 | temporal curvature 0.00172319 | Y overshoot 0
+AP1-logc4 neutral amount100 edit 0 | candidate-base 0 | spatial curvature 0.0118404 | temporal curvature 0.00172319 | Y overshoot 0
+AP1-logc4-to-linear neutral bypass edit 0 | candidate-base 0 | spatial curvature 0.0241088 | temporal curvature 0.00345182 | Y overshoot 0
+AP1-logc4-to-linear neutral amount100 edit 0 | candidate-base 0 | spatial curvature 0.0241088 | temporal curvature 0.00345182 | Y overshoot 0
+DWG-linear chromatic_nearly_neutral bypass edit 0 | candidate-base 0 | spatial curvature 0.0122145 | temporal curvature 0.00174886 | Y overshoot 6.88016e-11
+DWG-linear chromatic_nearly_neutral amount100 edit 0 | candidate-base 0 | spatial curvature 0.0122145 | temporal curvature 0.00174886 | Y overshoot 6.88016e-11
+AP1-logc4 chromatic_nearly_neutral bypass edit 0 | candidate-base 0 | spatial curvature 0.00877298 | temporal curvature 0.00127259 | Y overshoot 0
+AP1-logc4 chromatic_nearly_neutral amount100 edit 0 | candidate-base 0 | spatial curvature 0.00877298 | temporal curvature 0.00127259 | Y overshoot 0
+AP1-logc4-to-linear chromatic_nearly_neutral bypass edit 0 | candidate-base 0 | spatial curvature 0.0122146 | temporal curvature 0.00174895 | Y overshoot 0
+AP1-logc4-to-linear chromatic_nearly_neutral amount100 edit 0 | candidate-base 0 | spatial curvature 0.0122146 | temporal curvature 0.00174895 | Y overshoot 0
+DWG-linear saturated_to_desaturated bypass edit 0 | candidate-base 0 | spatial curvature 0.0305138 | temporal curvature 0.00436887 | Y overshoot 1.30181e-08
+DWG-linear saturated_to_desaturated amount100 edit 0.557714 | candidate-base 0 | spatial curvature 0.0323554 | temporal curvature 0.00690487 | Y overshoot 1.30181e-08
+AP1-logc4 saturated_to_desaturated bypass edit 0 | candidate-base 0 | spatial curvature 0.00562871 | temporal curvature 0.000813156 | Y overshoot 6.78253e-09
+AP1-logc4 saturated_to_desaturated amount100 edit 0.151058 | candidate-base 0 | spatial curvature 0.00954223 | temporal curvature 0.00174814 | Y overshoot 0
+AP1-logc4-to-linear saturated_to_desaturated bypass edit 0 | candidate-base 9.31e-10 | spatial curvature 0.0305138 | temporal curvature 0.0043689 | Y overshoot 6.65052e-09
+AP1-logc4-to-linear saturated_to_desaturated amount100 edit 0.547607 | candidate-base 0 | spatial curvature 0.0341491 | temporal curvature 0.00685373 | Y overshoot 1.68641e-08
+DWG-linear saturated_blue_to_black bypass edit 0 | candidate-base 0 | spatial curvature 0.0725077 | temporal curvature 0.0103818 | Y overshoot 2.55293e-10
+DWG-linear saturated_blue_to_black amount100 edit 1.61552 | candidate-base 0 | spatial curvature 0.0237002 | temporal curvature 0.00339347 | Y overshoot 1.02081e-09
+AP1-logc4 saturated_blue_to_black bypass edit 0 | candidate-base 0 | spatial curvature 0.0167852 | temporal curvature 0.00246299 | Y overshoot 0
+AP1-logc4 saturated_blue_to_black amount100 edit 0.160232 | candidate-base 0 | spatial curvature 0.00948951 | temporal curvature 0.00137853 | Y overshoot 0
+AP1-logc4-to-linear saturated_blue_to_black bypass edit 0 | candidate-base 1.86e-09 | spatial curvature 0.072508 | temporal curvature 0.0103815 | Y overshoot 0
+AP1-logc4-to-linear saturated_blue_to_black amount100 edit 1.9912 | candidate-base 0 | spatial curvature 0.0123506 | temporal curvature 0.00176834 | Y overshoot 0
+DWG-linear warm_to_dark_color bypass edit 0 | candidate-base 0 | spatial curvature 0.0422781 | temporal curvature 0.00605328 | Y overshoot 0
+DWG-linear warm_to_dark_color amount100 edit 0.625193 | candidate-base 0 | spatial curvature 0.023345 | temporal curvature 0.00334241 | Y overshoot 1.37096e-10
+AP1-logc4 warm_to_dark_color bypass edit 0 | candidate-base 0 | spatial curvature 0.0143709 | temporal curvature 0.00210111 | Y overshoot 0
+AP1-logc4 warm_to_dark_color amount100 edit 0.146643 | candidate-base 0 | spatial curvature 0.0105584 | temporal curvature 0.00155751 | Y overshoot 0
+AP1-logc4-to-linear warm_to_dark_color bypass edit 0 | candidate-base 0 | spatial curvature 0.042278 | temporal curvature 0.00605369 | Y overshoot 0
+AP1-logc4-to-linear warm_to_dark_color amount100 edit 0.614191 | candidate-base 0 | spatial curvature 0.0235839 | temporal curvature 0.00337684 | Y overshoot 0
+DWG-linear signed_to_dark_color bypass edit 0 | candidate-base 0 | spatial curvature 0.0364049 | temporal curvature 0.00521238 | Y overshoot 6.50906e-09
+DWG-linear signed_to_dark_color amount100 edit 0.521593 | candidate-base 0 | spatial curvature 0.0205811 | temporal curvature 0.00294673 | Y overshoot 2.3532e-10
+AP1-logc4 signed_to_dark_color bypass edit 0 | candidate-base 0 | spatial curvature 0.0454964 | temporal curvature 0.00905024 | Y overshoot 1.26604e-10
+AP1-logc4 signed_to_dark_color amount100 edit 0.909713 | candidate-base 0 | spatial curvature 0.0159962 | temporal curvature 0.00532708 | Y overshoot 0
+AP1-logc4-to-linear signed_to_dark_color bypass edit 0 | candidate-base 0 | spatial curvature 0.0364051 | temporal curvature 0.00521243 | Y overshoot 6.77787e-11
+AP1-logc4-to-linear signed_to_dark_color amount100 edit 0.547341 | candidate-base 0 | spatial curvature 0.0198055 | temporal curvature 0.00283575 | Y overshoot 7.64125e-10
+alpha black transfer 4 bypass process/compose commutator 6.749825e-08 | encoded-vs-linear after Comp 1.192093e-07 | upstream alone 1.192093e-07
+alpha black transfer 4 amount0 process/compose commutator 6.749825e-08 | encoded-vs-linear after Comp 1.192093e-07 | upstream alone 1.192093e-07
+alpha black transfer 4 amount25 process/compose commutator 8.907474e-08 | encoded-vs-linear after Comp 1.192093e-07 | upstream alone 1.192093e-07
+alpha black transfer 4 amount50 process/compose commutator 6.130877e-08 | encoded-vs-linear after Comp 5.960464e-08 | upstream alone 1.192093e-07
+alpha black transfer 4 amount100 process/compose commutator 3.286083e-08 | encoded-vs-linear after Comp 5.960464e-08 | upstream alone 1.192093e-07
+alpha black transfer 2 bypass process/compose commutator 2.961642e-07 | encoded-vs-linear after Comp 0.5742959 | upstream alone 0.5742959
+alpha black transfer 2 amount0 process/compose commutator 2.961642e-07 | encoded-vs-linear after Comp 0.5742959 | upstream alone 0.5742959
+alpha black transfer 2 amount25 process/compose commutator 4.570631e-07 | encoded-vs-linear after Comp 0.438008 | upstream alone 0.5742959
+alpha black transfer 2 amount50 process/compose commutator 3.604077e-07 | encoded-vs-linear after Comp 0.3273237 | upstream alone 0.5742959
+alpha black transfer 2 amount100 process/compose commutator 2.24168e-07 | encoded-vs-linear after Comp 0.164745 | upstream alone 0.5742959
+alpha colored-dark transfer 4 bypass process/compose commutator 8.051604e-08 | encoded-vs-linear after Comp 1.192093e-07 | upstream alone 1.192093e-07
+alpha colored-dark transfer 4 amount0 process/compose commutator 8.051604e-08 | encoded-vs-linear after Comp 1.192093e-07 | upstream alone 1.192093e-07
+alpha colored-dark transfer 4 amount25 process/compose commutator 0.003062412 | encoded-vs-linear after Comp 1.192093e-07 | upstream alone 1.192093e-07
+alpha colored-dark transfer 4 amount50 process/compose commutator 0.003819388 | encoded-vs-linear after Comp 5.960464e-08 | upstream alone 1.192093e-07
+alpha colored-dark transfer 4 amount100 process/compose commutator 0.001567956 | encoded-vs-linear after Comp 2.980232e-08 | upstream alone 1.192093e-07
+alpha colored-dark transfer 2 bypass process/compose commutator 3.118234e-07 | encoded-vs-linear after Comp 0.5591099 | upstream alone 0.5591099
+alpha colored-dark transfer 2 amount0 process/compose commutator 3.118234e-07 | encoded-vs-linear after Comp 0.5591099 | upstream alone 0.5591099
+alpha colored-dark transfer 2 amount25 process/compose commutator 0.003062409 | encoded-vs-linear after Comp 0.4255546 | upstream alone 0.5591099
+alpha colored-dark transfer 2 amount50 process/compose commutator 0.003819375 | encoded-vs-linear after Comp 0.3172106 | upstream alone 0.5591099
+alpha colored-dark transfer 2 amount100 process/compose commutator 0.00156795 | encoded-vs-linear after Comp 0.1583491 | upstream alone 0.5591099
+numeric HDR edge transfer 2 max ref error before/after 3.9999997675331025e+35 9.5367431640625e-07 max neighbor difference before/after 1.6051746548337789e+35 0.042604923248291016
+numeric HDR edge transfer 1 max ref error before/after 1.4999999013368299e+38 1.9073486328125e-06 max neighbor difference before/after 6.507242488537092e+37 0.048926353454589844
+EDGE PASS 70160 FAIL 0
+
+exit=0
