@@ -7,6 +7,7 @@
 #include "../generated/Descriptors.hpp"
 #include "../generated/ParameterValues.hpp"
 #include "HudModel.hpp"
+#include "HudPlacement.hpp"
 
 namespace pmhud {
 // A tiny original 5x7 bitmap alphabet. No OS fonts, textures or persistent GL objects.
@@ -199,11 +200,10 @@ public:
    image.x1=std::min(image.x1,x);image.y1=std::min(image.y1,y);
    image.x2=std::max(image.x2,x);image.y2=std::max(image.y2,y);
   }
-  visible={std::max(visible.x1,image.x1),std::max(visible.y1,image.y1),
-   std::min(visible.x2,image.x2),std::min(visible.y2,image.y2)};
-  const double width=visible.x2-visible.x1,height=visible.y2-visible.y1;
-  const float scale=(float)std::min(std::clamp(width/1280.0,.85,1.25),std::min(width/400.0,height/308.0));
-  if(width<340||height<262||scale<.7f)return false;
+  const auto placement=placeHud(vp[2],vp[3],{image.x1,image.y1,image.x2,image.y2});
+  if(!placement.visible)return false;
+  visible={placement.bounds.x1,placement.bounds.y1,placement.bounds.x2,placement.bounds.y2};
+  const float scale=placement.scale;
   std::array<double,kParameterCount> values{};handles.read(a.time,values.data());
   if(cache.update(values)==CacheUpdate::Invalid)return false;
   GLState state(vp[2],vp[3]);drawPanels(cache.get(),(float)visible.x1,(float)visible.y1,(float)visible.x2,(float)visible.y2,scale);

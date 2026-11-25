@@ -14,7 +14,7 @@ results = root / 'results/v3_curve/graph'
 build.mkdir(parents=True, exist_ok=True)
 results.mkdir(parents=True, exist_ok=True)
 subprocess.run([sys.executable, str(root / 'tests/verify_hud_source.py')], check=True)
-for source, receipt in [('HudTests', 'HUD_MODEL'), ('DensityGraphTests', 'DENSITY_GRAPH')]:
+for source, receipt in [('HudPlacementTests', 'HUD_PLACEMENT'), ('HudTests', 'HUD_MODEL'), ('DensityGraphTests', 'DENSITY_GRAPH')]:
     target = build / (source + ('.exe' if os.name == 'nt' else ''))
     if os.name == 'nt':
         command = ['cl', '/nologo', '/O2', '/EHsc', '/std:c++17', '/fp:strict',
@@ -25,7 +25,7 @@ for source, receipt in [('HudTests', 'HUD_MODEL'), ('DensityGraphTests', 'DENSIT
     subprocess.run(command, check=True, cwd=build)
     subprocess.run([str(target), str(results / (receipt + '.json'))], check=True, cwd=build)
 
-inputs = ['src/HudOverlay.hpp', 'src/HudModel.hpp', 'src/DensityGraph.hpp',
+inputs = ['src/HudOverlay.hpp', 'src/HudPlacement.hpp', 'tests/HudPlacementTests.cpp', 'src/HudModel.hpp', 'src/DensityGraph.hpp',
           'src/Plugin.cpp', 'generate_descriptors.py', 'generated/Descriptors.hpp',
           'generated/PixelCore.hpp', 'generated/ParameterValues.hpp',
           'tests/HudTests.cpp', 'tests/DensityGraphTests.cpp',

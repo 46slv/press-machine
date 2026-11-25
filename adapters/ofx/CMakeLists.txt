@@ -35,6 +35,8 @@ target_compile_definitions(PressMachineTraceTests PRIVATE NOMINMAX WIN32_LEAN_AN
 target_compile_options(PressMachineTraceTests PRIVATE /W3)
 target_link_libraries(PressMachineTraceTests PRIVATE shell32 ole32)
 
+add_executable(PressMachineHudPlacementTests tests/HudPlacementTests.cpp)
+target_compile_options(PressMachineHudPlacementTests PRIVATE /fp:strict /O2 /W3)
 add_executable(PressMachineHudTests tests/HudTests.cpp)
 target_compile_options(PressMachineHudTests PRIVATE /fp:strict /O2 /W3)
 add_executable(PressMachineDensityGraphTests tests/DensityGraphTests.cpp)

@@ -1,10 +1,12 @@
 {
   "status": "SOURCE_CHECKS_PASS_NOT_HOST_VALIDATED",
-  "tested_at_UTC": "2026-11-11T04:29:01.171246+00:00",
+  "tested_at_UTC": "2026-11-12T06:50:37.262985+00:00",
   "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
   "compiler": "g++ (Debian 14.2.0-19) 14.2.0",
   "source_sha256_canonical_LF": {
-    "src/HudOverlay.hpp": "29a8279edc6cbb67fa353b1ac6dd3600fddd6db35f945d50e5f31e05cb3a3b97",
+    "src/HudOverlay.hpp": "2e37ec961e782873c61128afcbd015712c8c5f8030e19a02cdcbf1df080cc21e",
+    "src/HudPlacement.hpp": "a32cb2d8e098e382e45c7d5cc77431e42c6b1a72ec3b4d0454c503710791af23",
+    "tests/HudPlacementTests.cpp": "10328470763ef93eeab81e81f93351e0e39406b3ceb1cee08e02d2a7f4da45cd",
     "src/HudModel.hpp": "a09faf196ec6fe16f472153177a2680fbf114e2faf46151b3983f712a24e9f93",
     "src/DensityGraph.hpp": "0a9ee06247ac214d56a867f007c53d5feaddc5e91dd82b1570f22d23ad254e95",
     "src/Plugin.cpp": "9d7714d8c14eeebb6ae91d3ec658d76dad7af0f3d13321f1f74fb72ec21a4ba7",
@@ -14,7 +16,7 @@
     "generated/ParameterValues.hpp": "1b9c564377fc7e3c63a2e07acbfbfdd7dcd9405cb5a48820c2b35d047a6dd01e",
     "tests/HudTests.cpp": "f3a3763730e2fb0be6ab94d199dc5ce6e07a5064721c0b05e609c08b0b4412e2",
     "tests/DensityGraphTests.cpp": "0da4492a591d87ec34380e048c92f9b672515d6b11987b57c6618585c6794997",
-    "tests/verify_hud.py": "578e28ac30e6ba3179342ef9e948477a0bbf101782c1c510a1003d8fc3df5b97",
+    "tests/verify_hud.py": "8ae3bcd97fd789c2b3802a3e85a30b5012559ce7d15c604298767e14b5e4a6bc",
     "tests/verify_hud_source.py": "11ca3cb58bd2385f51ff4d7b1da04dae5e92457e9ab6550e7fe8c9eeac2b283c"
   },
   "native_OFX_overlay_compiled": false,

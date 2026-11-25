@@ -20,6 +20,11 @@ Measure-Step 'trace-logging-unit-tests' {& "$root\build\Release\PressMachineTrac
 New-Item -ItemType Directory -Force "$root\results\v3_curve\graph" | Out-Null
 Measure-Step 'HUD-model-unit-tests' {& "$root\build\Release\PressMachineHudTests.exe" "$root\results\v3_curve\graph\HUD_MODEL.json"}
 Measure-Step 'Density-interaction-focused-tests' {& "$root\build\Release\PressMachineDensityGraphTests.exe" "$root\results\v3_curve\graph\DENSITY_GRAPH.json"}
+$placementEvidence="$root\build\evidence\placement-$([Guid]::NewGuid().ToString('N'))"
+New-Item -ItemType Directory -Force -Path $placementEvidence | Out-Null
+$placementReport=Join-Path $placementEvidence 'HUD_PLACEMENT.json'
+Write-Host "HUD placement report path: $placementReport"
+Measure-Step 'HUD-placement-unit-tests' {& "$root\build\Release\PressMachineHudPlacementTests.exe" $placementReport}
 Measure-Step 'HUD-source-separation' {python "$root\tests\verify_hud_source.py"}
 Measure-Step 'package-layout-and-exports' {python "$root\tests\verify_package_v3.py"}
 Measure-Step 'vNext-focused-tests' {python "$root\tests\verify_vnext.py"}
