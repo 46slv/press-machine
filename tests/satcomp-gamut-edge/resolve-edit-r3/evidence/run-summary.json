@@ -1,0 +1,232 @@
+{
+  "candidate_pr19": "769a014c22c5d857fd771a659672171340a753b1",
+  "final_report": {
+    "message_id": 33889,
+    "date_jst": "2026-11-26",
+    "original_utf8_sha256": "d94d2ddc2e100149ded8efefb57dce2e3343a3b995fce6764af363ab558842da"
+  },
+  "artifact": {
+    "zip": "SatComp-HDR-Native-Win64-Edit-evaluation-r3.zip",
+    "zip_sha256": "89ee3031f32e71185453f084eae313c3c9d7127c64af7f3ec9090a7d5a2d4dcc",
+    "zip_entries": 48,
+    "fixed_ofx_sha256": "ce23c769e5e8944a44db43f3cb41e56f1b3f2cf5ab304042012002df2d678858",
+    "edit_matrix_audit_sha256": "b031f9adc02acfbb53c943845d1134adca7bec8b4244603aebe1c46bcf7afa77",
+    "companion_member_sha256": {
+      "evidence/edit-constant-audit.json": "d8a6a6c9cb749d678bc427ffc127136388f428a6d3dc04282a71d0d0c31917ee",
+      "evidence/product-default.json": "eed7a18ef698043544fdfc42b3f9286abab9b92b2da53fb43b2a22946d8201e8",
+      "evidence/product-controls.json": "a80a14a3cc8dd9cd48ea84ba62bbf6970bd6a53f24e40a3ba286d57acc39f63e",
+      "evidence/product-active-audit.json": "7ae2d1063637d0610f6d23ca548882ac2dc863f4bd176b42c8df40155cbf7718",
+      "source/reference-pack/manifest.json": "67b3631408c111ac88bec601be71f28f47c486841dbab582a6fd5831055e2caa"
+    }
+  },
+  "edit_constant_r9": {
+    "input": "satblend.000000.exr",
+    "input_exr_sha256": "9e2e348fcfa7a9a42f04d9e5f010be57a3067d8c8b82594ee9fa6c1a67fd709a",
+    "expected_rgba": [
+      8.125,
+      8.125,
+      0.375,
+      1.0
+    ],
+    "cuda": {
+      "plugin_id": "org.satcomp.diagnostic.opaquefloat8125.r1",
+      "binary_sha256": "80910c217afc94c825d91460eb9bd862e95aac07ee066fb3d471bfcb0ac1c405"
+    },
+    "cpu": {
+      "plugin_id": "org.satcomp.diagnostic.cpuendpoint.r2",
+      "binary_sha256": "f152e3844b2c835cb7ac5a0be8bb01b809c000499de98416dbeff83d80403595"
+    },
+    "renders": {
+      "off": {
+        "sha256": "49c59bc44ea8417439e2cb62457296de54701f36ea518afc47e92691d087c7ef",
+        "job": "0bbb23d3-351b-4d62-9c7d-e08893608b41",
+        "pixels": 230400,
+        "rgba_equal_input": true
+      },
+      "cuda": {
+        "sha256": "ef8ff1e9690868be39c1b470f19da22261a97d4785bcb7cb063a84ba285b1bff",
+        "job": "174b3ad4-f91f-49c4-a4f5-cd74a19dcb47",
+        "pixels": 230400,
+        "rgba_equal_input": false,
+        "exact_endpoint": true,
+        "strength_ui_verified": false
+      },
+      "cpu": {
+        "sha256": "ba91c55561e011c321a9e0f1755be38131ada41bffee2f3e6a959843ae43a60a",
+        "job": "4a7fce9a-ed34-4389-ab59-e57078d523c7",
+        "pixels": 230400,
+        "rgba_equal_input": false,
+        "exact_endpoint": true,
+        "strength_ui_verified": false
+      }
+    },
+    "original_finish_pass": false,
+    "recovered_in_separate_run": true,
+    "recovery_receipt_sha256": {
+      "evidence/satcomp-edit-owner-live-r9-cleanup/reconcile124f209504dd3.json": "8771b31adb26f9d095ec34221d2edcb7e73fe84f6da358f77fe9fc631048daff",
+      "evidence/satcomp-edit-owner-live-r9-cleanup/removed.json": "98bdff422860c8d6402b8fc0196ed3f3731ae2cbcdbd125a606281bac3790ed0",
+      "evidence/satcomp-edit-owner-live-r9-cleanup/preferences.json": "6563093734070fff4951942a06467b40c8d3c36d3568cca7038bf56b4edbbc61",
+      "evidence/satcomp-edit-owner-live-r9-cleanup/lease-return.json": "fb3c587f34939852bf5c7c53f76500450dc461f4a89084d611d8deadfca55c6e"
+    }
+  },
+  "product_default_identity": {
+    "rgba_bit_exact": true,
+    "pixels": 230400,
+    "scope": "default identity smoke only"
+  },
+  "product_inspector_changes": {
+    "Comp Bypass": {
+      "default": false,
+      "readback": true
+    },
+    "Input Primaries": {
+      "default": "DWG D65",
+      "readback": "ACES AP1 CAT02"
+    },
+    "Input Transfer": {
+      "default": "DaVinci Intermediate",
+      "readback": "Relative Linear"
+    },
+    "Output Primaries": {
+      "default": "Same as Input",
+      "readback": "DWG D65"
+    },
+    "Output Transfer": {
+      "default": "Same as Input",
+      "readback": "LogC4 Scene"
+    },
+    "Threshold": {
+      "default": "25.0",
+      "readback": "35.0"
+    },
+    "Amount %": {
+      "default": "0.0",
+      "readback": "50.0"
+    },
+    "Knee %": {
+      "default": "20.0",
+      "readback": "30.0"
+    }
+  },
+  "matrix_inputs": {
+    "logc4": {
+      "fixture": "range4.000000.exr",
+      "source_exr_sha256": "f02ff19e67222d13024abce2e83ddf53312eb83f4c3b63c443393c9b3252de97",
+      "input_alpha": "Straight"
+    },
+    "logc3": {
+      "fixture": "range3.000000.exr",
+      "source_exr_sha256": "e6069285120579d993b83b7527111b2db3250efda57a0ee4f1e114ae8580c2d8",
+      "input_alpha": "Straight"
+    },
+    "di": {
+      "fixture": "range3.000000.exr",
+      "source_exr_sha256": "e6069285120579d993b83b7527111b2db3250efda57a0ee4f1e114ae8580c2d8",
+      "input_alpha": "Straight"
+    },
+    "ap1": {
+      "fixture": "chroma.000000.exr",
+      "source_exr_sha256": "137042e84378428da0b150f21ee00a701489c48c62d6197f12902cdd5a0c0b45",
+      "input_alpha": "Straight"
+    },
+    "blur0": {
+      "fixture": "normal.000000.exr",
+      "source_exr_sha256": "f6b78a4f784af6de5f26b16d087b28bb5fdf4eceb00f547d254a5a89d3e2bee8",
+      "input_alpha": "Straight"
+    },
+    "blur1": {
+      "fixture": "normal.000001.exr",
+      "source_exr_sha256": "06a401cc72facfad5230558cd8cd17cd3e060c8193fe492ffd4a20c8f1ae0f47",
+      "input_alpha": "Straight"
+    },
+    "straight": {
+      "fixture": "straight.000000.exr",
+      "source_exr_sha256": "3a3eb527b70f2b58cbb3e05e0a7e32a7f9aa1cd6c77ed781ddede2789a2e7215",
+      "input_alpha": "Straight"
+    },
+    "premult": {
+      "fixture": "premult.000000.exr",
+      "source_exr_sha256": "a24a1d91364bf56c0062648dd0ea62e843ff0ae3038e42a2b1e63053fddaef39",
+      "input_alpha": "Premultiplied"
+    },
+    "blurpass": {
+      "fixture": "normal.000000.exr",
+      "source_exr_sha256": "f6b78a4f784af6de5f26b16d087b28bb5fdf4eceb00f547d254a5a89d3e2bee8",
+      "input_alpha": "Straight"
+    }
+  },
+  "matrix_original_reopen_and_cleanup_pass": false,
+  "matrix_recovery": {
+    "baseline_jobs_unchanged": 94,
+    "baseline_job_statuses_reconciled": true,
+    "owned_bins_removed": 9,
+    "idle": true,
+    "original_timeline": "SAT19_blend_OFF",
+    "settings_unchanged": true,
+    "saved": true,
+    "test_bundle_and_scripts_absent": true,
+    "lease": {
+      "released": "RELEASED",
+      "readback": "FREE"
+    },
+    "source_receipts_sha256": {
+      "evidence/satcomp-edit-product-matrix-r2/_baseline.json": "e4f1eab3f12e0dfa4f98d0d2b242be9751de217bce97dd31bd01ec2d77e74e33",
+      "evidence/satcomp-edit-product-matrix-r2-unload/verified-finish.json": "4e03d9a683ceb037bdfb227046ba2b1f2e1f27451c3a5782ec3c20748d8c6a5c",
+      "evidence/satcomp-edit-product-matrix-r2-unload/lease-return.json": "fb3c587f34939852bf5c7c53f76500450dc461f4a89084d611d8deadfca55c6e",
+      "evidence/satcomp-edit-product-matrix-r2-unload/removed.json": "98bdff422860c8d6402b8fc0196ed3f3731ae2cbcdbd125a606281bac3790ed0",
+      "evidence/satcomp-edit-product-matrix-r2-unload/preferences.json": "6563093734070fff4951942a06467b40c8d3c36d3568cca7038bf56b4edbbc61"
+    },
+    "baseline_timelines_unchanged": 43
+  },
+  "persistence_r4": {
+    "case": "blur0",
+    "matrix_rgba_sha256": "70c3a94469218ba6b613e5055ecbb21a27a387c27a54a9a829e3f7b45572fe0f",
+    "source_receipts_sha256": {
+      "evidence/satcomp-edit-product-persistence-r4/_persistence-reloaded.json": "db1b9cb3734612f25cffb293a98430676e0bdaec0330209608c72a34f0a9f9c9",
+      "evidence/satcomp-edit-product-persistence-r4/persistence-before-frame.json": "b2c58c3e898c94e68406669f993cebd8cbc9fec1776beaea2143b55066fcd178",
+      "evidence/satcomp-edit-product-persistence-r4/persistence-after-frame.json": "eca19ebd66a6a0b4e69f30890cf8ff38297e6f9c6691de9c08742c47650abbe7",
+      "evidence/satcomp-edit-product-persistence-r4/reopen-inspector.json": "56cc48a4d4c5f175958c4e649459738f7cb4ccd147b14b038668ad4ac815bb02",
+      "evidence/satcomp-edit-product-persistence-r4/reloadproduct564e597542843.json": "f17b13b6646caecb678c56bf21657110eb7876a1af55f5b83648edb07b58e4b5",
+      "evidence/satcomp-edit-product-persistence-r4/repeatproduct6163f1bb9efa1.json": "86f5f233e9d0be6da5d96848202248b675e4ad1a203721a9084205d4a2b3fd72",
+      "evidence/satcomp-edit-product-persistence-r4/status46849de3b402b.json": "4669872186cdf02fd5fcb46e18ff3cd8abbf66ac38d839bf7062e891d071a556",
+      "evidence/satcomp-edit-product-persistence-r4/status79c3048f0e961.json": "ebc16b53f754980913580174d7bcf1d59f5d8cd31b45f6f41f4257dc504069e6"
+    },
+    "recovery": {
+      "baseline_jobs_unchanged": 94,
+      "baseline_job_statuses_reconciled": true,
+      "owned_bins_removed": 1,
+      "idle": true,
+      "original_timeline": "SAT19_blend_OFF",
+      "settings_unchanged": true,
+      "saved": true,
+      "test_bundle_and_scripts_absent": true,
+      "lease": {
+        "released": "RELEASED",
+        "readback": "FREE"
+      },
+      "source_receipts_sha256": {
+        "evidence/satcomp-edit-product-persistence-r4/_baseline.json": "31fe669d20e90e1dd5b079624a4bd842b394fa389494ab46d7fc809b38c5fc6a",
+        "evidence/satcomp-edit-product-persistence-r4/verified-finish.json": "639ce135846bbf7d0bf5f72362498751bbb74aad0532eeb637992c45dbd9a25c",
+        "evidence/satcomp-edit-product-persistence-r4/lease-return.json": "fb3c587f34939852bf5c7c53f76500450dc461f4a89084d611d8deadfca55c6e",
+        "evidence/satcomp-edit-product-persistence-r4/removed.json": "98bdff422860c8d6402b8fc0196ed3f3731ae2cbcdbd125a606281bac3790ed0",
+        "evidence/satcomp-edit-product-persistence-r4/preferences.json": "6563093734070fff4951942a06467b40c8d3c36d3568cca7038bf56b4edbbc61"
+      }
+    }
+  },
+  "retained_nonpasses": {
+    "color_21_1_original_route": "FAIL (separate legacy record)",
+    "color_21_2_original_route_constant": "FAIL",
+    "color_21_2_metrics_sha256": "c390c179db8841f8519ec465285aeab291cd9a89a6a887e719117fd87ac493e8",
+    "strict_straight_rgb_all_partial_alpha_pass": false,
+    "hidden_rgb_at_zero_alpha_qualified": false,
+    "signed_extreme_input": {
+      "absolute_step_gate_pass": false,
+      "supported_domain_pipe_verified": true,
+      "R_absolute_step": 3.1691265005705735e+29,
+      "output_exr_sha256": "d44e5f8f81e44ca274c26b6c539a9f0783ab99c1ef7b711bccd87dcb7ec5bae9"
+    },
+    "external_official_mcp": "not connected",
+    "fusion_constant": "not completed",
+    "production_and_release_qualified": false
+  }
+}

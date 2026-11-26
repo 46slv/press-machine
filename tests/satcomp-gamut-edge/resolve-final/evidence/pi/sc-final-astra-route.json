@@ -1,0 +1,12 @@
+{
+  "provider": "openai-codex",
+  "api": "openai-codex-responses",
+  "model": "gpt-6-astra",
+  "configured_thinking": "xhigh",
+  "auth_type_checked_before_run": "oauth",
+  "stopReason": "stop",
+  "agent_settled": true,
+  "aborted": false,
+  "review_scope": "read-only diagnostic attribution SC09/SC10/SC11",
+  "raw_events_sha256": "c3256b8e0b8a484de08ab14127a65a1d2b5eea3d58635b796d40ae7126c1e482"
+}

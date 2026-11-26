@@ -1,0 +1,18 @@
+{
+  "status": "PASS standalone CUDA; Resolve OFX host untested here",
+  "id": "org.satcomp.diagnostic.opaquefloat8125.r1",
+  "devices": [
+    {
+      "name": "NVIDIA GeForce RTX 3070 Ti",
+      "valid_region_exact": 429,
+      "untouched_guard_exact": 353
+    },
+    {
+      "name": "NVIDIA GeForce GTX 1650",
+      "valid_region_exact": 429,
+      "untouched_guard_exact": 353
+    }
+  ],
+  "ofx_sha256": "80910c217afc94c825d91460eb9bd862e95aac07ee066fb3d471bfcb0ac1c405",
+  "harness_sha256": "1d61494281348546af2bfe3ad9a874298bfa2326a0c5738698cd732643dea050"
+}

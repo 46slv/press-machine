@@ -1,0 +1,2 @@
+# Keep the original audit bytes (CRLF) so the Git blob matches the ZIP SHA-256.
+edit-matrix-audit.json -text whitespace=cr-at-eol

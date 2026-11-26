@@ -1,0 +1,8 @@
+**ADOPT — scoped SC-08 route comparison, not acceptance of the original ResolveFX route.**
+
+- **Numerical finding:** `evidence/di-r2-final/metrics.json` reports original eight-parameter ResolveFX failing: maximum scaled error **2.533e-5** and adjacent-step error **3.159e-5**. Direct Color/reopen pass at **1.980e-7** and **2.384e-7**, respectively. Alpha is bit-exact; direct/reopen RGBA are identical.
+- **Comparator:** `measure_di_r2.py` supports that interpretation: full-frame RGB accuracy, three centerlines for adjacent-*increment error*, and exclusion of the three deliberate fixture edges. OFF/input equality is checked; linear-OFF versus DI differences are correctly labeled cross-unit, not quality differences. I reviewed the supplied code/results, **not independently replayed raw EXRs or verified receipts/provenance**.
+- **Cancellation model:** `f32(off + f32(direct - off))` reportedly matches all **230,400 samples per RGB channel numerically**. This is strong empirical consistency—not proof of Resolve’s implementation, operation order, or causal ownership. Numeric equality here is not a bitwise-model assertion.
+- **Compiled OFX probe:** Separate-ID compiled OFX, **A=1, 8.125**, belongs to the **next causality boundary**; it is unnecessary to establish this SC-08 route difference and would not alone prove internal arithmetic.
+
+Unsupported extensions include an original-route pass, whole-product/native-OFX correctness, all parameter settings, transparent/premultiplied behavior, or a proven host-blend cause. The supported finding remains this candidate, fixed configuration, opaque synthetic frame, and stated host/backend.

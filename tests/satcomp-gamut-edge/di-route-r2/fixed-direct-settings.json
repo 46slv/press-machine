@@ -1,0 +1,20 @@
+{
+  "scope": "same transform body, only UI constants; test-only direct node, not a ResolveFX solution or native PASS",
+  "dctl": "goal-diagnostics/ZZ_S19_769a014c_Direct_DI_r1.dctl",
+  "sha256": "00449223ea959619773bc68e58707478d384273d7aa0ec2a32540e7d15a1057d",
+  "original": "fbee7172303d8f498f0ff3f6ad0161c2bd6baf376867dc724932cf5371133c35",
+  "fixed": {
+    "pm_threshold": "25.0f",
+    "pm_compression": "100.0f",
+    "pm_softness": "20.0f",
+    "pm_comp_bypass": "1",
+    "pmi_ig": "0",
+    "pmi_it": "4",
+    "pmi_og": "0",
+    "pmi_ot": "1"
+  },
+  "references": [
+    "reference-pack/range3.000000.exr",
+    "research-blend/near-range-fixture/sat-near-linear.000000.exr"
+  ]
+}
