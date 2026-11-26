@@ -1,0 +1,151 @@
+{
+  "scope": "Same input and export as SC34, frame 1; fixed direct only. Host internal position and exact alpha cutoff not inferred.",
+  "receipt_sha256": [
+    "eb3afde187ac421df753e9624c7b0f387d1c9d80fdde0eb5753838dd7c49d3a4",
+    "cbde5019862ed5fed53f21fa20cb1ea5ce399d42bcfdf9ab190be3984d3cbfef"
+  ],
+  "exr_sha256_off_fx_direct": {
+    "straight": [
+      "6b221b4116553efcc594f48f3175921e857ca2f4d7f7727f6c500c31597036ac",
+      "7cbb3e36371051dcd128334c79fc16404f5ad5237a71464866110ff24749f891",
+      "6fb98c8998fd9ff3fd070cae0e698975e771d66f30621af22fe98a09905b5b37"
+    ],
+    "premult": [
+      "c247278a3b2fd3cf5139f757d44e69f682d01e5cd6072b52ba0c61e35a070dd8",
+      "b676e354fe552fecaefbd40300a6674fc5398f0513e777797c598f3c0de28d3f",
+      "20c02f79e0d1201b3fd2e90daf58ebf8a074748600fecc54347a59c2a3d77a57"
+    ]
+  },
+  "full_frame": {
+    "straight": {
+      "whole_frame_rgba_words_equal": false,
+      "alpha_words_exact": true,
+      "rgb_max_abs_vs_fx": {
+        "R": 0.0,
+        "G": 0.0,
+        "B": 3.725290298461914e-09
+      }
+    },
+    "premult": {
+      "whole_frame_rgba_words_equal": false,
+      "alpha_words_exact": true,
+      "rgb_max_abs_vs_fx": {
+        "R": 3.308722450212111e-24,
+        "G": 0.0,
+        "B": 3.725290298461914e-09
+      }
+    }
+  },
+  "center_row": {
+    "ResolveFX": {
+      "zero": {
+        "n": 244,
+        "A_range": [
+          0.0,
+          0.0
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 0.0
+      },
+      "tiny_below_1e-7": {
+        "n": 11,
+        "A_range": [
+          1.5279073561913492e-09,
+          9.226343422596983e-08
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 1.3684637190786164e-13,
+        "unassociated_residual_normal": 1.041146065096693,
+        "unassociated_residual_grade_associated_then_multiply": 1.4688947219194353e-13
+      },
+      "tiny_from_1e-7": {
+        "n": 40,
+        "A_range": [
+          1.3529569287129561e-07,
+          0.009208080358803272
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 0.009586956351995468,
+        "unassociated_residual_normal": 1.8988887323360624e-07,
+        "unassociated_residual_grade_associated_then_multiply": 1.041145935741285
+      },
+      "partial_ge_.01": {
+        "n": 108,
+        "A_range": [
+          0.01113548967987299,
+          0.9999999403953552
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 1.041145920753479,
+        "unassociated_residual_normal": 2.0989268292068606e-07,
+        "unassociated_residual_grade_associated_then_multiply": 1.0295523320471025
+      },
+      "opaque": {
+        "n": 237,
+        "A_range": [
+          1.0,
+          1.0
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 1.0411460399627686,
+        "unassociated_residual_normal": 0.0,
+        "unassociated_residual_grade_associated_then_multiply": 0.0
+      }
+    },
+    "Direct": {
+      "zero": {
+        "n": 244,
+        "A_range": [
+          0.0,
+          0.0
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 0.0
+      },
+      "tiny_below_1e-7": {
+        "n": 11,
+        "A_range": [
+          1.5279073561913492e-09,
+          9.226343422596983e-08
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 1.3684637190786164e-13,
+        "unassociated_residual_normal": 1.041146065096693,
+        "unassociated_residual_grade_associated_then_multiply": 1.4688947219194353e-13
+      },
+      "tiny_from_1e-7": {
+        "n": 40,
+        "A_range": [
+          1.3529569287129561e-07,
+          0.009208080358803272
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 0.009586956351995468,
+        "unassociated_residual_normal": 1.8988887323360624e-07,
+        "unassociated_residual_grade_associated_then_multiply": 1.041145935741285
+      },
+      "partial_ge_.01": {
+        "n": 108,
+        "A_range": [
+          0.01113548967987299,
+          0.9999999403953552
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 1.041145920753479,
+        "unassociated_residual_normal": 2.0989268292068606e-07,
+        "unassociated_residual_grade_associated_then_multiply": 1.0295523320471025
+      },
+      "opaque": {
+        "n": 237,
+        "A_range": [
+          1.0,
+          1.0
+        ],
+        "straight_max_abs_RGB": 1.0411460399627686,
+        "premult_max_abs_RGB": 1.0411460399627686,
+        "unassociated_residual_normal": 0.0,
+        "unassociated_residual_grade_associated_then_multiply": 0.0
+      }
+    }
+  }
+}

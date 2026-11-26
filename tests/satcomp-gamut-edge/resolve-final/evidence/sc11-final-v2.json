@@ -1,0 +1,88 @@
+{
+  "scope": "two real timeline tracks using Normal, no effects, unmanaged DWG-linear test only",
+  "receipt_sha256": "d109e16a4dfd982b33f7759938620c39c99bfed09f7fcc693cbbfe45ffb51946",
+  "probe": [
+    327,
+    135
+  ],
+  "linear_R": 0.7020000219345093,
+  "known_wrong_log_R": 0.187387615442276,
+  "results": {
+    "premult": {
+      "vs_linear_max_abs": {
+        "R": 1.1920928955078125e-07,
+        "G": 3.725290298461914e-09,
+        "B": 3.725290298461914e-09,
+        "A": 5.960464477539063e-08
+      },
+      "vs_log_max_abs": {
+        "R": 0.5594359636306763,
+        "G": 0.002438349649310112,
+        "B": 0.0001872144639492035,
+        "A": 5.960464477539063e-08
+      },
+      "center": {
+        "R": 0.7019999623298645,
+        "G": 0.02850000187754631,
+        "B": 0.025499999523162842,
+        "A": 1.0
+      },
+      "alpha_bit_exact": false,
+      "rgb_linear_gate_pass": true,
+      "exact_rgba_gate_pass": false,
+      "alpha_output_histogram": [
+        {
+          "value": 0.9999999403953552,
+          "pixels": 13320
+        },
+        {
+          "value": 1.0,
+          "pixels": 217080
+        }
+      ],
+      "alpha_reference_source_over_matches": 217080
+    },
+    "straight": {
+      "vs_linear_max_abs": {
+        "R": 1.1920928955078125e-07,
+        "G": 3.725290298461914e-09,
+        "B": 3.725290298461914e-09,
+        "A": 5.960464477539063e-08
+      },
+      "vs_log_max_abs": {
+        "R": 0.5594359636306763,
+        "G": 0.002438349649310112,
+        "B": 0.0001872144639492035,
+        "A": 5.960464477539063e-08
+      },
+      "center": {
+        "R": 0.7019999623298645,
+        "G": 0.02850000187754631,
+        "B": 0.025499999523162842,
+        "A": 1.0
+      },
+      "alpha_bit_exact": false,
+      "rgb_linear_gate_pass": true,
+      "exact_rgba_gate_pass": false,
+      "alpha_output_histogram": [
+        {
+          "value": 0.9999999403953552,
+          "pixels": 13320
+        },
+        {
+          "value": 1.0,
+          "pixels": 217080
+        }
+      ],
+      "alpha_reference_source_over_matches": 217080
+    }
+  },
+  "premult_vs_straight_max_abs": {
+    "R": 1.1920928955078125e-07,
+    "G": 7.450580596923828e-09,
+    "B": 1.862645149230957e-09,
+    "A": 0.0
+  },
+  "alpha_words_equal_between_modes": true,
+  "rgba_words_equal": false
+}

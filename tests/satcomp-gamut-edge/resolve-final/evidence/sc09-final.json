@@ -1,0 +1,331 @@
+{
+  "scope": "opaque constant; alpha=0 deliberately excluded; no original-route pass",
+  "captures": {
+    "input": {
+      "sha256": "9e2e348fcfa7a9a42f04d9e5f010be57a3067d8c8b82594ee9fa6c1a67fd709a",
+      "file": "goal-blend/satblend.000000.exr"
+    },
+    "off": {
+      "sha256": "cedc6f82bf84ba6c504ca385f682f6ebd739df4f9a7d94703922b6c913fa4c24",
+      "file": "goal-blend/off/blend_off00000000.exr"
+    },
+    "direct": {
+      "sha256": "b45b094f067f5f4e0dade04f7dc7ff3ece267682edb571a7c254ad466ebbc39a",
+      "file": "goal-blend/direct/blend_direct00000000.exr"
+    },
+    "builtin_fx": {
+      "sha256": "e8a9bca21bdd38a40a57ade17e61f87d063daf4c3286defbbe1f7bef8a6a6e47",
+      "file": "goal-blend/full/blend_full00000000.exr"
+    },
+    "native_ofx": {
+      "sha256": "ad7e0c6181cb436884252d17f1f53afaade88e303fdd912389501a8e4e4fa7dd",
+      "file": "host-sc09/native/sat19_sc09_native00000000.exr",
+      "job": "ee5fd65d-ffab-46e0-9180-c6e350e12d3a",
+      "binary": "80910c217afc94c825d91460eb9bd862e95aac07ee066fb3d471bfcb0ac1c405"
+    }
+  },
+  "comparison": {
+    "direct": {
+      "constant_exact_pixels": 230400,
+      "alpha_word_exact_to_input": true,
+      "per_channel": {
+        "R": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        },
+        "G": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        },
+        "B": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        },
+        "A": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        }
+      }
+    },
+    "builtin_fx": {
+      "constant_exact_pixels": 43200,
+      "alpha_word_exact_to_input": true,
+      "per_channel": {
+        "R": {
+          "constant_exact": 136800,
+          "zeros": 54000,
+          "sixteens": 7200,
+          "max_abs_vs_constant": 8.125
+        },
+        "G": {
+          "constant_exact": 136800,
+          "zeros": 54000,
+          "sixteens": 7200,
+          "max_abs_vs_constant": 8.125
+        },
+        "B": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        },
+        "A": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        }
+      }
+    },
+    "native_ofx": {
+      "constant_exact_pixels": 43200,
+      "alpha_word_exact_to_input": true,
+      "per_channel": {
+        "R": {
+          "constant_exact": 136800,
+          "zeros": 54000,
+          "sixteens": 7200,
+          "max_abs_vs_constant": 8.125
+        },
+        "G": {
+          "constant_exact": 136800,
+          "zeros": 54000,
+          "sixteens": 7200,
+          "max_abs_vs_constant": 8.125
+        },
+        "B": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        },
+        "A": {
+          "constant_exact": 230400,
+          "zeros": 0,
+          "sixteens": 0,
+          "max_abs_vs_constant": 0.0
+        }
+      }
+    }
+  },
+  "probes": {
+    "620,45": {
+      "input": [
+        1.7014118346046923e+38,
+        -0.125,
+        0.0625,
+        1.0
+      ],
+      "off": [
+        1.7014118346046923e+38,
+        -0.125,
+        0.0625,
+        1.0
+      ],
+      "direct": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "builtin_fx": [
+        0.0,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "native_ofx": [
+        0.0,
+        8.125,
+        0.375,
+        1.0
+      ]
+    },
+    "620,135": {
+      "input": [
+        -0.125,
+        1.7014118346046923e+38,
+        0.0625,
+        1.0
+      ],
+      "off": [
+        -0.125,
+        1.7014118346046923e+38,
+        0.0625,
+        1.0
+      ],
+      "direct": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "builtin_fx": [
+        8.125,
+        0.0,
+        0.375,
+        1.0
+      ],
+      "native_ofx": [
+        8.125,
+        0.0,
+        0.375,
+        1.0
+      ]
+    },
+    "10,45": {
+      "input": [
+        1.0,
+        -0.125,
+        0.0625,
+        1.0
+      ],
+      "off": [
+        1.0,
+        -0.125,
+        0.0625,
+        1.0
+      ],
+      "direct": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "builtin_fx": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "native_ofx": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ]
+    },
+    "10,135": {
+      "input": [
+        -0.125,
+        1.0,
+        0.0625,
+        1.0
+      ],
+      "off": [
+        -0.125,
+        1.0,
+        0.0625,
+        1.0
+      ],
+      "direct": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "builtin_fx": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "native_ofx": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ]
+    },
+    "320,225": {
+      "input": [
+        -268435456.0,
+        0.25,
+        0.0625,
+        1.0
+      ],
+      "off": [
+        -268435456.0,
+        0.25,
+        0.0625,
+        1.0
+      ],
+      "direct": [
+        8.125,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "builtin_fx": [
+        0.0,
+        8.125,
+        0.375,
+        1.0
+      ],
+      "native_ofx": [
+        0.0,
+        8.125,
+        0.375,
+        1.0
+      ]
+    }
+  },
+  "native_live": true,
+  "cleanup": {
+    "detach": {
+      "blocked": null,
+      "operation": "detach",
+      "timeline": "3665b671-41c7-42ce-a228-808920d4c2cd",
+      "name": "SAT19_SC09_opaque_native",
+      "tools": [
+        "OFX\uff1aSatComp SC09 Opaque CUDA 8125"
+      ],
+      "media_id": "8a7a9a27-6f2e-4e09-b5ab-37531c373f4f",
+      "source": "<TEST_ROOT>/goal-blend\\satblend.[000000-000001].exr",
+      "source_index": 0,
+      "alpha_mode": "Straight",
+      "detached": true
+    },
+    "unload_quit_exit": 0,
+    "restored_running": {
+      "pid": 6876,
+      "creation_filetime": 134401043830105742,
+      "window": 126752970,
+      "window_witness": [
+        {
+          "init": {
+            "name": "cua-driver",
+            "version": "0.21.0"
+          }
+        },
+        {
+          "exact_pid": 6876,
+          "visible_windows": [
+            126752970
+          ]
+        },
+        {
+          "element_count": 24,
+          "keywords_found": [
+            "satcomp"
+          ],
+          "app_content_not_retained": true
+        }
+      ]
+    },
+    "bundle_absent": true,
+    "queue_complete": 87,
+    "lease_readback": "FREE",
+    "finished": "2026-11-26T03:20:39.159841+09:00"
+  },
+  "native_vs_builtin_rgba_bit_exact": true,
+  "native_vs_direct_rgba_bit_exact": false
+}

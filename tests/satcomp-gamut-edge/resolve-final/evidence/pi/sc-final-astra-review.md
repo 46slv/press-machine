@@ -1,0 +1,9 @@
+**ADOPT — scoped diagnostic attribution only.** Pinned `769a014c22c5d857fd771a659672171340a753b1`; Resolve Studio 21.1.0.14, Windows/CUDA.
+
+- **SC09:** Direct is constant-exact across 230,400 pixels. Built-in ResolveFX at 100% and verified output-only native CUDA OFX are RGBA-bit-identical, but constant-exact at only 43,200 pixels. Opaque input, no Source reads, and no CPU fallback exclude SatComp code, DCTL execution, and effect-side Source sampling as necessary causes. This implicates the tested hosted-effect path—not every OFX—and neither exonerates hardware/drivers nor establishes an internal blend formula.
+
+- **SC10:** With matched inputs/exports and creative-bypassed DWG Linear→AP1 DI conversion, direct and ResolveFX share small-positive-alpha behavior. RGB disagreement reaches only 3.73e−9; alpha words agree exactly. Low-positive-alpha outputs fit associated-input grading followed by multiplication, not normal unassociation. This is **not built-in-specific**. Differing regimes sampled at 9.226e−8 and 1.353e−7 establish neither an exact cutoff nor pipeline stage. Separately, A=0 has nonzero straight RGB but zero premult RGB.
+
+- **SC11:** Effect-free, separate-track Normal-over against opaque background passes the linear RGB gate under both alpha interpretations: maximum error 1.19e−7, inconsistent with the tested log prediction. Exact alpha—and therefore exact RGBA—fails: 13,320 pixels have A=0.9999999403953552 rather than 1. Alpha words match between interpretations. Attribution stops at this effect-free, unmanaged DWG-linear pipeline; predicting one ULP proves neither host instructions nor compositor localization.
+
+**Owner:** Establish a corrected route/fix, clear the exact-alpha failure, and complete the original interactive eight-control acceptance. Originals remain unproven; diagnostics establish no product PASS. Exclusions include managed workflows, other stacks, and SC09 zero-alpha.

@@ -1,0 +1,10 @@
+{
+  "provider": "openai-codex",
+  "model": "gpt-6-astra",
+  "api": "openai-codex-responses",
+  "stopReason": "stop",
+  "thinking": "xhigh",
+  "auth_type": "oauth",
+  "exit": 0,
+  "scope": "independent read-only supplied evidence/code; did not operate Resolve or replay raw EXR"
+}

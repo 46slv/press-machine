@@ -1,0 +1,389 @@
+{
+  "scope": "fixed exact candidate; opaque, extreme source; not original product acceptance",
+  "source_sha256": "e6069285120579d993b83b7527111b2db3250efda57a0ee4f1e114ae8580c2d8",
+  "off_rgba_exact": true,
+  "native_capture_count": 2,
+  "host_flags": {
+    "lease_readback": "FREE",
+    "removed": [
+      "ZZ_S19_769a014c_Direct_LogC3_r2.dctl",
+      "ZZ_S19_769a014c_Direct_DIExtreme_r2.dctl"
+    ]
+  },
+  "cases": {
+    "LogC3": {
+      "settings": {
+        "path": "host-nonlog-r1/range3_ofx_take1/range3_ofx_take1_00000000.exr",
+        "sha256": "6cf1133c24f340b47557d674c54ac03c6aaa7729964ee4017a639229fbb7cc71",
+        "job": "fbbc81da-7196-4648-877e-77f30dd78f83",
+        "timeline": "f1322410-e2a6-46fd-8f48-4739ced33a34",
+        "source_index": 0,
+        "alpha_mode": "Straight",
+        "settings": {
+          "source_ui": "evidence/nonlog-r1-range3-1-settings-ui.json",
+          "sha256": "b874e0296b1f7df430518dfd0e02c45a4ed8651e61969da545e5f53bdc08c1b0",
+          "controls": {
+            "131": "PR19_769a014c_CANDIDATE",
+            "256": "DWG D65",
+            "281": "Relative Linear",
+            "306": "Same as Input",
+            "331": "LogC3 EI800 Exposure"
+          },
+          "sliders": {
+            "156": "25.0",
+            "181": "100.0",
+            "206": "20.0"
+          },
+          "comp_bypass": true,
+          "global_blend": 1.0
+        }
+      },
+      "routes": {
+        "resolvefx": {
+          "RGB": {
+            "R": {
+              "n": 230400,
+              "max_abs": 10.00637435913086,
+              "max_scaled": 1.0,
+              "over_scaled": 229376,
+              "unexpected_zero": 229376,
+              "worst": {
+                "x": 16,
+                "y": 0,
+                "actual": 0.0,
+                "reference": 7.985326290130615
+              }
+            },
+            "G": {
+              "n": 230400,
+              "max_abs": 0.0,
+              "max_scaled": 0.0,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 0,
+                "y": 0,
+                "actual": 0.3541823625564575,
+                "reference": 0.3541823625564575
+              }
+            },
+            "B": {
+              "n": 230400,
+              "max_abs": 2.9802322387695312e-08,
+              "max_scaled": 2.9802322387695312e-08,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 281,
+                "y": 0,
+                "actual": 0.25237682461738586,
+                "reference": 0.2523767948150635
+              }
+            }
+          },
+          "step": {
+            "R": 0.017361164093017578,
+            "G": 0.0,
+            "B": 5.960464477539063e-08
+          },
+          "A_word_exact": true,
+          "pass": false,
+          "R_at_600_180": {
+            "expected": 10.00637435913086,
+            "observed": 0.0,
+            "input": 1.5000000027488779e+38
+          }
+        },
+        "direct": {
+          "RGB": {
+            "R": {
+              "n": 230400,
+              "max_abs": 1.9073486328125e-06,
+              "max_scaled": 1.9182422149098828e-07,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 325,
+                "y": 0,
+                "actual": 9.943212509155273,
+                "reference": 9.94321060180664
+              }
+            },
+            "G": {
+              "n": 230400,
+              "max_abs": 0.0,
+              "max_scaled": 0.0,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 0,
+                "y": 0,
+                "actual": 0.3541823625564575,
+                "reference": 0.3541823625564575
+              }
+            },
+            "B": {
+              "n": 230400,
+              "max_abs": 2.9802322387695312e-08,
+              "max_scaled": 2.9802322387695312e-08,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 281,
+                "y": 0,
+                "actual": 0.25237682461738586,
+                "reference": 0.2523767948150635
+              }
+            }
+          },
+          "step": {
+            "R": 2.86102294921875e-06,
+            "G": 0.0,
+            "B": 5.960464477539063e-08
+          },
+          "A_word_exact": true,
+          "pass": true,
+          "R_at_600_180": {
+            "expected": 10.00637435913086,
+            "observed": 10.00637435913086,
+            "input": 1.5000000027488779e+38
+          }
+        }
+      },
+      "direct_receipt": {
+        "job": {
+          "blocked": null,
+          "act": "render",
+          "mode": "LogC3",
+          "job": "6728a3dd-a852-4027-bb91-dd250eaab6c7",
+          "queue": {
+            "JobId": "6728a3dd-a852-4027-bb91-dd250eaab6c7",
+            "RenderJobName": "Job 85",
+            "TimelineName": "SAT19_SC02_LogC3",
+            "TargetDir": "<TEST_ROOT>/host-sc02\\LogC3",
+            "IsExportVideo": true,
+            "IsExportAudio": false,
+            "FormatWidth": 640,
+            "FormatHeight": 360,
+            "FrameRate": "24",
+            "PixelAspectRatio": 1.0,
+            "MarkIn": 86400,
+            "MarkOut": 86400,
+            "AudioBitDepth": 24,
+            "AudioSampleRate": 48000,
+            "ExportAlpha": true,
+            "AlphaMode": 1,
+            "OutputFilename": "sc02_LogC3_00000000.exr",
+            "RenderMode": "Individual clips",
+            "PresetName": "Custom",
+            "VideoFormat": "EXR",
+            "VideoCodec": "RGB float (ZIP)",
+            "ClipStartFrame": 1,
+            "TimelineStartTimecode": "01:00:00:00"
+          },
+          "lut": "ZZ_S19_769a014c_Direct_LogC3_r2.dctl",
+          "timeline": "7600de5e-cbeb-4b68-9eee-6560af841c5c",
+          "media_id": "373a1c24-4364-424c-893f-77e26d9c4769"
+        },
+        "completion": {
+          "JobStatus": "Complete",
+          "CompletionPercentage": 100
+        },
+        "sha256": "f94c8f979e4872019ab51a157aa43b23a40bf88efb443eeafa200399e6ea8b4e",
+        "file": "host-sc02/LogC3/sc02_LogC3_00000000.exr"
+      },
+      "conditional_model_from_native_direct": {
+        "R": 230400,
+        "G": 230400,
+        "B": 230400
+      }
+    },
+    "DIExtreme": {
+      "settings": {
+        "path": "host-nonlog-r1/range3_ofx_take4/range3_ofx_take4_00000000.exr",
+        "sha256": "16dd6319b373faff75b69bd5f901d454c790719eb675069e2cdaaf701e7e204a",
+        "job": "fd95ed77-998d-4a7a-806e-7b5d32a1ba06",
+        "timeline": "f1322410-e2a6-46fd-8f48-4739ced33a34",
+        "source_index": 0,
+        "alpha_mode": "Straight",
+        "settings": {
+          "source_ui": "evidence/nonlog-r1-range3-4-settings-ui.json",
+          "sha256": "1fdaa26ae9aae1aaf656fd92d7aef2a0cd3eb2557ed37a4addb15e46c0dce142",
+          "controls": {
+            "131": "PR19_769a014c_CANDIDATE",
+            "256": "DWG D65",
+            "281": "Relative Linear",
+            "306": "Same as Input",
+            "331": "DaVinci Intermediate"
+          },
+          "sliders": {
+            "156": "25.0",
+            "181": "100.0",
+            "206": "20.0"
+          },
+          "comp_bypass": true,
+          "global_blend": 1.0
+        }
+      },
+      "routes": {
+        "resolvefx": {
+          "RGB": {
+            "R": {
+              "n": 230400,
+              "max_abs": 9.807869911193848,
+              "max_scaled": 1.0,
+              "over_scaled": 229376,
+              "unexpected_zero": 229376,
+              "worst": {
+                "x": 16,
+                "y": 0,
+                "actual": 0.0,
+                "reference": 7.817217826843262
+              }
+            },
+            "G": {
+              "n": 230400,
+              "max_abs": 5.960464477539063e-08,
+              "max_scaled": 5.960464477539063e-08,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 16,
+                "y": 0,
+                "actual": -0.5222133994102478,
+                "reference": -0.5222134590148926
+              }
+            },
+            "B": {
+              "n": 230400,
+              "max_abs": 5.960464477539063e-08,
+              "max_scaled": 5.960464477539063e-08,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 280,
+                "y": 0,
+                "actual": 0.19272300601005554,
+                "reference": 0.19272294640541077
+              }
+            }
+          },
+          "step": {
+            "R": 0.01710033416748047,
+            "G": 0.0,
+            "B": 5.960464477539063e-08
+          },
+          "A_word_exact": true,
+          "pass": false,
+          "R_at_600_180": {
+            "expected": 9.807869911193848,
+            "observed": 0.0,
+            "input": 1.5000000027488779e+38
+          }
+        },
+        "direct": {
+          "RGB": {
+            "R": {
+              "n": 230400,
+              "max_abs": 1.9073486328125e-06,
+              "max_scaled": 1.9670559437595102e-07,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 306,
+                "y": 0,
+                "actual": 9.69646167755127,
+                "reference": 9.696463584899902
+              }
+            },
+            "G": {
+              "n": 230400,
+              "max_abs": 5.960464477539063e-08,
+              "max_scaled": 5.960464477539063e-08,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 16,
+                "y": 0,
+                "actual": -0.5222133994102478,
+                "reference": -0.5222134590148926
+              }
+            },
+            "B": {
+              "n": 230400,
+              "max_abs": 4.470348358154297e-08,
+              "max_scaled": 4.470348358154297e-08,
+              "over_scaled": 0,
+              "unexpected_zero": 0,
+              "worst": {
+                "x": 266,
+                "y": 0,
+                "actual": 0.1367533653974533,
+                "reference": 0.13675332069396973
+              }
+            }
+          },
+          "step": {
+            "R": 1.9073486328125e-06,
+            "G": 0.0,
+            "B": 5.960464477539063e-08
+          },
+          "A_word_exact": true,
+          "pass": true,
+          "R_at_600_180": {
+            "expected": 9.807869911193848,
+            "observed": 9.807869911193848,
+            "input": 1.5000000027488779e+38
+          }
+        }
+      },
+      "direct_receipt": {
+        "job": {
+          "blocked": null,
+          "act": "render",
+          "mode": "DIExtreme",
+          "job": "e87dd1a6-875b-4889-a2b4-7be7505a9b26",
+          "queue": {
+            "JobId": "e87dd1a6-875b-4889-a2b4-7be7505a9b26",
+            "RenderJobName": "Job 86",
+            "TimelineName": "SAT19_SC02_DIExtreme",
+            "TargetDir": "<TEST_ROOT>/host-sc02\\DIExtreme",
+            "IsExportVideo": true,
+            "IsExportAudio": false,
+            "FormatWidth": 640,
+            "FormatHeight": 360,
+            "FrameRate": "24",
+            "PixelAspectRatio": 1.0,
+            "MarkIn": 86400,
+            "MarkOut": 86400,
+            "AudioBitDepth": 24,
+            "AudioSampleRate": 48000,
+            "ExportAlpha": true,
+            "AlphaMode": 1,
+            "OutputFilename": "sc02_DIExtreme00000000.exr",
+            "RenderMode": "Individual clips",
+            "PresetName": "Custom",
+            "VideoFormat": "EXR",
+            "VideoCodec": "RGB float (ZIP)",
+            "ClipStartFrame": 1,
+            "TimelineStartTimecode": "01:00:00:00"
+          },
+          "lut": "ZZ_S19_769a014c_Direct_DIExtreme_r2.dctl",
+          "timeline": "a544080a-a718-4076-80a0-98b28a2ab18b",
+          "media_id": "373a1c24-4364-424c-893f-77e26d9c4769"
+        },
+        "completion": {
+          "JobStatus": "Complete",
+          "CompletionPercentage": 100
+        },
+        "sha256": "eef9545770dc335b7dd5678a9046ab83012250edaeaf8dd0e031a49b221f698b",
+        "file": "host-sc02/DIExtreme/sc02_DIExtreme00000000.exr"
+      },
+      "conditional_model_from_native_direct": {
+        "R": 230400,
+        "G": 230400,
+        "B": 230400
+      }
+    }
+  }
+}
