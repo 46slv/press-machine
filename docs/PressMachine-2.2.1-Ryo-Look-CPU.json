@@ -1,0 +1,287 @@
+{
+  "scope": "Pinned source, MSVC x64 NativeV3 pm_eval30 CPU only, DWG D65 Relative Linear, same profiles, opaque float",
+  "source_commit": "9e235de0a3f2fb1f87e4122ad8f354e7c6f598f4",
+  "native_fixture_dll_sha256": "03b5698cdef1f6e7bcda9b7339aa489cfcc03f0efdeb99e2edeb3f406c804f8b",
+  "parameter_cases": {
+    "base": {},
+    "split": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20
+    },
+    "flip": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": -20
+    },
+    "pivot_plus1": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20,
+      "pm_luma_pivot_ev": 1
+    },
+    "shadow_desat": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20,
+      "pm_sd_t": 0.16,
+      "pm_sd_k": 0.09
+    },
+    "density_plus50": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20,
+      "pm_density": 50
+    },
+    "density_minus50": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20,
+      "pm_density": -50
+    },
+    "density_bypass": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20,
+      "pm_density": 50,
+      "pm_db": 1
+    },
+    "look_skin70": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20,
+      "pm_density_skin": 70
+    },
+    "look_skin70_shadow_desat": {
+      "pm_hue_angle": 55,
+      "pm_luma_split": 20,
+      "pm_density_skin": 70,
+      "pm_sd_t": 0.16,
+      "pm_sd_k": 0.09
+    },
+    "comp10": {
+      "pm_compression": 10
+    }
+  },
+  "patch_count": 19,
+  "checks": {
+    "neutral_bit_equal": true,
+    "density_bypass_equals_split": true,
+    "split_sign_reversed": true,
+    "pivot_plus1_gray036_neutral": true,
+    "max_abs_split_delta_Y": 8.689455421873049e-08,
+    "near_black_neutral_gray004_unchanged": true,
+    "final_desat_after_skin": true,
+    "density_sign_on_three_colors": true,
+    "comp10_chroma_lower_two_colors": true,
+    "finite_alpha_one": true
+  },
+  "selected": {
+    "gray_0.003": {
+      "base": [
+        0.003,
+        0.003,
+        0.003,
+        0.003
+      ],
+      "split": [
+        0.003422437,
+        0.003226456,
+        0.005122751,
+        0.003
+      ],
+      "shadow_desat": [
+        0.003,
+        0.003,
+        0.003,
+        0.003
+      ]
+    },
+    "gray_0.04": {
+      "base": [
+        0.039999999,
+        0.039999999,
+        0.039999999,
+        0.039999999
+      ],
+      "split": [
+        0.042631157,
+        0.041410491,
+        0.053221621,
+        0.039999999
+      ],
+      "flip": [
+        0.039675657,
+        0.039826129,
+        0.038370177,
+        0.039999999
+      ],
+      "shadow_desat": [
+        0.042631157,
+        0.041410491,
+        0.053221621,
+        0.039999999
+      ]
+    },
+    "gray_0.36": {
+      "base": [
+        0.360000014,
+        0.360000014,
+        0.360000014,
+        0.360000014
+      ],
+      "split": [
+        0.358604997,
+        0.359252185,
+        0.352990031,
+        0.360000014
+      ],
+      "pivot_plus1": [
+        0.360000014,
+        0.360000014,
+        0.360000014,
+        0.360000014
+      ]
+    },
+    "gray_0.72": {
+      "base": [
+        0.720000029,
+        0.720000029,
+        0.720000029,
+        0.720000029
+      ],
+      "split": [
+        0.714582384,
+        0.717095792,
+        0.692776144,
+        0.720000059
+      ],
+      "flip": [
+        0.763949811,
+        0.743560314,
+        0.940848529,
+        0.720000038
+      ]
+    },
+    "blue_low": {
+      "split": [
+        0.039665055,
+        0.044628527,
+        0.066746555,
+        0.04
+      ],
+      "density_plus50": [
+        0.035983287,
+        0.040486041,
+        0.060551047,
+        0.03628714
+      ],
+      "density_minus50": [
+        0.043723535,
+        0.049194865,
+        0.073575988,
+        0.044092751
+      ]
+    },
+    "cream_high": {
+      "split": [
+        0.742153287,
+        0.676340044,
+        0.502944291,
+        0.719999965
+      ],
+      "density_plus50": [
+        0.713976145,
+        0.650661647,
+        0.483849108,
+        0.692663944
+      ],
+      "density_minus50": [
+        0.771442413,
+        0.703031898,
+        0.522792995,
+        0.748414858
+      ]
+    },
+    "warm_lit": {
+      "base": [
+        0.508362472,
+        0.288618684,
+        0.213184267,
+        0.35999999
+      ],
+      "split": [
+        0.503439307,
+        0.289568335,
+        0.209665641,
+        0.359999983
+      ],
+      "look_skin70": [
+        0.506885529,
+        0.288903594,
+        0.212128684,
+        0.360000002
+      ]
+    },
+    "warm_shade": {
+      "base": [
+        0.056484718,
+        0.032068744,
+        0.023687141,
+        0.04
+      ],
+      "split": [
+        0.058295581,
+        0.033873901,
+        0.037720505,
+        0.039999998
+      ],
+      "look_skin70": [
+        0.057027977,
+        0.032610293,
+        0.027897149,
+        0.040000001
+      ]
+    },
+    "warm_dark": {
+      "split": [
+        0.004527091,
+        0.002694977,
+        0.004029613,
+        0.003
+      ],
+      "look_skin70": [
+        0.004323575,
+        0.002492102,
+        0.002452459,
+        0.003
+      ],
+      "look_skin70_shadow_desat": [
+        0.003,
+        0.003,
+        0.003,
+        0.003
+      ]
+    },
+    "saturated_blue": {
+      "base": [
+        0.028552735,
+        0.128487304,
+        0.271250993,
+        0.079999995
+      ],
+      "comp10": [
+        0.029648112,
+        0.125852197,
+        0.257687807,
+        0.080002112
+      ]
+    },
+    "warm_saturated": {
+      "base": [
+        0.341595471,
+        0.105731934,
+        0.040666129,
+        0.179999995
+      ],
+      "comp10": [
+        0.336777508,
+        0.107623458,
+        0.042911831,
+        0.179999994
+      ]
+    }
+  }
+}
