@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="620" height="428" viewBox="0 0 620 428" role="img" aria-labelledby="title desc">
+  <title id="title">Ryo reference — illustrative SDR tone curve</title>
+  <desc id="desc">Neutral ramp input to output, zero to one hundred percent. Dashed identity line. Nine example points. Toe slope starts below one, the mids are steeper, and the slope flattens towards white. This is not a measured Resolve spline or a recovered reference curve.</desc>
+  <rect width="620" height="428" fill="#101b2b"/>
+  <text x="72" y="31" fill="#e7eef7" font-family="sans-serif" font-size="18">SDR tone curve · starting coordinates</text>
+  <g stroke="#3b4b5e" stroke-width="1">
+    <path d="M72 64H532 M72 139H532 M72 214H532 M72 289H532 M72 364H532 M72 64V364 M187 64V364 M302 64V364 M417 64V364 M532 64V364"/>
+  </g>
+  <path d="M72 364L532 64" fill="none" stroke="#a8b3c2" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <polyline id="reference-points" points="72,364 99.6,350.5 154.8,319 223.8,274 279,229 348,176.5 417,130 486,89.5 532,70" fill="none" stroke="#76d9ff" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="#daf5ff">
+    <circle cx="72" cy="364" r="4"/><circle cx="99.6" cy="350.5" r="4"/><circle cx="154.8" cy="319" r="4"/><circle cx="223.8" cy="274" r="4"/><circle cx="279" cy="229" r="5"/><circle cx="348" cy="176.5" r="4"/><circle cx="417" cy="130" r="4"/><circle cx="486" cy="89.5" r="4"/><circle cx="532" cy="70" r="4"/>
+  </g>
+  <g fill="#ced9e6" font-family="sans-serif" font-size="13">
+    <text x="72" y="55">Output (%)</text>
+    <text x="60" y="69" text-anchor="end">100</text><text x="60" y="144" text-anchor="end">75</text><text x="60" y="219" text-anchor="end">50</text><text x="60" y="294" text-anchor="end">25</text><text x="60" y="369" text-anchor="end">0</text>
+    <text x="72" y="386" text-anchor="middle">0</text><text x="187" y="386" text-anchor="middle">25</text><text x="302" y="386" text-anchor="middle">50</text><text x="417" y="386" text-anchor="middle">75</text><text x="532" y="386" text-anchor="middle">100</text>
+    <text x="302" y="408" text-anchor="middle">Input (%)</text>
+    <text x="127" y="349">Toe</text><text x="290" y="247">Pivot 45 → 45</text><text x="430" y="153">Shoulder</text><text x="543" y="80">White</text>
+  </g>
+</svg>
